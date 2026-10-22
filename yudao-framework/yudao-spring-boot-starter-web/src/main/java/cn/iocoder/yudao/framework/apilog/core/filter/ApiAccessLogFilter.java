@@ -203,8 +203,8 @@ public class ApiAccessLogFilter extends ApiRequestFilter {
             return JsonUtils.toJsonString(rootNode);
         } catch (Exception e) {
             // 脱敏失败的情况下，直接忽略异常，避免影响用户请求
-            log.error("[sanitizeJson][脱敏({}) 发生异常]", jsonString, e);
-            return jsonString;
+            log.warn("[sanitizeJson] payload omitted after sanitization failure: {}", e.getClass().getSimpleName());
+            return null;
         }
     }
 
@@ -219,8 +219,8 @@ public class ApiAccessLogFilter extends ApiRequestFilter {
             return JsonUtils.toJsonString(rootNode);
         } catch (Exception e) {
             // 脱敏失败的情况下，直接忽略异常，避免影响用户请求
-            log.error("[sanitizeJson][脱敏({}) 发生异常]", jsonString, e);
-            return jsonString;
+            log.warn("[sanitizeJson] payload omitted after sanitization failure: {}", e.getClass().getSimpleName());
+            return null;
         }
     }
 

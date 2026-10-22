@@ -127,7 +127,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
     public CommonResult<?> missingServletRequestParameterExceptionHandler(MissingServletRequestParameterException ex) {
-        log.warn("[missingServletRequestParameterExceptionHandler]", ex);
+        log.warn("[missingServletRequestParameterExceptionHandler] type={}", ex.getClass().getSimpleName());
         return CommonResult.error(BAD_REQUEST.getCode(), String.format("请求参数缺失:%s", ex.getParameterName()));
     }
 
@@ -138,7 +138,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public CommonResult<?> methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException ex) {
-        log.warn("[methodArgumentTypeMismatchExceptionHandler]", ex);
+        log.warn("[methodArgumentTypeMismatchExceptionHandler] type={}", ex.getClass().getSimpleName());
         return CommonResult.error(BAD_REQUEST.getCode(), String.format("请求参数类型错误:%s", ex.getMessage()));
     }
 
@@ -147,7 +147,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public CommonResult<?> methodArgumentNotValidExceptionExceptionHandler(MethodArgumentNotValidException ex) {
-        log.warn("[methodArgumentNotValidExceptionExceptionHandler]", ex);
+        log.warn("[methodArgumentNotValidExceptionExceptionHandler] type={}", ex.getClass().getSimpleName());
         // 获取 errorMessage
         String errorMessage = null;
         FieldError fieldError = ex.getBindingResult().getFieldError();
@@ -172,7 +172,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BindException.class)
     public CommonResult<?> bindExceptionHandler(BindException ex) {
-        log.warn("[handleBindException]", ex);
+        log.warn("[handleBindException] type={}", ex.getClass().getSimpleName());
         FieldError fieldError = ex.getFieldError();
         assert fieldError != null; // 断言，避免告警
         return CommonResult.error(BAD_REQUEST.getCode(), String.format("请求参数不正确:%s", fieldError.getDefaultMessage()));
@@ -186,7 +186,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @SuppressWarnings("PatternVariableCanBeUsed")
     public CommonResult<?> methodArgumentTypeInvalidFormatExceptionHandler(HttpMessageNotReadableException ex) {
-        log.warn("[methodArgumentTypeInvalidFormatExceptionHandler]", ex);
+        log.warn("[methodArgumentTypeInvalidFormatExceptionHandler] type={}", ex.getClass().getSimpleName());
         if (ex.getCause() instanceof InvalidFormatException) {
             InvalidFormatException invalidFormatException = (InvalidFormatException) ex.getCause();
             return CommonResult.error(BAD_REQUEST.getCode(), String.format("请求参数类型错误:%s", invalidFormatException.getValue()));
@@ -202,7 +202,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = ConstraintViolationException.class)
     public CommonResult<?> constraintViolationExceptionHandler(ConstraintViolationException ex) {
-        log.warn("[constraintViolationExceptionHandler]", ex);
+        log.warn("[constraintViolationExceptionHandler] type={}", ex.getClass().getSimpleName());
         ConstraintViolation<?> constraintViolation = ex.getConstraintViolations().iterator().next();
         return CommonResult.error(BAD_REQUEST.getCode(), String.format("请求参数不正确:%s", constraintViolation.getMessage()));
     }
@@ -212,7 +212,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = ValidationException.class)
     public CommonResult<?> validationException(ValidationException ex) {
-        log.warn("[constraintViolationExceptionHandler]", ex);
+        log.warn("[constraintViolationExceptionHandler] type={}", ex.getClass().getSimpleName());
         // 无法拼接明细的错误信息，因为 Dubbo Consumer 抛出 ValidationException 异常时，是直接的字符串信息，且人类不可读
         return CommonResult.error(BAD_REQUEST);
     }
@@ -234,7 +234,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(NoHandlerFoundException.class)
     public CommonResult<?> noHandlerFoundExceptionHandler(NoHandlerFoundException ex) {
-        log.warn("[noHandlerFoundExceptionHandler]", ex);
+        log.warn("[noHandlerFoundExceptionHandler] type={}", ex.getClass().getSimpleName());
         return CommonResult.error(NOT_FOUND.getCode(), String.format("请求地址不存在:%s", ex.getRequestURL()));
     }
 
@@ -243,7 +243,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(NoResourceFoundException.class)
     private CommonResult<?> noResourceFoundExceptionHandler(HttpServletRequest req, NoResourceFoundException ex) {
-        log.warn("[noResourceFoundExceptionHandler]", ex);
+        log.warn("[noResourceFoundExceptionHandler] type={}", ex.getClass().getSimpleName());
         return CommonResult.error(NOT_FOUND.getCode(), String.format("请求地址不存在:%s", ex.getResourcePath()));
     }
 
@@ -254,7 +254,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public CommonResult<?> httpRequestMethodNotSupportedExceptionHandler(HttpRequestMethodNotSupportedException ex) {
-        log.warn("[httpRequestMethodNotSupportedExceptionHandler]", ex);
+        log.warn("[httpRequestMethodNotSupportedExceptionHandler] type={}", ex.getClass().getSimpleName());
         return CommonResult.error(METHOD_NOT_ALLOWED.getCode(), String.format("请求方法不正确:%s", ex.getMessage()));
     }
 
@@ -265,7 +265,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public CommonResult<?> httpMediaTypeNotSupportedExceptionHandler(HttpMediaTypeNotSupportedException ex) {
-        log.warn("[httpMediaTypeNotSupportedExceptionHandler]", ex);
+        log.warn("[httpMediaTypeNotSupportedExceptionHandler] type={}", ex.getClass().getSimpleName());
         return CommonResult.error(BAD_REQUEST.getCode(), String.format("请求类型不正确:%s", ex.getMessage()));
     }
 
