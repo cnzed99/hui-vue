@@ -1,0 +1,9 @@
+{
+  "checked_at": "2026-10-22T11:06:53.294329+00:00",
+  "file": "ops/acceptance/auth_smoke.py",
+  "sha256": "3fbd85f9d28df568ad4bedd7d2f44b9d2a1ec5a7fec9e805f0aba0f0e47cadcc",
+  "python_ast_parse": "PASS",
+  "http_execution": "NOT_RUN",
+  "auth_acceptance": "NOT_RUN",
+  "notice": "Syntax and argument help only; no service requests were executed."
+}

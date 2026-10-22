@@ -1,0 +1,45 @@
+{
+  "reviewed_at": "2026-10-22T11:11:55.076923+00:00",
+  "review_kind": "independent_static_review_and_existing_log_inspection",
+  "new_builds_or_http_requests": false,
+  "files": {
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/pricing/PaperPriceSchedule.java": {
+      "sha256": "10514bd4cd9b8619dff9114b07b43cc7d8a6cbe080c8612bc666efd10ce5357b",
+      "bytes": 1864
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/pricing/PaperPrintRequest.java": {
+      "sha256": "b64df11e5f3eaa223a2a298cceb4d05245e25f6c0aacb4e1f64c7496b5c52fa8",
+      "bytes": 592
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/pricing/PaperQuote.java": {
+      "sha256": "61dac11aebb0b18bd310bb462c1b1f9dec0f85a86bd865f138fc905b641ae1c3",
+      "bytes": 587
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/pricing/PaperQuoteCalculator.java": {
+      "sha256": "a037089676f0d87f61b0f2fa000c863c9f867f749a0f401360b95fb5f41bdb52",
+      "bytes": 1681
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/pricing/PrintSide.java": {
+      "sha256": "18c195adb0c1344978ea14b2fc2e420558cafa2f3ce199803c8391a9848ffaaf",
+      "bytes": 191
+    },
+    "src/backend/yudao-server/src/test/java/cn/iocoder/yudao/server/print/pricing/PaperQuoteCalculatorChecks.java": {
+      "sha256": "ca901cc9fe7ae2d0ec1873d9be8482484bfb17aaf466d6f2e3f2e8573a1b3390",
+      "bytes": 8456
+    },
+    "src/backend/yudao-server/src/test/java/cn/iocoder/yudao/server/print/pricing/run-checks.py": {
+      "sha256": "1c1dff014642b296c52a51ca545779be43dcc34bfb44b7a7556928a8e84c986f",
+      "bytes": 1512
+    },
+    "evidence/pricing/unit-checks.log": {
+      "sha256": "e9544bb10cd75adad49bda7acb56e7808b7cd9ae4e0d9913db82fadb6a693da2",
+      "bytes": 88
+    }
+  },
+  "confirmed_examples_supported": [
+    "3-page duplex x2 copies @0.20 => 4 sheets/0.80",
+    "10 sheets with strictly >10 tier retains base0.20 =>2.00",
+    "11 sheets with strictly >10 tier replaces all sheets @0.15 =>1.65"
+  ],
+  "full_core02_acceptance": false
+}

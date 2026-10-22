@@ -1,0 +1,12 @@
+{
+  "mysql_loopback_only": true,
+  "redis_loopback_only": true,
+  "mysql_runtime_dml_roundtrip": true,
+  "mysql_runtime_ddl_denied": true,
+  "mysql_system_table_denied": true,
+  "redis_authenticated_ping": true,
+  "redis_unauthenticated_denied": true,
+  "mysql_buffer_pool_mb": 128,
+  "redis_maxmemory_mb": 128,
+  "backend_started": false
+}

@@ -1,0 +1,128 @@
+{
+  "executed_at": "2026-10-22T11:16:40.349493+00:00",
+  "scope": "Real isolated Yudao role authorization, disabled account and tenant header checks",
+  "source_sha256": {
+    "src/backend/yudao-module-system/src/main/java/cn/iocoder/yudao/module/system/controller/admin/user/UserController.java": "3dfdf1dad83dd46ff5848b9136e74ca7c62b30ee6a29177866c8b3946f315717",
+    "src/backend/yudao-framework/yudao-spring-boot-starter-biz-tenant/src/main/java/cn/iocoder/yudao/framework/tenant/core/security/TenantSecurityWebFilter.java": "5ed14182c198d2afd8c19ea0b5f346f436e3bed000a521816fdd6997801606ba",
+    "src/backend/yudao-module-system/src/main/java/cn/iocoder/yudao/module/system/enums/ErrorCodeConstants.java": "8afd317a686e83939877caf42cb490d59cf51860bed3686c83d21c4866a0372e"
+  },
+  "readonly_seed_observation": {
+    "tenants": 1,
+    "tenant2_exists": false,
+    "enabled_users": 2,
+    "disabled_users": 1,
+    "admin_query_permission": true,
+    "reader_query_permission": false
+  },
+  "cases": [
+    {
+      "id": "READY-auth-filter-real-route",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 401,
+      "expected_business_code": 401
+    },
+    {
+      "id": "ROLE-no-token-user-page",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 401,
+      "expected_business_code": 401
+    },
+    {
+      "id": "TENANT-no-token-no-header",
+      "status": "FAIL",
+      "http_status": 200,
+      "business_code": 401,
+      "expected_business_code": 400
+    },
+    {
+      "id": "ROLE-admin-login",
+      "status": "FAIL",
+      "http_status": 500,
+      "business_code": null,
+      "expected_business_code": 0,
+      "payload_error": "not_json"
+    },
+    {
+      "id": "ROLE-reader-login",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 0,
+      "expected_business_code": 0
+    },
+    {
+      "id": "ROLE-reader-permission-fixture",
+      "status": "FAIL",
+      "http_status": 500,
+      "business_code": null,
+      "expected_business_code": 0,
+      "payload_error": "not_json",
+      "nonsecret_observations": {
+        "query_permission_present": false,
+        "wildcard_permission_present": false
+      }
+    },
+    {
+      "id": "ROLE-reader-protected-user-page",
+      "status": "FAIL",
+      "http_status": 500,
+      "business_code": null,
+      "expected_business_code": 403,
+      "payload_error": "not_json"
+    },
+    {
+      "id": "TENANT-reader-header-token-mismatch",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 403,
+      "expected_business_code": 403,
+      "nonsecret_observations": {
+        "tenant_2_exists": false,
+        "claim": "token/header mismatch rejection only; not existing-second-tenant data isolation"
+      }
+    },
+    {
+      "id": "TENANT-anonymous-nonexistent-tenant",
+      "status": "FAIL",
+      "http_status": 200,
+      "business_code": 401,
+      "expected_business_code": 1002015000,
+      "nonsecret_observations": {
+        "tenant_2_exists": false,
+        "claim": "nonexistent tenant rejection only"
+      }
+    },
+    {
+      "id": "ACCOUNT-disabled-login-rejected",
+      "status": "FAIL",
+      "http_status": 200,
+      "business_code": null,
+      "expected_business_code": 1002000001,
+      "payload_error": "not_json"
+    },
+    {
+      "id": "CLEANUP-reader-session-logout",
+      "status": "FAIL",
+      "http_status": 500,
+      "business_code": null,
+      "expected_business_code": 0,
+      "payload_error": "not_json"
+    },
+    {
+      "id": "CLEANUP-reader-old-token-rejected",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 401,
+      "expected_business_code": 401
+    }
+  ],
+  "out_of_scope": [
+    "existing_second_tenant_data_isolation",
+    "print_store_ownership",
+    "file_owner_access",
+    "all_business_action_roles",
+    "refresh_token_revocation",
+    "user_acceptance"
+  ]
+}

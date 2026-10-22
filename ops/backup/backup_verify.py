@@ -14,6 +14,22 @@ def command(args,data=None):
  if p.returncode: raise BackupError('subprocess_failed_'+str(p.returncode))
  return p.stdout
 
+def capture_snapshot(args):
+ p=subprocess.Popen(args,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL)
+ chunks=[];size=0
+ try:
+  while True:
+   chunk=p.stdout.read(1024*1024)
+   if not chunk: break
+   size+=len(chunk)
+   if size>128*1024**2: raise BackupError('snapshot_exceeds_current_in_memory_limit')
+   chunks.append(chunk)
+  if p.wait()!=0: raise BackupError('mysqldump_failed')
+  return b''.join(chunks)
+ finally:
+  if p.poll() is None: p.kill();p.wait()
+  p.stdout.close()
+
 def mysql(sql,database=None):
  args=['sudo','-n','mysql','--default-character-set=utf8mb4','-N','-B']
  if database: args.append(database)
@@ -38,7 +54,7 @@ def main():
   with KEY.open('xb') as f:f.write(key)
   KEY.chmod(0o600)
  if len(key)!=32: raise BackupError('invalid_backup_key_length')
- snapshot=command(['sudo','-n','mysqldump','--single-transaction','--skip-lock-tables','--no-tablespaces','--set-gtid-purged=OFF','--hex-blob','--skip-extended-insert','--routines','--events','--default-character-set=utf8mb4','print_demo'])
+ snapshot=capture_snapshot(['sudo','-n','mysqldump','--single-transaction','--skip-lock-tables','--no-tablespaces','--set-gtid-purged=OFF','--hex-blob','--skip-extended-insert','--routines','--events','--default-character-set=utf8mb4','print_demo'])
  if len(snapshot)>128*1024**2: raise BackupError('snapshot_exceeds_current_in_memory_limit')
  dump=snapshot.decode('utf-8')
  if re.search(r'^\s*(?:USE\s|(?:CREATE|DROP)\s+DATABASE\b)',dump,re.M|re.I): raise BackupError('dump_has_database_switch')

@@ -1,0 +1,27 @@
+{
+  "generated_at": "2026-10-22T11:08:01.278753+00:00",
+  "scope": "Acceptance document consistency only, not product acceptance",
+  "checks": {
+    "task_ids_complete_unique": true,
+    "acceptance_preserved": true,
+    "all_runtime_results_not_run": true,
+    "pages_covered": true,
+    "forms_covered": true,
+    "attached_pages_covered": true,
+    "visual_menu_status_count": true,
+    "original_tasks_unchanged": true
+  },
+  "menu_statuses": {
+    "not-implemented": 52,
+    "visual-sample": 1
+  },
+  "phase_counts": {
+    "M0": 4,
+    "后续": 15,
+    "M1": 6,
+    "M2": 6,
+    "M3": 88,
+    "M4": 4,
+    "M5": 3
+  }
+}

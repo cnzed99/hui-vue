@@ -1,0 +1,182 @@
+{
+  "executed_at": "2026-10-22T11:18:19.326594+00:00",
+  "scope": "Real isolated Yudao role authorization, disabled account and tenant header checks",
+  "source_sha256": {
+    "src/backend/yudao-module-system/src/main/java/cn/iocoder/yudao/module/system/controller/admin/user/UserController.java": "3dfdf1dad83dd46ff5848b9136e74ca7c62b30ee6a29177866c8b3946f315717",
+    "src/backend/yudao-framework/yudao-spring-boot-starter-biz-tenant/src/main/java/cn/iocoder/yudao/framework/tenant/core/security/TenantSecurityWebFilter.java": "5ed14182c198d2afd8c19ea0b5f346f436e3bed000a521816fdd6997801606ba",
+    "src/backend/yudao-module-system/src/main/java/cn/iocoder/yudao/module/system/enums/ErrorCodeConstants.java": "8afd317a686e83939877caf42cb490d59cf51860bed3686c83d21c4866a0372e"
+  },
+  "readonly_seed_observation": {
+    "tenants": 1,
+    "tenant2_exists": false,
+    "enabled_users": 2,
+    "disabled_users": 1,
+    "admin_query_permission": true,
+    "reader_query_permission": false
+  },
+  "cases": [
+    {
+      "id": "READY-auth-filter-real-route",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 401,
+      "expected_business_code": 401
+    },
+    {
+      "id": "ROLE-no-token-user-page",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 401,
+      "expected_business_code": 401
+    },
+    {
+      "id": "AUTH-before-tenant-no-token-no-header",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 401,
+      "expected_business_code": 401,
+      "nonsecret_observations": {
+        "claim": "Authentication rejects first; this does not prove missing-tenant validation."
+      }
+    },
+    {
+      "id": "ROLE-admin-login",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 0,
+      "expected_business_code": 0
+    },
+    {
+      "id": "ROLE-admin-permission-fixture",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 0,
+      "expected_business_code": 0,
+      "nonsecret_observations": {
+        "query_permission_present": true,
+        "wildcard_permission_present": false
+      }
+    },
+    {
+      "id": "ROLE-admin-protected-user-page",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 0,
+      "expected_business_code": 0
+    },
+    {
+      "id": "TENANT-admin-header-token-mismatch",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 403,
+      "expected_business_code": 403,
+      "nonsecret_observations": {
+        "tenant_2_exists": false,
+        "claim": "token/header mismatch rejection only; not existing-second-tenant data isolation"
+      }
+    },
+    {
+      "id": "ROLE-reader-login",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 0,
+      "expected_business_code": 0
+    },
+    {
+      "id": "ROLE-reader-permission-fixture",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 0,
+      "expected_business_code": 0,
+      "nonsecret_observations": {
+        "query_permission_present": false,
+        "wildcard_permission_present": false
+      }
+    },
+    {
+      "id": "ROLE-reader-protected-user-page",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 403,
+      "expected_business_code": 403
+    },
+    {
+      "id": "TENANT-reader-header-token-mismatch",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 403,
+      "expected_business_code": 403,
+      "nonsecret_observations": {
+        "tenant_2_exists": false,
+        "claim": "token/header mismatch rejection only; not existing-second-tenant data isolation"
+      }
+    },
+    {
+      "id": "TENANT-valid-token-infers-own-tenant",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 0,
+      "expected_business_code": 0
+    },
+    {
+      "id": "TENANT-login-nonexistent-tenant",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 1002015000,
+      "expected_business_code": 1002015000,
+      "nonsecret_observations": {
+        "tenant_2_exists": false,
+        "claim": "nonexistent tenant rejection only"
+      }
+    },
+    {
+      "id": "ACCOUNT-disabled-login-rejected",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 1002000001,
+      "expected_business_code": 1002000001
+    },
+    {
+      "id": "CLEANUP-admin-session-logout",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 0,
+      "expected_business_code": 0
+    },
+    {
+      "id": "CLEANUP-admin-old-token-rejected",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 401,
+      "expected_business_code": 401
+    },
+    {
+      "id": "CLEANUP-reader-session-logout",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 0,
+      "expected_business_code": 0
+    },
+    {
+      "id": "CLEANUP-reader-old-token-rejected",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 401,
+      "expected_business_code": 401
+    }
+  ],
+  "out_of_scope": [
+    "existing_second_tenant_data_isolation",
+    "print_store_ownership",
+    "file_owner_access",
+    "all_business_action_roles",
+    "refresh_token_revocation",
+    "user_acceptance"
+  ],
+  "release_observation_after_run": {
+    "observed_at": "2026-10-22T11:19:35.417455+00:00",
+    "path": "/home/ubuntu/print-system/runtime/releases/d2e1e5300c9a6087/backend.jar",
+    "sha256": "d2e1e5300c9a6087cc9602f48bf12b16685d901ab6df4addf541582b50d148ed",
+    "note": "Observed running immutable release immediately after test; no command line/env secrets recorded."
+  }
+}
