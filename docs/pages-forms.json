@@ -1,0 +1,5672 @@
+{
+  "title": "云途智印 · 打印后台前端开发资料",
+  "date": "2026-10-22",
+  "source": "https://youfan.iyint.com/depot/default.html",
+  "observedVersion": "V3.9.61698（账户菜单显示）",
+  "scope": "当前已登录账号可见的商家打印后台；只读UI检查，不含平台总后台、其他角色隐藏模块或历史数据分析。",
+  "counts": {
+    "sidebarEntries": 52,
+    "workbench": 1,
+    "totalEntries": 53,
+    "modules": {
+      "门店": 19,
+      "订单": 8,
+      "财务": 4,
+      "终端": 6,
+      "会员": 7,
+      "广告": 8
+    },
+    "readableEntries": 52,
+    "restrictedEntries": 1,
+    "secondaryFormTemplates": 23
+  },
+  "pages": [
+    {
+      "id": "P01",
+      "module": "工作台",
+      "group": "概览",
+      "name": "工作台",
+      "url": "https://youfan.iyint.com/depot/Default.aspx",
+      "purpose": "查看门店运营入口与概要卡片。",
+      "filters": [
+        "订单统计日期范围",
+        "收入统计日期范围"
+      ],
+      "columns": [],
+      "fields": [
+        "公告动态",
+        "今日收入：在线支付、线下支付（管理员/员工）",
+        "今日打印订单：电脑、微信、QQ自助",
+        "今日待打印订单：微信、QQ、网页自助",
+        "账户信息：可结算余额、结算中金额、已结算总额、冻结待退款金额",
+        "订单数统计图",
+        "门店收入统计图"
+      ],
+      "actions": [
+        "最近7天",
+        "最近30天",
+        "最近90天"
+      ],
+      "rules": [],
+      "gaps": [
+        "图表序列结构、刷新频率与金额口径待接口约定；未统计历史数据"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/Default",
+      "evidence": "中间文件/工作台.txt",
+      "controls": [
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P02",
+      "module": "门店",
+      "group": "门店管理",
+      "name": "门店详情",
+      "url": "https://youfan.iyint.com/depot/editstores.aspx",
+      "purpose": "管理门店基本展示信息、营业信息及用户扫码入口。",
+      "filters": [],
+      "columns": [],
+      "fields": [
+        "门店名称：文本，提示不超过50字符",
+        "门店公告：多行文本，提示不超过80字符",
+        "所在区域：省/市/区县/街道级联",
+        "详细地址：必填，2–50字符",
+        "联系人：必填，原页面提示长度为8字符",
+        "联系电话：必填，格式提示",
+        "客服QQ：格式提示",
+        "营业时间：起止小时与分钟",
+        "门店开关",
+        "微信公众号门店二维码",
+        "小程序门店二维码"
+      ],
+      "actions": [
+        "保存",
+        "下载公众号二维码",
+        "下载小程序二维码",
+        "小程序门店二维码海报制作"
+      ],
+      "rules": [
+        "关店用于暂停营业",
+        "二维码用于绑定门店、成为会员及接收订单相关信息"
+      ],
+      "gaps": [
+        "联系人8字符提示是否代表最大长度待确认",
+        "跨日营业时间校验、级联区域字典和海报编辑器详细规则未验证"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/editstores",
+      "evidence": "中间文件/门店详情.txt",
+      "controls": [
+        {
+          "label": "门店名称：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtStoresName",
+          "options": []
+        },
+        {
+          "label": "门店公告：",
+          "controlType": "text entry area",
+          "sourceControlId": "ctl00_contentHolder_txtNoticeDes",
+          "options": []
+        },
+        {
+          "label": "* 详细地址：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtAddress",
+          "options": []
+        },
+        {
+          "label": "联系人：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtContactMan",
+          "options": []
+        },
+        {
+          "label": "联系电话：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtTel",
+          "options": []
+        },
+        {
+          "label": "客服QQ：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "营业时间：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtStoreOpenTimeStartH",
+          "options": []
+        },
+        {
+          "label": "营业时间：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtStoreOpenTimeStartM",
+          "options": []
+        },
+        {
+          "label": "营业时间：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtStoreOpenTimeEndH",
+          "options": []
+        },
+        {
+          "label": "营业时间：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtStoreOpenTimeEndM",
+          "options": []
+        },
+        {
+          "label": "门店开关：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl00",
+          "options": []
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P03",
+      "module": "门店",
+      "group": "门店管理",
+      "name": "门店设置",
+      "url": "https://youfan.iyint.com/depot/StoreSet.aspx",
+      "purpose": "集中设置计价、终端、小程序、通知与证件照行为。",
+      "filters": [],
+      "columns": [],
+      "fields": [
+        "日账单推送时间：小时，24小时制",
+        "门店管理员绑定二维码",
+        "合并付款开关",
+        "阶梯合并计价开关",
+        "终端可修改价格开关",
+        "双面统一计价开关",
+        "多合一识别开关",
+        "默认计价窗口最小化开关",
+        "关闭小程序现场打印开关",
+        "订单消息推送：电脑自助/手机自助/远程预约多选",
+        "远程预约订单自动打印开关",
+        "展示联系电话开关",
+        "记录用户上次打印机开关",
+        "终端打印异常预警开关",
+        "小程序切换打印机开关",
+        "关闭小程序多合一开关",
+        "随机生成6位取件码开关",
+        "未上架商品禁止打印开关",
+        "关闭小程序价格展示开关",
+        "关闭订单收款播报开关",
+        "白底证件照拼版加边框开关",
+        "2寸证件照张数：4张/8张",
+        "证件照自定义间距集合",
+        "用户使用终端超时提醒：分钟",
+        "自定义普通纸名称",
+        "小程序风格：5种",
+        "发票打印风格：居中/居顶"
+      ],
+      "actions": [
+        "保存",
+        "添加自定义间距"
+      ],
+      "rules": [
+        "多个文件开启阶梯合并计价后按总纸张计算；否则按单文件阶梯计算",
+        "双面奇数页提示公式为 ((页数+1)*双面单价/2)*份数；只记录原页面说明，单价单位仍需确认",
+        "关闭现场打印开关开启后用户只能走远程预约",
+        "自动打印会涉及无人现场分拣；此处未启用或发送打印命令"
+      ],
+      "gaps": [
+        "与远程预约设置中同名自动打印开关是否为同一字段待确认",
+        "“开启/关闭”反向语义需要逐字段映射，不能统一取反",
+        "账单推送时间支持24的含义、时区和输入范围待确认"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/StoreSet",
+      "evidence": "中间文件/门店设置.txt",
+      "controls": [
+        {
+          "label": "日账单推送时间：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtStorePushReport",
+          "options": []
+        },
+        {
+          "label": "是否开启合并付款：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl00",
+          "options": []
+        },
+        {
+          "label": "是否开启阶梯合并计价：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl01",
+          "options": []
+        },
+        {
+          "label": "是否开启打印终端可修改价格：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl02",
+          "options": []
+        },
+        {
+          "label": "是否双面打印按双面统一计价：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl03",
+          "options": []
+        },
+        {
+          "label": "是否开启多合一识别：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl04",
+          "options": []
+        },
+        {
+          "label": "是否开启默认计价窗口最小化：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl07",
+          "options": []
+        },
+        {
+          "label": "是否关闭小程序现场打印：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl08",
+          "options": []
+        },
+        {
+          "label": "电脑自助打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_chkPrintType0",
+          "options": []
+        },
+        {
+          "label": "手机自助打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_chkPrintType1",
+          "options": []
+        },
+        {
+          "label": "远程预约打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_chkPrintType2",
+          "options": []
+        },
+        {
+          "label": "是否开启远程预约订单自动打印：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl11",
+          "options": []
+        },
+        {
+          "label": "是否展示联系电话：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl12",
+          "options": []
+        },
+        {
+          "label": "是否记录用户上次使用过的打印机：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl13",
+          "options": []
+        },
+        {
+          "label": "是否开启终端打印异常预警：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl14",
+          "options": []
+        },
+        {
+          "label": "是否开启小程序切换打印机：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl15",
+          "options": []
+        },
+        {
+          "label": "是否关闭小程序多合一打印：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl16",
+          "options": []
+        },
+        {
+          "label": "是否开启随机生成6位取件码：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl17",
+          "options": []
+        },
+        {
+          "label": "未上架商品是否禁止打印：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl18",
+          "options": []
+        },
+        {
+          "label": "是否关闭小程序门店价格展示：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl19",
+          "options": []
+        },
+        {
+          "label": "是否关闭订单收款播报：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl20",
+          "options": []
+        },
+        {
+          "label": "是否白底证件照拼版自动加边框：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl21",
+          "options": []
+        },
+        {
+          "label": "2寸证件照排版张数：",
+          "controlType": "pop up button",
+          "sourceControlId": "ddlId2inPinBan",
+          "options": [
+            "4张",
+            "8张"
+          ]
+        },
+        {
+          "label": "用户使用终端超时提醒：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtUseAlertTimeout",
+          "options": []
+        },
+        {
+          "label": "自定义普通纸名称：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtWXBranchName",
+          "options": []
+        },
+        {
+          "label": "小程序风格：",
+          "controlType": "pop up button",
+          "sourceControlId": "ctl00_contentHolder_drpMPTemlate",
+          "options": [
+            "默认风格",
+            "简约版通用风格",
+            "简约版橙色风格",
+            "高级版通用风格",
+            "高级版橙色风格"
+          ]
+        },
+        {
+          "label": "居中",
+          "controlType": "radio button",
+          "sourceControlId": "ctl00_contentHolder_radInvoicePrintStyle_0",
+          "options": []
+        },
+        {
+          "label": "居顶",
+          "controlType": "radio button",
+          "sourceControlId": "ctl00_contentHolder_radInvoicePrintStyle_1",
+          "options": []
+        }
+      ],
+      "relatedForms": [
+        "证件照间距-空白表单"
+      ],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P04",
+      "module": "门店",
+      "group": "门店管理",
+      "name": "密码管理",
+      "url": "https://youfan.iyint.com/depot/StorePwd.aspx",
+      "purpose": "查看后台登录与终端管理密码配置入口。",
+      "filters": [],
+      "columns": [],
+      "fields": [
+        "用户名：只读展示",
+        "密码：留空表示不修改",
+        "确认密码：两次必须一致",
+        "终端管理员和退出密码"
+      ],
+      "actions": [
+        "保存"
+      ],
+      "rules": [
+        "终端密码用于退出软件及员工输入管理员密码打印"
+      ],
+      "gaps": [
+        "未更改任何密码；密码强度、空值语义及敏感字段返回方式需由接口明确"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/StorePwd",
+      "evidence": "中间文件/密码管理.txt",
+      "controls": [
+        {
+          "label": "密码：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "确认密码：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "终端管理员和退出密码：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtClientPwd",
+          "options": []
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P05",
+      "module": "门店",
+      "group": "门店管理",
+      "name": "员工管理",
+      "url": "https://youfan.iyint.com/depot/staff/staffManager.aspx",
+      "purpose": "通过二维码绑定员工并管理角色与权限。",
+      "filters": [
+        "员工名称/手机号"
+      ],
+      "columns": [
+        "选择",
+        "姓名",
+        "手机号",
+        "权限",
+        "OpenId",
+        "关闭消息接收",
+        "扫码免支付",
+        "启用手工打印",
+        "启用退款操作",
+        "操作"
+      ],
+      "fields": [
+        "员工绑定二维码"
+      ],
+      "actions": [
+        "查询",
+        "分页",
+        "编辑表单",
+        "删除入口"
+      ],
+      "rules": [
+        "页面说明运营人员相当于副管理员",
+        "列表存在员工权限细分，不能仅用一个管理员布尔值替代"
+      ],
+      "gaps": [],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/staff/staffManager",
+      "evidence": "中间文件/员工管理.txt",
+      "controls": [
+        {
+          "label": "员工名称/手机号：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "每页显示数量：",
+          "controlType": "pop up button",
+          "sourceControlId": "pagesize_dropdown",
+          "options": [
+            "10",
+            "20",
+            "40",
+            "100"
+          ]
+        },
+        {
+          "label": "温馨提示：",
+          "controlType": "text field",
+          "sourceControlId": "txtGoto",
+          "options": []
+        }
+      ],
+      "relatedForms": [
+        "员工-权限表单"
+      ],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P06",
+      "module": "门店",
+      "group": "门店管理",
+      "name": "远程预约设置",
+      "url": "https://youfan.iyint.com/depot/print/RemotePrintSet.aspx",
+      "purpose": "控制用户可选预约模式和取件码规则。",
+      "filters": [],
+      "columns": [],
+      "fields": [
+        "远程打印上门自取",
+        "远程打印定时配送",
+        "远程打印VIP配送",
+        "取件码前缀：字母/数字，2字符以内",
+        "预约订单自动打印开关"
+      ],
+      "actions": [
+        "保存"
+      ],
+      "rules": [
+        "预约来源提示包含公众号、小程序、PC网页",
+        "自动打印开关未操作"
+      ],
+      "gaps": [],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/print/RemotePrintSet",
+      "evidence": "中间文件/远程预约设置.txt",
+      "controls": [
+        {
+          "label": "远程打印上门自取",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_chkRemotePrintInvite",
+          "options": []
+        },
+        {
+          "label": "远程打印定时配送",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_chkTimingDist",
+          "options": []
+        },
+        {
+          "label": "远程打印VIP配送",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_chkVIPDist",
+          "options": []
+        },
+        {
+          "label": "取件码前缀：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "是否开启预约订单自动打印：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl00",
+          "options": []
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P07",
+      "module": "门店",
+      "group": "门店管理",
+      "name": "远程配送设置",
+      "url": "https://youfan.iyint.com/depot/Distribution/editDistribution.aspx",
+      "purpose": "维护自取、配送范围与订单页规则。",
+      "filters": [],
+      "columns": [
+        "配送地址",
+        "代号",
+        "操作"
+      ],
+      "fields": [
+        "远程下单自取开关",
+        "门店配送开关",
+        "配送半径：公里，必填提示",
+        "起送价：元，必填提示",
+        "配送范围集合",
+        "固定时间配送开关",
+        "固定配送费：元",
+        "固定配送备注：富文本",
+        "VIP配送开关",
+        "远程打印生成订单页开关",
+        "只生成一张订单页开关",
+        "订单页风格：横向/竖向",
+        "订单页附加费：元",
+        "自取备注：富文本"
+      ],
+      "actions": [
+        "保存",
+        "添加配送范围表单",
+        "编辑范围入口",
+        "删除范围入口"
+      ],
+      "rules": [
+        "合并打印时可选择只生成一张订单页，否则每文件生成一张",
+        "开启订单页时可收取附加费"
+      ],
+      "gaps": [
+        "VIP关闭状态下的条件字段未通过切换开关探测",
+        "配送时间段是否仅为备注、半径是否参与地理校验待确认"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/Distribution/editDistribution",
+      "evidence": "中间文件/远程配送设置.txt",
+      "controls": [
+        {
+          "label": "是否开启远程下单自取：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl00",
+          "options": []
+        },
+        {
+          "label": "是否开启门店配送：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl01",
+          "options": []
+        },
+        {
+          "label": "* 配送半径：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtServeRadius",
+          "options": []
+        },
+        {
+          "label": "* 起送价：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtMinOrderPrice",
+          "options": []
+        },
+        {
+          "label": "是否开启固定时间配送：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl02",
+          "options": []
+        },
+        {
+          "label": "* 配送费：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtFixedStoreFreight",
+          "options": []
+        },
+        {
+          "label": "* 配送费：",
+          "controlType": "text entry area",
+          "sourceControlId": "ctl00_contentHolder_fcFixedStoreDes",
+          "options": []
+        },
+        {
+          "label": "是否开启VIP配送：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl03",
+          "options": []
+        },
+        {
+          "label": "是否开启远程打印生成订单页：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl04",
+          "options": []
+        },
+        {
+          "label": "是否开启只生成一张订单页：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl05",
+          "options": []
+        },
+        {
+          "label": "订单页风格：",
+          "controlType": "pop up button",
+          "sourceControlId": "ddlOrderPageStyle",
+          "options": [
+            "横向",
+            "竖向"
+          ]
+        },
+        {
+          "label": "订单页费用(附加费)：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtOrderPagePrice",
+          "options": []
+        },
+        {
+          "label": "订单页费用(附加费)：",
+          "controlType": "text entry area",
+          "sourceControlId": null,
+          "options": []
+        }
+      ],
+      "relatedForms": [
+        "配送范围-空白表单"
+      ],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P08",
+      "module": "门店",
+      "group": "价格管理",
+      "name": "我的商品",
+      "url": "https://youfan.iyint.com/depot/product/MyStoreProducts.aspx",
+      "purpose": "维护门店可售打印规格及售价。",
+      "filters": [
+        "商品名称",
+        "商品分类（层级）"
+      ],
+      "columns": [
+        "选择",
+        "商品（含商品编码）",
+        "商品价格",
+        "操作"
+      ],
+      "fields": [],
+      "actions": [
+        "查询",
+        "全选/反选",
+        "批量下架入口",
+        "调整售价表单",
+        "其它纸质售价表单",
+        "下架入口",
+        "分页"
+      ],
+      "rules": [
+        "商品分类包含文档打印、照片冲洗、证件照冲印、扫描复印、其它打印；子分类由字典提供"
+      ],
+      "gaps": [],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/product/MyStoreProducts",
+      "evidence": "中间文件/我的商品.txt",
+      "controls": [
+        {
+          "label": "商品名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "商品名称：",
+          "controlType": "pop up button",
+          "sourceControlId": "dropCategories",
+          "options": [
+            "--请选择商品分类--",
+            "文档打印",
+            "黑白打印",
+            "彩色打印",
+            "照片冲洗",
+            "证件照冲印",
+            "扫描复印",
+            "黑白复印",
+            "彩色复印",
+            "其它打印"
+          ]
+        },
+        {
+          "label": "每页显示数量：",
+          "controlType": "pop up button",
+          "sourceControlId": "pagesize_dropdown",
+          "options": [
+            "10",
+            "20",
+            "40",
+            "100"
+          ]
+        },
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": "txtGoto",
+          "options": []
+        }
+      ],
+      "relatedForms": [
+        "商品-普通纸售价表单",
+        "商品-其他纸质售价表单"
+      ],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P09",
+      "module": "门店",
+      "group": "价格管理",
+      "name": "平台商品库",
+      "url": "https://youfan.iyint.com/depot/product/productonsales.aspx",
+      "purpose": "从平台商品目录选择门店商品。",
+      "filters": [
+        "商品名称",
+        "商品分类（层级）"
+      ],
+      "columns": [
+        "选择",
+        "商品（含商品编码）",
+        "商品价格",
+        "操作"
+      ],
+      "fields": [],
+      "actions": [
+        "查询",
+        "全选/反选",
+        "批量上架入口",
+        "上架入口",
+        "分页"
+      ],
+      "rules": [
+        "商品分类包含文档打印、照片冲洗、证件照冲印、扫描复印、其它打印；子分类由字典提供"
+      ],
+      "gaps": [],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/product/productonsales",
+      "evidence": "中间文件/平台商品库.txt",
+      "controls": [
+        {
+          "label": "商品名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "商品名称：",
+          "controlType": "pop up button",
+          "sourceControlId": "dropCategories",
+          "options": [
+            "--请选择商品分类--",
+            "文档打印",
+            "黑白打印",
+            "彩色打印",
+            "照片冲洗",
+            "证件照冲印",
+            "扫描复印",
+            "黑白复印",
+            "彩色复印",
+            "其它打印"
+          ]
+        },
+        {
+          "label": "每页显示数量：",
+          "controlType": "pop up button",
+          "sourceControlId": "pagesize_dropdown",
+          "options": [
+            "10",
+            "20",
+            "40",
+            "100"
+          ]
+        },
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": "txtGoto",
+          "options": []
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P10",
+      "module": "门店",
+      "group": "装订管理",
+      "name": "装订设置",
+      "url": "https://youfan.iyint.com/depot/product/BindingManager.aspx",
+      "purpose": "管理打印装订类型和价格。",
+      "filters": [
+        "类型名称"
+      ],
+      "columns": [
+        "类型名称",
+        "装订价格",
+        "商品类别",
+        "备注",
+        "操作"
+      ],
+      "fields": [],
+      "actions": [
+        "查询",
+        "添加装订类型表单",
+        "编辑入口",
+        "删除入口",
+        "分页"
+      ],
+      "rules": [
+        "常见类型提示包括普通钉装、不同封面胶装等"
+      ],
+      "gaps": [],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/product/BindingManager",
+      "evidence": "中间文件/装订设置.txt",
+      "controls": [
+        {
+          "label": "类型名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "每页显示数量：",
+          "controlType": "pop up button",
+          "sourceControlId": "pagesize_dropdown",
+          "options": [
+            "10",
+            "20",
+            "40",
+            "100"
+          ]
+        },
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": "txtGoto",
+          "options": []
+        }
+      ],
+      "relatedForms": [
+        "装订-空白表单"
+      ],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P11",
+      "module": "门店",
+      "group": "特殊文件计价",
+      "name": "图片、准考证等",
+      "url": "https://youfan.iyint.com/depot/specialCharges/SpecialChargeList.aspx",
+      "purpose": "按文件名规则匹配特殊打印价格。",
+      "filters": [
+        "类型名称"
+      ],
+      "columns": [
+        "计价类型",
+        "文件名匹配规则",
+        "匹配商品",
+        "价格（每张）",
+        "状态",
+        "更新日期",
+        "操作"
+      ],
+      "fields": [],
+      "actions": [
+        "查询",
+        "添加特殊计价类型表单",
+        "分页"
+      ],
+      "rules": [
+        "页面给出图片、CAD、准考证的正则匹配示例；空白表单另有试卷翻新、A4/A3小册子快捷规则"
+      ],
+      "gaps": [
+        "规则优先级、冲突处理、正则引擎和保存校验未验证"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/specialCharges/SpecialChargeList",
+      "evidence": "中间文件/图片、准考证等.txt",
+      "controls": [
+        {
+          "label": "类型名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "每页显示数量：",
+          "controlType": "pop up button",
+          "sourceControlId": "pagesize_dropdown",
+          "options": [
+            "10",
+            "20",
+            "40",
+            "100"
+          ]
+        }
+      ],
+      "relatedForms": [
+        "特殊计价-空白表单"
+      ],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P12",
+      "module": "门店",
+      "group": "文库管理",
+      "name": "上传文件",
+      "url": "https://youfan.iyint.com/depot/library/selectlibrarycategory.aspx",
+      "purpose": "通过分类向导进入文库上传。",
+      "filters": [],
+      "columns": [
+        "文件名",
+        "大小",
+        "上传进度",
+        "操作"
+      ],
+      "fields": [
+        "步骤1：分类级联选择与已选路径",
+        "步骤2：水印图、权限、选择多文件、上传队列"
+      ],
+      "actions": [
+        "选择分类",
+        "下一步（末级分类选择后启用）",
+        "编辑分类入口",
+        "选择水印文件入口",
+        "选择多文件入口",
+        "确定上传入口"
+      ],
+      "rules": [
+        "文库容量提示10G",
+        "一次最多10个文件；单文件不超过50M；建议PDF",
+        "本次只选择导航分类进入第二步，未选择本地文件、未上传"
+      ],
+      "gaps": [
+        "断点续传、失败重试、文档转码进度、文件后缀白名单及审核回调待接口确认"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/library/selectlibrarycategory",
+      "evidence": "中间文件/上传文件.txt",
+      "controls": [],
+      "relatedForms": [
+        "文库上传-第二步表单"
+      ],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P13",
+      "module": "门店",
+      "group": "文库管理",
+      "name": "文库列表",
+      "url": "https://youfan.iyint.com/depot/library/LibraryList.aspx",
+      "purpose": "管理文库文件及可见范围。",
+      "filters": [
+        "文件名",
+        "层级分类",
+        "审核状态：全部/待审核/审核通过/审核不通过",
+        "权限：全部/全网用户/仅本店用户/仅本店员工",
+        "排序：上传时间降序、打印量/浏览量/收藏量降序、价格升/降序"
+      ],
+      "columns": [
+        "文件卡片：文库店名、文件名、分类、权限、审核状态、价格、页数、打印/浏览/收藏/下载量"
+      ],
+      "fields": [],
+      "actions": [
+        "查询",
+        "全选",
+        "批量权限入口",
+        "移动入口",
+        "删除入口",
+        "文件设置表单",
+        "购买记录",
+        "分页"
+      ],
+      "rules": [],
+      "gaps": [
+        "批量移动/权限弹窗未提交",
+        "卡片模板与列表模板不同，不应硬套同一张表格"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/library/LibraryList",
+      "evidence": "中间文件/文库列表.txt",
+      "controls": [
+        {
+          "label": "文件名：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "分类：",
+          "controlType": "pop up button",
+          "sourceControlId": "ctl00_contentHolder_dropCategories",
+          "options": [
+            "请选择上级分类",
+            "资格考试",
+            "外语类",
+            "英语四级",
+            "雅思托福",
+            "专业四级",
+            "专业八级",
+            "财会类",
+            "初级会计师",
+            "中级会计师",
+            "考研",
+            "英语类",
+            "数学类",
+            "经济类",
+            "哲学类",
+            "理学类",
+            "管理类",
+            "政治类",
+            "法学类",
+            "历史类",
+            "医学类",
+            "建筑类",
+            "二级建造师",
+            "一级建造师",
+            "计算机类",
+            "计算机二级",
+            "计算机一级",
+            "专业资料",
+            "基础课程",
+            "高等数学",
+            "大学物理",
+            "大学历史",
+            "马基",
+            "毛概",
+            "思修",
+            "法学",
+            "政治学类",
+            "社会学类",
+            "马克思主义学类",
+            "文学",
+            "文学类",
+            "教育类",
+            "理学",
+            "物理学",
+            "化学",
+            "统计学",
+            "医学",
+            "公共卫生与预防类",
+            "护理学类",
+            "口腔医学类",
+            "基础医学类",
+            "临床医学类",
+            "药学类",
+            "医学技术类",
+            "中西医类",
+            "管理学",
+            "公共管理类",
+            "工商管理类",
+            "电子商务类",
+            "管理科学与工程类",
+            "物流管理与工程类",
+            "经济学",
+            "财政学",
+            "金融学",
+            "农学",
+            "动物医学类",
+            "林学类",
+            "水产类",
+            "植物生产类",
+            "艺术类",
+            "美术学类",
+            "设计学类",
+            "音乐与舞蹈类",
+            "实用文档",
+            "合同模板",
+            "租屋",
+            "证明",
+            "借据",
+            "委托",
+            "其他",
+            "申请表",
+            "承诺书",
+            "其他文档",
+            "中小学资料",
+            "初中资料",
+            "七年级",
+            "八年级",
+            "九年级",
+            "小学资料",
+            "一年级",
+            "二年级",
+            "三年级",
+            "四年级",
+            "五年级",
+            "六年级",
+            "语文",
+            "数学",
+            "英语",
+            "道法",
+            "科学",
+            "物理化学",
+            "历史道法",
+            "高中资料",
+            "高一",
+            "高二",
+            "高三"
+          ]
+        },
+        {
+          "label": "状态：",
+          "controlType": "pop up button",
+          "sourceControlId": "LibraryAuditStatus",
+          "options": [
+            "全部",
+            "待审核",
+            "审核通过",
+            "审核不通过"
+          ]
+        },
+        {
+          "label": "权限：",
+          "controlType": "pop up button",
+          "sourceControlId": "LibraryFilePermissionDropDownList1",
+          "options": [
+            "全部",
+            "全网用户公开",
+            "仅限本店用户公开",
+            "仅限本店员工公开"
+          ]
+        },
+        {
+          "label": "标签见页面说明",
+          "controlType": "checkbox",
+          "sourceControlId": "checkall",
+          "options": []
+        },
+        {
+          "label": "标签见页面说明",
+          "controlType": "pop up button",
+          "sourceControlId": "FileOrder",
+          "options": [
+            "按上传时间降序",
+            "按打印量由高到低",
+            "按浏览量由高到低",
+            "按收藏量由高到低",
+            "按价格由高到低",
+            "按价格由低到高"
+          ]
+        },
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": "txtGoto",
+          "options": []
+        }
+      ],
+      "relatedForms": [
+        "文库文件-设置表单"
+      ],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P14",
+      "module": "门店",
+      "group": "文库管理",
+      "name": "文库设置",
+      "url": "https://youfan.iyint.com/depot/library/Libraryset.aspx",
+      "purpose": "维护文库展示资料。",
+      "filters": [],
+      "columns": [],
+      "fields": [
+        "文库店名：必填，3–20字符",
+        "小程序路径：只读展示",
+        "描述：必填，30字符以内"
+      ],
+      "actions": [
+        "保存"
+      ],
+      "rules": [],
+      "gaps": [],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/library/Libraryset",
+      "evidence": "中间文件/文库设置.txt",
+      "controls": [
+        {
+          "label": "* 文库店名：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtShopName",
+          "options": []
+        },
+        {
+          "label": "* 描述：",
+          "controlType": "text entry area",
+          "sourceControlId": null,
+          "options": []
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P15",
+      "module": "门店",
+      "group": "文库管理",
+      "name": "自定义分类",
+      "url": "https://youfan.iyint.com/depot/library/LibraryType.aspx",
+      "purpose": "管理门店自定义文库分类。",
+      "filters": [],
+      "columns": [
+        "分类名称",
+        "文件数量",
+        "排序",
+        "操作"
+      ],
+      "fields": [],
+      "actions": [
+        "添加分类表单",
+        "全部展开",
+        "全部收缩",
+        "更新文件数量入口"
+      ],
+      "rules": [],
+      "gaps": [
+        "未点击更新文件数量",
+        "当前可见添加表单仅有分类名称；父子关系及排序保存方式未验证"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/library/LibraryType",
+      "evidence": "中间文件/自定义分类.txt",
+      "controls": [],
+      "relatedForms": [
+        "自定义分类-空白表单"
+      ],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P16",
+      "module": "门店",
+      "group": "营销中心",
+      "name": "最低消费",
+      "url": "https://youfan.iyint.com/depot/promotion/minconsume.aspx",
+      "purpose": "控制订单最低计费金额。",
+      "filters": [],
+      "columns": [],
+      "fields": [
+        "开启门店最低消费开关",
+        "最低消费金额：元，必填提示"
+      ],
+      "actions": [
+        "保存"
+      ],
+      "rules": [
+        "用户消费未达最低消费金额时按最低消费金额计算"
+      ],
+      "gaps": [],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/promotion/minconsume",
+      "evidence": "中间文件/最低消费.txt",
+      "controls": [
+        {
+          "label": "是否开启门店最低消费：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl00",
+          "options": []
+        },
+        {
+          "label": "* 最低消费金额：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtMinConsume",
+          "options": []
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P17",
+      "module": "门店",
+      "group": "营销中心",
+      "name": "满额优惠",
+      "url": "https://youfan.iyint.com/depot/promotion/OrderPromotions.aspx",
+      "purpose": "管理达到金额门槛后的立减活动。",
+      "filters": [],
+      "columns": [
+        "活动名称",
+        "活动类型",
+        "开始时间",
+        "结束时间",
+        "操作"
+      ],
+      "fields": [],
+      "actions": [
+        "添加空白表单",
+        "编辑入口",
+        "删除入口"
+      ],
+      "rules": [],
+      "gaps": [
+        "优惠叠加顺序、分摊与退款返还规则未执行验证"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/promotion/OrderPromotions",
+      "evidence": "中间文件/满额优惠.txt",
+      "controls": [],
+      "relatedForms": [
+        "满额优惠-空白表单"
+      ],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P18",
+      "module": "门店",
+      "group": "营销中心",
+      "name": "微信代金红包",
+      "url": "https://youfan.iyint.com/depot/RedEnvelope/ManageRedEnvelope.aspx",
+      "purpose": "管理门店微信支付代金红包活动。",
+      "filters": [],
+      "columns": [
+        "红包名称",
+        "红包数量",
+        "已领个数",
+        "红包金额",
+        "开始时间",
+        "结束时间",
+        "红包失效时间",
+        "活动海报",
+        "状态",
+        "操作"
+      ],
+      "fields": [],
+      "actions": [
+        "新增入口（PostBack，未触发）"
+      ],
+      "rules": [
+        "活动期每人每天限领1次；付款金额需超过红包金额；每单一个；取消订单不返还抵扣红包",
+        "红包仅本店消费，不能跨门店",
+        "关闭领取后，已领取且有效的红包仍可用",
+        "活动海报可展示在计价窗口右侧"
+      ],
+      "gaps": [
+        "新增为服务器PostBack入口；为避免创建草稿或写入副作用未点击，新增表单字段待核实"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/RedEnvelope/ManageRedEnvelope",
+      "evidence": "中间文件/微信代金红包.txt",
+      "controls": [],
+      "relatedForms": [],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P19",
+      "module": "门店",
+      "group": "营销中心",
+      "name": "免费打印",
+      "url": "https://youfan.iyint.com/depot/promotion/FreePrintList.aspx",
+      "purpose": "管理每日免费额度与新用户活动。",
+      "filters": [],
+      "columns": [
+        "活动名称",
+        "每日免费额度",
+        "是否启用",
+        "是否针对新用户",
+        "开始时间",
+        "结束时间",
+        "操作"
+      ],
+      "fields": [],
+      "actions": [
+        "添加空白表单"
+      ],
+      "rules": [
+        "新用户说明为无交易订单；新用户只能享受一次免费打印",
+        "不支持不同商品类别混合打印订单"
+      ],
+      "gaps": [],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/promotion/FreePrintList",
+      "evidence": "中间文件/免费打印.txt",
+      "controls": [],
+      "relatedForms": [
+        "免费打印-空白表单"
+      ],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P20",
+      "module": "门店",
+      "group": "营销中心",
+      "name": "关注公众号",
+      "url": "https://youfan.iyint.com/depot/promotion/WXSubscribe.aspx",
+      "purpose": "控制电脑/终端扫码支付前的关注要求。",
+      "filters": [],
+      "columns": [],
+      "fields": [
+        "强制关注公众号打印开关"
+      ],
+      "actions": [
+        "保存"
+      ],
+      "rules": [
+        "原页面说明仅针对电脑/终端扫码自助打印场景"
+      ],
+      "gaps": [],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/promotion/WXSubscribe",
+      "evidence": "中间文件/关注公众号.txt",
+      "controls": [
+        {
+          "label": "是否开启：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl00",
+          "options": []
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P21",
+      "module": "订单",
+      "group": "电脑自助打印",
+      "name": "用户打印列表",
+      "url": "https://youfan.iyint.com/depot/print/MergeOrder.aspx?printType=0&OrderStatus=3",
+      "purpose": "按来源、配送方式及默认状态查看合并订单。",
+      "filters": [
+        "订单号",
+        "账号名称",
+        "订单时间起止",
+        "是否员工打印"
+      ],
+      "columns": [
+        "订单号",
+        "订单类型",
+        "账号名称",
+        "支付类型",
+        "文件数",
+        "装订数",
+        "订单时间",
+        "支付时间",
+        "订单金额",
+        "订单实付",
+        "订单状态",
+        "员工打印",
+        "备注",
+        "操作"
+      ],
+      "fields": [],
+      "actions": [
+        "状态标签切换",
+        "查询",
+        "文件数进入文件明细",
+        "手工打印入口（有数据时可见，未触发）",
+        "分页及跳页"
+      ],
+      "rules": [
+        "电脑用户页标签：全部/已打印/待退款/已退款/已拒绝退款",
+        "每页数量：10/20/40/200/500/1000/2000"
+      ],
+      "gaps": [
+        "菜单查询参数是页面默认条件；未确认服务器枚举全集",
+        "退款状态切换仅表示查询，不代表已执行退款操作"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/print/MergeOrder?printType=0&OrderStatus=3",
+      "evidence": "中间文件/用户打印列表.txt",
+      "controls": [
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "账号名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "订单时间：",
+          "controlType": "text field",
+          "sourceControlId": "orderStartDate",
+          "options": []
+        },
+        {
+          "label": "订单时间：",
+          "controlType": "text field",
+          "sourceControlId": "orderEndDate",
+          "options": []
+        },
+        {
+          "label": "订单时间：",
+          "controlType": "checkbox",
+          "sourceControlId": "chkStaffPrint",
+          "options": []
+        },
+        {
+          "label": "每页显示数量：",
+          "controlType": "pop up button",
+          "sourceControlId": "pagesize_dropdown",
+          "options": [
+            "10",
+            "20",
+            "40",
+            "200",
+            "500",
+            "1000",
+            "2000"
+          ]
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {
+        "printType": "0",
+        "OrderStatus": "3"
+      }
+    },
+    {
+      "id": "P22",
+      "module": "订单",
+      "group": "电脑自助打印",
+      "name": "管理员打印列表",
+      "url": "https://youfan.iyint.com/depot/print/manageAdminOrder.aspx",
+      "purpose": "查看电脑端管理员打印文件列表。",
+      "filters": [
+        "订单号",
+        "打印时间起止"
+      ],
+      "columns": [
+        "选择",
+        "用户账号",
+        "文档名称",
+        "打印机",
+        "计算机",
+        "打印页数",
+        "份数",
+        "颜色",
+        "单双面",
+        "纸张",
+        "打印时间",
+        "价格（元）",
+        "操作"
+      ],
+      "fields": [],
+      "actions": [
+        "已打印标签",
+        "查询",
+        "分页及跳页"
+      ],
+      "rules": [
+        "原页面提示电脑端自助打印出于隐私只可查看当天打印记录；是否对该页所有场景生效需确认"
+      ],
+      "gaps": [],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/print/manageAdminOrder",
+      "evidence": "中间文件/管理员打印列表.txt",
+      "controls": [
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "打印时间：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "打印时间：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "每页显示数量：",
+          "controlType": "pop up button",
+          "sourceControlId": "pagesize_dropdown",
+          "options": [
+            "10",
+            "20",
+            "40",
+            "200",
+            "500",
+            "1000",
+            "2000"
+          ]
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P23",
+      "module": "订单",
+      "group": "手机自助打印",
+      "name": "全部订单列表",
+      "url": "https://youfan.iyint.com/depot/print/MergeOrder.aspx?printType=100&selDeliveryType=100&OrderStatus=100",
+      "purpose": "按来源、配送方式及默认状态查看合并订单。",
+      "filters": [
+        "订单号",
+        "取件码",
+        "账号名称",
+        "订单时间起止",
+        "是否员工打印"
+      ],
+      "columns": [
+        "订单号",
+        "订单类型",
+        "账号名称",
+        "支付类型",
+        "文件数",
+        "装订数",
+        "订单时间",
+        "支付时间",
+        "订单金额",
+        "订单实付",
+        "订单状态",
+        "员工打印",
+        "备注",
+        "操作"
+      ],
+      "fields": [],
+      "actions": [
+        "状态标签切换",
+        "查询",
+        "文件数进入文件明细",
+        "手工打印入口（有数据时可见，未触发）",
+        "分页及跳页"
+      ],
+      "rules": [
+        "手机订单页标签：全部/待打印/已打印/待退款/已退款/已拒绝退款",
+        "每页数量：10/20/40/200/500/1000/2000"
+      ],
+      "gaps": [
+        "菜单查询参数是页面默认条件；未确认服务器枚举全集",
+        "退款状态切换仅表示查询，不代表已执行退款操作"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/print/MergeOrder?printType=100&selDeliveryType=100&OrderStatus=100",
+      "evidence": "中间文件/全部订单列表.txt",
+      "controls": [
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "取件码：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "账号名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "订单时间：",
+          "controlType": "text field",
+          "sourceControlId": "orderStartDate",
+          "options": []
+        },
+        {
+          "label": "订单时间：",
+          "controlType": "text field",
+          "sourceControlId": "orderEndDate",
+          "options": []
+        },
+        {
+          "label": "订单时间：",
+          "controlType": "checkbox",
+          "sourceControlId": "chkStaffPrint",
+          "options": []
+        },
+        {
+          "label": "每页显示数量：",
+          "controlType": "pop up button",
+          "sourceControlId": "pagesize_dropdown",
+          "options": [
+            "10",
+            "20",
+            "40",
+            "200",
+            "500",
+            "1000",
+            "2000"
+          ]
+        },
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": "txtGoto",
+          "options": []
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {
+        "printType": "100",
+        "selDeliveryType": "100",
+        "OrderStatus": "100"
+      }
+    },
+    {
+      "id": "P24",
+      "module": "订单",
+      "group": "手机自助打印",
+      "name": "现场打印自取列表",
+      "url": "https://youfan.iyint.com/depot/print/MergeOrder.aspx?printType=100&selDeliveryType=0&OrderStatus=2",
+      "purpose": "按来源、配送方式及默认状态查看合并订单。",
+      "filters": [
+        "订单号",
+        "取件码",
+        "账号名称",
+        "订单时间起止",
+        "是否员工打印"
+      ],
+      "columns": [
+        "订单号",
+        "订单类型",
+        "账号名称",
+        "支付类型",
+        "文件数",
+        "装订数",
+        "订单时间",
+        "支付时间",
+        "订单金额",
+        "订单实付",
+        "订单状态",
+        "员工打印",
+        "备注",
+        "操作"
+      ],
+      "fields": [],
+      "actions": [
+        "状态标签切换",
+        "查询",
+        "文件数进入文件明细",
+        "手工打印入口（有数据时可见，未触发）",
+        "分页及跳页"
+      ],
+      "rules": [
+        "手机订单页标签：全部/待打印/已打印/待退款/已退款/已拒绝退款",
+        "每页数量：10/20/40/200/500/1000/2000"
+      ],
+      "gaps": [
+        "菜单查询参数是页面默认条件；未确认服务器枚举全集",
+        "退款状态切换仅表示查询，不代表已执行退款操作"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/print/MergeOrder?printType=100&selDeliveryType=0&OrderStatus=2",
+      "evidence": "中间文件/现场打印自取列表.txt",
+      "controls": [
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "取件码：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "账号名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "订单时间：",
+          "controlType": "text field",
+          "sourceControlId": "orderStartDate",
+          "options": []
+        },
+        {
+          "label": "订单时间：",
+          "controlType": "text field",
+          "sourceControlId": "orderEndDate",
+          "options": []
+        },
+        {
+          "label": "订单时间：",
+          "controlType": "checkbox",
+          "sourceControlId": "chkStaffPrint",
+          "options": []
+        },
+        {
+          "label": "每页显示数量：",
+          "controlType": "pop up button",
+          "sourceControlId": "pagesize_dropdown",
+          "options": [
+            "10",
+            "20",
+            "40",
+            "200",
+            "500",
+            "1000",
+            "2000"
+          ]
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {
+        "printType": "100",
+        "selDeliveryType": "0",
+        "OrderStatus": "2"
+      }
+    },
+    {
+      "id": "P25",
+      "module": "订单",
+      "group": "手机自助打印",
+      "name": "远程打印自取列表",
+      "url": "https://youfan.iyint.com/depot/print/MergeOrder.aspx?printType=100&selDeliveryType=1&OrderStatus=2",
+      "purpose": "按来源、配送方式及默认状态查看合并订单。",
+      "filters": [
+        "订单号",
+        "取件码",
+        "账号名称",
+        "订单时间起止",
+        "是否员工打印"
+      ],
+      "columns": [
+        "订单号",
+        "订单类型",
+        "账号名称",
+        "支付类型",
+        "文件数",
+        "装订数",
+        "订单时间",
+        "支付时间",
+        "订单金额",
+        "订单实付",
+        "订单状态",
+        "员工打印",
+        "备注",
+        "操作"
+      ],
+      "fields": [],
+      "actions": [
+        "状态标签切换",
+        "查询",
+        "文件数进入文件明细",
+        "手工打印入口（有数据时可见，未触发）",
+        "分页及跳页"
+      ],
+      "rules": [
+        "手机订单页标签：全部/待打印/已打印/待退款/已退款/已拒绝退款",
+        "每页数量：10/20/40/200/500/1000/2000"
+      ],
+      "gaps": [
+        "菜单查询参数是页面默认条件；未确认服务器枚举全集",
+        "退款状态切换仅表示查询，不代表已执行退款操作"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/print/MergeOrder?printType=100&selDeliveryType=1&OrderStatus=2",
+      "evidence": "中间文件/远程打印自取列表.txt",
+      "controls": [
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "取件码：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "账号名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "订单时间：",
+          "controlType": "text field",
+          "sourceControlId": "orderStartDate",
+          "options": []
+        },
+        {
+          "label": "订单时间：",
+          "controlType": "text field",
+          "sourceControlId": "orderEndDate",
+          "options": []
+        },
+        {
+          "label": "订单时间：",
+          "controlType": "checkbox",
+          "sourceControlId": "chkStaffPrint",
+          "options": []
+        },
+        {
+          "label": "每页显示数量：",
+          "controlType": "pop up button",
+          "sourceControlId": "pagesize_dropdown",
+          "options": [
+            "10",
+            "20",
+            "40",
+            "200",
+            "500",
+            "1000",
+            "2000"
+          ]
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {
+        "printType": "100",
+        "selDeliveryType": "1",
+        "OrderStatus": "2"
+      }
+    },
+    {
+      "id": "P26",
+      "module": "订单",
+      "group": "手机自助打印",
+      "name": "定时配送列表",
+      "url": "https://youfan.iyint.com/depot/print/MergeOrder.aspx?printType=100&selDeliveryType=2&OrderStatus=2",
+      "purpose": "按来源、配送方式及默认状态查看合并订单。",
+      "filters": [
+        "订单号",
+        "取件码",
+        "账号名称",
+        "订单时间起止",
+        "是否员工打印"
+      ],
+      "columns": [
+        "订单号",
+        "订单类型",
+        "账号名称",
+        "支付类型",
+        "文件数",
+        "装订数",
+        "订单时间",
+        "支付时间",
+        "订单金额",
+        "订单实付",
+        "订单状态",
+        "员工打印",
+        "备注",
+        "操作"
+      ],
+      "fields": [],
+      "actions": [
+        "状态标签切换",
+        "查询",
+        "文件数进入文件明细",
+        "手工打印入口（有数据时可见，未触发）",
+        "分页及跳页"
+      ],
+      "rules": [
+        "手机订单页标签：全部/待打印/已打印/待退款/已退款/已拒绝退款",
+        "每页数量：10/20/40/200/500/1000/2000"
+      ],
+      "gaps": [
+        "菜单查询参数是页面默认条件；未确认服务器枚举全集",
+        "退款状态切换仅表示查询，不代表已执行退款操作"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/print/MergeOrder?printType=100&selDeliveryType=2&OrderStatus=2",
+      "evidence": "中间文件/定时配送列表.txt",
+      "controls": [
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "取件码：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "账号名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "订单时间：",
+          "controlType": "text field",
+          "sourceControlId": "orderStartDate",
+          "options": []
+        },
+        {
+          "label": "订单时间：",
+          "controlType": "text field",
+          "sourceControlId": "orderEndDate",
+          "options": []
+        },
+        {
+          "label": "订单时间：",
+          "controlType": "checkbox",
+          "sourceControlId": "chkStaffPrint",
+          "options": []
+        },
+        {
+          "label": "每页显示数量：",
+          "controlType": "pop up button",
+          "sourceControlId": "pagesize_dropdown",
+          "options": [
+            "10",
+            "20",
+            "40",
+            "200",
+            "500",
+            "1000",
+            "2000"
+          ]
+        },
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": "txtGoto",
+          "options": []
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {
+        "printType": "100",
+        "selDeliveryType": "2",
+        "OrderStatus": "2"
+      }
+    },
+    {
+      "id": "P27",
+      "module": "订单",
+      "group": "手机自助打印",
+      "name": "VIP配送列表",
+      "url": "https://youfan.iyint.com/depot/print/MergeOrder.aspx?printType=100&selDeliveryType=3&OrderStatus=2",
+      "purpose": "按来源、配送方式及默认状态查看合并订单。",
+      "filters": [
+        "订单号",
+        "取件码",
+        "账号名称",
+        "订单时间起止",
+        "是否员工打印"
+      ],
+      "columns": [
+        "订单号",
+        "订单类型",
+        "账号名称",
+        "支付类型",
+        "文件数",
+        "装订数",
+        "订单时间",
+        "支付时间",
+        "订单金额",
+        "订单实付",
+        "订单状态",
+        "员工打印",
+        "备注",
+        "操作"
+      ],
+      "fields": [],
+      "actions": [
+        "状态标签切换",
+        "查询",
+        "文件数进入文件明细",
+        "手工打印入口（有数据时可见，未触发）",
+        "分页及跳页"
+      ],
+      "rules": [
+        "手机订单页标签：全部/待打印/已打印/待退款/已退款/已拒绝退款",
+        "每页数量：10/20/40/200/500/1000/2000"
+      ],
+      "gaps": [
+        "菜单查询参数是页面默认条件；未确认服务器枚举全集",
+        "退款状态切换仅表示查询，不代表已执行退款操作"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/print/MergeOrder?printType=100&selDeliveryType=3&OrderStatus=2",
+      "evidence": "中间文件/VIP配送列表.txt",
+      "controls": [
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "取件码：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "账号名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "订单时间：",
+          "controlType": "text field",
+          "sourceControlId": "orderStartDate",
+          "options": []
+        },
+        {
+          "label": "订单时间：",
+          "controlType": "text field",
+          "sourceControlId": "orderEndDate",
+          "options": []
+        },
+        {
+          "label": "订单时间：",
+          "controlType": "checkbox",
+          "sourceControlId": "chkStaffPrint",
+          "options": []
+        },
+        {
+          "label": "每页显示数量：",
+          "controlType": "pop up button",
+          "sourceControlId": "pagesize_dropdown",
+          "options": [
+            "10",
+            "20",
+            "40",
+            "200",
+            "500",
+            "1000",
+            "2000"
+          ]
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {
+        "printType": "100",
+        "selDeliveryType": "3",
+        "OrderStatus": "2"
+      }
+    },
+    {
+      "id": "P28",
+      "module": "订单",
+      "group": "手机自助打印",
+      "name": "保存证件照图片列表",
+      "url": "https://youfan.iyint.com/depot/print/CertDZOrder.aspx?printType=1&selDeliveryType=0&OrderStatus=2",
+      "purpose": "查看证件照图片保存类订单。",
+      "filters": [
+        "订单号",
+        "账号名称",
+        "订单时间起止"
+      ],
+      "columns": [
+        "订单号",
+        "商品类型",
+        "账号名称",
+        "手机号",
+        "支付类型",
+        "文件数量",
+        "装订数量",
+        "订单时间",
+        "支付时间",
+        "订单金额",
+        "订单实付",
+        "是否员工打印",
+        "备注"
+      ],
+      "fields": [],
+      "actions": [
+        "全部/待退款/已退款/已拒绝退款标签",
+        "查询",
+        "分页及跳页"
+      ],
+      "rules": [],
+      "gaps": [
+        "页面存在手工打印通用说明，但列表未必逐行显示相同操作，需按实际订单类型及状态决定"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/print/CertDZOrder?printType=1&selDeliveryType=0&OrderStatus=2",
+      "evidence": "中间文件/保存证件照图片列表.txt",
+      "controls": [
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "账号名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "订单时间：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "订单时间：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "每页显示数量：",
+          "controlType": "pop up button",
+          "sourceControlId": "pagesize_dropdown",
+          "options": [
+            "10",
+            "20",
+            "40",
+            "200",
+            "500",
+            "1000",
+            "2000"
+          ]
+        },
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": "txtGoto",
+          "options": []
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {
+        "printType": "1",
+        "selDeliveryType": "0",
+        "OrderStatus": "2"
+      }
+    },
+    {
+      "id": "P29",
+      "module": "财务",
+      "group": "财务管理",
+      "name": "提现管理",
+      "url": "https://youfan.iyint.com/depot/Balance/Default.aspx",
+      "purpose": "查看结算余额卡片及提现申请记录。",
+      "filters": [
+        "提现时间起止",
+        "提现状态：请选择状态/审核中/已通过审核/拒绝"
+      ],
+      "columns": [
+        "交易流水号",
+        "提现时间",
+        "提现金额",
+        "入账金额",
+        "结算类型",
+        "状态",
+        "提现结果",
+        "完成时间"
+      ],
+      "fields": [
+        "可结算余额",
+        "结算中金额",
+        "已结算总额"
+      ],
+      "actions": [
+        "查询",
+        "申请提现页面",
+        "分页"
+      ],
+      "rules": [
+        "侧栏Default.aspx在当前账户下落到LklDefault页面；保留该路由差异"
+      ],
+      "gaps": [
+        "实际提现流程未提交；后续确认页未进入"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/Balance/LklDefault",
+      "evidence": "中间文件/提现管理.txt",
+      "controls": [
+        {
+          "label": "提现时间：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "提现时间：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "提现状态：",
+          "controlType": "pop up button",
+          "sourceControlId": "ddlType",
+          "options": [
+            "请选择状态",
+            "审核中",
+            "已通过审核",
+            "拒绝"
+          ]
+        },
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": "txtGoto",
+          "options": []
+        }
+      ],
+      "relatedForms": [
+        "提现申请-只读"
+      ],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P30",
+      "module": "财务",
+      "group": "财务管理",
+      "name": "交易订单",
+      "url": "https://youfan.iyint.com/depot/sales/storebalance.aspx",
+      "purpose": "按交易时间及订单号查询结算流水。",
+      "filters": [
+        "交易时间起止",
+        "订单号"
+      ],
+      "columns": [
+        "订单时间",
+        "订单号",
+        "支付类型",
+        "订单金额",
+        "订单实付",
+        "结算金额",
+        "收款方",
+        "支付流水号",
+        "备注"
+      ],
+      "fields": [
+        "订单总数",
+        "结算金额汇总"
+      ],
+      "actions": [
+        "查询",
+        "导出数据入口",
+        "分页"
+      ],
+      "rules": [],
+      "gaps": [
+        "导出未执行；列映射、脱敏、导出容量和异步任务状态待约定"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/sales/storebalance",
+      "evidence": "中间文件/交易订单.txt",
+      "controls": [
+        {
+          "label": "交易时间：",
+          "controlType": "text field",
+          "sourceControlId": "startDate",
+          "options": []
+        },
+        {
+          "label": "交易时间：",
+          "controlType": "text field",
+          "sourceControlId": "endDate",
+          "options": []
+        },
+        {
+          "label": "交易时间：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": "txtGoto",
+          "options": []
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P31",
+      "module": "财务",
+      "group": "财务管理",
+      "name": "自动提现设置",
+      "url": "https://youfan.iyint.com/depot/Balance/AutoBalanceSet.aspx",
+      "purpose": "侧栏可见，但当前账号无权访问。",
+      "filters": [],
+      "columns": [],
+      "fields": [],
+      "actions": [],
+      "rules": [],
+      "gaps": [
+        "页面明确提示：当前权限不足，无法访问该页面；内部字段及校验均未确认"
+      ],
+      "status": "权限受限",
+      "observedUrl": "https://youfan.iyint.com/depot/Balance/AutoBalanceSet",
+      "evidence": "中间文件/自动提现设置.txt",
+      "controls": [],
+      "relatedForms": [],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P32",
+      "module": "财务",
+      "group": "分账管理",
+      "name": "分账列表",
+      "url": "https://youfan.iyint.com/depot/Balance/SplitBalance.aspx",
+      "purpose": "维护参与结算分账的收款账户。",
+      "filters": [],
+      "columns": [
+        "姓名",
+        "联系电话",
+        "银行卡收款编号",
+        "分账比例",
+        "OpenId",
+        "创建时间",
+        "更新时间",
+        "备注",
+        "操作"
+      ],
+      "fields": [
+        "当前剩余分账比例"
+      ],
+      "actions": [
+        "添加分账账户空白表单"
+      ],
+      "rules": [
+        "侧栏SplitBalance.aspx在当前账户下落到LklSplitBalance"
+      ],
+      "gaps": [
+        "金额分摊、比例上限、舍入及结算时点待接口确认"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/Balance/LklSplitBalance",
+      "evidence": "中间文件/分账列表.txt",
+      "controls": [],
+      "relatedForms": [
+        "分账账户-空白表单"
+      ],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P33",
+      "module": "终端",
+      "group": "终端管理",
+      "name": "打印终端",
+      "url": "https://youfan.iyint.com/depot/print/manageprintclient.aspx",
+      "purpose": "查看电脑终端、在线状态与功能配置。",
+      "filters": [
+        "终端名称",
+        "主机名"
+      ],
+      "columns": [
+        "终端名称",
+        "主机名",
+        "操作系统",
+        "客户端版本",
+        "IP地址",
+        "手机自助打印",
+        "在线状态",
+        "终端开关",
+        "更新日期",
+        "操作"
+      ],
+      "fields": [],
+      "actions": [
+        "全部/在线/离线标签",
+        "查询",
+        "终端设置表单",
+        "设置打印免拦截表单",
+        "删除入口",
+        "分页"
+      ],
+      "rules": [
+        "页面要求手机自助场景的多台线上计算机名称不要相同",
+        "打印免拦截设置提示保存后重启软件；本次未保存或重启"
+      ],
+      "gaps": [],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/print/manageprintclient",
+      "evidence": "中间文件/打印终端.txt",
+      "controls": [
+        {
+          "label": "终端名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "主机名：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": "txtGoto",
+          "options": []
+        }
+      ],
+      "relatedForms": [
+        "终端-配置表单",
+        "终端-打印拦截选择表单"
+      ],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P34",
+      "module": "终端",
+      "group": "终端管理",
+      "name": "打印机",
+      "url": "https://youfan.iyint.com/depot/print/managerprinter.aspx",
+      "purpose": "查看终端下的打印机并配置打印能力。",
+      "filters": [
+        "终端侧列表选择",
+        "全部打印机"
+      ],
+      "columns": [
+        "打印机名称",
+        "所属终端",
+        "地址",
+        "默认",
+        "手机自助",
+        "状态",
+        "更新日期",
+        "操作"
+      ],
+      "fields": [],
+      "actions": [
+        "打印首选项表单",
+        "纸盒设置表单",
+        "设置手机自助打印表单",
+        "删除入口",
+        "分页"
+      ],
+      "rules": [
+        "生成二维码后更改打印机或计算机名称需要重新生成二维码",
+        "原页面提到共享计价模式，但当前列表未见独立同名侧栏入口"
+      ],
+      "gaps": [
+        "打印机二维码、海报及不同硬件驱动的条件差异未穷举",
+        "未执行任何打印机指令"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/print/managerprinter",
+      "evidence": "中间文件/打印机.txt",
+      "controls": [
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": "txtGoto",
+          "options": []
+        }
+      ],
+      "relatedForms": [
+        "打印机-首选项表单",
+        "打印机-纸盒表单",
+        "打印机-手机自助配置表单"
+      ],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P35",
+      "module": "终端",
+      "group": "终端设置",
+      "name": "邮箱发送设置",
+      "url": "https://youfan.iyint.com/depot/print/emailset.aspx",
+      "purpose": "配置发送邮件所用账户。",
+      "filters": [],
+      "columns": [],
+      "fields": [
+        "用户名：必填",
+        "密码：必填",
+        "SMTP地址：必填",
+        "端口：必填"
+      ],
+      "actions": [
+        "保存"
+      ],
+      "rules": [],
+      "gaps": [
+        "TLS/SSL选项、端口范围、发送测试及服务端凭据保存方式未确认；未发送邮件"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/print/emailset",
+      "evidence": "中间文件/邮箱发送设置.txt",
+      "controls": [
+        {
+          "label": "* 用户名：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "* 密码：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "* SMTP地址：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "* 端口：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P36",
+      "module": "终端",
+      "group": "打印订单量统计",
+      "name": "按终端统计",
+      "url": "https://youfan.iyint.com/depot/print/PrintClientStatistics.aspx",
+      "purpose": "查看按终端及场景汇总的订单和交易额图表。",
+      "filters": [
+        "终端名称",
+        "打印场景",
+        "交易时间起止"
+      ],
+      "columns": [],
+      "fields": [
+        "订单数统计图",
+        "交易额统计图"
+      ],
+      "actions": [
+        "查询",
+        "导出数据入口"
+      ],
+      "rules": [
+        "页面说明当天9点后可看前一天数据；仅供参考，实际以财务交易订单为准"
+      ],
+      "gaps": [
+        "未分析图表历史序列；场景下拉完整字典和图表接口数据结构未确认"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/print/PrintClientStatistics",
+      "evidence": "中间文件/按终端统计.txt",
+      "controls": [
+        {
+          "label": "交易时间：",
+          "controlType": "text field",
+          "sourceControlId": "orderStartDate",
+          "options": []
+        },
+        {
+          "label": "交易时间：",
+          "controlType": "text field",
+          "sourceControlId": "orderEndDate",
+          "options": []
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P37",
+      "module": "终端",
+      "group": "打印纸张量统计",
+      "name": "按总量统计",
+      "url": "https://youfan.iyint.com/depot/print/PrintPaperStatistical.aspx",
+      "purpose": "查看打印机纸张余量、预警与累计用量。",
+      "filters": [
+        "打印终端",
+        "打印机名称"
+      ],
+      "columns": [
+        "打印机名称",
+        "打印终端",
+        "纸张规格",
+        "当前剩余量（张）",
+        "余量预警（张）",
+        "总打印量（张）",
+        "更新日期",
+        "操作"
+      ],
+      "fields": [],
+      "actions": [
+        "查询",
+        "删除入口",
+        "分页"
+      ],
+      "rules": [
+        "客户端需V3.9.31115以上并设置剩余余量；统计仅供参考"
+      ],
+      "gaps": [
+        "余量/预警维护入口与硬件同步刷新方式未执行验证"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/print/PrintPaperStatistical",
+      "evidence": "中间文件/按总量统计.txt",
+      "controls": [
+        {
+          "label": "打印终端：",
+          "controlType": "pop up button",
+          "sourceControlId": "dropPrintClients",
+          "options": [
+            "--请选择打印终端--",
+            "PC-20250406FUCB",
+            "PC-20250929ZFKC"
+          ]
+        },
+        {
+          "label": "打印机名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "每页显示数量：",
+          "controlType": "pop up button",
+          "sourceControlId": "pagesize_dropdown",
+          "options": [
+            "10",
+            "20",
+            "40",
+            "100"
+          ]
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P38",
+      "module": "终端",
+      "group": "打印纸张量统计",
+      "name": "按日统计",
+      "url": "https://youfan.iyint.com/depot/print/TodayPaperStatistical.aspx",
+      "purpose": "查看打印机每日单双面打印量。",
+      "filters": [
+        "打印终端",
+        "打印机名称"
+      ],
+      "columns": [
+        "打印机名称",
+        "打印终端",
+        "纸张规格",
+        "当前打印量（张）",
+        "单面打印量（张）",
+        "双面打印量（张）",
+        "统计时间",
+        "更新日期"
+      ],
+      "fields": [],
+      "actions": [
+        "查询",
+        "分页"
+      ],
+      "rules": [
+        "页面提示需要相应客户端版本和纸张余量设置；仅供参考"
+      ],
+      "gaps": [],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/print/TodayPaperStatistical",
+      "evidence": "中间文件/按日统计.txt",
+      "controls": [
+        {
+          "label": "打印终端：",
+          "controlType": "pop up button",
+          "sourceControlId": "dropPrintClients",
+          "options": [
+            "--请选择打印终端--",
+            "PC-20250406FUCB",
+            "PC-20250929ZFKC"
+          ]
+        },
+        {
+          "label": "打印机名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "每页显示数量：",
+          "controlType": "pop up button",
+          "sourceControlId": "pagesize_dropdown",
+          "options": [
+            "10",
+            "20",
+            "40",
+            "100"
+          ]
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P39",
+      "module": "会员",
+      "group": "用户管理",
+      "name": "用户列表",
+      "url": "https://youfan.iyint.com/depot/member/ManageMembers.aspx",
+      "purpose": "查询用户资料及其订单入口。",
+      "filters": [
+        "账号名",
+        "注册时间起止"
+      ],
+      "columns": [
+        "姓名",
+        "昵称",
+        "账号名",
+        "手机号码",
+        "OpenId",
+        "订单",
+        "注册日期",
+        "操作"
+      ],
+      "fields": [],
+      "actions": [
+        "查询",
+        "全选/反选",
+        "删除入口",
+        "查看入口",
+        "用户资料表单",
+        "分页"
+      ],
+      "rules": [],
+      "gaps": [
+        "当前用户入口进入EditMember模板；未保存资料",
+        "查看入口的全部附属页未穷举"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/member/ManageMembers",
+      "evidence": "中间文件/用户列表.txt",
+      "controls": [
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "注册时间：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "注册时间：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "每页显示数量：",
+          "controlType": "pop up button",
+          "sourceControlId": "pagesize_dropdown",
+          "options": [
+            "10",
+            "20",
+            "40",
+            "100"
+          ]
+        },
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": "txtGoto",
+          "options": []
+        }
+      ],
+      "relatedForms": [
+        "用户-资料表单"
+      ],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P40",
+      "module": "会员",
+      "group": "用户管理",
+      "name": "黑白名单用户",
+      "url": "https://youfan.iyint.com/depot/member/UserBlacklist.aspx",
+      "purpose": "限制指定账号的打印下单行为。",
+      "filters": [],
+      "columns": [
+        "账号名",
+        "限制期限",
+        "开始时间",
+        "结束时间",
+        "原因",
+        "操作"
+      ],
+      "fields": [],
+      "actions": [
+        "添加空白表单"
+      ],
+      "rules": [
+        "可见添加页说明是加入黑名单限制下单；不能仅凭菜单名称假定另有白名单模式"
+      ],
+      "gaps": [],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/member/UserBlacklist",
+      "evidence": "中间文件/黑白名单用户.txt",
+      "controls": [],
+      "relatedForms": [
+        "黑白名单-空白表单"
+      ],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P41",
+      "module": "会员",
+      "group": "会员卡管理",
+      "name": "会员等级",
+      "url": "https://youfan.iyint.com/depot/member/MemberGrades.aspx",
+      "purpose": "管理会员等级折扣及期限、会员费。",
+      "filters": [],
+      "columns": [
+        "等级名称",
+        "默认会员等级",
+        "折扣",
+        "有效期",
+        "会员费",
+        "备注",
+        "操作"
+      ],
+      "fields": [],
+      "actions": [
+        "添加空白表单",
+        "编辑入口",
+        "删除入口"
+      ],
+      "rules": [
+        "原页面提示折扣不能为0；100表示无折扣"
+      ],
+      "gaps": [],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/member/MemberGrades",
+      "evidence": "中间文件/会员等级.txt",
+      "controls": [],
+      "relatedForms": [
+        "会员等级-空白表单"
+      ],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P42",
+      "module": "会员",
+      "group": "会员卡管理",
+      "name": "充值赠送",
+      "url": "https://youfan.iyint.com/depot/promotion/RechargeGift.aspx",
+      "purpose": "管理充值赠送及会员优惠叠加开关。",
+      "filters": [],
+      "columns": [],
+      "fields": [
+        "开启充值开关",
+        "会员折扣与余额分开使用开关",
+        "海报展示/下载入口"
+      ],
+      "actions": [
+        "保存",
+        "活动素材下载入口"
+      ],
+      "rules": [
+        "与充值享折扣活动不能共用",
+        "单笔充值限制1000元以内",
+        "余额有赠送金额时消费优先扣本金",
+        "开启折扣与余额分开使用后不可叠加"
+      ],
+      "gaps": [
+        "当前充值关闭；未切换开关，因此充值金额/赠送档位条件字段未验证"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/promotion/RechargeGift",
+      "evidence": "中间文件/充值赠送.txt",
+      "controls": [
+        {
+          "label": "是否开启充值：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl00",
+          "options": []
+        },
+        {
+          "label": "会员折扣与余额是否分开使用：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl01",
+          "options": []
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P43",
+      "module": "会员",
+      "group": "会员卡管理",
+      "name": "充值享折扣",
+      "url": "https://youfan.iyint.com/depot/promotion/RechargeGiftV2.aspx",
+      "purpose": "管理按充值金额获得折扣的营销模式。",
+      "filters": [],
+      "columns": [],
+      "fields": [
+        "开启充值开关",
+        "海报展示/下载入口"
+      ],
+      "actions": [
+        "保存",
+        "活动素材下载入口"
+      ],
+      "rules": [
+        "与充值赠送不能共用",
+        "单笔充值1000元以内"
+      ],
+      "gaps": [
+        "当前充值关闭；未切换开关，折扣档位条件字段未验证"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/promotion/RechargeGiftV2",
+      "evidence": "中间文件/充值享折扣.txt",
+      "controls": [
+        {
+          "label": "是否开启充值：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl00",
+          "options": []
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P44",
+      "module": "会员",
+      "group": "会员卡管理",
+      "name": "会员卡管理",
+      "url": "https://youfan.iyint.com/depot/member/accountsummarylist.aspx",
+      "purpose": "管理会员卡余额与会员身份。",
+      "filters": [
+        "账号名",
+        "姓名",
+        "手机号"
+      ],
+      "columns": [
+        "卡号",
+        "账号名",
+        "姓名/昵称",
+        "手机号",
+        "会员等级",
+        "可用余额",
+        "会员等级到期日期",
+        "更新日期",
+        "操作"
+      ],
+      "fields": [
+        "累计充值总额（不含赠送）",
+        "账户总余额",
+        "今日消费",
+        "今日充值（不含赠送）"
+      ],
+      "actions": [
+        "查询",
+        "加款入口（未触发）",
+        "明细入口",
+        "会员资料表单",
+        "分页"
+      ],
+      "rules": [],
+      "gaps": [
+        "加款未进入，未执行余额变更",
+        "明细页未逐项查看；会员资料入口复用EditMember模板",
+        "线上退款需另申请开通，不能据提示假设本账号已有该权限"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/member/accountsummarylist",
+      "evidence": "中间文件/会员卡管理.txt",
+      "controls": [
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "姓名：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "手机号：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": "txtGoto",
+          "options": []
+        }
+      ],
+      "relatedForms": [
+        "用户-资料表单"
+      ],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P45",
+      "module": "会员",
+      "group": "会员卡管理",
+      "name": "打印券管理",
+      "url": "https://youfan.iyint.com/depot/member/PrintCoupons.aspx",
+      "purpose": "管理打印券与批量激活码。",
+      "filters": [
+        "打印券名称",
+        "状态：请选择状态/未生效/进行中/已过期"
+      ],
+      "columns": [
+        "打印券名称",
+        "面值",
+        "每人限领",
+        "有效期",
+        "激活情况",
+        "创建时间",
+        "操作"
+      ],
+      "fields": [],
+      "actions": [
+        "查询",
+        "添加空白表单",
+        "下载激活码入口",
+        "删除入口",
+        "分页"
+      ],
+      "rules": [
+        "激活后面值可作为余额使用；支持第三方虚拟物品兑换场景"
+      ],
+      "gaps": [
+        "激活码生成、下载文件格式与核销接口未执行验证"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/member/PrintCoupons",
+      "evidence": "中间文件/打印券管理.txt",
+      "controls": [
+        {
+          "label": "打印券名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "状态：",
+          "controlType": "pop up button",
+          "sourceControlId": "ddlStatus",
+          "options": [
+            "请选择状态",
+            "未生效",
+            "进行中",
+            "已过期"
+          ]
+        },
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": "txtGoto",
+          "options": []
+        }
+      ],
+      "relatedForms": [
+        "打印券-空白表单"
+      ],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P46",
+      "module": "广告",
+      "group": "广告中心",
+      "name": "电脑终端广告",
+      "url": "https://youfan.iyint.com/depot/advert/clientads.aspx",
+      "purpose": "配置对应终端或小程序图片素材。",
+      "filters": [],
+      "columns": [],
+      "fields": [
+        "自定义广告图开关",
+        "广告图片集合",
+        "支付成功后广告语：富文本"
+      ],
+      "actions": [
+        "选择文件入口",
+        "保存"
+      ],
+      "rules": [
+        "最多5张；页面提示尺寸274×540像素，分辨率96"
+      ],
+      "gaps": [
+        "未选择文件或上传；格式白名单、裁剪、轮播间隔及删除方式未操作验证"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/advert/clientads",
+      "evidence": "中间文件/电脑终端广告.txt",
+      "controls": [
+        {
+          "label": "是否开启自定义广告图：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl00",
+          "options": []
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P47",
+      "module": "广告",
+      "group": "广告中心",
+      "name": "触屏终端广告",
+      "url": "https://youfan.iyint.com/depot/advert/storeclientads.aspx?adtype=2",
+      "purpose": "配置对应终端或小程序图片素材。",
+      "filters": [],
+      "columns": [],
+      "fields": [
+        "广告图片集合"
+      ],
+      "actions": [
+        "选择文件入口",
+        "保存"
+      ],
+      "rules": [
+        "最多5张；页面提示尺寸720×240像素，分辨率96",
+        "页面参数adtype=2"
+      ],
+      "gaps": [
+        "未选择文件或上传；格式白名单、裁剪、轮播间隔及删除方式未操作验证"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/advert/storeclientads?adtype=2",
+      "evidence": "中间文件/触屏终端广告.txt",
+      "controls": [],
+      "relatedForms": [],
+      "uiQueryParams": {
+        "adtype": "2"
+      }
+    },
+    {
+      "id": "P48",
+      "module": "广告",
+      "group": "广告中心",
+      "name": "全屏终端广告",
+      "url": "https://youfan.iyint.com/depot/advert/storeclientads.aspx?adtype=1",
+      "purpose": "配置对应终端或小程序图片素材。",
+      "filters": [],
+      "columns": [],
+      "fields": [
+        "广告图片集合"
+      ],
+      "actions": [
+        "选择文件入口",
+        "保存"
+      ],
+      "rules": [
+        "最多5张；页面提示尺寸755×585像素，分辨率96",
+        "页面参数adtype=1"
+      ],
+      "gaps": [
+        "未选择文件或上传；格式白名单、裁剪、轮播间隔及删除方式未操作验证"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/advert/storeclientads?adtype=1",
+      "evidence": "中间文件/全屏终端广告.txt",
+      "controls": [],
+      "relatedForms": [],
+      "uiQueryParams": {
+        "adtype": "1"
+      }
+    },
+    {
+      "id": "P49",
+      "module": "广告",
+      "group": "广告中心",
+      "name": "竖屏终端广告",
+      "url": "https://youfan.iyint.com/depot/advert/storeclientads.aspx?adtype=5",
+      "purpose": "配置对应终端或小程序图片素材。",
+      "filters": [],
+      "columns": [],
+      "fields": [
+        "广告图片集合"
+      ],
+      "actions": [
+        "选择文件入口",
+        "保存"
+      ],
+      "rules": [
+        "最多5张；页面提示尺寸1080×1241像素，分辨率96",
+        "页面参数adtype=5"
+      ],
+      "gaps": [
+        "未选择文件或上传；格式白名单、裁剪、轮播间隔及删除方式未操作验证"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/advert/storeclientads?adtype=5",
+      "evidence": "中间文件/竖屏终端广告.txt",
+      "controls": [],
+      "relatedForms": [],
+      "uiQueryParams": {
+        "adtype": "5"
+      }
+    },
+    {
+      "id": "P50",
+      "module": "广告",
+      "group": "广告中心",
+      "name": "云盒广告",
+      "url": "https://youfan.iyint.com/depot/advert/storeclientads.aspx?adtype=3",
+      "purpose": "配置对应终端或小程序图片素材。",
+      "filters": [],
+      "columns": [],
+      "fields": [
+        "广告图片集合"
+      ],
+      "actions": [
+        "选择文件入口",
+        "保存"
+      ],
+      "rules": [
+        "最多5张；页面提示尺寸1920×1080像素，分辨率96",
+        "页面参数adtype=3"
+      ],
+      "gaps": [
+        "未选择文件或上传；格式白名单、裁剪、轮播间隔及删除方式未操作验证"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/advert/storeclientads?adtype=3",
+      "evidence": "中间文件/云盒广告.txt",
+      "controls": [],
+      "relatedForms": [],
+      "uiQueryParams": {
+        "adtype": "3"
+      }
+    },
+    {
+      "id": "P51",
+      "module": "广告",
+      "group": "广告中心",
+      "name": "订单页广告",
+      "url": "https://youfan.iyint.com/depot/advert/OrderPageAds.aspx",
+      "purpose": "配置打印订单页正反面的广告图片。",
+      "filters": [],
+      "columns": [],
+      "fields": [
+        "开启订单页广告开关",
+        "正面广告图",
+        "反面广告图"
+      ],
+      "actions": [
+        "选择文件入口",
+        "保存"
+      ],
+      "rules": [
+        "图片大小不能超过1M；分辨率96"
+      ],
+      "gaps": [
+        "页面未明确显示统一宽高；需确认与横/竖订单页风格的关系"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/advert/OrderPageAds",
+      "evidence": "中间文件/订单页广告.txt",
+      "controls": [
+        {
+          "label": "是否开启订单页广告：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl00",
+          "options": []
+        }
+      ],
+      "relatedForms": [],
+      "uiQueryParams": {}
+    },
+    {
+      "id": "P52",
+      "module": "广告",
+      "group": "广告中心",
+      "name": "电脑桌面广告",
+      "url": "https://youfan.iyint.com/depot/advert/storeclientads.aspx?adtype=4",
+      "purpose": "配置对应终端或小程序图片素材。",
+      "filters": [],
+      "columns": [],
+      "fields": [
+        "广告图片集合"
+      ],
+      "actions": [
+        "选择文件入口",
+        "保存"
+      ],
+      "rules": [
+        "最多1张；页面提示尺寸1920×1080像素，分辨率96",
+        "页面参数adtype=4"
+      ],
+      "gaps": [
+        "未选择文件或上传；格式白名单、裁剪、轮播间隔及删除方式未操作验证"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/advert/storeclientads?adtype=4",
+      "evidence": "中间文件/电脑桌面广告.txt",
+      "controls": [],
+      "relatedForms": [],
+      "uiQueryParams": {
+        "adtype": "4"
+      }
+    },
+    {
+      "id": "P53",
+      "module": "广告",
+      "group": "广告中心",
+      "name": "小程序分享图",
+      "url": "https://youfan.iyint.com/depot/advert/storeclientads.aspx?adtype=11",
+      "purpose": "配置对应终端或小程序图片素材。",
+      "filters": [],
+      "columns": [],
+      "fields": [
+        "广告图片集合"
+      ],
+      "actions": [
+        "选择文件入口",
+        "保存"
+      ],
+      "rules": [
+        "最多1张；页面提示尺寸627×486像素，分辨率96",
+        "页面参数adtype=11"
+      ],
+      "gaps": [
+        "未选择文件或上传；格式白名单、裁剪、轮播间隔及删除方式未操作验证"
+      ],
+      "status": "页面已查看",
+      "observedUrl": "https://youfan.iyint.com/depot/advert/storeclientads?adtype=11",
+      "evidence": "中间文件/小程序分享图.txt",
+      "controls": [],
+      "relatedForms": [],
+      "uiQueryParams": {
+        "adtype": "11"
+      }
+    }
+  ],
+  "forms": [
+    {
+      "name": "员工-权限表单",
+      "parent": "员工管理",
+      "fields": [
+        "姓名：必填",
+        "年龄：岁",
+        "手机号：必填",
+        "密码：不修改留空",
+        "确认密码",
+        "权限：普通员工/财务人员/运营人员/维护人员",
+        "OpenId",
+        "关闭消息接收",
+        "启用手工打印",
+        "扫码免支付",
+        "启用退款操作"
+      ],
+      "rules": [],
+      "gaps": [],
+      "evidence": "中间文件/员工-权限表单.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/Depot/staff/editStaff?callback=SuccessAndCloseReload&managerId=[实例省略]",
+      "controls": [
+        {
+          "label": "姓 名：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtStaffName",
+          "options": []
+        },
+        {
+          "label": "年龄(岁)：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtAge",
+          "options": []
+        },
+        {
+          "label": "手机号：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "密 码：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "确认密码：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "权限：",
+          "controlType": "pop up button",
+          "sourceControlId": "ctl00_contentHolder_ddlRoles",
+          "options": [
+            "普通员工",
+            "财务人员",
+            "运营人员",
+            "维护人员"
+          ]
+        },
+        {
+          "label": "OpenId：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtOpenId",
+          "options": []
+        },
+        {
+          "label": "是否关闭消息接收：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl00",
+          "options": []
+        },
+        {
+          "label": "是否启用手工打印：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl01",
+          "options": []
+        },
+        {
+          "label": "是否扫码免支付：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl02",
+          "options": []
+        },
+        {
+          "label": "是否启用退款操作：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl03",
+          "options": []
+        }
+      ]
+    },
+    {
+      "name": "商品-普通纸售价表单",
+      "parent": "我的商品",
+      "fields": [
+        "商品编号/名称：展示",
+        "门店默认售价",
+        "阶梯纸质",
+        "超过张数（大于）",
+        "阶梯单价（元）",
+        "适用系统：电脑/微信/QQ自助",
+        "阶梯明细集合"
+      ],
+      "rules": [
+        "有阶梯价格时优先按阶梯计价",
+        "阶梯“添加”未点击；保存未点击"
+      ],
+      "gaps": [
+        "“大于”边界与合并计价开关联动必须由接口提供统一报价"
+      ],
+      "evidence": "中间文件/商品-普通纸售价表单.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/Depot/product/AdjustStoreSalePrice?ProductIds=[实例省略]&callback=SuccessAndCloseReload",
+      "controls": [
+        {
+          "label": "标签见页面说明",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl01_txtStoreSalePrice",
+          "options": []
+        },
+        {
+          "label": "纸质：",
+          "controlType": "pop up button",
+          "sourceControlId": "dllPaperType",
+          "options": [
+            "默认"
+          ]
+        },
+        {
+          "label": "超过：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "价格：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "电脑自助",
+          "controlType": "checkbox",
+          "sourceControlId": "chkPrintType_0",
+          "options": []
+        },
+        {
+          "label": "微信自助",
+          "controlType": "checkbox",
+          "sourceControlId": "chkPrintType_1",
+          "options": []
+        },
+        {
+          "label": "QQ自助",
+          "controlType": "checkbox",
+          "sourceControlId": "chkPrintType_2",
+          "options": []
+        }
+      ]
+    },
+    {
+      "name": "商品-其他纸质售价表单",
+      "parent": "我的商品",
+      "fields": [
+        "纸质类型",
+        "价格（元）",
+        "纸质价格集合"
+      ],
+      "rules": [
+        "支持如80g、120g等自定义纸质；添加、保存均未执行"
+      ],
+      "gaps": [],
+      "evidence": "中间文件/商品-其他纸质售价表单.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/Depot/product/AdjustOtherSalcePrice?ProductIds=[实例省略]&callback=SuccessAndCloseReload",
+      "controls": [
+        {
+          "label": "纸质类型：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "价格：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        }
+      ]
+    },
+    {
+      "name": "装订-空白表单",
+      "parent": "装订设置",
+      "fields": [
+        "类型名称：必填，提示不超过20字符",
+        "商品类别：文档打印/照片打印",
+        "价格：必填，元",
+        "备注"
+      ],
+      "rules": [],
+      "gaps": [],
+      "evidence": "中间文件/装订-空白表单.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/Depot/product/AddBindingType?action=add&callback=SuccessAndCloseReload",
+      "controls": [
+        {
+          "label": "类型名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "商品类别：",
+          "controlType": "pop up button",
+          "sourceControlId": "ctl00_contentHolder_categoriSel",
+          "options": [
+            "文档打印",
+            "照片打印"
+          ]
+        },
+        {
+          "label": "价 格：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "备 注：",
+          "controlType": "text entry area",
+          "sourceControlId": null,
+          "options": []
+        }
+      ]
+    },
+    {
+      "name": "特殊计价-空白表单",
+      "parent": "图片、准考证等",
+      "fields": [
+        "开启计价开关",
+        "常用类型快捷规则",
+        "类型名称：必填",
+        "文件名匹配规则：必填，多行",
+        "匹配商品：多选",
+        "计价价格（每张）：元"
+      ],
+      "rules": [
+        "快捷类型包含图片、CAD、准考证、试卷翻新、A4小册子、A3小册子；未点击生成规则"
+      ],
+      "gaps": [],
+      "evidence": "中间文件/特殊计价-空白表单.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/Depot/specialCharges/zhunkaozheng?action=add&callback=SuccessAndCloseReload",
+      "controls": [
+        {
+          "label": "是否开启计价：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl00",
+          "options": []
+        },
+        {
+          "label": "* 类型名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "* 文件名匹配规则：",
+          "controlType": "text entry area",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "黑白A4单面打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl01",
+          "options": []
+        },
+        {
+          "label": "黑白A4双面打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl02",
+          "options": []
+        },
+        {
+          "label": "彩色A4单面打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl03",
+          "options": []
+        },
+        {
+          "label": "彩色A4双面打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl04",
+          "options": []
+        },
+        {
+          "label": "黑白A3单面打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl05",
+          "options": []
+        },
+        {
+          "label": "黑白A3双面打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl06",
+          "options": []
+        },
+        {
+          "label": "彩色A3单面打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl07",
+          "options": []
+        },
+        {
+          "label": "彩色A3双面打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl08",
+          "options": []
+        },
+        {
+          "label": "彩色6寸照片打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl09",
+          "options": []
+        },
+        {
+          "label": "智能证件照打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl10",
+          "options": []
+        },
+        {
+          "label": "身份证黑白A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl11",
+          "options": []
+        },
+        {
+          "label": "身份证彩色A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl12",
+          "options": []
+        },
+        {
+          "label": "文件黑白A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl13",
+          "options": []
+        },
+        {
+          "label": "文件黑白A4双面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl14",
+          "options": []
+        },
+        {
+          "label": "文件彩色A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl15",
+          "options": []
+        },
+        {
+          "label": "文件彩色A4双面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl16",
+          "options": []
+        },
+        {
+          "label": "户口本黑白A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl17",
+          "options": []
+        },
+        {
+          "label": "户口本彩色A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl18",
+          "options": []
+        },
+        {
+          "label": "营业执照黑白A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl19",
+          "options": []
+        },
+        {
+          "label": "营业执照彩色A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl20",
+          "options": []
+        },
+        {
+          "label": "驾驶证或行驶证黑白A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl21",
+          "options": []
+        },
+        {
+          "label": "驾驶证或行驶证彩色A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl22",
+          "options": []
+        },
+        {
+          "label": "身份证+户口本黑白A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl23",
+          "options": []
+        },
+        {
+          "label": "身份证+户口本彩色A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl24",
+          "options": []
+        },
+        {
+          "label": "文件黑白A3单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl25",
+          "options": []
+        },
+        {
+          "label": "文件黑白A3双面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl26",
+          "options": []
+        },
+        {
+          "label": "文件彩色A3单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl27",
+          "options": []
+        },
+        {
+          "label": "文件彩色A3双面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl28",
+          "options": []
+        },
+        {
+          "label": "普通证件照排版打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl29",
+          "options": []
+        },
+        {
+          "label": "户口本黑白A4双面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl30",
+          "options": []
+        },
+        {
+          "label": "A4空白纸打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl31",
+          "options": []
+        },
+        {
+          "label": "身份证+银行卡黑白A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl32",
+          "options": []
+        },
+        {
+          "label": "身份证+银行卡彩色A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl33",
+          "options": []
+        },
+        {
+          "label": "* 计价价格(每张)：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        }
+      ]
+    },
+    {
+      "name": "配送范围-空白表单",
+      "parent": "远程配送设置",
+      "fields": [
+        "配送区域：省/市/区县/街道",
+        "配送地址",
+        "代号"
+      ],
+      "rules": [],
+      "gaps": [],
+      "evidence": "中间文件/配送范围-空白表单.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/Depot/Distribution/SetRegionScop?scopeId=0&callback=SuccessAndCloseReload",
+      "controls": [
+        {
+          "label": "配送地址：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "代号：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        }
+      ]
+    },
+    {
+      "name": "证件照间距-空白表单",
+      "parent": "门店设置",
+      "fields": [
+        "排版尺寸：1寸/2寸/3寸/小1寸/大1寸/小2寸/大2寸/4寸",
+        "排版间距：毫米"
+      ],
+      "rules": [
+        "原页面提示1寸排8张可设5毫米"
+      ],
+      "gaps": [],
+      "evidence": "中间文件/证件照间距-空白表单.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/Depot/SetIdPhotoSpacing?scopeId=&spacing=0&callback=SuccessAndCloseReload",
+      "controls": [
+        {
+          "label": "证件照排版尺寸：",
+          "controlType": "pop up button",
+          "sourceControlId": "ddlIdPhotoSize",
+          "options": [
+            "1寸",
+            "2寸",
+            "3寸",
+            "小1寸",
+            "大1寸",
+            "小2寸",
+            "大2寸",
+            "4寸"
+          ]
+        },
+        {
+          "label": "证件照排版间距：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtIdPhotoSpacing",
+          "options": []
+        }
+      ]
+    },
+    {
+      "name": "文库上传-第二步表单",
+      "parent": "上传文件",
+      "fields": [
+        "所属分类路径",
+        "编辑分类入口",
+        "水印图片",
+        "权限：全网用户/仅本店用户/仅本店员工",
+        "多文件选择",
+        "队列：文件名/大小/上传进度/操作"
+      ],
+      "rules": [
+        "一次最多10文件、单文件不超过50M；未选文件或执行上传"
+      ],
+      "gaps": [],
+      "evidence": "中间文件/文库上传-第二步表单.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/depot/library/LibraryFileServer?categoryId=3",
+      "controls": [
+        {
+          "label": "权限：",
+          "controlType": "pop up button",
+          "sourceControlId": "PermissionList",
+          "options": [
+            "全网用户公开",
+            "仅限本店用户公开",
+            "仅限本店员工公开"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "文库文件-设置表单",
+      "parent": "文库列表",
+      "fields": [
+        "文件名称",
+        "限制预览页数",
+        "打印量",
+        "浏览量",
+        "下载量",
+        "权限",
+        "默认打印机",
+        "默认打印规格",
+        "价格"
+      ],
+      "rules": [
+        "预览页数0表示不限制"
+      ],
+      "gaps": [
+        "可编辑展示计数仅是表单事实；未修改计数；字段是否可用于运营填充待确认"
+      ],
+      "evidence": "中间文件/文库文件-设置表单.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/Depot/library/setLibraryData",
+      "controls": [
+        {
+          "label": "文件名称：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtFileName",
+          "options": []
+        },
+        {
+          "label": "限制预览几页：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtLimitPage",
+          "options": []
+        },
+        {
+          "label": "打印量：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtPrintCount",
+          "options": []
+        },
+        {
+          "label": "浏览量：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtBrowseCount",
+          "options": []
+        },
+        {
+          "label": "下载量：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtDownloadCount",
+          "options": []
+        },
+        {
+          "label": "权限：",
+          "controlType": "pop up button",
+          "sourceControlId": "LibraryFilePermissionDropDownList1",
+          "options": [
+            "全部",
+            "全网用户公开",
+            "仅限本店用户公开",
+            "仅限本店员工公开"
+          ]
+        },
+        {
+          "label": "默认打印机：",
+          "controlType": "pop up button",
+          "sourceControlId": "ctl00_contentHolder_printers",
+          "options": [
+            "无",
+            "PC-20250929ZFKC|4号机",
+            "PC-20250929ZFKC|3号机",
+            "PC-20250929ZFKC|2号机",
+            "PC-20250929ZFKC|0号机",
+            "PC-20250929ZFKC|5号机。",
+            "PC-20250929ZFKC|Mi Wireless Photo Printer 1S [3706] - Wi-Fi",
+            "PC-20250929ZFKC|Mi Wireless Photo Printer 1S [7784] - Wi-Fi",
+            "PC-20250929ZFKC|Mi Wireless Photo Printer 1S [2705]"
+          ]
+        },
+        {
+          "label": "默认打印规格：",
+          "controlType": "pop up button",
+          "sourceControlId": "ctl00_contentHolder_products",
+          "options": [
+            "无"
+          ]
+        },
+        {
+          "label": "价格：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtBuyPrice",
+          "options": []
+        }
+      ]
+    },
+    {
+      "name": "自定义分类-空白表单",
+      "parent": "自定义分类",
+      "fields": [
+        "分类名称：必填"
+      ],
+      "rules": [
+        "确定、保存并继续添加两种提交入口均未触发"
+      ],
+      "gaps": [],
+      "evidence": "中间文件/自定义分类-空白表单.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/depot/library/AddLibraryCategory",
+      "controls": [
+        {
+          "label": "* 分类名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        }
+      ]
+    },
+    {
+      "name": "满额优惠-空白表单",
+      "parent": "满额优惠",
+      "fields": [
+        "满足金额：必填",
+        "立减金额：必填",
+        "活动名称：必填",
+        "开始日期：必填",
+        "结束日期：必填",
+        "适合客户：会员等级多选",
+        "适合系统：电脑/微信/QQ自助多选",
+        "详细信息：富文本"
+      ],
+      "rules": [],
+      "gaps": [],
+      "evidence": "中间文件/满额优惠-空白表单.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/depot/promotion/AddOrderPromotion",
+      "controls": [
+        {
+          "label": "满足金额：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "立减金额：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "* 促销活动名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "* 开始日期：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "* 结束日期：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "普通会员",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_promotionView_chklMemberGrade_0",
+          "options": []
+        },
+        {
+          "label": "高级会员",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_promotionView_chklMemberGrade_1",
+          "options": []
+        },
+        {
+          "label": "VIP会员",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_promotionView_chklMemberGrade_2",
+          "options": []
+        },
+        {
+          "label": "电脑自助",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_promotionView_chkPrintType_0",
+          "options": []
+        },
+        {
+          "label": "微信自助",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_promotionView_chkPrintType_1",
+          "options": []
+        },
+        {
+          "label": "QQ自助",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_promotionView_chkPrintType_2",
+          "options": []
+        }
+      ]
+    },
+    {
+      "name": "免费打印-空白表单",
+      "parent": "免费打印",
+      "fields": [
+        "开启活动开关",
+        "活动名称：必填",
+        "匹配商品类型：文档/照片/证件照/扫描复印/其它，单选",
+        "每日免费额度：元",
+        "活动时间起止",
+        "适合系统：电脑/微信/QQ多选",
+        "只针对新用户开关",
+        "详细信息：多行"
+      ],
+      "rules": [],
+      "gaps": [],
+      "evidence": "中间文件/免费打印-空白表单.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/depot/promotion/AddFreePrint",
+      "controls": [
+        {
+          "label": "是否开启活动：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl00",
+          "options": []
+        },
+        {
+          "label": "* 活动名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "文档打印",
+          "controlType": "radio button",
+          "sourceControlId": "rdoCategory_0",
+          "options": []
+        },
+        {
+          "label": "照片冲洗",
+          "controlType": "radio button",
+          "sourceControlId": "rdoCategory_1",
+          "options": []
+        },
+        {
+          "label": "证件照冲印",
+          "controlType": "radio button",
+          "sourceControlId": "rdoCategory_2",
+          "options": []
+        },
+        {
+          "label": "扫描复印",
+          "controlType": "radio button",
+          "sourceControlId": "rdoCategory_3",
+          "options": []
+        },
+        {
+          "label": "其它打印",
+          "controlType": "radio button",
+          "sourceControlId": "rdoCategory_4",
+          "options": []
+        },
+        {
+          "label": "* 每日免费额度：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "* 活动时间：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "* 活动时间：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "电脑自助",
+          "controlType": "checkbox",
+          "sourceControlId": "chkPrintType_0",
+          "options": []
+        },
+        {
+          "label": "微信自助",
+          "controlType": "checkbox",
+          "sourceControlId": "chkPrintType_1",
+          "options": []
+        },
+        {
+          "label": "QQ自助",
+          "controlType": "checkbox",
+          "sourceControlId": "chkPrintType_2",
+          "options": []
+        },
+        {
+          "label": "是否只针对新用户：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl01",
+          "options": []
+        },
+        {
+          "label": "活动详细信息：",
+          "controlType": "text entry area",
+          "sourceControlId": null,
+          "options": []
+        }
+      ]
+    },
+    {
+      "name": "分账账户-空白表单",
+      "parent": "分账列表",
+      "fields": [
+        "姓名：必填",
+        "分账比例：百分比",
+        "收款编号：必填",
+        "联系电话：必填",
+        "微信OpenId：必填",
+        "获取OpenId二维码",
+        "备注"
+      ],
+      "rules": [
+        "OpenId用于提现成功通知；未扫码绑定"
+      ],
+      "gaps": [],
+      "evidence": "中间文件/分账账户-空白表单.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/depot/Balance/LklAddSplitAccount",
+      "controls": [
+        {
+          "label": "* 姓名：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "分账比例：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "* 收款编号：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "* 联系电话：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "* 微信OpenId：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "备注：",
+          "controlType": "text entry area",
+          "sourceControlId": null,
+          "options": []
+        }
+      ]
+    },
+    {
+      "name": "提现申请-只读",
+      "parent": "提现管理",
+      "fields": [
+        "用户名：展示",
+        "可提现余额：展示",
+        "提现金额：必填",
+        "提现方式：银行卡转账",
+        "备注"
+      ],
+      "rules": [
+        "当前页面提示每次最少2元；未填写金额，未点击下一步"
+      ],
+      "gaps": [
+        "后续收款账户、确认页及实际到账规则未查看"
+      ],
+      "evidence": "中间文件/提现申请-只读.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/depot/Balance/RequestBalanceDraw",
+      "controls": [
+        {
+          "label": "* 提现金额：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "银行卡转账",
+          "controlType": "radio button",
+          "sourceControlId": "ctl00_contentHolder_IsDefault",
+          "options": []
+        },
+        {
+          "label": "备注：",
+          "controlType": "text entry area",
+          "sourceControlId": null,
+          "options": []
+        }
+      ]
+    },
+    {
+      "name": "终端-配置表单",
+      "parent": "打印终端",
+      "fields": [
+        "终端名称：不超过50字符",
+        "营业时间：起止时分",
+        "地址",
+        "公告",
+        "列表式计价风格",
+        "手机自助打印",
+        "终端开关"
+      ],
+      "rules": [],
+      "gaps": [],
+      "evidence": "中间文件/终端-配置表单.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/Depot/print/SetAutoAddPrint?sn=[实例省略]&callback=SuccessAndCloseReload",
+      "controls": [
+        {
+          "label": "终端名称：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtClientName",
+          "options": []
+        },
+        {
+          "label": "营业时间：",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtStoreOpenTimeStartH",
+          "options": []
+        },
+        {
+          "label": ":",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtStoreOpenTimeStartM",
+          "options": []
+        },
+        {
+          "label": ":",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtStoreOpenTimeEndH",
+          "options": []
+        },
+        {
+          "label": ":",
+          "controlType": "text field",
+          "sourceControlId": "ctl00_contentHolder_txtStoreOpenTimeEndM",
+          "options": []
+        },
+        {
+          "label": ":",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "公告：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "列表式计价风格：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl00",
+          "options": []
+        },
+        {
+          "label": "手机自助打印：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl01",
+          "options": []
+        },
+        {
+          "label": "终端开关：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl02",
+          "options": []
+        }
+      ]
+    },
+    {
+      "name": "终端-打印拦截选择表单",
+      "parent": "打印终端",
+      "fields": [
+        "打印机集合：多选",
+        "全选/反选"
+      ],
+      "rules": [
+        "勾选表示拦截并弹出付费窗口；不勾选不弹出；本次未更改任何选择"
+      ],
+      "gaps": [],
+      "evidence": "中间文件/终端-打印拦截选择表单.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/Depot/print/SetMonitorPrinter?machineName=[实例省略]&callback=SuccessAndCloseReload",
+      "controls": [
+        {
+          "label": "标签见页面说明",
+          "controlType": "checkbox",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "4号机",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl01_chkMonitor",
+          "options": []
+        },
+        {
+          "label": "3号机",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl02_chkMonitor",
+          "options": []
+        },
+        {
+          "label": "2号机",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl03_chkMonitor",
+          "options": []
+        },
+        {
+          "label": "0号机",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl04_chkMonitor",
+          "options": []
+        },
+        {
+          "label": "1号机",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl05_chkMonitor",
+          "options": []
+        },
+        {
+          "label": "6号机",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl06_chkMonitor",
+          "options": []
+        },
+        {
+          "label": "5号机。",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl07_chkMonitor",
+          "options": []
+        },
+        {
+          "label": "5号机",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl08_chkMonitor",
+          "options": []
+        },
+        {
+          "label": "小黑6178",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl09_chkMonitor",
+          "options": []
+        },
+        {
+          "label": "RICOH IM C3000 [5838793A1163]",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl10_chkMonitor",
+          "options": []
+        },
+        {
+          "label": "Mi Wireless Photo Printer 1S [3706] - Wi-Fi",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl11_chkMonitor",
+          "options": []
+        },
+        {
+          "label": "Mi Wireless Photo Printer 1S [7784]",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl12_chkMonitor",
+          "options": []
+        },
+        {
+          "label": "Mi Wireless Photo Printer 1S [7784] - Wi-Fi",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl13_chkMonitor",
+          "options": []
+        },
+        {
+          "label": "小白4168",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl14_chkMonitor",
+          "options": []
+        },
+        {
+          "label": "\\\\Windows-2024VOW\\10号机",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl15_chkMonitor",
+          "options": []
+        },
+        {
+          "label": "Mi Wireless Photo Printer 1S [2705]",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl16_chkMonitor",
+          "options": []
+        }
+      ]
+    },
+    {
+      "name": "打印机-首选项表单",
+      "parent": "打印机",
+      "fields": [
+        "默认打印机开关",
+        "手机自助打印开关",
+        "颜色类型：自动/黑白/彩色",
+        "有边距打印",
+        "高质量打印",
+        "多合一打印",
+        "指定页打印",
+        "单双混合打印",
+        "页面布局",
+        "合并打印机",
+        "故障机",
+        "打印场景：现场/远程预约"
+      ],
+      "rules": [
+        "页面布局说明为小册子支持；故障机开启表示暂不可用",
+        "合并打印机用于黑白彩色合并选择；未切换开关"
+      ],
+      "gaps": [],
+      "evidence": "中间文件/打印机-首选项表单.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/Depot/print/SetPrintColor?printerId=[实例省略]&callback=SuccessAndCloseReload",
+      "controls": [
+        {
+          "label": "默认打印机：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl00",
+          "options": []
+        },
+        {
+          "label": "手机自助打印：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl01",
+          "options": []
+        },
+        {
+          "label": "自动",
+          "controlType": "radio button",
+          "sourceControlId": "ctl00_contentHolder_radColorModel_0",
+          "options": []
+        },
+        {
+          "label": "黑白",
+          "controlType": "radio button",
+          "sourceControlId": "ctl00_contentHolder_radColorModel_1",
+          "options": []
+        },
+        {
+          "label": "彩色",
+          "controlType": "radio button",
+          "sourceControlId": "ctl00_contentHolder_radColorModel_2",
+          "options": []
+        },
+        {
+          "label": "有边距打印：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl02",
+          "options": []
+        },
+        {
+          "label": "高质量打印：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl03",
+          "options": []
+        },
+        {
+          "label": "多合一打印：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl04",
+          "options": []
+        },
+        {
+          "label": "指定页打印：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl05",
+          "options": []
+        },
+        {
+          "label": "单双混合打印：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl06",
+          "options": []
+        },
+        {
+          "label": "页面布局：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl07",
+          "options": []
+        },
+        {
+          "label": "合并打印机：",
+          "controlType": "pop up button",
+          "sourceControlId": "printers",
+          "options": [
+            "无"
+          ]
+        },
+        {
+          "label": "故障机：",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_ctl08",
+          "options": []
+        },
+        {
+          "label": "现场打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_chkPrintScene0",
+          "options": []
+        },
+        {
+          "label": "远程预约",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_chkPrintScene1",
+          "options": []
+        }
+      ]
+    },
+    {
+      "name": "打印机-纸盒表单",
+      "parent": "打印机",
+      "fields": [
+        "纸张规格：A1/A2/A3/A4/A5/B4/B5/16K/8K",
+        "纸质类型",
+        "纸盒",
+        "纸张-纸质-纸盒映射集合"
+      ],
+      "rules": [
+        "自定义纸质需先在我的商品设置价格；未添加映射"
+      ],
+      "gaps": [],
+      "evidence": "中间文件/打印机-纸盒表单.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/Depot/print/setSourceName?printerId=[实例省略]&callback=SuccessAndCloseReload",
+      "controls": [
+        {
+          "label": "纸张规格：",
+          "controlType": "pop up button",
+          "sourceControlId": "ddlPaperKind",
+          "options": [
+            "A1",
+            "A2",
+            "A3",
+            "A4",
+            "A5",
+            "B4",
+            "B5",
+            "16K",
+            "8K"
+          ]
+        },
+        {
+          "label": "纸质类型：",
+          "controlType": "pop up button",
+          "sourceControlId": "dllPaperType",
+          "options": [
+            "普通纸",
+            "80gA4"
+          ]
+        },
+        {
+          "label": "纸盒：",
+          "controlType": "pop up button",
+          "sourceControlId": "dllSourceName",
+          "options": [
+            "默认"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "打印机-手机自助配置表单",
+      "parent": "打印机",
+      "fields": [
+        "设置额外增收开关",
+        "商品类别标签",
+        "可打印商品规格集合：多选",
+        "默认打印规格：单选"
+      ],
+      "rules": [
+        "页面说明有阶梯计价时优先按额外增收计价；此优先关系需与统一报价接口确认"
+      ],
+      "gaps": [
+        "额外增收关闭状态下隐藏的金额字段未通过启用开关探测"
+      ],
+      "evidence": "中间文件/打印机-手机自助配置表单.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/Depot/print/SetSupportProduct?printerId=[实例省略]&sn=[实例省略]&clientId=[实例省略]&callback=SuccessAndCloseReload",
+      "controls": [
+        {
+          "label": "设置额外增收",
+          "controlType": "checkbox",
+          "sourceControlId": "chkOtherPrice",
+          "options": []
+        },
+        {
+          "label": "黑白A4单面打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl01_chkProduct",
+          "options": []
+        },
+        {
+          "label": "默认打印",
+          "controlType": "radio button",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl01_rdDefault",
+          "options": []
+        },
+        {
+          "label": "黑白A4双面打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl02_chkProduct",
+          "options": []
+        },
+        {
+          "label": "默认打印",
+          "controlType": "radio button",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl02_rdDefault",
+          "options": []
+        },
+        {
+          "label": "彩色A4单面打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl03_chkProduct",
+          "options": []
+        },
+        {
+          "label": "默认打印",
+          "controlType": "radio button",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl03_rdDefault",
+          "options": []
+        },
+        {
+          "label": "彩色A4双面打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl04_chkProduct",
+          "options": []
+        },
+        {
+          "label": "默认打印",
+          "controlType": "radio button",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl04_rdDefault",
+          "options": []
+        },
+        {
+          "label": "黑白A3单面打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl05_chkProduct",
+          "options": []
+        },
+        {
+          "label": "默认打印",
+          "controlType": "radio button",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl05_rdDefault",
+          "options": []
+        },
+        {
+          "label": "黑白A3双面打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl06_chkProduct",
+          "options": []
+        },
+        {
+          "label": "默认打印",
+          "controlType": "radio button",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl06_rdDefault",
+          "options": []
+        },
+        {
+          "label": "彩色A3单面打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl07_chkProduct",
+          "options": []
+        },
+        {
+          "label": "默认打印",
+          "controlType": "radio button",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl07_rdDefault",
+          "options": []
+        },
+        {
+          "label": "彩色A3双面打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl08_chkProduct",
+          "options": []
+        },
+        {
+          "label": "默认打印",
+          "controlType": "radio button",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl08_rdDefault",
+          "options": []
+        },
+        {
+          "label": "彩色6寸照片打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl09_chkProduct",
+          "options": []
+        },
+        {
+          "label": "默认打印",
+          "controlType": "radio button",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl09_rdDefault",
+          "options": []
+        },
+        {
+          "label": "智能证件照打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl10_chkProduct",
+          "options": []
+        },
+        {
+          "label": "身份证黑白A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl11_chkProduct",
+          "options": []
+        },
+        {
+          "label": "身份证彩色A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl12_chkProduct",
+          "options": []
+        },
+        {
+          "label": "文件黑白A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl13_chkProduct",
+          "options": []
+        },
+        {
+          "label": "文件黑白A4双面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl14_chkProduct",
+          "options": []
+        },
+        {
+          "label": "文件彩色A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl15_chkProduct",
+          "options": []
+        },
+        {
+          "label": "文件彩色A4双面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl16_chkProduct",
+          "options": []
+        },
+        {
+          "label": "户口本黑白A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl17_chkProduct",
+          "options": []
+        },
+        {
+          "label": "户口本彩色A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl18_chkProduct",
+          "options": []
+        },
+        {
+          "label": "营业执照黑白A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl19_chkProduct",
+          "options": []
+        },
+        {
+          "label": "营业执照彩色A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl20_chkProduct",
+          "options": []
+        },
+        {
+          "label": "驾驶证或行驶证黑白A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl21_chkProduct",
+          "options": []
+        },
+        {
+          "label": "驾驶证或行驶证彩色A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl22_chkProduct",
+          "options": []
+        },
+        {
+          "label": "身份证+户口本黑白A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl23_chkProduct",
+          "options": []
+        },
+        {
+          "label": "身份证+户口本彩色A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl24_chkProduct",
+          "options": []
+        },
+        {
+          "label": "文件黑白A3单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl25_chkProduct",
+          "options": []
+        },
+        {
+          "label": "文件黑白A3双面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl26_chkProduct",
+          "options": []
+        },
+        {
+          "label": "文件彩色A3单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl27_chkProduct",
+          "options": []
+        },
+        {
+          "label": "文件彩色A3双面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl28_chkProduct",
+          "options": []
+        },
+        {
+          "label": "普通证件照排版打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl29_chkProduct",
+          "options": []
+        },
+        {
+          "label": "户口本黑白A4双面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl30_chkProduct",
+          "options": []
+        },
+        {
+          "label": "A4空白纸打印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl31_chkProduct",
+          "options": []
+        },
+        {
+          "label": "身份证+银行卡黑白A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl32_chkProduct",
+          "options": []
+        },
+        {
+          "label": "身份证+银行卡彩色A4单面复印",
+          "controlType": "checkbox",
+          "sourceControlId": "ctl00_contentHolder_grdSelectedProducts_ctl33_chkProduct",
+          "options": []
+        }
+      ]
+    },
+    {
+      "name": "用户-资料表单",
+      "parent": "用户列表 / 会员卡管理",
+      "fields": [
+        "会员名：展示",
+        "会员等级：必填，动态等级字典",
+        "姓名",
+        "手机号",
+        "生日",
+        "性别：保密/男性/女性",
+        "邮箱",
+        "所在区域：级联",
+        "详细地址",
+        "QQ",
+        "昵称",
+        "微信OpenId",
+        "重新获取OpenId入口",
+        "StoreOpenId",
+        "注册日期：展示"
+      ],
+      "rules": [
+        "用户列表和会员卡编辑入口均进入EditMember模板；未保存、未重新获取OpenId"
+      ],
+      "gaps": [],
+      "evidence": "中间文件/用户-资料表单.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/depot/member/EditMember?userId=[实例省略]",
+      "controls": [
+        {
+          "label": "会员等级：",
+          "controlType": "pop up button",
+          "sourceControlId": "ctl00_ctl00_contentHolder_MemberContentHolder_drpMemberRankList",
+          "options": [
+            "普通会员",
+            "高级会员",
+            "VIP会员"
+          ]
+        },
+        {
+          "label": "姓名：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "手机号码：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "生日：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "保密",
+          "controlType": "radio button",
+          "sourceControlId": "ctl00_ctl00_contentHolder_MemberContentHolder_gender_0",
+          "options": []
+        },
+        {
+          "label": "男性",
+          "controlType": "radio button",
+          "sourceControlId": "ctl00_ctl00_contentHolder_MemberContentHolder_gender_1",
+          "options": []
+        },
+        {
+          "label": "女性",
+          "controlType": "radio button",
+          "sourceControlId": "ctl00_ctl00_contentHolder_MemberContentHolder_gender_2",
+          "options": []
+        },
+        {
+          "label": "电子邮件地址：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "详细地址：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "QQ：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "昵称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "微信OpenId：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "StoreOpenId：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        }
+      ]
+    },
+    {
+      "name": "黑白名单-空白表单",
+      "parent": "黑白名单用户",
+      "fields": [
+        "账号名：必填",
+        "限制期限：1–12个月/永久",
+        "原因：必填，多行"
+      ],
+      "rules": [
+        "页面只解释黑名单禁止下单；白名单业务含义未确认"
+      ],
+      "gaps": [],
+      "evidence": "中间文件/黑白名单-空白表单.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/depot/member/AddUserBlacklist",
+      "controls": [
+        {
+          "label": "* 账号名：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "* 限制期限：",
+          "controlType": "pop up button",
+          "sourceControlId": "ctl00_contentHolder_UserBlacklistDropDownList1",
+          "options": [
+            "1个月",
+            "2个月",
+            "3个月",
+            "4个月",
+            "5个月",
+            "6个月",
+            "7个月",
+            "8个月",
+            "9个月",
+            "10个月",
+            "11个月",
+            "12个月",
+            "永久"
+          ]
+        },
+        {
+          "label": "* 原因：",
+          "controlType": "text entry area",
+          "sourceControlId": null,
+          "options": []
+        }
+      ]
+    },
+    {
+      "name": "会员等级-空白表单",
+      "parent": "会员等级",
+      "fields": [
+        "等级名称：必填",
+        "等级价格比例：百分比，必填",
+        "有效期：1–48个月/终身",
+        "会员费：必填",
+        "备注"
+      ],
+      "rules": [
+        "等级列表说明100为无折扣、0不可用"
+      ],
+      "gaps": [],
+      "evidence": "中间文件/会员等级-空白表单.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/depot/member/addmembergrade",
+      "controls": [
+        {
+          "label": "* 会员等级名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "* 会员等级名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "* 有效期：",
+          "controlType": "pop up button",
+          "sourceControlId": "ctl00_ctl00_contentHolder_MemberContentHolder_MemberExpiryDateDropDownList1",
+          "options": [
+            "1个月",
+            "2个月",
+            "3个月",
+            "4个月",
+            "5个月",
+            "6个月",
+            "7个月",
+            "8个月",
+            "9个月",
+            "10个月",
+            "11个月",
+            "12个月",
+            "13个月",
+            "14个月",
+            "15个月",
+            "16个月",
+            "17个月",
+            "18个月",
+            "19个月",
+            "20个月",
+            "21个月",
+            "22个月",
+            "23个月",
+            "24个月",
+            "25个月",
+            "26个月",
+            "27个月",
+            "28个月",
+            "29个月",
+            "30个月",
+            "31个月",
+            "32个月",
+            "33个月",
+            "34个月",
+            "35个月",
+            "36个月",
+            "37个月",
+            "38个月",
+            "39个月",
+            "40个月",
+            "41个月",
+            "42个月",
+            "43个月",
+            "44个月",
+            "45个月",
+            "46个月",
+            "47个月",
+            "48个月",
+            "终身"
+          ]
+        },
+        {
+          "label": "* 会员费：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "备注：",
+          "controlType": "text entry area",
+          "sourceControlId": null,
+          "options": []
+        }
+      ]
+    },
+    {
+      "name": "打印券-空白表单",
+      "parent": "打印券管理",
+      "fields": [
+        "打印券名称：必填",
+        "面值：必填",
+        "发放总量：必填",
+        "每人限领：不限/1/2/3/4/5/10张",
+        "领取期限：起止日期"
+      ],
+      "rules": [
+        "未生成任何激活码"
+      ],
+      "gaps": [
+        "列表写“有效期”，添加表单写“领取期限”；激活后使用期限是否另有字段待确认"
+      ],
+      "evidence": "中间文件/打印券-空白表单.txt",
+      "status": "表单已查看，未填写或提交",
+      "observedUrl": "https://youfan.iyint.com/depot/member/AddPrintCoupon",
+      "controls": [
+        {
+          "label": "* 打印券名称：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "* 面值：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "* 发放总量：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "* 每人限领：",
+          "controlType": "pop up button",
+          "sourceControlId": "ctl00_contentHolder_ddlUserLimitCount",
+          "options": [
+            "不限张",
+            "1张",
+            "2张",
+            "3张",
+            "4张",
+            "5张",
+            "10张"
+          ]
+        },
+        {
+          "label": "* 领取期限：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        },
+        {
+          "label": "* 领取期限：",
+          "controlType": "text field",
+          "sourceControlId": null,
+          "options": []
+        }
+      ]
+    }
+  ],
+  "gaps": [
+    {
+      "id": "G01",
+      "topic": "权限覆盖",
+      "finding": "自动提现设置当前权限不足；其他角色、平台总后台和隐藏模块不在本次当前账号范围内。",
+      "next": "测试环境提供有权限角色或界面截图，补齐字段。"
+    },
+    {
+      "id": "G02",
+      "topic": "条件表单",
+      "finding": "VIP配送、充值赠送/享折扣档位、打印机额外增收等关闭状态下的字段未通过切换生产开关探测。",
+      "next": "在测试环境切换并补充字段、单位、范围和联动。"
+    },
+    {
+      "id": "G03",
+      "topic": "红包新增",
+      "finding": "新增入口是服务器PostBack，未点击，未确认是否会先创建记录。",
+      "next": "提供无写入副作用的表单说明或测试环境。"
+    },
+    {
+      "id": "G04",
+      "topic": "实际操作",
+      "finding": "保存、删除、上下架、更新数量、打印、标记已打印、退款、提现、分账添加、加款、文件上传和激活码生成均未执行。",
+      "next": "联调在隔离测试环境完成成功、失败、重复提交与权限验收。"
+    },
+    {
+      "id": "G05",
+      "topic": "订单状态",
+      "finding": "菜单参数和标签已记录；支付、退款、打印、配送的完整状态编码及允许动作矩阵未获取。",
+      "next": "接口给出枚举与状态迁移表，不由前端猜测。"
+    },
+    {
+      "id": "G06",
+      "topic": "金额与优惠",
+      "finding": "单/双面单价单位、阶梯阈值、额外增收优先级、最低消费/红包/会员/免费额度叠加、退款分摊均未执行验证。",
+      "next": "服务端统一报价；提供边界样例及舍入规则。"
+    },
+    {
+      "id": "G07",
+      "topic": "文件与打印",
+      "finding": "上传/转码、预览、水印、PDF打包、下载有效期、真实终端心跳、纸张同步及命令回执未验证。",
+      "next": "定义异步任务状态；使用模拟器后再做实机验证。"
+    },
+    {
+      "id": "G08",
+      "topic": "业务附属页",
+      "finding": "会员加款/明细、用户查看、二维码海报编辑器、部分批量操作弹窗及不同打印机条件分支未穷举。",
+      "next": "按开发阶段在测试环境补齐；禁止用推测字段替代。"
+    },
+    {
+      "id": "G09",
+      "topic": "权限矩阵",
+      "finding": "可见角色为普通员工/财务/运营/维护；未登录其他角色验证菜单和数据权限。",
+      "next": "返回页面权限和动作权限，服务器再次鉴权。"
+    },
+    {
+      "id": "G10",
+      "topic": "接口与视觉",
+      "finding": "本次未读取服务器代码或接口返回；ASPX页面链接不是API契约。图表交互、完整响应式断点和文件校验仍待定义。",
+      "next": "后端提供契约；设计以当前截图为参考，明确是否保持旧版视觉。"
+    }
+  ],
+  "interfaceNeeds": [
+    {
+      "domain": "登录/权限",
+      "needs": "当前用户、门店范围、菜单权限、动作权限、会话到期处理",
+      "boundary": "登录页未查看；沿用本次已登录状态。角色和权限接口为开发需求。"
+    },
+    {
+      "domain": "门店/字典",
+      "needs": "基本资料、配置集合、区域级联、商品/纸质/等级/终端/打印机字典",
+      "boundary": "保存接口需要返回字段错误；敏感密码字段采用只写或明确的留空不改契约。"
+    },
+    {
+      "domain": "统一报价",
+      "needs": "页数、份数、单双面、纸张、纸质、商品、终端、打印场景、会员身份、优惠选择；返回逐项报价、合计及规则解释",
+      "boundary": "不能仅凭页面公式在前端独立结算；公式、阶梯、额外增收存在联动。"
+    },
+    {
+      "domain": "订单查询",
+      "needs": "分页、排序、来源、配送方式、状态、单号、取件码、时间范围、员工标记；订单摘要与文件明细分层返回",
+      "boundary": "前端动作由服务端allowedActions一类能力字段控制；字段名仅为建议。"
+    },
+    {
+      "domain": "打印命令",
+      "needs": "文件任务、打印机、页码、份数、规格；返回任务号与排队/下发/终端接收/打印成功/失败状态",
+      "boundary": "命令提交成功不能当打印成功；重复请求需要幂等标识。"
+    },
+    {
+      "domain": "退款/结算/分账",
+      "needs": "可退金额、退款原因、订单状态、提现校验、收款账户、分账比例、审核状态和结果",
+      "boundary": "金额与结算规则由服务器核算；失败、超时、重复操作均需返回可判读状态。"
+    },
+    {
+      "domain": "文库/素材",
+      "needs": "分类、权限、审核、文件元数据、签名上传与下载、进度、转码、错误、容量、预览与水印",
+      "boundary": "若沿用现网后端，需要确认认证、跨域、CSRF及下载授权；不是本次已确认实现。"
+    },
+    {
+      "domain": "会员/打印券",
+      "needs": "资料、等级、余额流水、充值活动、加款权限、券生成/领取/激活/核销状态",
+      "boundary": "余额变动返回流水；“领取期限”和“使用期限”分别定义。"
+    },
+    {
+      "domain": "统计/导出",
+      "needs": "统计口径、时区、日界线、更新延迟；导出任务ID、进度与下载结果",
+      "boundary": "仅制作展示结构；不迁移或分析本次历史数据。"
+    }
+  ],
+  "developmentAcceptance": [
+    {
+      "stage": "1. 应用骨架",
+      "work": "布局、路由、6模块菜单、53入口索引、标签页、鉴权占位、通用异常页",
+      "acceptance": "53入口均可定位；53个入口包含工作台；权限受限、加载、空列表、失败状态可分别展示。"
+    },
+    {
+      "stage": "2. 通用组件",
+      "work": "筛选表单、日期范围、列表、分页、弹窗、字段错误、上传占位、字典联动、富文本",
+      "acceptance": "大页容量可横向滚动；筛选翻页状态可恢复；弹窗关闭不提交；必填和服务端错误能定位。"
+    },
+    {
+      "stage": "3. 门店与价格",
+      "work": "基本资料、设置、员工权限、预约配送、商品、纸质、阶梯、装订和特殊计价",
+      "acceptance": "字段、单位、可选项与资料逐项对照；在测试环境验证开关联动和报价边界。"
+    },
+    {
+      "stage": "4. 订单与财务",
+      "work": "参数化订单视图、文件明细、交易流水、提现、分账、权限控制",
+      "acceptance": "各入口默认条件正确；状态/动作矩阵经后端确认；命令幂等和失败反馈通过模拟联调；不以HTTP成功替代业务成功。"
+    },
+    {
+      "stage": "5. 文库与会员",
+      "work": "分类向导、上传、权限与文件设置、等级、黑名单、充值、券与余额页面",
+      "acceptance": "10文件/50M等约束可校验；角色/可见范围正确；余额和优惠使用测试数据验算。"
+    },
+    {
+      "stage": "6. 终端与广告",
+      "work": "终端/打印机设置、纸盒、规格、图表结构、广告上传约束",
+      "acceptance": "广告尺寸与数量逐项验收；打印模拟任务状态正确；真实终端、打印机和纸张同步另做实机验收。"
+    },
+    {
+      "stage": "7. 总体验收",
+      "work": "角色回归、键盘操作、窄屏、错误恢复、安全下载、敏感信息处理和审计",
+      "acceptance": "G01–G10逐项闭环；未完成事项保留阻断标记；生产写操作只在另行授权后开展。"
+    }
+  ]
+}

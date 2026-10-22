@@ -1,0 +1,27 @@
+{
+  "updated_at": "2026-10-22T11:19:53.274847+00:00",
+  "execution": "user_cloud_server",
+  "overall": "in_progress",
+  "base01": "build_and_pins_verified; licence and checkpoint being recorded",
+  "base02": "partial: DB/Redis/auth/proxy/build verified; file IO and repeatable empty DB deployment acceptance pending",
+  "base03": "partial: admin-reader-disabled and nonexistent tenant rejection verified; existing second-store fixture and customer/terminal identity pending",
+  "base04": "partial: opt-in P47 source sample only; original appearance and other52 routes not implemented",
+  "core02": "partial: pure calculation 23 checks; API/snapshots/tampering/expiry and grouping rules pending",
+  "passed_evidence": {
+    "backend_build": "evidence/backend-rebuild.log",
+    "frontend_build": "evidence/frontend-build.log",
+    "auth": "evidence/acceptance/auth-final-release.json",
+    "roles": "evidence/acceptance/m1-role-permissions-release-v2.json",
+    "credential_logging": "evidence/acceptance/credential-log-check-final.json",
+    "pricing": "evidence/pricing/unit-checks.log",
+    "database_backup": "evidence/backup/latest.json"
+  },
+  "limitations": [
+    "miniapp later",
+    "payments and print terminals will be simulated; not yet implemented",
+    "no original production writes",
+    "no historical data migration",
+    "no public internet app exposure",
+    "pricing tier grouping and full business policies remain unconfirmed"
+  ]
+}

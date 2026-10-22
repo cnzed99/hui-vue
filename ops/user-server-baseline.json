@@ -1,0 +1,22 @@
+{
+  "recorded_at": "2026-10-22T11:04:22.376398+00:00",
+  "execution": "user_purchased_cloud_server",
+  "os": "Ubuntu 22.04",
+  "cpu_cores": 2,
+  "physical_memory_mib": 3655,
+  "swap_mib": 2048,
+  "minimum_free_disk_gib": 10,
+  "java": "openjdk version \"17.0.20.1\" 2026-08-18",
+  "maven": "\u001b[1mApache Maven 3.6.3\u001b[m",
+  "node": "v22.23.4",
+  "mysql": "mysql  Ver 8.0.46-0ubuntu0.22.04.4 for Linux on x86_64 ((Ubuntu))",
+  "redis": "Redis server v=6.0.16 sha=00000000:0 malloc=jemalloc-5.2.1 bits=64 build=d6ed09173b889769",
+  "backend_commit": "3adaf319f668e38f786dfa679ac627dcc9c25c86",
+  "frontend_base_commit": "050bac1eccfbe7393a1568d614151cc99501b949",
+  "migration_sha256": "1683a57a901cf29426c72618667211c0e1d03bcffc293583469b32fa292c6140",
+  "taskbook_sha256": "2fe127a3c6a3d5c457e25000e8e22b72c6900f347301068a09df6003a07ffd71",
+  "build_status": "backend_and_frontend_passed",
+  "runtime_login_verified": true,
+  "pricing_unit_checks": 23,
+  "login_verification": "pre-hardening-auth-smoke-6-of-6; post-hardening pending"
+}

@@ -1,0 +1,47 @@
+{
+  "updated_at": "2026-10-22T11:19:35.417455+00:00",
+  "baseline": "docs/acceptance/task-traceability.json is an initial static snapshot; this file is a later evidence overlay.",
+  "tasks": [
+    {
+      "task_id": "AUTH-01",
+      "status": "PARTIAL_AUTOMATED_PASS",
+      "evidence": [
+        "evidence/acceptance/m1-role-permissions-release-v2.json"
+      ],
+      "covered": [
+        "admin_reader_real_login",
+        "disabled_account_rejected",
+        "created_sessions_logout",
+        "old_access_tokens_rejected"
+      ],
+      "remaining": [
+        "wrong_password_contract",
+        "expired_access_token",
+        "refresh_token_policy",
+        "password_change_sessions",
+        "recovery_audit",
+        "browser_and_visual_flow"
+      ]
+    },
+    {
+      "task_id": "BASE-03",
+      "status": "PARTIAL_AUTOMATED_PASS",
+      "evidence": [
+        "evidence/acceptance/m1-role-permissions-release-v2.json"
+      ],
+      "covered": [
+        "real_pre_authorize_user_query_admin_allow_reader_deny",
+        "anonymous_protected_route_denied",
+        "token_tenant_header_mismatch_denied",
+        "nonexistent_tenant_login_denied"
+      ],
+      "remaining": [
+        "existing_second_tenant_data_fixture",
+        "print_store_ownership",
+        "customer_vs_staff_vs_terminal_identity",
+        "all_printing_action_permissions",
+        "file_ownership"
+      ]
+    }
+  ]
+}

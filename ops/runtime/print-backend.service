@@ -1,0 +1,25 @@
+[Unit]
+Description=Print backend demonstration service
+After=network.target mysql.service redis-server.service
+Requires=mysql.service redis-server.service
+StartLimitIntervalSec=120
+StartLimitBurst=3
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/print-system
+ExecStart=/bin/bash /home/ubuntu/print-system/ops/runtime/start-backend.sh
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=30
+UMask=0077
+MemoryMax=1536M
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/home/ubuntu/print-system/runtime /home/ubuntu/print-system/evidence
+StandardOutput=journal
+StandardError=journal
+[Install]
+WantedBy=multi-user.target

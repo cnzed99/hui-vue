@@ -1,0 +1,57 @@
+{
+  "generated_at": "2026-10-22T11:05:50.365440+00:00",
+  "kind": "static_review_not_acceptance",
+  "execution_host": "user_cloud_server",
+  "source_files": {
+    "docs/taskbook.md": {
+      "bytes": 201145,
+      "sha256": "2fe127a3c6a3d5c457e25000e8e22b72c6900f347301068a09df6003a07ffd71"
+    },
+    "docs/tasks.json": {
+      "bytes": 397432,
+      "sha256": "db183a5e2f3b16679777415647d4ee73bfeaa046f9e10575ddeda140d5cbb4a0"
+    },
+    "docs/pages-forms.json": {
+      "bytes": 179032,
+      "sha256": "2dce1ad4aba850a5476497f252fe158716880efb36dce381e92c969f69fa87c9"
+    },
+    "src/frontend/src/print-preview/routes.ts": {
+      "bytes": 1204,
+      "sha256": "6b4297771119a90b927532ad804cfed4dfd7d64bda12fa8fe716e778e3eacfab"
+    },
+    "src/frontend/src/print-preview/menu.ts": {
+      "bytes": 18424,
+      "sha256": "4560a279c3131f5c60a8022be169464a681a04baf90efede389805631f183af1"
+    },
+    "src/frontend/src/print-preview/TouchAdSample.vue": {
+      "bytes": 2846,
+      "sha256": "ca7fff38f9d1a2f36dc2a620f586bae8b604267c5ea867dc9bfc90cd181b1c95"
+    }
+  },
+  "repos": {
+    "backend": {
+      "head": "3adaf319f668e38f786dfa679ac627dcc9c25c86",
+      "working_tree": [
+        "?? yudao-server/src/main/java/cn/iocoder/yudao/server/print/"
+      ]
+    },
+    "frontend": {
+      "head": "050bac1eccfbe7393a1568d614151cc99501b949",
+      "working_tree": [
+        " M src/permission.ts",
+        " M src/router/index.ts",
+        " M types/env.d.ts",
+        "?? .env.cloud",
+        "?? src/print-preview/"
+      ]
+    }
+  },
+  "confirmed_rules": [
+    "Phase1 backend and Vue3 admin; one merchant one store, ownership extensible.",
+    "Functional and appearance parity; first delivery demonstrable with real DB/API/auth/persistence.",
+    "Payments and printer terminal explicitly simulated; miniapp and physical printing later.",
+    "Per-sheet pricing, simplex and duplex distinct. 3-page duplex x2 copies @20fen =>4 sheets/80fen.",
+    "Single tier uses strict greater-than threshold and whole-quantity replacement. >10 @15fen; 11=>165fen; 10=>200fen. Test prices only."
+  ],
+  "evidence_boundary": "Snapshot records inspected source, not build/runtime/business/visual acceptance."
+}

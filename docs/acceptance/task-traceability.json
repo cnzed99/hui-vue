@@ -1,0 +1,3195 @@
+{
+  "generated_at": "2026-10-22T11:05:50.365440+00:00",
+  "notice": "Sidecar review only. Does not overwrite docs/tasks.json or mark tasks complete. Reconcile after each implementation batch.",
+  "tasks": [
+    {
+      "task_id": "DISC-01",
+      "title": "需求基线与缺口登记",
+      "phase": "M0",
+      "dependencies": [],
+      "source_refs": [],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "pending_verification",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Taskbook acceptance remains authoritative; no runtime acceptance evidence established by this review.",
+      "required_acceptance": [
+        "每个源ID有任务；共享模板不丢菜单差异",
+        "未知项保留待确认；缺口关闭附证据",
+        "禁止通过生产写入试探条件字段"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "DISC-02",
+      "title": "视觉与交互基线补采",
+      "phase": "M0",
+      "dependencies": [
+        "DISC-01"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D04",
+        "D10",
+        "D11"
+      ],
+      "inspection_status": "pending_verification",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Taskbook acceptance remains authoritative; no runtime acceptance evidence established by this review.",
+      "required_acceptance": [
+        "53入口和23表单逐项记录截图已取得/缺失/不适用",
+        "不为截图执行生产写动作",
+        "未取得的失败/成功态以建议设计标识，不能声称旧站一致",
+        "与用户确认主验收分辨率及差异容忍度"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "DISC-03",
+      "title": "规则、状态与验收样例冻结",
+      "phase": "M0",
+      "dependencies": [
+        "DISC-01"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D08",
+        "D09",
+        "D12"
+      ],
+      "inspection_status": "pending_verification",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Taskbook acceptance remains authoritative; no runtime acceptance evidence established by this review.",
+      "required_acceptance": [
+        "至少覆盖本任务书列出的正向、边界、重复、失败样例",
+        "示范数字与已确认规则清楚区分",
+        "演示暂用规则经记录后实现；未确认项不作等价性验收"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "DISC-04",
+      "title": "打印客户端与设备前置调研",
+      "phase": "M0",
+      "dependencies": [],
+      "source_refs": [],
+      "decision_gates": [
+        "D05"
+      ],
+      "inspection_status": "pending_verification",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Taskbook acceptance remains authoritative; no runtime acceptance evidence established by this review.",
+      "required_acceptance": [
+        "每项能力标明资料来源或未知",
+        "不能将命令接收/系统队列完成当作实物出纸",
+        "无资料也可输出调研结果；真实集成任务保持受阻"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "DISC-05",
+      "title": "后续小程序只读功能审计",
+      "phase": "后续",
+      "dependencies": [],
+      "source_refs": [],
+      "decision_gates": [
+        "D06"
+      ],
+      "inspection_status": "later_phase",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Explicitly outside phase1; not deleted from taskbook.",
+      "required_acceptance": [
+        "扫码/授权/绑定/支付等可能产生状态的动作事先明确环境和范围",
+        "后台字段推导的功能只能标候选",
+        "取得资料后调整MINI任务，不能宣称已完整覆盖"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "BASE-01",
+      "title": "代码库、版本与依赖锁定",
+      "phase": "M1",
+      "dependencies": [
+        "DISC-01"
+      ],
+      "source_refs": [],
+      "decision_gates": [],
+      "inspection_status": "pending_verification",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Taskbook acceptance remains authoritative; no runtime acceptance evidence established by this review.",
+      "required_acceptance": [
+        "候选master-jdk17＋JDK21须以实际构建通过为准",
+        "前后端版本配对有证据",
+        "原调研文件保留；不把密钥或真实用户文件提交Git"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "BASE-02",
+      "title": "本地与测试部署基础",
+      "phase": "M1",
+      "dependencies": [
+        "BASE-01"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D07"
+      ],
+      "inspection_status": "pending_verification",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Taskbook acceptance remains authoritative; no runtime acceptance evidence established by this review.",
+      "required_acceptance": [
+        "全新目录/空数据库可按说明启动",
+        "前后端登录、DB迁移和文件读写成功",
+        "真实密钥不进入示例；模拟依赖标签清晰",
+        "远程资源未给时记录本地部署完成、远程未执行"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "BASE-03",
+      "title": "单店身份、权限和归属基础",
+      "phase": "M1",
+      "dependencies": [
+        "BASE-01",
+        "DISC-03"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D02"
+      ],
+      "inspection_status": "pending_verification",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Taskbook acceptance remains authoritative; no runtime acceptance evidence established by this review.",
+      "required_acceptance": [
+        "未授权直接调用接口被拒绝",
+        "测试夹具构造第二门店证明越权阻断，不能据此声称已交付多商家运营",
+        "客户身份与员工身份、终端身份分开"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "BASE-04",
+      "title": "定制后台外壳与通用组件",
+      "phase": "M1",
+      "dependencies": [
+        "BASE-01",
+        "DISC-02"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D04",
+        "D11"
+      ],
+      "inspection_status": "partial_visual_source",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Shell + P47 visual sample only; 52 remaining page entries disabled.",
+      "required_acceptance": [
+        "外观按基线对照，不直接以芋道默认皮肤交付",
+        "列表返回保留查询状态；无权限/失败/空态不同",
+        "共享模板支持各菜单默认条件和列差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "BASE-05",
+      "title": "接口契约、日志与测试骨架",
+      "phase": "M1",
+      "dependencies": [
+        "BASE-01",
+        "BASE-03"
+      ],
+      "source_refs": [],
+      "decision_gates": [],
+      "inspection_status": "pending_verification",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Taskbook acceptance remains authoritative; no runtime acceptance evidence established by this review.",
+      "required_acceptance": [
+        "旧ASPX路由/控件ID不直接当接口协议",
+        "日志关联订单、文件、支付和任务但不泄漏文件内容/密码",
+        "接口版本与迁移说明可追踪"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "AUTH-01",
+      "title": "登录、退出和会话失效流程",
+      "phase": "M1",
+      "dependencies": [
+        "BASE-03",
+        "BASE-04",
+        "BASE-05"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D10",
+        "D11"
+      ],
+      "inspection_status": "upstream_source_present_runtime_pending",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Existing Yudao auth endpoints verified statically; runtime session and restricted-role tests still required.",
+      "required_acceptance": [
+        "登录错误不泄漏账号敏感信息；退出后旧会话按约定失效",
+        "修改密码后会话策略明确；管理员恢复流程留审计",
+        "未采集原登录页时标建议设计，不把芋道默认登录页称原版一致",
+        "初始管理员可安全初始化；无效令牌、伪造令牌和过期令牌被拒绝，账号恢复不绕过审计。"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "CORE-01",
+      "title": "文件接收、存储与异步处理",
+      "phase": "M2",
+      "dependencies": [
+        "BASE-02",
+        "BASE-05",
+        "DISC-03"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D12"
+      ],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "文件格式/大小/页数服务端验证",
+        "超时、损坏、密码保护、重复提交和删除期间访问有确定结果",
+        "授权链接过期不能下载；跨用户不可访问",
+        "Office等格式未实测不标支持"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "CORE-02",
+      "title": "统一报价与价格快照",
+      "phase": "M2",
+      "dependencies": [
+        "BASE-05",
+        "DISC-03"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D08"
+      ],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "相同输入及规则版本结果一致",
+        "前端篡改金额不生效",
+        "价格变更后旧订单保持原快照；过期报价重新确认",
+        "所有已确认叠加规则有数值测试"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "CORE-03",
+      "title": "订单、退款与配送状态核心",
+      "phase": "M2",
+      "dependencies": [
+        "CORE-02",
+        "BASE-05",
+        "DISC-03"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D09"
+      ],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "支付/打印/退款/配送分开保存并可组合展示",
+        "非法状态操作拒绝；并发更新受控",
+        "退款中不自动产生补打；人工动作有操作者和原因"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "CORE-04",
+      "title": "模拟支付与余额账务",
+      "phase": "M2",
+      "dependencies": [
+        "CORE-03"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D08",
+        "D09"
+      ],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "相同支付/退款回调重复到达不重复记账",
+        "余额并发扣减不能超支；退款累计不超可退金额",
+        "金额守恒可核对；金额修改需审计",
+        "页面/接口记录模拟标志；不能产生真实资金操作",
+        "模拟网关和回调控制器校验环境、身份和请求来源；不提供匿名修改余额或支付结果的入口。"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "CORE-05",
+      "title": "打印调度与终端模拟器",
+      "phase": "M2",
+      "dependencies": [
+        "CORE-01",
+        "CORE-03",
+        "DISC-04"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D05",
+        "D09"
+      ],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "重复领取/回执不重复发放业务结果",
+        "受理、系统队列、物理结果和未知状态分开",
+        "结果不明不盲目重发造成重复出纸；人工核实路径存在",
+        "取消与任务执行竞态有测试",
+        "模拟器注册和故障注入使用隔离测试身份；测试命令与实际设备目的地严格分离。"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "CORE-06",
+      "title": "第一条端到端演示链路",
+      "phase": "M2",
+      "dependencies": [
+        "CORE-01",
+        "CORE-02",
+        "CORE-03",
+        "CORE-04",
+        "CORE-05",
+        "BASE-04"
+      ],
+      "source_refs": [],
+      "decision_gates": [],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "真实DB保存并重启后可查询",
+        "成功/失败/重复/断线四类路径可演示",
+        "管理页查到相同订单及任务；模拟边界明确",
+        "核心链路通过后再批量铺开页面",
+        "测试入口、模拟回调、故障注入仅允许测试环境受权角色使用并写审计；关闭演示开关后不可匿名调用或改变业务状态。"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "SVC-01",
+      "title": "门店、员工、密码和预约配送服务",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-03",
+        "BASE-05",
+        "CORE-03",
+        "CORE-06"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D09",
+        "D10"
+      ],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "设置持久化与生效范围一致",
+        "密码只写",
+        "普通员工不能提权",
+        "同名自动打印开关的映射明确。"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "SVC-02",
+      "title": "商品、装订、特殊类型与计价配置",
+      "phase": "M3",
+      "dependencies": [
+        "CORE-02",
+        "CORE-06"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D08"
+      ],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "价格配置版本化",
+        "下架后既有订单快照稳定",
+        "文件名规则有冲突与优先级测试",
+        "平台商品库不能凭空认为有原数据。"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "SVC-03",
+      "title": "文库分类、上传、售卖与下载",
+      "phase": "M3",
+      "dependencies": [
+        "CORE-01",
+        "CORE-03",
+        "CORE-04",
+        "CORE-06"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D10",
+        "D12"
+      ],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "售卖/浏览权限不混淆",
+        "购买后访问按规则",
+        "下载链接过期",
+        "文件更新版本可追踪。"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "SVC-04",
+      "title": "促销、免费打印和红包配置",
+      "phase": "M3",
+      "dependencies": [
+        "CORE-02",
+        "CORE-04",
+        "CORE-06"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D08",
+        "D10",
+        "D13"
+      ],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "额度并发不超用",
+        "活动时段边界测试",
+        "未观察红包新增表单不得伪装原版。"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "SVC-05",
+      "title": "订单列表、文件明细与操作服务",
+      "phase": "M3",
+      "dependencies": [
+        "CORE-03",
+        "CORE-04",
+        "CORE-05",
+        "CORE-06"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D09"
+      ],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "菜单默认过滤正确",
+        "订单和文件项关系正确",
+        "列表操作服务端校验权限与状态",
+        "重试不产生重复打印。"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "SVC-06",
+      "title": "财务查询、提现和分账模拟流程",
+      "phase": "M3",
+      "dependencies": [
+        "CORE-04",
+        "BASE-03",
+        "CORE-06"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D08",
+        "D10",
+        "D13"
+      ],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "总额/明细可核对",
+        "申请、处理、回调区分",
+        "权限不足和条件未知单列",
+        "自动提现不触发真实操作。"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "SVC-07",
+      "title": "终端、打印机、纸盒、邮件与统计",
+      "phase": "M3",
+      "dependencies": [
+        "CORE-05",
+        "BASE-03",
+        "CORE-06"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D05",
+        "D10"
+      ],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "能力不足参数明确拒绝或提示",
+        "缺纸/离线展示",
+        "纸张数量同步冲突有策略",
+        "模拟统计可追溯。"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "SVC-08",
+      "title": "会员、等级、充值与打印券",
+      "phase": "M3",
+      "dependencies": [
+        "CORE-04",
+        "CORE-02",
+        "BASE-03",
+        "CORE-06"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D08",
+        "D10"
+      ],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "余额与赠送部分可追踪",
+        "激活码并发一次生效",
+        "观察到打印券激活入余额，不当成普通订单优惠券实现。"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "SVC-09",
+      "title": "广告素材和分享图",
+      "phase": "M3",
+      "dependencies": [
+        "CORE-01",
+        "BASE-05",
+        "CORE-06"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D12"
+      ],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "逐位置校验尺寸/类型/数量",
+        "上传/删除和文件引用一致",
+        "后台配置完成不等于终端广告已实机展示。"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "SVC-10",
+      "title": "工作台和统计口径",
+      "phase": "M3",
+      "dependencies": [
+        "SVC-05",
+        "SVC-06",
+        "SVC-07",
+        "CORE-06"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D08",
+        "D09"
+      ],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "合成账务/订单样本与指标逐项核对",
+        "时间边界/取消/退款口径明确",
+        "未读取历史业务数据。"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F01",
+      "title": "员工-权限表单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-01"
+      ],
+      "source_refs": [
+        "F01",
+        "P05"
+      ],
+      "decision_gates": [],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F02",
+      "title": "商品-普通纸售价表单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-02"
+      ],
+      "source_refs": [
+        "F02",
+        "P08"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F03",
+      "title": "商品-其他纸质售价表单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-02"
+      ],
+      "source_refs": [
+        "F03",
+        "P08"
+      ],
+      "decision_gates": [],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F04",
+      "title": "装订-空白表单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-02"
+      ],
+      "source_refs": [
+        "F04",
+        "P10"
+      ],
+      "decision_gates": [],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F05",
+      "title": "特殊计价-空白表单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-02"
+      ],
+      "source_refs": [
+        "F05",
+        "P11"
+      ],
+      "decision_gates": [],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F06",
+      "title": "配送范围-空白表单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-01"
+      ],
+      "source_refs": [
+        "F06",
+        "P07"
+      ],
+      "decision_gates": [],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F07",
+      "title": "证件照间距-空白表单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-01"
+      ],
+      "source_refs": [
+        "F07",
+        "P03"
+      ],
+      "decision_gates": [],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F08",
+      "title": "文库上传-第二步表单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-03"
+      ],
+      "source_refs": [
+        "F08",
+        "P12"
+      ],
+      "decision_gates": [],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F09",
+      "title": "文库文件-设置表单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-03"
+      ],
+      "source_refs": [
+        "F09",
+        "P13"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F10",
+      "title": "自定义分类-空白表单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-03"
+      ],
+      "source_refs": [
+        "F10",
+        "P15"
+      ],
+      "decision_gates": [],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F11",
+      "title": "满额优惠-空白表单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-04"
+      ],
+      "source_refs": [
+        "F11",
+        "P17"
+      ],
+      "decision_gates": [],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F12",
+      "title": "免费打印-空白表单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-04"
+      ],
+      "source_refs": [
+        "F12",
+        "P19"
+      ],
+      "decision_gates": [],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F13",
+      "title": "分账账户-空白表单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-06"
+      ],
+      "source_refs": [
+        "F13",
+        "P32"
+      ],
+      "decision_gates": [],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F14",
+      "title": "提现申请-只读",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-06"
+      ],
+      "source_refs": [
+        "F14",
+        "P29"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F15",
+      "title": "终端-配置表单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-07"
+      ],
+      "source_refs": [
+        "F15",
+        "P33"
+      ],
+      "decision_gates": [],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F16",
+      "title": "终端-打印拦截选择表单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-07"
+      ],
+      "source_refs": [
+        "F16",
+        "P33"
+      ],
+      "decision_gates": [],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F17",
+      "title": "打印机-首选项表单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-07"
+      ],
+      "source_refs": [
+        "F17",
+        "P34"
+      ],
+      "decision_gates": [],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F18",
+      "title": "打印机-纸盒表单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-07"
+      ],
+      "source_refs": [
+        "F18",
+        "P34"
+      ],
+      "decision_gates": [],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F19",
+      "title": "打印机-手机自助配置表单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-07"
+      ],
+      "source_refs": [
+        "F19",
+        "P34"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F20",
+      "title": "用户-资料表单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-08"
+      ],
+      "source_refs": [
+        "F20",
+        "P39",
+        "P44"
+      ],
+      "decision_gates": [],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F21",
+      "title": "黑白名单-空白表单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-08"
+      ],
+      "source_refs": [
+        "F21",
+        "P40"
+      ],
+      "decision_gates": [],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F22",
+      "title": "会员等级-空白表单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-08"
+      ],
+      "source_refs": [
+        "F22",
+        "P41"
+      ],
+      "decision_gates": [],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "FORM-F23",
+      "title": "打印券-空白表单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-08"
+      ],
+      "source_refs": [
+        "F23",
+        "P45"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "观察到的全部字段、单位、提示和条件项可追踪",
+        "在测试环境验证合法、缺失、边界、重复提交及服务端错误反馈",
+        "保存后刷新可读回；取消不保存；敏感字段只写",
+        "按冻结截图比对；未取得截图的状态保留缺口"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P01",
+      "title": "工作台",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-10"
+      ],
+      "source_refs": [
+        "P01"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P02",
+      "title": "门店详情",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-01"
+      ],
+      "source_refs": [
+        "P02"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P03",
+      "title": "门店设置",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-01",
+        "FORM-F07"
+      ],
+      "source_refs": [
+        "P03"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P04",
+      "title": "密码管理",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-01"
+      ],
+      "source_refs": [
+        "P04"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P05",
+      "title": "员工管理",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-01",
+        "FORM-F01"
+      ],
+      "source_refs": [
+        "P05"
+      ],
+      "decision_gates": [],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P06",
+      "title": "远程预约设置",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-01"
+      ],
+      "source_refs": [
+        "P06"
+      ],
+      "decision_gates": [],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P07",
+      "title": "远程配送设置",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-01",
+        "FORM-F06"
+      ],
+      "source_refs": [
+        "P07"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P08",
+      "title": "我的商品",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-02",
+        "FORM-F02",
+        "FORM-F03"
+      ],
+      "source_refs": [
+        "P08"
+      ],
+      "decision_gates": [],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P09",
+      "title": "平台商品库",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-02"
+      ],
+      "source_refs": [
+        "P09"
+      ],
+      "decision_gates": [],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P10",
+      "title": "装订设置",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-02",
+        "FORM-F04"
+      ],
+      "source_refs": [
+        "P10"
+      ],
+      "decision_gates": [],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P11",
+      "title": "图片、准考证等",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-02",
+        "FORM-F05"
+      ],
+      "source_refs": [
+        "P11"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P12",
+      "title": "上传文件",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-03",
+        "FORM-F08"
+      ],
+      "source_refs": [
+        "P12"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P13",
+      "title": "文库列表",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-03",
+        "FORM-F09"
+      ],
+      "source_refs": [
+        "P13"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P14",
+      "title": "文库设置",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-03"
+      ],
+      "source_refs": [
+        "P14"
+      ],
+      "decision_gates": [],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P15",
+      "title": "自定义分类",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-03",
+        "FORM-F10"
+      ],
+      "source_refs": [
+        "P15"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P16",
+      "title": "最低消费",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-02"
+      ],
+      "source_refs": [
+        "P16"
+      ],
+      "decision_gates": [],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P17",
+      "title": "满额优惠",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-04",
+        "FORM-F11"
+      ],
+      "source_refs": [
+        "P17"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P18",
+      "title": "微信代金红包",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-04"
+      ],
+      "source_refs": [
+        "P18"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P19",
+      "title": "免费打印",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-04",
+        "FORM-F12"
+      ],
+      "source_refs": [
+        "P19"
+      ],
+      "decision_gates": [],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P20",
+      "title": "关注公众号",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-04"
+      ],
+      "source_refs": [
+        "P20"
+      ],
+      "decision_gates": [],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P21",
+      "title": "用户打印列表",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-05"
+      ],
+      "source_refs": [
+        "P21"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P22",
+      "title": "管理员打印列表",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-05"
+      ],
+      "source_refs": [
+        "P22"
+      ],
+      "decision_gates": [],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P23",
+      "title": "全部订单列表",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-05"
+      ],
+      "source_refs": [
+        "P23"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P24",
+      "title": "现场打印自取列表",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-05"
+      ],
+      "source_refs": [
+        "P24"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P25",
+      "title": "远程打印自取列表",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-05"
+      ],
+      "source_refs": [
+        "P25"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P26",
+      "title": "定时配送列表",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-05"
+      ],
+      "source_refs": [
+        "P26"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P27",
+      "title": "VIP配送列表",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-05"
+      ],
+      "source_refs": [
+        "P27"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P28",
+      "title": "保存证件照图片列表",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-05"
+      ],
+      "source_refs": [
+        "P28"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P29",
+      "title": "提现管理",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-06",
+        "FORM-F14"
+      ],
+      "source_refs": [
+        "P29"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P30",
+      "title": "交易订单",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-06"
+      ],
+      "source_refs": [
+        "P30"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P31",
+      "title": "自动提现设置",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-06"
+      ],
+      "source_refs": [
+        "P31"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "首期可按原证据核验菜单入口、权限判断和无权限态；不能据此认定内部自动提现业务已实现。",
+        "完整字段、配置保存及自动出款规则必须先补齐资料或取得新设计确认，再执行对应模拟业务验收。",
+        "基线未补齐时完整功能保持待验收，交付矩阵列明限制，不执行不适用的通用成功提交检查。",
+        "是否接受该限制的演示交付由用户验收时决定，不以任务书登记自动视为接受。"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P32",
+      "title": "分账列表",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-06",
+        "FORM-F13"
+      ],
+      "source_refs": [
+        "P32"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P33",
+      "title": "打印终端",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-07",
+        "FORM-F15",
+        "FORM-F16"
+      ],
+      "source_refs": [
+        "P33"
+      ],
+      "decision_gates": [],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P34",
+      "title": "打印机",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-07",
+        "FORM-F17",
+        "FORM-F18",
+        "FORM-F19"
+      ],
+      "source_refs": [
+        "P34"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P35",
+      "title": "邮箱发送设置",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-07"
+      ],
+      "source_refs": [
+        "P35"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P36",
+      "title": "按终端统计",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-07"
+      ],
+      "source_refs": [
+        "P36"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P37",
+      "title": "按总量统计",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-07"
+      ],
+      "source_refs": [
+        "P37"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P38",
+      "title": "按日统计",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-07"
+      ],
+      "source_refs": [
+        "P38"
+      ],
+      "decision_gates": [],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P39",
+      "title": "用户列表",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-08",
+        "FORM-F20"
+      ],
+      "source_refs": [
+        "P39"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P40",
+      "title": "黑白名单用户",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-08",
+        "FORM-F21"
+      ],
+      "source_refs": [
+        "P40"
+      ],
+      "decision_gates": [],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P41",
+      "title": "会员等级",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-08",
+        "FORM-F22"
+      ],
+      "source_refs": [
+        "P41"
+      ],
+      "decision_gates": [],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P42",
+      "title": "充值赠送",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-08"
+      ],
+      "source_refs": [
+        "P42"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P43",
+      "title": "充值享折扣",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-08"
+      ],
+      "source_refs": [
+        "P43"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P44",
+      "title": "会员卡管理",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-08",
+        "FORM-F20"
+      ],
+      "source_refs": [
+        "P44"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P45",
+      "title": "打印券管理",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-08",
+        "FORM-F23"
+      ],
+      "source_refs": [
+        "P45"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P46",
+      "title": "电脑终端广告",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-09"
+      ],
+      "source_refs": [
+        "P46"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P47",
+      "title": "触屏终端广告",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-09"
+      ],
+      "source_refs": [
+        "P47"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "visual_source_only",
+      "acceptance_status": "NOT_RUN",
+      "observation": "TouchAdSample.vue exists; save disabled and API not connected. No business or pixel-parity pass.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P48",
+      "title": "全屏终端广告",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-09"
+      ],
+      "source_refs": [
+        "P48"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P49",
+      "title": "竖屏终端广告",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-09"
+      ],
+      "source_refs": [
+        "P49"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P50",
+      "title": "云盒广告",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-09"
+      ],
+      "source_refs": [
+        "P50"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P51",
+      "title": "订单页广告",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-09"
+      ],
+      "source_refs": [
+        "P51"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P52",
+      "title": "电脑桌面广告",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-09"
+      ],
+      "source_refs": [
+        "P52"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "UI-P53",
+      "title": "小程序分享图",
+      "phase": "M3",
+      "dependencies": [
+        "BASE-04",
+        "SVC-09"
+      ],
+      "source_refs": [
+        "P53"
+      ],
+      "decision_gates": [
+        "D10"
+      ],
+      "inspection_status": "not_implemented_in_print_sample",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Current print-preview menu exposes a disabled entry; upstream Yudao modules do not establish original printing feature parity.",
+      "required_acceptance": [
+        "源清单的筛选、列、字段、按钮和文案逐项映射且不遗漏",
+        "查询/分页/默认筛选和返回列表状态正确；加载、空、失败、无权限状态分别展示",
+        "操作通过真实测试API与数据库；成功、校验失败、无权限、重复提交有证据",
+        "页面与源截图同视口对照；共享组件不能掩盖页面差异"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "ATT-01",
+      "title": "订单文件明细附属页",
+      "phase": "M3",
+      "dependencies": [
+        "SVC-05",
+        "BASE-04"
+      ],
+      "source_refs": [
+        "中间文件/订单文件明细.txt"
+      ],
+      "decision_gates": [],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "合成订单含多个文件及部分失败状态时显示正确",
+        "下载/打印/退款类操作逐项鉴权；无基线动作不臆造"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "ATT-02",
+      "title": "文库购买记录附属页",
+      "phase": "M3",
+      "dependencies": [
+        "SVC-03",
+        "BASE-04"
+      ],
+      "source_refs": [
+        "中间文件/文库购买记录.txt"
+      ],
+      "decision_gates": [],
+      "inspection_status": "implementation_not_evidenced",
+      "acceptance_status": "NOT_RUN",
+      "observation": "No verified printing domain implementation, API or persisted behavior in this review snapshot.",
+      "required_acceptance": [
+        "订单号筛选、全部观察列和管理/购买记录入口正确；查询数据范围由服务端控制。",
+        "退款、重复购买及文库文件关联口径按新接口契约明确，不能把未观察的文件过滤当原站事实。",
+        "仅使用合成数据；支付流水号与模拟资金单可对应且标识模拟。"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "QA-01",
+      "title": "首期全功能与权限回归",
+      "phase": "M4",
+      "dependencies": [
+        "FORM-F01",
+        "FORM-F02",
+        "FORM-F03",
+        "FORM-F04",
+        "FORM-F05",
+        "FORM-F06",
+        "FORM-F07",
+        "FORM-F08",
+        "FORM-F09",
+        "FORM-F10",
+        "FORM-F11",
+        "FORM-F12",
+        "FORM-F13",
+        "FORM-F14",
+        "FORM-F15",
+        "FORM-F16",
+        "FORM-F17",
+        "FORM-F18",
+        "FORM-F19",
+        "FORM-F20",
+        "FORM-F21",
+        "FORM-F22",
+        "FORM-F23",
+        "UI-P01",
+        "UI-P02",
+        "UI-P03",
+        "UI-P04",
+        "UI-P05",
+        "UI-P06",
+        "UI-P07",
+        "UI-P08",
+        "UI-P09",
+        "UI-P10",
+        "UI-P11",
+        "UI-P12",
+        "UI-P13",
+        "UI-P14",
+        "UI-P15",
+        "UI-P16",
+        "UI-P17",
+        "UI-P18",
+        "UI-P19",
+        "UI-P20",
+        "UI-P21",
+        "UI-P22",
+        "UI-P23",
+        "UI-P24",
+        "UI-P25",
+        "UI-P26",
+        "UI-P27",
+        "UI-P28",
+        "UI-P29",
+        "UI-P30",
+        "UI-P31",
+        "UI-P32",
+        "UI-P33",
+        "UI-P34",
+        "UI-P35",
+        "UI-P36",
+        "UI-P37",
+        "UI-P38",
+        "UI-P39",
+        "UI-P40",
+        "UI-P41",
+        "UI-P42",
+        "UI-P43",
+        "UI-P44",
+        "UI-P45",
+        "UI-P46",
+        "UI-P47",
+        "UI-P48",
+        "UI-P49",
+        "UI-P50",
+        "UI-P51",
+        "UI-P52",
+        "UI-P53",
+        "ATT-01",
+        "ATT-02",
+        "CORE-06",
+        "AUTH-01"
+      ],
+      "source_refs": [],
+      "decision_gates": [],
+      "inspection_status": "pending_verification",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Taskbook acceptance remains authoritative; no runtime acceptance evidence established by this review.",
+      "required_acceptance": [
+        "53入口23表单2附属页均有结果：通过/失败/阻断，不能用覆盖登记当通过",
+        "关键金额/权限/幂等/文件访问用例全通过",
+        "重大缺陷未关闭不得发布；未知原功能不得静默删范围"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "QA-02",
+      "title": "独立业务与代码复核",
+      "phase": "M4",
+      "dependencies": [
+        "QA-01"
+      ],
+      "source_refs": [],
+      "decision_gates": [],
+      "inspection_status": "pending_verification",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Taskbook acceptance remains authoritative; no runtime acceptance evidence established by this review.",
+      "required_acceptance": [
+        "不能仅审查测试数量或实现者自评",
+        "抽查源需求→API→数据→界面→测试证据完整链",
+        "结论区分代码审查、自动化、用户验收和实机验证"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "QA-03",
+      "title": "逐页视觉与交互回归",
+      "phase": "M4",
+      "dependencies": [
+        "FORM-F01",
+        "FORM-F02",
+        "FORM-F03",
+        "FORM-F04",
+        "FORM-F05",
+        "FORM-F06",
+        "FORM-F07",
+        "FORM-F08",
+        "FORM-F09",
+        "FORM-F10",
+        "FORM-F11",
+        "FORM-F12",
+        "FORM-F13",
+        "FORM-F14",
+        "FORM-F15",
+        "FORM-F16",
+        "FORM-F17",
+        "FORM-F18",
+        "FORM-F19",
+        "FORM-F20",
+        "FORM-F21",
+        "FORM-F22",
+        "FORM-F23",
+        "UI-P01",
+        "UI-P02",
+        "UI-P03",
+        "UI-P04",
+        "UI-P05",
+        "UI-P06",
+        "UI-P07",
+        "UI-P08",
+        "UI-P09",
+        "UI-P10",
+        "UI-P11",
+        "UI-P12",
+        "UI-P13",
+        "UI-P14",
+        "UI-P15",
+        "UI-P16",
+        "UI-P17",
+        "UI-P18",
+        "UI-P19",
+        "UI-P20",
+        "UI-P21",
+        "UI-P22",
+        "UI-P23",
+        "UI-P24",
+        "UI-P25",
+        "UI-P26",
+        "UI-P27",
+        "UI-P28",
+        "UI-P29",
+        "UI-P30",
+        "UI-P31",
+        "UI-P32",
+        "UI-P33",
+        "UI-P34",
+        "UI-P35",
+        "UI-P36",
+        "UI-P37",
+        "UI-P38",
+        "UI-P39",
+        "UI-P40",
+        "UI-P41",
+        "UI-P42",
+        "UI-P43",
+        "UI-P44",
+        "UI-P45",
+        "UI-P46",
+        "UI-P47",
+        "UI-P48",
+        "UI-P49",
+        "UI-P50",
+        "UI-P51",
+        "UI-P52",
+        "UI-P53",
+        "ATT-01",
+        "ATT-02",
+        "DISC-02"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D11"
+      ],
+      "inspection_status": "pending_verification",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Taskbook acceptance remains authoritative; no runtime acceptance evidence established by this review.",
+      "required_acceptance": [
+        "全部入口和表单的可取得基线逐项对照",
+        "动态时间/金额/个人信息遮罩区域记录而非掩盖布局差异",
+        "用户要求外观一致；达不到项明确列出待修复/待基线，不降为风格相近"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "QA-04",
+      "title": "容量、安全和故障恢复检查",
+      "phase": "M4",
+      "dependencies": [
+        "QA-01",
+        "BASE-02"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D12"
+      ],
+      "inspection_status": "pending_verification",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Taskbook acceptance remains authoritative; no runtime acceptance evidence established by this review.",
+      "required_acceptance": [
+        "报告包含硬件环境、数据规模、并发和P95，不承诺未测容量",
+        "日志和页面不输出敏感信息",
+        "未知打印结果安全停留可核实状态；服务重启不丢账务/任务"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "REL-01",
+      "title": "本地演示版本与用户验收包",
+      "phase": "M5",
+      "dependencies": [
+        "QA-02",
+        "QA-03",
+        "QA-04",
+        "REL-03"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D03"
+      ],
+      "inspection_status": "pending_verification",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Taskbook acceptance remains authoritative; no runtime acceptance evidence established by this review.",
+      "required_acceptance": [
+        "新环境可复现启动；重启后数据保留",
+        "用户可按脚本演示真实CRUD、报价、订单、模拟支付/打印流程",
+        "缺口有列表；条件缺失的功能不声称完整等价",
+        "实际用户验收结果由用户确认，不能用agent测试替代"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "REL-02",
+      "title": "可选远程演示环境部署",
+      "phase": "M5",
+      "dependencies": [
+        "REL-01"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D07"
+      ],
+      "inspection_status": "pending_verification",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Taskbook acceptance remains authoritative; no runtime acceptance evidence established by this review.",
+      "required_acceptance": [
+        "部署版本与验收版本对应",
+        "模拟网关仍启用；无生产用户真实文件",
+        "没有服务器时保留待资源，不能称已远程上线"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "REL-03",
+      "title": "备份、恢复和升级回滚演练",
+      "phase": "M5",
+      "dependencies": [
+        "BASE-02",
+        "QA-01"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D14"
+      ],
+      "inspection_status": "pending_verification",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Taskbook acceptance remains authoritative; no runtime acceptance evidence established by this review.",
+      "required_acceptance": [
+        "恢复后文件引用、订单账务和用户权限一致",
+        "记录实际恢复耗时与恢复点；没有演练不标完成",
+        "迁移前后记录数/金额/文件哈希核对；原站历史数据未迁移"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "LIVE-01",
+      "title": "真实支付、退款和资金渠道接入",
+      "phase": "后续",
+      "dependencies": [
+        "CORE-04",
+        "REL-01"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D13"
+      ],
+      "inspection_status": "later_phase",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Explicitly outside phase1; not deleted from taskbook.",
+      "required_acceptance": [
+        "真实支付与退款按授权测试成功且账务一致",
+        "重复、乱序、伪造回调和查询补偿通过",
+        "商户不可用的功能不得以模拟冒充上线"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "LIVE-02",
+      "title": "真实打印客户端与实机验收",
+      "phase": "后续",
+      "dependencies": [
+        "DISC-04",
+        "CORE-05",
+        "REL-01"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D05"
+      ],
+      "inspection_status": "later_phase",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Explicitly outside phase1; not deleted from taskbook.",
+      "required_acceptance": [
+        "逐型号验证纸张/单双面/彩色/页段/份数/纸盒及输出顺序",
+        "断网/卡纸/缺纸/断电/回执丢失/部分成功可解释且不盲补打",
+        "现场实际纸张与订单一致，系统ACK不能替代",
+        "若从零客户端含本地自助/拦截/广告，先另拆任务和估算"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "LIVE-03",
+      "title": "真实通知、二维码与第三方服务",
+      "phase": "后续",
+      "dependencies": [
+        "SVC-01",
+        "SVC-07",
+        "SVC-09"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D13"
+      ],
+      "inspection_status": "later_phase",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Explicitly outside phase1; not deleted from taskbook.",
+      "required_acceptance": [
+        "发送频率/重试/幂等符合约定",
+        "未绑定/授权失效/退订有明确状态",
+        "不能把模拟二维码宣称可绑定真实门店"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "MINI-01",
+      "title": "小程序工程、登录和门店进入",
+      "phase": "后续",
+      "dependencies": [
+        "DISC-05",
+        "BASE-03"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D06"
+      ],
+      "inspection_status": "later_phase",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Explicitly outside phase1; not deleted from taskbook.",
+      "required_acceptance": [
+        "当前为候选任务，须经DISC-05拆分和补全后实施",
+        "服务端权限、报价和订单与后台共用，不复制另一套业务规则",
+        "以原小程序截图与输入输出验收；模拟工具通过不能代替手机及平台审核"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "MINI-02",
+      "title": "文件选择、上传与预览",
+      "phase": "后续",
+      "dependencies": [
+        "MINI-01",
+        "CORE-01"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D06"
+      ],
+      "inspection_status": "later_phase",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Explicitly outside phase1; not deleted from taskbook.",
+      "required_acceptance": [
+        "当前为候选任务，须经DISC-05拆分和补全后实施",
+        "服务端权限、报价和订单与后台共用，不复制另一套业务规则",
+        "以原小程序截图与输入输出验收；模拟工具通过不能代替手机及平台审核"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "MINI-03",
+      "title": "打印参数、报价与下单",
+      "phase": "后续",
+      "dependencies": [
+        "MINI-02",
+        "CORE-02",
+        "CORE-03"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D06"
+      ],
+      "inspection_status": "later_phase",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Explicitly outside phase1; not deleted from taskbook.",
+      "required_acceptance": [
+        "当前为候选任务，须经DISC-05拆分和补全后实施",
+        "服务端权限、报价和订单与后台共用，不复制另一套业务规则",
+        "以原小程序截图与输入输出验收；模拟工具通过不能代替手机及平台审核"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "MINI-04",
+      "title": "支付、订单进度与退款",
+      "phase": "后续",
+      "dependencies": [
+        "MINI-03",
+        "LIVE-01"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D06"
+      ],
+      "inspection_status": "later_phase",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Explicitly outside phase1; not deleted from taskbook.",
+      "required_acceptance": [
+        "当前为候选任务，须经DISC-05拆分和补全后实施",
+        "服务端权限、报价和订单与后台共用，不复制另一套业务规则",
+        "以原小程序截图与输入输出验收；模拟工具通过不能代替手机及平台审核"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "MINI-05",
+      "title": "预约、自取、配送与地址",
+      "phase": "后续",
+      "dependencies": [
+        "MINI-03",
+        "SVC-01"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D06"
+      ],
+      "inspection_status": "later_phase",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Explicitly outside phase1; not deleted from taskbook.",
+      "required_acceptance": [
+        "当前为候选任务，须经DISC-05拆分和补全后实施",
+        "服务端权限、报价和订单与后台共用，不复制另一套业务规则",
+        "以原小程序截图与输入输出验收；模拟工具通过不能代替手机及平台审核"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "MINI-06",
+      "title": "文库浏览、购买与打印",
+      "phase": "后续",
+      "dependencies": [
+        "MINI-03",
+        "SVC-03"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D06"
+      ],
+      "inspection_status": "later_phase",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Explicitly outside phase1; not deleted from taskbook.",
+      "required_acceptance": [
+        "当前为候选任务，须经DISC-05拆分和补全后实施",
+        "服务端权限、报价和订单与后台共用，不复制另一套业务规则",
+        "以原小程序截图与输入输出验收；模拟工具通过不能代替手机及平台审核"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "MINI-07",
+      "title": "会员、余额、充值与券",
+      "phase": "后续",
+      "dependencies": [
+        "MINI-01",
+        "SVC-08",
+        "LIVE-01"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D06"
+      ],
+      "inspection_status": "later_phase",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Explicitly outside phase1; not deleted from taskbook.",
+      "required_acceptance": [
+        "当前为候选任务，须经DISC-05拆分和补全后实施",
+        "服务端权限、报价和订单与后台共用，不复制另一套业务规则",
+        "以原小程序截图与输入输出验收；模拟工具通过不能代替手机及平台审核"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "MINI-08",
+      "title": "照片、证件照和特殊打印",
+      "phase": "后续",
+      "dependencies": [
+        "MINI-03",
+        "CORE-01",
+        "SVC-02"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D06"
+      ],
+      "inspection_status": "later_phase",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Explicitly outside phase1; not deleted from taskbook.",
+      "required_acceptance": [
+        "当前为候选任务，须经DISC-05拆分和补全后实施",
+        "服务端权限、报价和订单与后台共用，不复制另一套业务规则",
+        "以原小程序截图与输入输出验收；模拟工具通过不能代替手机及平台审核"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "MINI-09",
+      "title": "广告、分享和通知",
+      "phase": "后续",
+      "dependencies": [
+        "MINI-01",
+        "SVC-09",
+        "LIVE-03"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D06"
+      ],
+      "inspection_status": "later_phase",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Explicitly outside phase1; not deleted from taskbook.",
+      "required_acceptance": [
+        "当前为候选任务，须经DISC-05拆分和补全后实施",
+        "服务端权限、报价和订单与后台共用，不复制另一套业务规则",
+        "以原小程序截图与输入输出验收；模拟工具通过不能代替手机及平台审核"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "MINI-10",
+      "title": "小程序视觉、兼容性与发布验收",
+      "phase": "后续",
+      "dependencies": [
+        "MINI-04",
+        "MINI-05",
+        "MINI-06",
+        "MINI-07",
+        "MINI-08",
+        "MINI-09",
+        "LIVE-02"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D06"
+      ],
+      "inspection_status": "later_phase",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Explicitly outside phase1; not deleted from taskbook.",
+      "required_acceptance": [
+        "当前为候选任务，须经DISC-05拆分和补全后实施",
+        "服务端权限、报价和订单与后台共用，不复制另一套业务规则",
+        "以原小程序截图与输入输出验收；模拟工具通过不能代替手机及平台审核"
+      ],
+      "evidence": []
+    },
+    {
+      "task_id": "PROD-01",
+      "title": "真实经营试点上线",
+      "phase": "后续",
+      "dependencies": [
+        "LIVE-01",
+        "LIVE-02",
+        "LIVE-03",
+        "REL-03",
+        "REL-01"
+      ],
+      "source_refs": [],
+      "decision_gates": [
+        "D07",
+        "D13",
+        "D14"
+      ],
+      "inspection_status": "later_phase",
+      "acceptance_status": "NOT_RUN",
+      "observation": "Explicitly outside phase1; not deleted from taskbook.",
+      "required_acceptance": [
+        "实际采用的用户入口完成端到端实测",
+        "无严重资金/权限/重复打印问题",
+        "先单店试点，明确观察时段与扩大条件",
+        "具备真实资源及确认上线窗口后执行；演示部署不当生产上线"
+      ],
+      "evidence": []
+    }
+  ]
+}

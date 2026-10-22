@@ -1,0 +1,10 @@
+/src/
+/runtime/
+/migration/
+*.log
+*.pyc
+__pycache__/
+*.pem
+*.key
+*.dpapi
+.env

@@ -1,0 +1,111 @@
+# BASE-02 isolated profile template. Not boot-tested. Use cloud profile only.
+# Loaded after classpath application.yaml. Never include local/dev profiles.
+server:
+  address: 127.0.0.1
+  port: 48080
+spring:
+  application:
+    name: print-system-cloud
+  main:
+    allow-circular-references: true
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration
+  datasource:
+    druid:
+      web-stat-filter:
+        enabled: false
+      stat-view-servlet:
+        enabled: false
+    dynamic:
+      primary: master
+      strict: true
+      datasource:
+        master:
+          name: print_demo
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://127.0.0.1:3306/print_demo?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true
+          username: print_app
+          password: ${PRINT_DB_PASSWORD}
+      druid:
+        initial-size: 1
+        min-idle: 1
+        max-active: 4
+        validation-query: SELECT 1
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      database: 0
+      password: ${PRINT_REDIS_PASSWORD}
+  quartz:
+    auto-startup: false
+  boot:
+    admin:
+      context-path: /admin
+      client:
+        enabled: false
+  mail:
+    host: 127.0.0.1
+    port: 1
+  servlet:
+    multipart:
+      enabled: false # No file reception until ownership/limits contract is implemented.
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+justauth:
+  enabled: false
+wx:
+  mp:
+    app-id: ''
+    secret: ''
+  miniapp:
+    appid: ''
+    secret: ''
+yudao:
+  web:
+    admin-ui:
+      url: http://127.0.0.1:18080
+  captcha:
+    enable: false # Disables image captcha only, not authentication/authorization.
+  security:
+    mock-enable: false
+    mock-secret: ${PRINT_SECURITY_SECRET}
+    permit-all-urls: []
+    password-encoder-length: 10
+  api-encrypt:
+    enable: false # Must agree with frontend; transport remains loopback only.
+  tenant:
+    enable: true
+  websocket:
+    enable: false
+  pay:
+    order-notify-url: http://127.0.0.1:1/disabled
+    refund-notify-url: http://127.0.0.1:1/disabled
+    transfer-notify-url: http://127.0.0.1:1/disabled
+  trade:
+    order:
+      status-sync-to-wxa-enable: false
+  demo: false
+mybatis-plus:
+  encryptor:
+    password: ${PRINT_DB_ENCRYPTION_KEY}
+logging:
+  config: file:/home/ubuntu/print-system/ops/runtime/logback-cloud.xml
+  file:
+    name: ${PRINT_RUNTIME_DIR}/logs/backend.log
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+knife4j:
+  enable: false
