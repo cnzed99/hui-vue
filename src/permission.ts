@@ -1,4 +1,5 @@
 import router from './router'
+import { isPrintVisualPreviewRoute } from '@/print-preview/routes'
 import type { RouteRecordRaw } from 'vue-router'
 import { isRelogin } from '@/config/axios/service'
 import { getAccessToken } from '@/utils/auth'
@@ -29,6 +30,13 @@ const whiteList = [
 router.beforeEach(async (to, from, next) => {
   start()
   loadStart()
+  // Opt-in cloud-only visual specimen: no identity, API access or business actions.
+  // Keep this before token/dictionary loading so the specimen needs no backend.
+  // Every other route retains the upstream authentication flow below.
+  if (isPrintVisualPreviewRoute(to)) {
+    next()
+    return
+  }
   if (getAccessToken()) {
     if (to.path === '/login') {
       next({ path: '/' })
