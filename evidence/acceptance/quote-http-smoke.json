@@ -1,0 +1,206 @@
+{
+  "file_rows_remaining": 0,
+  "temporary_instance_stopped": true,
+  "passed": true,
+  "failure": null,
+  "checks": [
+    {
+      "name": "parsed_fixture_three",
+      "passed": true
+    },
+    {
+      "name": "parsed_fixture_six-a",
+      "passed": true
+    },
+    {
+      "name": "parsed_fixture_six-b",
+      "passed": true
+    },
+    {
+      "name": "parsed_fixture_eleven",
+      "passed": true
+    },
+    {
+      "name": "duplex_copy_rounding_080",
+      "passed": true
+    },
+    {
+      "name": "snapshot_uses_actual_file_pages",
+      "passed": true
+    },
+    {
+      "name": "concurrent_quote_replay_same_id",
+      "passed": true
+    },
+    {
+      "name": "concurrent_first_creation_single_quote",
+      "passed": true
+    },
+    {
+      "name": "concurrent_creation_single_database_row",
+      "passed": true
+    },
+    {
+      "name": "normal_demo_quote_feature_stays_disabled",
+      "passed": true
+    },
+    {
+      "name": "different_input_same_key_rejected",
+      "passed": true
+    },
+    {
+      "name": "client_price_and_page_tampering_rejected",
+      "passed": true
+    },
+    {
+      "name": "invalid_request_creates_no_quote",
+      "passed": true
+    },
+    {
+      "name": "reader_quote_create_denied",
+      "passed": true
+    },
+    {
+      "name": "other_owner_quote_not_visible",
+      "passed": true
+    },
+    {
+      "name": "parsed_fixture_five",
+      "passed": true
+    },
+    {
+      "name": "exact_threshold_stays_base",
+      "passed": true
+    },
+    {
+      "name": "strict_threshold_not_greater_or_equal",
+      "passed": true
+    },
+    {
+      "name": "eleven_sheets_all_at_tier_165",
+      "passed": true
+    },
+    {
+      "name": "tier_snapshot_records_decision",
+      "passed": true
+    },
+    {
+      "name": "six_file_a_base",
+      "passed": true
+    },
+    {
+      "name": "six_file_b_base",
+      "passed": true
+    },
+    {
+      "name": "separate_files_do_not_merge_tiers",
+      "passed": true
+    },
+    {
+      "name": "copies_count_in_file_tier_180",
+      "passed": true
+    },
+    {
+      "name": "new_profile_version_used",
+      "passed": true
+    },
+    {
+      "name": "old_snapshot_unchanged_after_new_price",
+      "passed": true
+    },
+    {
+      "name": "price_profile_update_blocked",
+      "passed": true
+    },
+    {
+      "name": "quote_snapshot_update_blocked",
+      "passed": true
+    },
+    {
+      "name": "other_store_price_profile_hidden",
+      "passed": true
+    },
+    {
+      "name": "unconfirmed_multiple_tiers_rejected",
+      "passed": true
+    },
+    {
+      "name": "unknown_file_rejected",
+      "passed": true
+    },
+    {
+      "name": "failed_file_cannot_quote",
+      "passed": true
+    },
+    {
+      "name": "reject_invalid_or_overflow_copies_0",
+      "passed": true
+    },
+    {
+      "name": "reject_invalid_or_overflow_copies_-1",
+      "passed": true
+    },
+    {
+      "name": "reject_invalid_or_overflow_copies_1.5",
+      "passed": true
+    },
+    {
+      "name": "reject_invalid_or_overflow_copies_2",
+      "passed": true
+    },
+    {
+      "name": "reject_invalid_or_overflow_copies_9223372036854775808",
+      "passed": true
+    },
+    {
+      "name": "reject_invalid_or_overflow_copies_9223372036854775807",
+      "passed": true
+    },
+    {
+      "name": "write_authorized_other_owner_file_hidden",
+      "passed": true
+    },
+    {
+      "name": "parsed_fixture_expired",
+      "passed": true
+    },
+    {
+      "name": "expired_file_cannot_quote",
+      "passed": true
+    },
+    {
+      "name": "parsed_fixture_deleted",
+      "passed": true
+    },
+    {
+      "name": "deleted_file_cannot_quote",
+      "passed": true
+    },
+    {
+      "name": "snapshot_survives_process_restart",
+      "passed": true
+    },
+    {
+      "name": "expired_quote_is_labelled",
+      "passed": true
+    },
+    {
+      "name": "expired_idempotency_key_not_renewed",
+      "passed": true
+    },
+    {
+      "name": "expired_snapshot_and_expiry_unchanged",
+      "passed": true
+    },
+    {
+      "name": "explicit_new_quote_has_new_identifier",
+      "passed": true
+    }
+  ],
+  "cleanup_errors": [],
+  "temporary_files_removed": true,
+  "test_only_quote_ttl_seconds": 6,
+  "business_prices_seeded": false,
+  "normal_demo_features_enabled": false,
+  "test_only_max_pages": 20
+}

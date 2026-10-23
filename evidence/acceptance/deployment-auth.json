@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-23T04:03:39.296683+00:00",
+  "generated_at": "2026-10-23T04:32:56.505697+00:00",
   "scope": "Source-verified auth endpoint smoke only",
   "state_changes": "Test session login/logout only",
   "cases": [

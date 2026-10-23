@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-10-23T04:07:40.685348+00:00",
+  "updated_at": "2026-10-23T04:37:09.195174+00:00",
   "execution": "user_cloud_server",
   "overall": "in_progress",
   "base01": "build_and_pins_verified; licence and checkpoint being recorded",
-  "base02": "partial: DB/Redis/auth/proxy/build verified; file IO and repeatable empty DB deployment acceptance pending",
-  "base03": "partial: admin-reader-disabled and nonexistent tenant rejection verified; existing second-store fixture and customer/terminal identity pending",
-  "base04": "partial: opt-in P47 source sample only; original appearance and other52 routes not implemented",
-  "core02": "partial: pure calculation 23 checks; API/snapshots/tampering/expiry and grouping rules pending",
+  "base02": "partial: DB/Redis/auth/proxy/build and synthetic PDF file IO verified; empty-database reproducibility acceptance remains",
+  "base03": "partial: staff roles and real second tenant/store fixture isolation verified; customer/terminal identities remain",
+  "base04": "partial: deployed custom shell and 53-entry navigation; 52 business entries disabled; authenticated visual acceptance remains",
+  "core02": "partial_verified: pure pricing 23 checks; migrated/deployed quote API 48 synthetic HTTP checks passed; full pricing matrix and order integration incomplete",
   "passed_evidence": {
     "backend_build": "evidence/backend-rebuild.log",
     "frontend_build": "evidence/frontend-build.log",
@@ -14,7 +14,10 @@
     "roles": "evidence/acceptance/m1-role-permissions-release-v2.json",
     "credential_logging": "evidence/acceptance/credential-log-check-final.json",
     "pricing": "evidence/pricing/unit-checks.log",
-    "database_backup": "evidence/backup/latest.json"
+    "database_backup": "evidence/backup/latest.json",
+    "file_http": "evidence/acceptance/file-http-smoke.json",
+    "quote_schema": "evidence/database/print-quotes-v1.json",
+    "quote_http": "evidence/acceptance/quote-http-smoke.json"
   },
   "limitations": [
     "miniapp later",
@@ -22,7 +25,7 @@
     "no original production writes",
     "no historical data migration",
     "no public internet app exposure",
-    "pricing tier grouping and full business policies remain unconfirmed"
+    "Multi-tier, discounts, settlement rounding and cancellation/refund/reprint policies remain unconfirmed"
   ],
   "base03_scope_increment": {
     "status": "partial_verified",
@@ -46,9 +49,10 @@
     "schema_migrated": true,
     "pdf_parser_checks_passed": 8,
     "disabled_gate_and_logout_checks_passed": 8,
-    "enabled_upload_http_tested": false,
-    "restart_recovery_tested": false,
-    "evidence": "docs/files/core01-status.md"
+    "enabled_upload_http_tested": true,
+    "restart_recovery_tested": true,
+    "evidence": "docs/files/core01-status.md",
+    "enabled_upload_http_checks_passed": 32
   },
   "disk_policy": {
     "reserve_gib": 10,
@@ -57,5 +61,15 @@
     "database_backups_retained": 2,
     "frontend_previous_snapshot_retained": 1,
     "free_gib_at_publication": 46.38
+  },
+  "core02_quote_increment": {
+    "status": "partial_verified",
+    "http_checks_passed": 48,
+    "per_file_all_copies_confirmed": true,
+    "immutable_price_and_quote_updates_rejected": true,
+    "restart_persistence_verified": true,
+    "temporary_fixtures_removed": true,
+    "normal_demo_enabled": false,
+    "evidence": "evidence/acceptance/quote-http-smoke.json"
   }
 }

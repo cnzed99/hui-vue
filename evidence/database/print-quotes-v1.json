@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-23T04:31:47.230651+00:00",
+  "schema_sha256": "7403f5113c67dfc30d5a0d586e9ba863d5977dc5e570e6ecb65623c8b3c17602",
+  "tables": [
+    "print_price_profile",
+    "print_quote"
+  ],
+  "columns_verified": 22,
+  "unique_indexes_verified": 3,
+  "immutable_update_triggers_verified": 2,
+  "business_prices_seeded": false,
+  "runtime_enabled": false,
+  "pre_migration_backup_restore_verified": true,
+  "remaining_free_bytes": 49784586240
+}

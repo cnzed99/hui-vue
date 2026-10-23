@@ -1,0 +1,121 @@
+{
+  "passed": true,
+  "failure": null,
+  "checks": [
+    {
+      "name": "upload_persisted",
+      "passed": true
+    },
+    {
+      "name": "actual_pdf_page_count",
+      "passed": true
+    },
+    {
+      "name": "metadata_has_no_storage_path",
+      "passed": true
+    },
+    {
+      "name": "owner_download_matches_bytes",
+      "passed": true
+    },
+    {
+      "name": "download_private_headers",
+      "passed": true
+    },
+    {
+      "name": "other_owner_metadata_hidden",
+      "passed": true
+    },
+    {
+      "name": "other_owner_download_hidden",
+      "passed": true
+    },
+    {
+      "name": "reader_upload_denied",
+      "passed": true
+    },
+    {
+      "name": "concurrent_idempotent_replay",
+      "passed": true
+    },
+    {
+      "name": "idempotency_content_conflict",
+      "passed": true
+    },
+    {
+      "name": "one_row_for_idempotent_request",
+      "passed": true
+    },
+    {
+      "name": "accepted_for_async_PDF_INVALID",
+      "passed": true
+    },
+    {
+      "name": "rejected_PDF_INVALID",
+      "passed": true
+    },
+    {
+      "name": "failed_blob_removed_PDF_INVALID",
+      "passed": true
+    },
+    {
+      "name": "accepted_for_async_PDF_ENCRYPTED",
+      "passed": true
+    },
+    {
+      "name": "rejected_PDF_ENCRYPTED",
+      "passed": true
+    },
+    {
+      "name": "failed_blob_removed_PDF_ENCRYPTED",
+      "passed": true
+    },
+    {
+      "name": "demo_instance_stays_disabled",
+      "passed": true
+    },
+    {
+      "name": "ready_metadata_survives_restart",
+      "passed": true
+    },
+    {
+      "name": "ready_content_survives_restart",
+      "passed": true
+    },
+    {
+      "name": "seeded_interrupted_processing_recovers",
+      "passed": true
+    },
+    {
+      "name": "expired_file_marked_deleted",
+      "passed": true
+    },
+    {
+      "name": "expired_content_denied",
+      "passed": true
+    },
+    {
+      "name": "expired_blob_removed",
+      "passed": true
+    },
+    {
+      "name": "owner_delete_applied",
+      "passed": true
+    },
+    {
+      "name": "deleted_blob_removed",
+      "passed": true
+    }
+  ],
+  "cleanup_errors": [],
+  "temporary_files_removed": true,
+  "file_rows_remaining": 0,
+  "normal_demo_upload_enabled": false,
+  "test_only_limits": {
+    "bytes": 2097152,
+    "pages": 10,
+    "retention_seconds": 3600
+  },
+  "restart_recovery_kind": "actual process restart with explicitly seeded interrupted row; no forced mid-parser crash",
+  "hard_parser_timeout_tested": false
+}

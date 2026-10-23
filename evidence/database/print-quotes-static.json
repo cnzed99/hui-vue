@@ -1,0 +1,18 @@
+{
+  "at": "2026-10-23T04:26:00.880588+00:00",
+  "java_files": [
+    "PrintQuoteException.java",
+    "PrintQuoteProperties.java",
+    "PrintQuoteRepository.java",
+    "PrintQuoteService.java",
+    "PrintQuoteSnapshot.java",
+    "PrintQuoteView.java"
+  ],
+  "migration_python_syntax": "PASS",
+  "ddl": "NOT_RUN",
+  "build": "NOT_RUN",
+  "http": "NOT_RUN",
+  "real_business_prices": "NOT_SEEDED",
+  "free_bytes": 49786081280,
+  "generated_temporary_files": 0
+}

@@ -14,6 +14,13 @@ The initial scope is one application process, one persistent database queue and 
 ## Intentional disabled state and remaining work
 `print.files.enabled=false` and multipart uploads remain disabled. Max bytes, pages and retention require explicit configuration; proposed commercial limits have not been confirmed. Synthetic parser test limits are not business policy decisions.
 
-The current implementation includes a durable upload/processing/ready/failed/deleted state model, scoped idempotency, owner-protected download, startup recovery and targeted blob cleanup. These paths have not yet received enabled HTTP upload integration, process restart, race, disk pressure or end-to-end order acceptance. Hard parser time limits and process isolation are also unfinished. Do not treat parser unit evidence as production file safety approval or CORE-01 completion.
+The current implementation includes a durable upload/processing/ready/failed/deleted state model, scoped idempotency, owner-protected download, startup recovery and targeted blob cleanup. Enabled synthetic HTTP integration, idempotency replay races, actual process restarts and configured reserve rejection have now been checked as detailed below. End-to-end order acceptance, actual disk exhaustion, hard parser time limits and process isolation remain unfinished. Do not treat parser unit evidence as production file safety approval or CORE-01 completion.
 
-Next: run an explicitly isolated synthetic upload acceptance configuration, validate persistence/idempotency/owner denial/restart/expiry, then connect confirmed pricing and order state contracts. Keep the normal demo upload gate off until the relevant policy is decided.
+Next: connect confirmed pricing and order state contracts, then cover remaining parser and concurrency risks. Keep the normal demo upload gate off until the relevant policy is decided.
+
+## Enabled synthetic HTTP acceptance
+`python3 ops/acceptance/file_http_smoke.py` ran a temporary loopback instance on port 48081 while the normal 48080 demo stayed disabled. The test configuration was 2 MiB / 10 pages / 3600 seconds; these are test fixtures, not adopted business limits. All 32 checks passed, including actual upload/download, scoped access, idempotency races, corrupt/encrypted rejection, filename cleanup, oversize rejection, expiry/delete blob cleanup and configured disk-reserve rejection.
+
+Actual process restarts preserved READY file bytes and metadata. Interrupted-processing recovery was checked with an explicitly seeded PROCESSING row while the process was stopped; it is not a forced mid-parser crash experiment. Tokens were logged out, all owned rows and temporary storage removed, and the temporary instance stopped. Evidence: `evidence/acceptance/file-http-smoke.json`; earlier 26-check evidence retained as `file-http-smoke-v1.json`.
+
+Remaining: production upload policy, actual order linkage, parser hard timeout/process isolation, full conversion-format matrix, signed share/download lifetime if required, and broader pressure/race scenarios. CORE-01 remains in progress.
