@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-23T04:37:09.195174+00:00",
+  "updated_at": "2026-10-23T04:48:41.844230+00:00",
   "execution": "user_cloud_server",
   "overall": "in_progress",
   "base01": "build_and_pins_verified; licence and checkpoint being recorded",
@@ -17,7 +17,9 @@
     "database_backup": "evidence/backup/latest.json",
     "file_http": "evidence/acceptance/file-http-smoke.json",
     "quote_schema": "evidence/database/print-quotes-v1.json",
-    "quote_http": "evidence/acceptance/quote-http-smoke.json"
+    "quote_http": "evidence/acceptance/quote-http-smoke.json",
+    "order_http": "evidence/acceptance/order-http-smoke.json",
+    "order_event_guard": "evidence/acceptance/order-event-guard-smoke.json"
   },
   "limitations": [
     "miniapp later",
@@ -71,5 +73,20 @@
     "temporary_fixtures_removed": true,
     "normal_demo_enabled": false,
     "evidence": "evidence/acceptance/quote-http-smoke.json"
+  },
+  "core03_order_increment": {
+    "status": "partial_verified",
+    "http_checks_passed": 33,
+    "pdf_fixture_checks_passed": 3,
+    "app_db_event_delete_denied": true,
+    "restart_persistence_verified": true,
+    "temporary_fixtures_removed": true,
+    "normal_demo_enabled": false,
+    "remaining": "Simulated payments, tasks, refunds, delivery, complete order actions and browser UI acceptance"
+  },
+  "progress_estimate": {
+    "phase1_percent": 15,
+    "method": "engineering estimate of accepted first-phase scope; not an automated task count",
+    "remaining_business_entries": 52
   }
 }

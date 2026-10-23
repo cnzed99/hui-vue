@@ -1,0 +1,164 @@
+{
+  "passed": true,
+  "failure": null,
+  "checks": [
+    {
+      "name": "concurrent_creation_one_order",
+      "passed": true
+    },
+    {
+      "name": "real_order_uses_server_snapshot",
+      "passed": true
+    },
+    {
+      "name": "creation_is_not_payment_or_printing",
+      "passed": true
+    },
+    {
+      "name": "one_quote_consumption_row",
+      "passed": true
+    },
+    {
+      "name": "one_creation_event",
+      "passed": true
+    },
+    {
+      "name": "same_quote_new_key_cannot_duplicate",
+      "passed": true
+    },
+    {
+      "name": "same_key_other_quote_conflict",
+      "passed": true
+    },
+    {
+      "name": "client_amount_or_scope_rejected",
+      "passed": true
+    },
+    {
+      "name": "reader_create_denied",
+      "passed": true
+    },
+    {
+      "name": "other_owner_hidden",
+      "passed": true
+    },
+    {
+      "name": "other_owner_hidden/events",
+      "passed": true
+    },
+    {
+      "name": "reader_list_contains_no_admin_orders",
+      "passed": true
+    },
+    {
+      "name": "creation_event_is_staff_and_simulated",
+      "passed": true
+    },
+    {
+      "name": "stable_owner_pagination",
+      "passed": true
+    },
+    {
+      "name": "invalid_pagination_or_scope_pageNo=0",
+      "passed": true
+    },
+    {
+      "name": "invalid_pagination_or_scope_pageNo=1.5",
+      "passed": true
+    },
+    {
+      "name": "invalid_pagination_or_scope_pageSize=101",
+      "passed": true
+    },
+    {
+      "name": "invalid_pagination_or_scope_pageSize=-1",
+      "passed": true
+    },
+    {
+      "name": "invalid_pagination_or_scope_storeId=999",
+      "passed": true
+    },
+    {
+      "name": "invalid_pagination_or_scope_ownerUserId=999",
+      "passed": true
+    },
+    {
+      "name": "invalid_pagination_or_scope_sort=created_at_ms",
+      "passed": true
+    },
+    {
+      "name": "invalid_pagination_or_scope_pageNo=1&pageNo=2",
+      "passed": true
+    },
+    {
+      "name": "normal_demo_orders_stay_disabled",
+      "passed": true
+    },
+    {
+      "name": "order_update_blocked",
+      "passed": true
+    },
+    {
+      "name": "item_update_blocked",
+      "passed": true
+    },
+    {
+      "name": "event_update_blocked",
+      "passed": true
+    },
+    {
+      "name": "unknown_quote_hidden",
+      "passed": true
+    },
+    {
+      "name": "deleted_quote_file_rejected",
+      "passed": true
+    },
+    {
+      "name": "file_digest_mismatch_rejected",
+      "passed": true
+    },
+    {
+      "name": "order_survives_process_restart",
+      "passed": true
+    },
+    {
+      "name": "created_order_replay_survives_quote_expiry",
+      "passed": true
+    },
+    {
+      "name": "unconsumed_expired_quote_rejected",
+      "passed": true
+    },
+    {
+      "name": "only_two_orders_created",
+      "passed": true
+    }
+  ],
+  "pdf_fixture_checks": [
+    {
+      "name": "parsed_fixture_order-three",
+      "passed": true
+    },
+    {
+      "name": "parsed_fixture_order-delete",
+      "passed": true
+    },
+    {
+      "name": "parsed_fixture_order-mismatch",
+      "passed": true
+    }
+  ],
+  "cleanup_errors": [],
+  "remaining_rows": {
+    "print_order": 0,
+    "print_order_item": 0,
+    "print_order_event": 0,
+    "print_file": 0
+  },
+  "temporary_files_removed": true,
+  "temporary_instance_stopped": true,
+  "test_quote_ttl_seconds": 20,
+  "normal_demo_orders_enabled": false,
+  "real_payment_or_printing": false
+}

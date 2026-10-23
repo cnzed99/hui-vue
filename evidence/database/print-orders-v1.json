@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-23T04:44:50.853717+00:00",
+  "schema_sha256": "e4f50ad51e2848b85c21af84ffd738cdcd957d7af49bee4370cb6f03fcbcb3bc",
+  "tables": [
+    "print_order",
+    "print_order_item",
+    "print_order_event"
+  ],
+  "columns_verified": 44,
+  "unique_indexes_verified": 6,
+  "immutable_and_append_only_triggers_verified": 4,
+  "event_delete_maintenance_identity": "root@localhost",
+  "business_rows_seeded": false,
+  "runtime_enabled": false,
+  "pre_migration_backup_restore_verified": true,
+  "remaining_free_bytes": 49775906816
+}

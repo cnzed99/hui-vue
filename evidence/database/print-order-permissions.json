@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-23T04:43:09.272388+00:00",
+  "permissions": [
+    "print:order:create",
+    "print:order:query"
+  ],
+  "admin_grants": 2,
+  "reader_grants": 1,
+  "reader_create_denied_by_seed": true,
+  "idempotent_second_application": true,
+  "pre_migration_backup_verified": true,
+  "runtime_permission_acceptance": "NOT_RUN"
+}

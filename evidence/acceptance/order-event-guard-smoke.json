@@ -1,0 +1,7 @@
+{
+  "at": "2026-10-23T04:47:20.457370+00:00",
+  "passed": true,
+  "application_delete_rejected_by_trigger": true,
+  "root_maintenance_cleanup_verified": true,
+  "failure": null
+}
