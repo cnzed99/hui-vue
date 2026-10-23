@@ -23,6 +23,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,7 @@ import static cn.iocoder.yudao.module.infra.framework.file.core.utils.FileTypeUt
 
 @Tag(name = "管理后台 - 文件存储")
 @RestController
+@ConditionalOnProperty(name = "print.legacy-file-controller-enabled", havingValue = "true", matchIfMissing = true)
 @RequestMapping("/infra/file")
 @Validated
 @Slf4j
