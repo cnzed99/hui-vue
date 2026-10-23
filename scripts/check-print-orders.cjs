@@ -84,6 +84,36 @@ async function main() {
   response.data.list[0].orderId = '87654321-1234-4234-8234-123456789012'
   await failure('events from another order rejected', 'invalid-response', () => api.getOrderEvents(id, 1, 20))
   check('unknown state is not translated as paid/printed', () => assert.equal(view.statusLabel('NEW_UNSUPPORTED_STATE'), '未知状态（NEW_UNSUPPORTED_STATE）'))
+  // Batch B extends, rather than replaces, the 26 existing checks above.
+  check('payment success explicitly means simulated receipt', () => assert.equal(view.paymentStatusLabel('SUCCEEDED'), '模拟收款成功'))
+  check('unpaid label remains unpaid', () => assert.equal(view.paymentStatusLabel('UNPAID'), '未支付'))
+  check('queued printing means waiting, not completion', () => assert.equal(view.printStatusLabel('QUEUED'), '等待打印（排队中）'))
+  check('print success does not reuse payment success', () => assert.equal(view.printStatusLabel('SUCCEEDED'), '未知打印状态（SUCCEEDED）'))
+  check('unknown payment is not silently success', () => assert.equal(view.paymentStatusLabel('NEW_STATE'), '未知支付状态（NEW_STATE）'))
+  check('payment event explicitly simulated', () => assert.equal(view.eventTypeLabel('PAYMENT_SIMULATED'), '模拟收款已记录'))
+  check('old create event label retained', () => assert.equal(view.eventTypeLabel('ORDER_CREATED'), '订单已创建'))
+  const paid = { ...summary, paymentState: 'SUCCEEDED', printState: 'QUEUED' }
+  response = { code: 0, data: { list: [paid], total: 1, pageNo: 1, pageSize: 20 } }
+  result = await api.getOrders(1, 20)
+  check('paid queued response retains independent states and exact amount', () => {
+    assert.equal(result.list[0].paymentState, 'SUCCEEDED'); assert.equal(result.list[0].printState, 'QUEUED')
+    assert.equal(result.list[0].totalAmount, '9007199254740993.01'); assert.equal(result.list[0].simulation, true)
+  })
+  response = { code: 0, data: { list: [{ eventId: 'event-2', orderId: id, type: 'PAYMENT_SIMULATED', actorType: 'STAFF', actorId: 1, simulation: true, aggregateVersion: 2, createdAtMs: 1792742401000 }], total: 1, pageNo: 1, pageSize: 20 } }
+  result = await api.getOrderEvents(id, 1, 20)
+  check('payment event v2 accepted with simulation provenance', () => {
+    assert.equal(result.list[0].type, 'PAYMENT_SIMULATED'); assert.equal(result.list[0].aggregateVersion, 2); assert.equal(result.list[0].simulation, true)
+  })
+  for (const [name, object] of [['DemoOrders.vue', 'order'], ['DemoOrderDetail.vue', 'data']]) {
+    const source = fs.readFileSync('src/print-admin/orders/' + name, 'utf8')
+    check(name + ' binds payment and print through distinct formatters', () => {
+      assert.ok(source.includes('paymentStatusLabel(' + object + '.paymentState)'))
+      assert.ok(source.includes('printStatusLabel(' + object + '.printState)'))
+      assert.ok(!source.includes('statusLabel(' + object + '.paymentState)'))
+      assert.ok(!source.includes('statusLabel(' + object + '.printState)'))
+    })
+  }
+  check('detail binds event type through event formatter', () => assert.ok(fs.readFileSync('src/print-admin/orders/DemoOrderDetail.vue', 'utf8').includes('eventTypeLabel(event.type)')))
   console.log('PASS ' + checks + ' isolated frontend contract checks; no real HTTP/browser/build acceptance.')
 }
 main().catch(error => { console.error(error); process.exitCode = 1 })

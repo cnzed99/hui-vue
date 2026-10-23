@@ -3,7 +3,7 @@ import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { classifyOrderError, getOrders, orderFailure } from './api'
 import type { OrderFailure, OrderPage, OrderSummary } from './api'
-import { DEMO_ORDERS, displayTime, parsePage, statusLabel, useOrderAccess } from './view'
+import { DEMO_ORDERS, displayTime, parsePage, statusLabel, paymentStatusLabel, printStatusLabel, useOrderAccess } from './view'
 import OrderState from './OrderState.vue'
 import './orders.css'
 
@@ -62,7 +62,7 @@ const detailLink = (id: string) => ({ path: `${DEMO_ORDERS}/${id}`, query: {
           <tbody><tr v-for="order in data.list" :key="order.id">
             <td class="orders-identifier">{{ order.orderNo }}</td><td>后台演示 <span v-if="order.simulation" class="orders-badge">模拟</span></td>
             <td class="orders-money">{{ order.totalAmount }}</td><td>{{ statusLabel(order.orderState) }}</td>
-            <td>{{ statusLabel(order.paymentState) }}</td><td>{{ statusLabel(order.printState) }}</td>
+            <td>{{ paymentStatusLabel(order.paymentState) }}</td><td>{{ printStatusLabel(order.printState) }}</td>
             <td>{{ displayTime(order.createdAtMs) }}</td><td><RouterLink :to="detailLink(order.id)">查看</RouterLink></td>
           </tr></tbody>
         </table></div>

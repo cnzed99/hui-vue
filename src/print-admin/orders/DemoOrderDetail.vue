@@ -3,7 +3,7 @@ import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { classifyOrderError, getOrder, getOrderEvents, orderFailure, validOrderId } from './api'
 import type { OrderDetail, OrderEvent, OrderFailure, OrderPage } from './api'
-import { DEMO_ORDERS, displayTime, parsePage, statusLabel, useOrderAccess } from './view'
+import { DEMO_ORDERS, displayTime, parsePage, statusLabel, paymentStatusLabel, printStatusLabel, eventTypeLabel, useOrderAccess } from './view'
 import OrderState from './OrderState.vue'
 import './orders.css'
 
@@ -72,8 +72,8 @@ onBeforeUnmount(() => { generation++; eventGeneration++ })
           <div><dt>订单号</dt><dd>{{ data.orderNo }}</dd></div><div><dt>来源</dt><dd>后台演示</dd></div>
           <div><dt>订单金额</dt><dd class="orders-money">{{ data.totalAmount }} 元</dd></div>
           <div><dt>订单状态</dt><dd>{{ statusLabel(data.orderState) }}</dd></div>
-          <div><dt>支付状态</dt><dd>{{ statusLabel(data.paymentState) }}</dd></div>
-          <div><dt>打印状态</dt><dd>{{ statusLabel(data.printState) }}</dd></div>
+          <div><dt>支付状态</dt><dd>{{ paymentStatusLabel(data.paymentState) }}</dd></div>
+          <div><dt>打印状态</dt><dd>{{ printStatusLabel(data.printState) }}</dd></div>
           <div><dt>退款状态</dt><dd>{{ statusLabel(data.refundState) }}</dd></div>
           <div><dt>配送方式 / 状态</dt><dd>{{ statusLabel(data.deliveryMode) }} / {{ statusLabel(data.deliveryState) }}</dd></div>
           <div><dt>创建员工</dt><dd>{{ data.createdByActorId }}</dd></div>
@@ -109,7 +109,7 @@ onBeforeUnmount(() => { generation++; eventGeneration++ })
       <template v-if="events && !eventFailure">
         <p v-if="events.list.length === 0" class="orders-empty">当前页暂无订单事件。</p>
         <ol v-else class="orders-events"><li v-for="event in events.list" :key="event.eventId">
-          <span>{{ statusLabel(event.type) }} <span v-if="event.simulation" class="orders-badge">模拟</span></span>
+          <span>{{ eventTypeLabel(event.type) }} <span v-if="event.simulation" class="orders-badge">模拟</span></span>
           <span>员工 {{ event.actorId }} · {{ displayTime(event.createdAtMs) }}（北京时间）</span>
         </li></ol>
         <nav class="orders-pagination" aria-label="订单事件分页">

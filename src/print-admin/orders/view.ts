@@ -12,10 +12,16 @@ export const parsePage = (value: unknown, fallback: number, max: number): number
   return n <= max ? n : null
 }
 const statusLabels: Record<string, string> = {
-  OPEN: '进行中', UNPAID: '未支付', NONE: '无', NOT_APPLICABLE: '不适用',
-  NOT_CREATED: '未创建打印任务', ORDER_CREATED: '订单已创建', SIMPLEX: '单面', DUPLEX: '双面'
+  OPEN: '进行中', NONE: '无', NOT_APPLICABLE: '不适用', SIMPLEX: '单面', DUPLEX: '双面'
 }
 export const statusLabel = (value: string): string => statusLabels[value] || `未知状态（${value}）`
+// Keep payment, printing and event dictionaries separate: SUCCEEDED is not a universal result.
+const paymentLabels: Record<string, string> = { UNPAID: '未支付', SUCCEEDED: '模拟收款成功' }
+const printLabels: Record<string, string> = { NOT_CREATED: '未创建打印任务', QUEUED: '等待打印（排队中）' }
+const eventLabels: Record<string, string> = { ORDER_CREATED: '订单已创建', PAYMENT_SIMULATED: '模拟收款已记录' }
+export const paymentStatusLabel = (value: string): string => paymentLabels[value] || `未知支付状态（${value}）`
+export const printStatusLabel = (value: string): string => printLabels[value] || `未知打印状态（${value}）`
+export const eventTypeLabel = (value: string): string => eventLabels[value] || `未知事件（${value}）`
 export const displayTime = (value: number): string => new Intl.DateTimeFormat('zh-CN', {
   timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit',
   hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
