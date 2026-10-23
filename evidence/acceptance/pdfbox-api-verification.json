@@ -1,0 +1,13 @@
+{
+  "source_url": "https://repo.maven.apache.org/maven2/org/apache/pdfbox/pdfbox/3.0.8/pdfbox-3.0.8-sources.jar",
+  "sha256": "eaed642d27599c78229857e4ab571805979f828f5ec8c695e3135ca933766132",
+  "metadata_url": "https://repo.maven.apache.org/maven2/org/apache/pdfbox/pdfbox/maven-metadata.xml",
+  "verified_version": "3.0.8",
+  "verified_api": [
+    "Loader.loadPDF(File, StreamCacheCreateFunction)",
+    "PDDocument.isEncrypted()",
+    "PDDocument.getNumberOfPages()",
+    "PDDocument.close()"
+  ],
+  "source_jar_kept": false
+}

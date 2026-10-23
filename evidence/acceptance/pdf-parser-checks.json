@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "checks": 8,
+  "source": "synthetic PDFs generated with locked PDFBox dependency",
+  "http_upload_tested": false,
+  "hard_parser_timeout_tested": false,
+  "temporary_files_removed": true
+}

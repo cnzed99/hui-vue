@@ -1,0 +1,27 @@
+{
+  "menu_entries": 53,
+  "exact_menu_mapping": true,
+  "available_entries": [
+    "P01-context-only"
+  ],
+  "business_route_not_whitelisted": true,
+  "preview_flag_unchanged_false": true,
+  "static_routes_preserved_on_reset": true,
+  "default_demo_home_replaced": true,
+  "new_files_whitespace_clean": true,
+  "build_run": false,
+  "browser_run": false,
+  "sha256": {
+    "src/print-admin/PrintWorkbench.vue": "19e4026d6ca912065856f3899c7047ee445dccf64e0e0ae3b94a6e754121fad4",
+    "src/print-admin/contextStore.ts": "7fa0dd06a3e4f9f6c937c107163e879c7f4a79eff2910be9cbb18e61bb0e9d8b",
+    "src/print-admin/navigation.ts": "40c972c1bb67243116879c39646e8e62fb883bcec101dae8cd2620290f240742",
+    "src/print-admin/routes.ts": "7a85ec98b6cc4fb3ccc875c7c36fa207f90b3c34e184bfe443fe4cdd88267ce9",
+    "src/print-admin/PrintAdminShell.vue": "a13b2d8a1d11ea0f36a1a39b1d86d40400da955f7fae363d33d95a1535a870eb",
+    "src/print-admin/menu.ts": "6b81d00f3e563c6930513f65fb80f63905fd8d219131b60b087fbae6d7786217",
+    "src/print-admin/context.ts": "4372a77939da80030491cc085a0e31ffd5c132e2c678fd94ea09156b59c52e40"
+  },
+  "review_commonresult_errors_remain_rejections": true,
+  "review_401_still_uses_shared_refresh": true,
+  "review_home_aliases_preserve_query_hash": true,
+  "review_password_login_early_failure_overlay_guard": true
+}

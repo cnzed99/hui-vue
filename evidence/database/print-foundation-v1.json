@@ -1,0 +1,25 @@
+{
+  "timestamp_utc": "2026-10-22T11:28:55.812432+00:00",
+  "migration": "print-foundation-v1",
+  "sql_sha256": "e8325601f00a031b5a5b34de1c4bac33e5850bda63635f44c4c78e7ed3626ed3",
+  "pre_migration_backup": "print-demo-20261022T112850Z-0429d4cb.sql.aesgcm",
+  "metrics": {
+    "stores": 1,
+    "staff_store_mappings": 2,
+    "print_menu_records": 6,
+    "admin_print_permission_grants": 6,
+    "reader_print_permission_grants": 3,
+    "reader_mutation_grants": 0
+  },
+  "second_execution_same_counts": true,
+  "dropped_existing_tables": false,
+  "upstream_records_imported": false,
+  "backend_compiled": false,
+  "backend_restarted": false,
+  "http_scope_checks_run": false,
+  "initial_pre_change_backup": "print-demo-20261022T112828Z-0bae7696.sql.aesgcm",
+  "verification_wrapper_correction": "After initial successful SQL apply, trailing empty TSV path was incorrectly stripped during second-run conflict guard. Parser corrected to remove newline only; repeated migration then passed without resetting records.",
+  "java_source_whitespace_check": "passed; six new files",
+  "migration_python_syntax": "parsed",
+  "main_compilation_and_http_required": true
+}

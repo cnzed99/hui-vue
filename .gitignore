@@ -8,3 +8,5 @@ __pycache__/
 *.key
 *.dpapi
 .env
+
+/ops/db/.print-foundation-v1.lock

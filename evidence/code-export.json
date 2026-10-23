@@ -1,0 +1,11 @@
+{
+  "file": "runtime/backups/cloud-baseline-code.tar.gz",
+  "bytes": 326674,
+  "sha256": "c4ceab62f5a242a344f0438321845145a52b1e591e46b19fec7878b6b3fade14",
+  "commits": {
+    "engineering": "26ef525f7b2f68810c6911fa5e0775e98bd33bf0",
+    "backend": "850a88c9f4124f4cc889b48b81483f05b41fbe37",
+    "frontend": "0fb01c41694e1fe14821e23531824d9823406f70"
+  },
+  "contains_secrets": false
+}

@@ -1,0 +1,11 @@
+{
+  "label": "pdf-check",
+  "startedUtc": "2026-10-23T04:05:06.478576+00:00",
+  "freeBeforeBytes": 49790468096,
+  "minimumFreeBytes": 10737418240,
+  "exitCode": 0,
+  "scratchBytesRemoved": 0,
+  "scratchRemoved": true,
+  "freeAfterBytes": 49790464000,
+  "aboveMinimum": true
+}

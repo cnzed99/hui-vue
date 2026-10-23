@@ -1,0 +1,11 @@
+{
+  "label": "guard-check",
+  "startedUtc": "2026-10-22T11:29:28.370927+00:00",
+  "freeBeforeBytes": 50236846080,
+  "minimumFreeBytes": 10737418240,
+  "exitCode": 0,
+  "scratchBytesRemoved": 1024,
+  "scratchRemoved": true,
+  "freeAfterBytes": 50236846080,
+  "aboveMinimum": true
+}

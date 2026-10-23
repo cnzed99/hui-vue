@@ -1,18 +1,18 @@
 {
-  "timestamp_utc": "2026-10-22T11:20:12.064040+00:00",
+  "timestamp_utc": "2026-10-23T03:59:50.719380+00:00",
   "source_database": "print_demo",
   "snapshot_method": "mysqldump --single-transaction --skip-lock-tables",
   "baseline_method": "row counts from same snapshot single-row INSERT statements; no comparison to later live rows",
   "encryption": "AES-256-GCM",
   "authenticated_tamper_rejection": true,
-  "encrypted_file": "print-demo-20261022T112012Z-44219b96.sql.aesgcm",
-  "encrypted_bytes": 116575,
-  "encrypted_sha256": "1fc09229e2ae7d43f5e39de080192db9251c2354e9013848b59434dc28c3e715",
-  "snapshot_bytes": 116538,
-  "table_count": 43,
-  "total_rows": 94,
+  "encrypted_file": "print-demo-20261023T035950Z-83e9647a.sql.aesgcm",
+  "encrypted_bytes": 123221,
+  "encrypted_sha256": "9a9af158fda5898fa29ed574cd6e08529c026b3f6646a9704215207f9dc25ab5",
+  "snapshot_bytes": 123184,
+  "table_count": 45,
+  "total_rows": 114,
   "table_rows": {
-    "infra_api_access_log": 49,
+    "infra_api_access_log": 51,
     "infra_api_error_log": 0,
     "infra_codegen_column": 0,
     "infra_codegen_table": 0,
@@ -23,6 +23,8 @@
     "infra_file_content": 0,
     "infra_job": 0,
     "infra_job_log": 0,
+    "print_staff_store": 2,
+    "print_store": 1,
     "system_dept": 1,
     "system_dict_data": 0,
     "system_dict_type": 0,
@@ -30,7 +32,7 @@
     "system_mail_account": 0,
     "system_mail_log": 0,
     "system_mail_template": 0,
-    "system_menu": 4,
+    "system_menu": 10,
     "system_notice": 0,
     "system_notify_message": 0,
     "system_notify_template": 0,
@@ -42,7 +44,7 @@
     "system_operate_log": 0,
     "system_post": 0,
     "system_role": 2,
-    "system_role_menu": 4,
+    "system_role_menu": 13,
     "system_sms_channel": 0,
     "system_sms_code": 0,
     "system_sms_log": 0,
@@ -67,9 +69,9 @@
   "source_database_stopped": false,
   "retention_max_owned_backups": 2,
   "retention_removed": [
-    "print-demo-20261022T111815Z-23aab8a7.sql.aesgcm"
+    "print-demo-20261022T112828Z-0bae7696.sql.aesgcm"
   ],
   "backup_location": "same server only; not offsite recovery",
-  "disk_free_before_bytes": 50240188416,
-  "disk_free_after_bytes": 50239971328
+  "disk_free_before_bytes": 49986260992,
+  "disk_free_after_bytes": 49974546432
 }

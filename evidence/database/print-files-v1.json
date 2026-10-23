@@ -1,0 +1,9 @@
+{
+  "at": "2026-10-23T04:00:09.016101+00:00",
+  "schema_sha256": "1281b996a09c876e2ef76e63cbf164d23e955527037f7bc406dfd07ed2590f95",
+  "columns_verified": 18,
+  "idempotency_unique_verified": true,
+  "table": "print_file",
+  "schema_only": true,
+  "runtime_enabled": false
+}

@@ -109,3 +109,8 @@ springdoc:
     enabled: false
 knife4j:
   enable: false
+
+print:
+  legacy-file-controller-enabled: false
+  files:
+    enabled: false

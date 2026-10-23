@@ -1,0 +1,11 @@
+{
+  "label": "frontend",
+  "startedUtc": "2026-10-22T11:32:31.212673+00:00",
+  "freeBeforeBytes": 50236342272,
+  "minimumFreeBytes": 10737418240,
+  "exitCode": 0,
+  "scratchBytesRemoved": 9488368,
+  "scratchRemoved": true,
+  "freeAfterBytes": 50248687616,
+  "aboveMinimum": true
+}

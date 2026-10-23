@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd /home/ubuntu/print-system
+if [ "${1:-}" != "--within-disk-batch" ]; then
+    exec python3 ops/run-build-batch.py --label baseline -- bash "$0" --within-disk-batch
+fi
 export PATH="$PWD/runtime/node/current/bin:$PWD/runtime/npm/bin:$PATH"
 export MAVEN_OPTS='-Xmx768m -XX:MaxMetaspaceSize=256m'
 export NODE_OPTIONS='--max-old-space-size=2048'

@@ -1,3 +1,8 @@
 # Disk management
 User constraint: system disk is only 60 GB. Check usage before and after every installation, build and test batch. Keep at least 10 GiB free before large operations; stop and assess if below threshold.
 Preserve source, database, active dependency caches, useful diagnostics and recoverable backup. Remove verified obsolete installers, duplicate extracted archives and temporary test outputs using explicit paths, never broad wildcard cleanup. Rotate logs. Do not represent swap as physical memory. Record before/after disk usage and actual cleanup effects.
+
+## Enforced build batches
+`ops/run-build-batch.py` provides a non-blocking single-build lock, a 10 GiB preflight guard, an isolated scratch directory and cleanup on command success or failure. Backend and baseline build entrypoints use this wrapper. Frontend-only builds and acceptance batches should use the same wrapper with their own label. It sets TMPDIR/TMP/TEMP and the JVM temporary directory. It removes only the exact scratch directory it created; unknown old directories are preserved for explicit review. Latest per-label measurements are written to `evidence/disk/`. A forced process kill may bypass final cleanup; inspect such leftovers before removal.
+
+Keep the current and previous verified backend release and two registered encrypted database backups. Those retention policies are owned by their publisher/backup scripts. Do not prune Maven/pnpm caches after every build. Keep bounded logs and source evidence. Disk space changes due to concurrent database work must not be reported as reclaimed cleanup bytes.

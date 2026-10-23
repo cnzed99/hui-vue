@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-22T11:19:53.274847+00:00",
+  "updated_at": "2026-10-23T04:07:40.685348+00:00",
   "execution": "user_cloud_server",
   "overall": "in_progress",
   "base01": "build_and_pins_verified; licence and checkpoint being recorded",
@@ -23,5 +23,39 @@
     "no historical data migration",
     "no public internet app exposure",
     "pricing tier grouping and full business policies remain unconfirmed"
-  ]
+  ],
+  "base03_scope_increment": {
+    "status": "partial_verified",
+    "scope_http_checks_passed": 14,
+    "existing_second_tenant_fixture": true,
+    "temporary_fixtures_removed": true,
+    "evidence": "evidence/acceptance/print-scope-smoke.json",
+    "remaining": "Customer and terminal actors, full business authorization and browser authentication flow remain incomplete."
+  },
+  "base04_shell_increment": {
+    "status": "partial_verified",
+    "production_build": true,
+    "deployed": true,
+    "unauthenticated_browser_redirect_verified": true,
+    "real_context_api_verified": true,
+    "business_pages_disabled": 52,
+    "remaining": "Authenticated browser rendering and complete functional/visual parity remain unverified."
+  },
+  "core01": {
+    "status": "in_progress_disabled",
+    "schema_migrated": true,
+    "pdf_parser_checks_passed": 8,
+    "disabled_gate_and_logout_checks_passed": 8,
+    "enabled_upload_http_tested": false,
+    "restart_recovery_tested": false,
+    "evidence": "docs/files/core01-status.md"
+  },
+  "disk_policy": {
+    "reserve_gib": 10,
+    "batch_scratch_cleanup": true,
+    "backend_releases_retained": 2,
+    "database_backups_retained": 2,
+    "frontend_previous_snapshot_retained": 1,
+    "free_gib_at_publication": 46.38
+  }
 }

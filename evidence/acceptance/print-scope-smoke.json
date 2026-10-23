@@ -1,0 +1,68 @@
+{
+  "started_utc": "2026-10-23T04:04:10.867196+00:00",
+  "checks": [
+    {
+      "name": "anonymous_context_denied",
+      "passed": true
+    },
+    {
+      "name": "admin_context_matches_server_mapping",
+      "passed": true
+    },
+    {
+      "name": "reader_context_matches_own_identity",
+      "passed": true
+    },
+    {
+      "name": "query_scope_overrides_ignored",
+      "passed": true
+    },
+    {
+      "name": "disabled_staff_mapping_denied",
+      "passed": true
+    },
+    {
+      "name": "missing_staff_mapping_denied",
+      "passed": true
+    },
+    {
+      "name": "disabled_store_denied",
+      "passed": true
+    },
+    {
+      "name": "ambiguous_active_stores_denied",
+      "passed": true
+    },
+    {
+      "name": "context_recovers_after_ambiguity_cleanup",
+      "passed": true
+    },
+    {
+      "name": "other_tenant_and_store_fixture_exist",
+      "passed": true
+    },
+    {
+      "name": "existing_other_tenant_header_denied",
+      "passed": true
+    },
+    {
+      "name": "existing_other_store_query_cannot_change_scope",
+      "passed": true
+    },
+    {
+      "name": "visit_header_cannot_change_scope",
+      "passed": true
+    },
+    {
+      "name": "context_restored_after_all_fixtures",
+      "passed": true
+    }
+  ],
+  "source_site_accessed": false,
+  "secrets_in_report": false,
+  "temporary_fixtures_removed": true,
+  "cleanup_errors": [],
+  "passed": true,
+  "failure": null,
+  "finished_utc": "2026-10-23T04:04:12.767200+00:00"
+}

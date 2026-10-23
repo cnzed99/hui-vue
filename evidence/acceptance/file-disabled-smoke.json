@@ -1,0 +1,50 @@
+{
+  "checks": [
+    {
+      "name": "anonymous_denied",
+      "http": 200,
+      "code": 401,
+      "passed": true
+    },
+    {
+      "name": "admin_disabled",
+      "http": 503,
+      "code": 1510010000,
+      "passed": true
+    },
+    {
+      "name": "reader_query_disabled",
+      "http": 503,
+      "code": 1510010000,
+      "passed": true
+    },
+    {
+      "name": "admin_delete_disabled",
+      "http": 503,
+      "code": 1510010000,
+      "passed": true
+    },
+    {
+      "name": "reader_delete_denied",
+      "http": 200,
+      "code": 403,
+      "passed": true
+    },
+    {
+      "name": "reader_upload_denied",
+      "http": 200,
+      "code": 403,
+      "passed": true
+    },
+    {
+      "name": "session_revoked",
+      "passed": true
+    },
+    {
+      "name": "session_revoked",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "files_uploaded": 0
+}

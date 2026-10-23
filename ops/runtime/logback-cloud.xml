@@ -11,5 +11,6 @@
     </rollingPolicy>
   </appender>
   <logger name="cn.iocoder.yudao.framework.apilog.core.interceptor.ApiAccessLogInterceptor" level="WARN"/>
+  <logger name="org.apache.pdfbox" level="OFF"/>
   <root level="INFO"><appender-ref ref="CONSOLE"/><appender-ref ref="FILE"/></root>
 </configuration>

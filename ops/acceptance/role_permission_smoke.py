@@ -21,6 +21,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--report',default=str(BASE/'evidence/acceptance/m1-role-permissions.json'))
     args=parser.parse_args()
+    if pathlib.Path(args.report).exists():raise FileExistsError('use_a_new_report_path_to_preserve_previous_evidence')
     opener=urllib.request.build_opener(urllib.request.ProxyHandler({}),NoRedirect())
     cases=[];tokens={};fixtures={label:read_credentials(label) for label in ('admin','reader','disabled')}
     tenant=fixtures['admin']['tenantId']
