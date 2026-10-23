@@ -145,7 +145,8 @@ import type { RouteLocationNormalizedLoaded } from 'vue-router'
 import { useIcon } from '@/hooks/web/useIcon'
 
 import * as authUtil from '@/utils/auth'
-import { usePermissionStore } from '@/store/modules/permission'
+import { parseRouteLocation } from '@/utils/routeParams'
+import { resolvePrintLoginRedirect } from '@/print-admin/navigation'
 import * as LoginApi from '@/api/login'
 import { LoginStateEnum, useFormValid, useLoginState } from './useLogin'
 
@@ -160,7 +161,6 @@ const formLogin = ref()
 const { validForm } = useFormValid(formLogin)
 const { setLoginState, getLoginState } = useLoginState()
 const { currentRoute, push } = useRouter()
-const permissionStore = usePermissionStore()
 const redirect = ref<string>('')
 const loginLoading = ref(false)
 const verify = ref()
@@ -262,18 +262,10 @@ const handleLogin = async (params: any) => {
       authUtil.removeLoginForm()
     }
     authUtil.setToken(res)
-    if (!redirect.value) {
-      redirect.value = '/'
-    }
-    // 判断是否为SSO登录
-    if (redirect.value.indexOf('sso') !== -1) {
-      window.location.href = window.location.href.replace('/login?redirect=', '')
-    } else {
-      await push({ path: redirect.value || permissionStore.addRouters[0].path })
-    }
+    await push(parseRouteLocation(resolvePrintLoginRedirect(redirect.value)))
   } finally {
     loginLoading.value = false
-    loading.value.close()
+    loading.value?.close()
   }
 }
 

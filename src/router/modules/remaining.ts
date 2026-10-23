@@ -1,4 +1,5 @@
 import { Layout } from '@/utils/routerHelper'
+import { PRINT_HOME } from '@/print-admin/navigation'
 
 const { t } = useI18n()
 /**
@@ -53,13 +54,13 @@ const remainingRouter: AppRouteRecordRaw[] = [
   {
     path: '/',
     component: Layout,
-    redirect: '/index',
+    redirect: PRINT_HOME,
     name: 'Home',
     meta: {},
     children: [
       {
         path: 'index',
-        component: () => import('@/views/Home/Index.vue'),
+        redirect: PRINT_HOME,
         name: 'Index',
         meta: {
           title: t('router.home'),

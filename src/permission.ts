@@ -1,5 +1,6 @@
 import router from './router'
 import { isPrintVisualPreviewRoute } from '@/print-preview/routes'
+import { resolvePrintLoginRedirect } from '@/print-admin/navigation'
 import type { RouteRecordRaw } from 'vue-router'
 import { isRelogin } from '@/config/axios/service'
 import { getAccessToken } from '@/utils/auth'
@@ -39,7 +40,7 @@ router.beforeEach(async (to, from, next) => {
   }
   if (getAccessToken()) {
     if (to.path === '/login') {
-      next({ path: '/' })
+      next(parseRouteLocation(resolvePrintLoginRedirect(to.query.redirect)))
     } else {
       const dictStore = useDictStoreWithOut()
       const userStore = useUserStoreWithOut()
@@ -60,7 +61,7 @@ router.beforeEach(async (to, from, next) => {
         })
         const redirectPath = from.query.redirect
         // 修复跳转时不带参数的问题
-        const redirect = typeof redirectPath === 'string' ? redirectPath : to.fullPath
+        const redirect = resolvePrintLoginRedirect(typeof redirectPath === 'string' ? redirectPath : to.fullPath)
         const redirectLocation = parseRouteLocation(redirect)
         const nextData =
           to.fullPath === redirect
