@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
-import { RouterView, useRouter } from 'vue-router'
+import { RouterView, useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/modules/user'
 import { useTagsViewStore } from '@/store/modules/tagsView'
 import { usePrintContextStore } from './contextStore'
@@ -10,11 +10,14 @@ import { PRINT_HOME } from './navigation'
 
 defineOptions({ name: 'PrintAdminShell' })
 const router = useRouter()
+const route = useRoute()
 const userStore = useUserStore()
 const tagsViewStore = useTagsViewStore()
 const contextStore = usePrintContextStore()
 const activeModule = ref<string>('工作台')
 const workbenchOpen = ref(true)
+const currentTabTitle = computed(() => String(route.meta.title || '工作台'))
+watch(() => route.fullPath, () => { workbenchOpen.value = true })
 const logoutLoading = ref(false)
 const logoutError = ref('')
 const visibleGroups = computed(() => printAdminGroups
@@ -87,7 +90,7 @@ const logout = async () => {
           <p class="print-admin__sidebar-label">{{ group.title }}</p>
           <nav>
             <button v-for="entry in group.entries" :key="entry.sourceId" type="button"
-              :disabled="!entry.route" :class="{ 'is-current': entry.sourceId === 'P01' && workbenchOpen }"
+              :disabled="!entry.route" :class="{ 'is-current': entry.route === route.path && workbenchOpen }"
               :title="entry.route ? entry.title : `${entry.title}（暂未开放）`"
               :data-source-id="entry.sourceId" :data-available="Boolean(entry.route)"
               @click="openEntry(entry)"><span>{{ entry.title }}</span></button>
@@ -98,8 +101,8 @@ const logout = async () => {
       <main class="print-admin__workspace">
         <div class="print-admin__tabs" aria-label="工作标签">
           <div v-if="workbenchOpen" class="print-admin__tab">
-            <button type="button" class="print-admin__tab-label" @click="openWorkbench">工作台</button>
-            <button type="button" class="print-admin__tab-close" aria-label="关闭工作台标签"
+            <span class="print-admin__tab-label">{{ currentTabTitle }}</span>
+            <button type="button" class="print-admin__tab-close" :aria-label="`关闭${currentTabTitle}标签`"
               @click="workbenchOpen = false">×</button>
           </div>
         </div>
@@ -158,7 +161,7 @@ const logout = async () => {
 .print-admin__tabs { display: flex; flex-shrink: 0; align-items: flex-start; height: 43px; border-bottom: 1px solid #e2e8f0; background: #fff; }
 .print-admin__tab { display: flex; align-items: center; height: 42px; border-bottom: 3px solid #0284c7; color: #0284c7; background: #f0f9ff; font-weight: 700; }
 .print-admin__tab button { height: 100%; border: 0; color: inherit; background: transparent; }
-.print-admin__tab-label { padding: 0 16px; font-weight: 700 !important; }
+.print-admin__tab-label { display: flex; align-items: center; padding: 0 16px; font-weight: 700 !important; }
 .print-admin__tab-close { width: 24px; margin-right: 7px; padding: 0; font-size: 17px !important; }
 .print-admin__content { flex: 1; min-height: 0; padding: 23px 16px 24px; overflow: auto; }
 .print-admin__closed { padding: 24px; color: #64748b; background: #fff; }

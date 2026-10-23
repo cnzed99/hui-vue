@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { RouterLink } from 'vue-router'
+import { hasPermission } from '@/directives/permission/hasPermi'
 import { useUserStore } from '@/store/modules/user'
 import { usePrintContextStore } from './contextStore'
 
 defineOptions({ name: 'PrintWorkbench' })
+const canQueryOrders = computed(() => hasPermission(['print:order:query']))
 const userStore = useUserStore()
 const contextStore = usePrintContextStore()
 const accountName = computed(() => userStore.getUser.nickname || `员工 ${contextStore.context?.userId}`)
@@ -34,6 +37,10 @@ const reload = () => { void contextStore.load(userStore.getUser.id) }
         <div><dt>登录身份</dt><dd>后台员工</dd></div>
       </dl>
       <p class="workbench__hint">请选择上方业务模块查看对应菜单。</p>
+      <div v-if="canQueryOrders" class="workbench__demo">
+        <RouterLink to="/print/demo-orders">演示订单</RouterLink>
+        <span>查看当前账号的后台演示订单</span>
+      </div>
     </div>
   </section>
 </template>
@@ -55,4 +62,8 @@ const reload = () => { void contextStore.load(userStore.getUser.id) }
 .workbench button { padding: 7px 12px; border: 1px solid #dce3eb; border-radius: 3px; font: inherit; color: #0284c7; background: #fff; cursor: pointer; }
 .workbench button:focus-visible { outline: 2px solid #38bdf8; outline-offset: 2px; }
 .workbench__refresh { padding: 4px 8px !important; }
+.workbench__demo { display: flex; align-items: center; gap: 16px; margin-top: 22px; padding-top: 20px; border-top: 1px solid #e8edf3; }
+.workbench__demo a { padding: 7px 12px; border: 1px solid #0284c7; border-radius: 3px; color: #0284c7; text-decoration: none; }
+.workbench__demo a:focus-visible { outline: 2px solid #38bdf8; outline-offset: 2px; }
+.workbench__demo span { color: #64748b; font-size: 12px; }
 </style>
