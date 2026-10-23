@@ -1,0 +1,8 @@
+{
+  "at": "2026-10-23T04:57:53.659830+00:00",
+  "requested": "/print/demo-orders",
+  "observed": "/login?redirect=/print/demo-orders",
+  "login_page_visible": true,
+  "authenticated_order_rendering": "NOT_RUN",
+  "original_site_modified": false
+}

@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-23T04:48:41.844230+00:00",
+  "updated_at": "2026-10-23T04:57:53.660969+00:00",
   "execution": "user_cloud_server",
   "overall": "in_progress",
   "base01": "build_and_pins_verified; licence and checkpoint being recorded",
@@ -19,7 +19,10 @@
     "quote_schema": "evidence/database/print-quotes-v1.json",
     "quote_http": "evidence/acceptance/quote-http-smoke.json",
     "order_http": "evidence/acceptance/order-http-smoke.json",
-    "order_event_guard": "evidence/acceptance/order-event-guard-smoke.json"
+    "order_event_guard": "evidence/acceptance/order-event-guard-smoke.json",
+    "order_browser_gate": "evidence/acceptance/orders-browser-gate.json",
+    "frontend_publication": "evidence/frontend-publication.json",
+    "post_frontend_auth": "evidence/acceptance/orders-after-frontend-auth.json"
   },
   "limitations": [
     "miniapp later",
@@ -88,5 +91,13 @@
     "phase1_percent": 15,
     "method": "engineering estimate of accepted first-phase scope; not an automated task count",
     "remaining_business_entries": 52
+  },
+  "core03_order_ui_increment": {
+    "built": true,
+    "deployed": true,
+    "frontend_contract_checks": 26,
+    "unauthenticated_redirect_verified": true,
+    "authenticated_browser_rendering": "NOT_RUN",
+    "scope": "CORE06 auxiliary read-only order views, not original P21/P23 parity"
   }
 }
