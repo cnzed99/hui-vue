@@ -17,6 +17,12 @@ export const printAdminRoutes: RouteRecordRaw[] = [
         meta: { hidden: true, noTagsView: true, title: '工作台' }
       },
       {
+        path: 'store/password',
+        name: 'PrintPasswordManagement',
+        component: () => import('./store/PasswordManagement.vue'),
+        meta: { hidden: true, noTagsView: true, title: '密码管理' }
+      },
+      {
         path: 'demo-workflow',
         name: 'PrintDemoWorkflow',
         component: () => import('./workflow/DemoWorkflow.vue'),
@@ -38,4 +44,4 @@ export const printAdminRoutes: RouteRecordRaw[] = [
   }
 ]
 
-export const printAdminRouteNames = ['PrintAdmin', 'PrintWorkbench', 'PrintDemoWorkflow', 'PrintDemoOrders', 'PrintDemoOrderDetail']
+export const printAdminRouteNames = ['PrintAdmin', 'PrintWorkbench', 'PrintPasswordManagement', 'PrintDemoWorkflow', 'PrintDemoOrders', 'PrintDemoOrderDetail']

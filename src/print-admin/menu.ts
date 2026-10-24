@@ -36,7 +36,7 @@ export const printAdminMenu: readonly PrintAdminMenuEntry[] = [
     "title": "密码管理",
     "module": "门店",
     "group": "门店管理",
-    "route": null
+    "route": "/print/store/password"
   },
   {
     "sourceId": "P05",
