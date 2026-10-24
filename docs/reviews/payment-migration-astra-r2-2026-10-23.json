@@ -1,0 +1,15 @@
+{
+  "actual_model": "gpt-6-astra",
+  "actual_effort": "high",
+  "session_id": "01a16808-4bfe-7df2-9d50-2555abb680cf",
+  "model_evidence": "parent verified turn_context",
+  "conclusion": "PASS",
+  "scope": "Three migration defects corrected; current complete B idempotent migration verification only",
+  "approved_manifest_sha256": "54a1bea31632d224b66662e49fb648397468e1eddd2c1ae1acff418363648baa",
+  "independent_mock_checks": 66,
+  "sol_execution_result": "PASS",
+  "sol_execution_evidence": "evidence/database/print-payments-idempotent-20261023T094620Z.json",
+  "sol_execution_sha256": "c77e9af7bf6801913e486b92a6a31300f6716c40b278ba8c60f46b519b65fee9",
+  "payment_write_enabled": false,
+  "full_B_status": "INSUFFICIENT_EVIDENCE pending scope/concurrency/provenance HTTP verification"
+}

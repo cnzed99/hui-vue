@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Explicit additive order-A migration. Default does not connect to DB or change anything."""
-import argparse, datetime, fcntl, hashlib, json, pathlib, shutil, subprocess, sys
+import argparse, datetime, fcntl, hashlib, json, pathlib, re, shutil, subprocess, sys
 BASE=pathlib.Path('/home/ubuntu/print-system')
 TABLES={
  'print_order':['id','order_no','tenant_id','store_id','owner_user_id','created_by_actor_type','created_by_actor_id','source','simulation',
@@ -24,7 +24,7 @@ INDEXES={
  ('print_order_item','uk_print_order_item_sequence'):'order_id,sequence_no',
  ('print_order_event','uk_print_order_event_version'):'order_id,aggregate_version'}
 def sql(source):
-    completed=subprocess.run(['sudo','-n','mysql','--batch','--skip-column-names','print_demo'],input=source,text=True,capture_output=True)
+    completed=subprocess.run(['sudo','-n','mysql','--batch','--raw','--skip-column-names','print_demo'],input=source,text=True,capture_output=True)
     if completed.returncode:raise RuntimeError('order_migration_database_operation_failed')
     return completed.stdout.rstrip('\n')
 def columns(table):
@@ -33,14 +33,77 @@ def columns(table):
 def trigger_state(name):
     return sql("SELECT CONCAT(ACTION_TIMING,'|',EVENT_MANIPULATION,'|',EVENT_OBJECT_TABLE,'|',ACTION_STATEMENT) "
                f"FROM information_schema.TRIGGERS WHERE TRIGGER_SCHEMA='print_demo' AND TRIGGER_NAME='{name}';")
-def norm(value):return ' '.join(value.replace('`','').split()).lower()
+def sql_tokens(value):
+    """Strict metadata lexer. Only SQL syntax is case/whitespace insensitive.
+
+    MySQL may outer-escape every quote in CHECK_CLAUSE. Decode only that whole
+    representation; quoted values then use ordinary MySQL string escape rules.
+    Unsupported tokens/introducers fail closed rather than disappearing.
+    """
+    if "\\'" in value and not re.search(r"(?<!\\)'",value):
+        value=value.replace("\\'", "'")
+    tokens=[];i=0
+    while i<len(value):
+        if value[i].isspace():i+=1;continue
+        introducer=re.match(r"(_[A-Za-z][A-Za-z0-9_]*)(?=')",value[i:])
+        charset=None
+        if introducer:
+            charset=introducer.group().lower()
+            if charset not in ('_utf8mb4','_ascii'):
+                raise RuntimeError('unsupported_sql_charset_introducer')
+            i+=len(introducer.group())
+        bit=value[i:i+2].lower()=="b'"
+        if value[i]=="'" or bit:
+            if bit:i+=1
+            i+=1;literal=[];closed=False
+            while i<len(value):
+                ch=value[i]
+                if ch=="'":
+                    if i+1<len(value) and value[i+1]=="'":literal.append("'");i+=2;continue
+                    i+=1;closed=True;break
+                if ch=='\\':
+                    if i+1==len(value):raise RuntimeError('invalid_sql_literal')
+                    escaped=value[i+1]
+                    # Reject ambiguous mode-dependent/LIKE escapes we do not use.
+                    escapes={'0':'\0','b':'\b','n':'\n','r':'\r','t':'\t','Z':'\x1a',"'":"'",'"':'"','\\':'\\'}
+                    if escaped not in escapes:raise RuntimeError('unsupported_sql_literal_escape')
+                    literal.append(escapes[escaped]);i+=2;continue
+                literal.append(ch);i+=1
+            if not closed:raise RuntimeError('invalid_sql_literal')
+            text=''.join(literal)
+            if charset and not text.isascii():raise RuntimeError('unsupported_sql_charset_value')
+            if bit:
+                if not re.fullmatch('[01]+',text):raise RuntimeError('invalid_sql_bit_literal')
+                tokens.append(('number',int(text,2)))
+            else:tokens.append(('string',text))
+            continue
+        if value[i]=='`':
+            end=value.find('`',i+1)
+            if end<0 or not re.fullmatch('[A-Za-z_][A-Za-z0-9_]*',value[i+1:end]):
+                raise RuntimeError('unsupported_sql_identifier')
+            tokens.append(('word',value[i+1:end].lower()));i=end+1;continue
+        match=re.match(r'0[xX][0-9a-fA-F]+|[0-9]+|[A-Za-z_][A-Za-z0-9_]*|<=>|<>|!=|<=|>=|[=<>(),.;|*]',value[i:])
+        if not match:raise RuntimeError('unsupported_sql_token')
+        text=match.group();i+=len(text)
+        if re.fullmatch(r'0[xX][0-9a-fA-F]+|[0-9]+',text):
+            tokens.append(('number',int(text,16) if text.lower().startswith('0x') else int(text)))
+        elif re.fullmatch('[A-Za-z_][A-Za-z0-9_]*',text):tokens.append(('word',text.lower()))
+        else:tokens.append(('symbol',text))
+    return tuple(tokens)
+
+def norm(value):return sql_tokens(value)
 def main():
     ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('--apply',action='store_true');args=ap.parse_args()
     if not args.apply:print('NOT_APPLIED; review schema, append-only guards and backup before --apply');return
+    if trigger_state('trg_print_order_update_guard_v2'):
+        print('SUPERSEDED_BY_PAYMENT_V2; legacy A migration will not reinstall obsolete guards');return
     if shutil.disk_usage(BASE).free<10*1024**3:raise RuntimeError('low_disk_stop')
     locks=BASE/'runtime/locks';locks.mkdir(parents=True,exist_ok=True)
     with (locks/'fixture-mutation.lock').open('a') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+        # B can complete after A's cheap precheck but before this shared lock.
+        if trigger_state('trg_print_order_update_guard_v2'):
+            print('SUPERSEDED_BY_PAYMENT_V2; legacy A migration will not reinstall obsolete guards');return
         for table,expected in TABLES.items():
             current=columns(table)
             if current and current!=expected:raise RuntimeError('existing_order_schema_mismatch')

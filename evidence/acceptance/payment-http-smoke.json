@@ -1,0 +1,256 @@
+{
+  "passed": true,
+  "failure": null,
+  "checks": [
+    {
+      "name": "payment_absent_before_simulation",
+      "passed": true
+    },
+    {
+      "name": "reader_payment_permission_denied",
+      "passed": true
+    },
+    {
+      "name": "authorized_other_owner_hidden_read",
+      "passed": true
+    },
+    {
+      "name": "authorized_other_owner_hidden_write",
+      "passed": true
+    },
+    {
+      "name": "client_contract_rejected_amount",
+      "passed": true
+    },
+    {
+      "name": "client_contract_rejected_scope",
+      "passed": true
+    },
+    {
+      "name": "client_contract_rejected_provider",
+      "passed": true
+    },
+    {
+      "name": "client_contract_rejected_query",
+      "passed": true
+    },
+    {
+      "name": "client_contract_rejected_key_spaces",
+      "passed": true
+    },
+    {
+      "name": "invalid_attempts_leave_initial_state",
+      "passed": true
+    },
+    {
+      "name": "concurrent_same_key_returns_identical_receipt",
+      "passed": true
+    },
+    {
+      "name": "exactly_one_receipt_two_entries_one_job",
+      "passed": true
+    },
+    {
+      "name": "receipt_is_explicitly_simulated",
+      "passed": true
+    },
+    {
+      "name": "paired_exact_amount_ledger",
+      "passed": true
+    },
+    {
+      "name": "paid_order_is_queued_not_printed",
+      "passed": true
+    },
+    {
+      "name": "payment_event_once_version_two",
+      "passed": true
+    },
+    {
+      "name": "job_has_no_attempt_or_lease",
+      "passed": true
+    },
+    {
+      "name": "new_key_cannot_charge_paid_order",
+      "passed": true
+    },
+    {
+      "name": "app_cannot_update_print_payment_receipt",
+      "passed": true
+    },
+    {
+      "name": "app_cannot_delete_print_payment_receipt",
+      "passed": true
+    },
+    {
+      "name": "app_cannot_update_print_simulated_journal",
+      "passed": true
+    },
+    {
+      "name": "app_cannot_delete_print_simulated_journal",
+      "passed": true
+    },
+    {
+      "name": "app_cannot_update_print_job",
+      "passed": true
+    },
+    {
+      "name": "app_cannot_delete_print_job",
+      "passed": true
+    },
+    {
+      "name": "guard_denials_preserve_payment",
+      "passed": true
+    },
+    {
+      "name": "app_cannot_fake_paid_state",
+      "passed": true
+    },
+    {
+      "name": "app_cannot_change_order_amount",
+      "passed": true
+    },
+    {
+      "name": "same_key_other_order_conflicts",
+      "passed": true
+    },
+    {
+      "name": "different_keys_race_one_payment",
+      "passed": true
+    },
+    {
+      "name": "failure_response_second_journal",
+      "passed": true
+    },
+    {
+      "name": "full_transaction_rollback_second_journal",
+      "passed": true
+    },
+    {
+      "name": "same_key_retry_after_rollback_second_journal",
+      "passed": true
+    },
+    {
+      "name": "failure_response_job",
+      "passed": true
+    },
+    {
+      "name": "full_transaction_rollback_job",
+      "passed": true
+    },
+    {
+      "name": "same_key_retry_after_rollback_job",
+      "passed": true
+    },
+    {
+      "name": "failure_response_order_update",
+      "passed": true
+    },
+    {
+      "name": "full_transaction_rollback_order_update",
+      "passed": true
+    },
+    {
+      "name": "same_key_retry_after_rollback_order_update",
+      "passed": true
+    },
+    {
+      "name": "exact_frozen_amount_fraction",
+      "passed": true
+    },
+    {
+      "name": "journal_preserves_exact_amount_fraction",
+      "passed": true
+    },
+    {
+      "name": "exact_frozen_amount_zero",
+      "passed": true
+    },
+    {
+      "name": "journal_preserves_exact_amount_zero",
+      "passed": true
+    },
+    {
+      "name": "receipt_survives_restart",
+      "passed": true
+    },
+    {
+      "name": "same_key_replay_survives_restart",
+      "passed": true
+    },
+    {
+      "name": "paid_receipt_replay_after_file_deleted",
+      "passed": true
+    },
+    {
+      "name": "unpaid_deleted_file_rejected",
+      "passed": true
+    },
+    {
+      "name": "file_digest_mismatch_cannot_pay",
+      "passed": true
+    },
+    {
+      "name": "expiry_during_transaction_rolls_back",
+      "passed": true
+    },
+    {
+      "name": "write_environment_gate_off",
+      "passed": true
+    },
+    {
+      "name": "history_readable_off",
+      "passed": true
+    },
+    {
+      "name": "write_environment_gate_missing_mode",
+      "passed": true
+    },
+    {
+      "name": "history_readable_missing_mode",
+      "passed": true
+    },
+    {
+      "name": "write_environment_gate_production_mode",
+      "passed": true
+    },
+    {
+      "name": "history_readable_production_mode",
+      "passed": true
+    },
+    {
+      "name": "normal_runtime_orders_remain_disabled",
+      "passed": true
+    }
+  ],
+  "pdf_fixture_checks": [
+    {
+      "name": "parsed_fixture_payment-three",
+      "passed": true
+    },
+    {
+      "name": "parsed_fixture_payment-damaged",
+      "passed": true
+    },
+    {
+      "name": "parsed_fixture_payment-expiring",
+      "passed": true
+    }
+  ],
+  "cleanup_errors": [],
+  "remaining_rows": {
+    "print_job": 0,
+    "print_simulated_journal": 0,
+    "print_payment_receipt": 0,
+    "print_order_event": 0,
+    "print_order_item": 0,
+    "print_order": 0,
+    "print_quote": 0,
+    "print_price_profile": 0,
+    "print_file": 0
+  },
+  "temporary_files_removed": true,
+  "temporary_instance_stopped": true,
+  "normal_runtime_payment_enabled": false,
+  "real_payment_or_printing": false
+}

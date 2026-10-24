@@ -1,0 +1,10 @@
+{
+  "github_host_key_verified": true,
+  "host_key_source": "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints",
+  "ssh_authenticated": true,
+  "repository_identity_match": true,
+  "ssh_exit_code": 1,
+  "repository_read_exit": 0,
+  "head_and_print_refs": "ref: refs/heads/master\tHEAD\nac022b15a094cf9cf82903d429b9729e72309da5\tHEAD",
+  "push_attempted": false
+}

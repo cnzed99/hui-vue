@@ -1,0 +1,49 @@
+{
+  "status": "FAILED",
+  "started_at": "2026-10-23T09:59:52.339547+00:00",
+  "actual_model": "gpt-6.1-sol",
+  "effort": "high",
+  "model_evidence": "parent coordinator verified actual Sol High",
+  "repository": "src/frontend",
+  "commit": "b5f60306a841e5ed5ba7a1f5b7dcf8018c75de3f",
+  "target_ref": "refs/heads/print/phase1-admin",
+  "remote_name": "user-print",
+  "remote_url": "ssh://git@ssh.github.com:443/cnzed99/hui-vue.git",
+  "authorization": "user confirmed deploy key write access enabled; retry same previously frozen commit after prior job terminal exit1",
+  "scope": "only push frozen frontend commit; concurrent workflow worktree changes are expected and excluded",
+  "worktree_modified_or_staged_or_committed": false,
+  "database_or_service_changed": false,
+  "force_used": false,
+  "tags_pushed": false,
+  "PR_created": false,
+  "history_boundary": "frontend retains independent upstream history, distinct from backend fork/default master",
+  "test_boundary": {
+    "frontend_contracts": "38 PASS for frozen five-file diff",
+    "frontend_build": "PASS, 2734 modules",
+    "authenticated_smoke": "6/6 PASS",
+    "post_login_browser_UI": "NOT_RUN"
+  },
+  "prior_failed_evidence_sha256": "dc0bca99b239c1c1da190b965d604b7722144137f4046aae936534d9d00ca2a5",
+  "prior_failed_evidence_path": "evidence/git/frontend-admin-push.json",
+  "origin_before": "https://github.com/yudaocode/yudao-ui-admin-vue3.git",
+  "concurrent_worktree_paths_before": [
+    "?? src/print-admin/workflow/"
+  ],
+  "committed_tree_sha": "15913f47e31fb56468440042886b80778b76c1cc",
+  "frozen_commit_secret_scan": "prior staged secret scan PASS, every frozen committed blob unchanged",
+  "remote_target_before": "ABSENT",
+  "tags_before": {
+    "count": 0,
+    "listing_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "phase": "stopped",
+  "updated_at": "2026-10-23T10:00:35.731245+00:00",
+  "dry_run": {
+    "passed": true,
+    "single_target_ref": "refs/heads/print/phase1-admin",
+    "porcelain": "To ssh://ssh.github.com:443/cnzed99/hui-vue.git\n*\tb5f60306a841e5ed5ba7a1f5b7dcf8018c75de3f:refs/heads/print/phase1-admin\t[new branch]\nDone\n"
+  },
+  "exception_class": "RuntimeError",
+  "error": "git_push_failed_exit_1:remote: fatal: did not receive expected object 9bd6a91286573af70874ebd9c23d73177dd8001d        \nerror: remote unpack failed: index-pack failed\nerror: failed to push some refs to 'ssh://ssh.github.com:443/cnzed99/hui-vue.git'\n",
+  "finished_at": "2026-10-23T10:00:35.731618+00:00"
+}

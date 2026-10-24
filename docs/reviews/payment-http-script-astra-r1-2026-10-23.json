@@ -1,0 +1,15 @@
+{
+  "actual_model": "gpt-6-astra",
+  "actual_effort": "high",
+  "session_id": "01a16808-4bfe-7df2-9d50-2555abb680cf",
+  "model_evidence": "parent verified turn_context",
+  "conclusion": "CHANGES_REQUIRED",
+  "scope": "Enhanced HTTP acceptance scripts prior to fixture execution; no real HTTP approval",
+  "reviewed_manifest_sha256": "411f7b7e8ae2aebb0eef11fe8203748f7cabdc82315f3a14c0969dccad283945",
+  "findings": [
+    "Store predicate test is masked by different owner; must test same owner old store and realistic store-only mutation",
+    "Redis cleanup lacks positive existence baseline and falsely labels candidate count as deleted count; require exact key positive/negative baseline and actual DEL count"
+  ],
+  "fix_owner": "gpt-6.1-sol/high",
+  "runtime_status": "NOT_RUN"
+}

@@ -1,0 +1,65 @@
+{
+  "status": "FAILED",
+  "started_at": "2026-10-23T09:54:07.899793+00:00",
+  "actual_model": "gpt-6.1-sol",
+  "effort": "high",
+  "model_evidence": "parent coordinator verified actual Sol High",
+  "repository": "src/frontend",
+  "remote_name": "user-print",
+  "remote_url": "ssh://git@ssh.github.com:443/cnzed99/hui-vue.git",
+  "target_ref": "refs/heads/print/phase1-admin",
+  "explicit_files": [
+    "docs/print-demo-orders.md",
+    "scripts/check-print-orders.cjs",
+    "src/print-admin/orders/DemoOrderDetail.vue",
+    "src/print-admin/orders/DemoOrders.vue",
+    "src/print-admin/orders/view.ts",
+    "AGENTS.md",
+    ".codex/config.toml",
+    ".codex/agents/astra_reviewer.toml"
+  ],
+  "scope": "save existing frontend source and governance only; no source edits, build, deployment, database or service changes",
+  "history_boundary": "frontend independent upstream history; intentionally different from backend fork/default master history",
+  "prior_validation": {
+    "source": "parent coordinator verified this exact 5-file diff",
+    "frontend_contracts": "38 PASS",
+    "frontend_build": "PASS; 2734 modules",
+    "authenticated_smoke": "6/6 PASS",
+    "post_login_browser_UI": "NOT_RUN"
+  },
+  "new_astra_review": "not invoked; this task saves existing reviewed source without sensitive rule changes",
+  "no_pr_created": true,
+  "force_used": false,
+  "push_tags": false,
+  "reviewed_five_file_diff_sha256": "ca15a8db88ba2d3938ed2e62e8fcc6060a7fe3e73fb46ecfd43de54cae9daa0a",
+  "origin_before": "https://github.com/yudaocode/yudao-ui-admin-vue3.git",
+  "remote_before": {
+    "target_absent": true,
+    "default_branch": "master",
+    "master_sha": "ac022b15a094cf9cf82903d429b9729e72309da5",
+    "tags_ref_count": 0,
+    "tags_listing_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "phase": "stopped",
+  "updated_at": "2026-10-23T09:54:22.988164+00:00",
+  "staged_diff_sha256": "b53f4a89c0710c5622b10348ab790f41184976f170c63ac0f386ab436b92c92e",
+  "staged_file_sha256": {
+    "docs/print-demo-orders.md": "d0a1b645ad23e7275c5817e1ab2da00866261c3f8d319dbf1a4da816ba39e3b4",
+    "scripts/check-print-orders.cjs": "0a3a696509815b5610b5d551b40da25ebf666217e34370fc5028232fc5e81b43",
+    "src/print-admin/orders/DemoOrderDetail.vue": "1891c3612a1cf70b9af5b247dd0956118bde2cfe2b3845312eb9f5f21a0d23dc",
+    "src/print-admin/orders/DemoOrders.vue": "00c8cc3986fc85842fb003e89ade45f73e26fe7bba6c98dcd7f070613f7e723f",
+    "src/print-admin/orders/view.ts": "af9a5b322e0af9dedeb5767fa4334791bdacd1a40267c1ca7cc8e5ef37abb57c",
+    "AGENTS.md": "981eb5ba9a7b96b09eabad62609b591a2ea2687c3ec4490cc008b88ce9ae50ae",
+    ".codex/config.toml": "2fd6237312c21abaa063b6de74fdacc8374dc97b37dcb276e7be3a1cc49b8a05",
+    ".codex/agents/astra_reviewer.toml": "d599aa29b469b72329b1d8c9fcc30595245d5bab05f6f0f76785f08b57ddce05"
+  },
+  "staged_secret_scan": {
+    "passed": true,
+    "staged_files_scanned": 8
+  },
+  "staged_diff_check": "PASS",
+  "commit": "b5f60306a841e5ed5ba7a1f5b7dcf8018c75de3f",
+  "exception_class": "RuntimeError",
+  "error": "git_push_failed_exit_128:ERROR: The key you are authenticating with has been marked as read only.\nfatal: Could not read from remote repository.\n\nPlease make sure you have the correct access rights\nand the repository exists.\n",
+  "finished_at": "2026-10-23T09:54:22.988558+00:00"
+}

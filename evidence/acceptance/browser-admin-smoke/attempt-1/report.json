@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "scope": "deployed-admin-shell-orders-disabled-only",
+  "startedAt": "2026-10-23T11:04:42.237Z",
+  "browser": "156.0.8078.4",
+  "checks": [
+    {
+      "id": "disk-reserve-at-least-10GiB-before",
+      "status": "PASS"
+    },
+    {
+      "id": "four-services-active-before",
+      "status": "PASS"
+    },
+    {
+      "id": "unauthenticated-orders-route-redirects-to-login",
+      "status": "PASS"
+    },
+    {
+      "id": "real-tenant-field-visible",
+      "status": "PASS"
+    }
+  ],
+  "screenshots": [],
+  "collection": {
+    "har": false,
+    "trace": false,
+    "video": false,
+    "console": false,
+    "networkPayloadLogs": false,
+    "loginScreenshots": false,
+    "storageStateExport": false,
+    "persistentContext": false
+  },
+  "exclusions": [
+    "order-data-page",
+    "end-to-end-workflow",
+    "visual-parity",
+    "real-payment",
+    "terminal-receipt",
+    "physical-printing"
+  ],
+  "blockedBusinessWrites": 0,
+  "completed": false,
+  "playwrightVersion": "1.64.1",
+  "deployedDocumentSha256": "3fc5036a39bd3c9ac25a0aee4d96ff8d3ac70bfc06e17a5b70406b2bca7ac83b",
+  "failure": {
+    "stage": "real-login-form",
+    "type": "TimeoutError"
+  },
+  "contextClosed": true,
+  "browserClosed": true,
+  "finishedAt": "2026-10-23T11:04:59.207Z",
+  "fourServicesActiveAfter": true,
+  "diskReserveAfter": true
+}

@@ -1,0 +1,47 @@
+{
+  "at": "2026-10-23T09:46:38.325507+00:00",
+  "schema_sha256": "7f4e874014f028608af0cd62c408b941805a6ddf13b617db57a1fdf2c4f176ee",
+  "tables": [
+    "print_payment_receipt",
+    "print_simulated_journal",
+    "print_job"
+  ],
+  "column_types_verified": 50,
+  "unique_indexes_verified": 8,
+  "foreign_keys_verified": 6,
+  "foreign_key_definitions_verified": [
+    "fk_print_payment_order",
+    "fk_print_journal_receipt",
+    "fk_print_journal_order",
+    "fk_print_job_order",
+    "fk_print_job_item",
+    "fk_print_job_receipt"
+  ],
+  "new_table_checks_verified": 10,
+  "replacement_checks_verified": 2,
+  "new_triggers_verified": 7,
+  "order_immutable_fields": [
+    "id",
+    "order_no",
+    "tenant_id",
+    "store_id",
+    "owner_user_id",
+    "created_by_actor_type",
+    "created_by_actor_id",
+    "source",
+    "simulation",
+    "currency",
+    "total_amount",
+    "order_state",
+    "refund_state",
+    "delivery_mode",
+    "delivery_state",
+    "idempotency_sha256",
+    "input_sha256",
+    "created_at_ms"
+  ],
+  "business_rows_seeded": false,
+  "runtime_enabled": false,
+  "pre_migration_backup_restore_verified": true,
+  "remaining_free_bytes": 49743908864
+}

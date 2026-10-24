@@ -1,0 +1,28 @@
+{
+  "at": "2026-10-23T10:52:07.590748+00:00",
+  "actual_model": "gpt-6-astra",
+  "effort": "high",
+  "agent": "astra_reviewer_config_check",
+  "session_id": "01a16808-4bfe-7df2-9d50-2555abb680cf",
+  "conclusion": "PASS",
+  "scope": "frozen script real v3 HTTP run including dedicated HMAC key initialization and exact batch cleanup; not final B business acceptance",
+  "independent_mock_checks": 75,
+  "reviewer_manifest_sha256": "3c40ba5204eb5648fe9a08ddd2e71bf6f0e6a71d815b139320de597c578b969d",
+  "files": {
+    "ops/acceptance/payment_http_smoke.py": "d943c63fc3b8dc0865c0a7bdb873dc586c7fe22a8848b9faee3c60a4211b043a",
+    "ops/acceptance/payment_smoke_support.py": "008c662c9bf75b472a1c08f90c39531ea08545c7fe4f0c2125f03bd9b6a211bc",
+    "ops/acceptance/payment_smoke_support_checks.py": "9ab8ee2a3ce70d1dda9f53493155ca30b0275223c1120d2188c9cab1c7cbdac5",
+    "evidence/acceptance/payment-smoke-v3-static-round2.json": "a977745fca75ff87a6208a07571b37cc830f89eca2e74503394bddbb9ebb4753"
+  },
+  "closed_findings": [
+    "restricted numeric preflight before fixtures",
+    "persistent fixture cache and session cleanup identifiers",
+    "destroyed-object recovery from signed disk snapshot and independent fixed key"
+  ],
+  "old_failed_run": {
+    "report": "evidence/acceptance/payment-http-smoke-v2.json",
+    "sha256": "28b7e94aea0a40ce29e17093eb57fdf2863d0bd8d4399728c85bb8b0856f9c39",
+    "orphan_status": "OPEN_UNVERIFIED"
+  },
+  "next": "Sol High single real run; preserve prior evidence; results need final independent B review"
+}

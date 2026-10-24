@@ -1,0 +1,58 @@
+{
+  "credentialsRead": false,
+  "loginSubmitted": false,
+  "screenshot": false,
+  "publicSelectors": {
+    "inputs": [
+      {
+        "type": "text",
+        "placeholder": "请输入租户名称",
+        "role": null,
+        "ariaLabel": null,
+        "checked": false
+      },
+      {
+        "type": "text",
+        "placeholder": "请输入用户名",
+        "role": null,
+        "ariaLabel": null,
+        "checked": false
+      },
+      {
+        "type": "password",
+        "placeholder": "请输入密码",
+        "role": null,
+        "ariaLabel": null,
+        "checked": false
+      },
+      {
+        "type": "checkbox",
+        "placeholder": null,
+        "role": null,
+        "ariaLabel": null,
+        "checked": true
+      }
+    ],
+    "buttons": [
+      {
+        "text": "登录",
+        "type": "button"
+      },
+      {
+        "text": "手机登录",
+        "type": "button"
+      },
+      {
+        "text": "二维码登录",
+        "type": "button"
+      },
+      {
+        "text": "注册",
+        "type": "button"
+      }
+    ],
+    "checkboxLabels": [
+      "记住我"
+    ]
+  }
+}

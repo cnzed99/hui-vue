@@ -1,0 +1,290 @@
+{
+  "checked_at": "2026-10-23T09:36:42.132563+00:00",
+  "kind": "isolated_mock_and_static_control_flow",
+  "migration_sha256": "c898244beb850123f99b710fc4ae89ca5a8285d7995366a556fcec5b63141072",
+  "schema_sha256": "7f4e874014f028608af0cd62c408b941805a6ddf13b617db57a1fdf2c4f176ee",
+  "legacy_migration_sha256": "f9d815cc68c7a365f840540ff4c878f0743758917ba5f52dc338386047cde9d4",
+  "test_sha256": "22ff38b97a2617964d6fe6a2e9aae4db80129b9be2434994d534b03cad0187bf",
+  "total": 66,
+  "passed": 66,
+  "database_access": false,
+  "ddl_executed": false,
+  "external_processes_executed": false,
+  "mock_metadata_queries": 369,
+  "limits": "Uses captured schema expressions and mocked information_schema. Does not replace real migration, transaction, HTTP or browser acceptance.",
+  "checks": [
+    {
+      "name": "real_A_literal_delivery_state",
+      "passed": true
+    },
+    {
+      "name": "real_A_literal_print_state",
+      "passed": true
+    },
+    {
+      "name": "real_A_literal_event_type",
+      "passed": true
+    },
+    {
+      "name": "real_A_complete_order_constraint",
+      "passed": true
+    },
+    {
+      "name": "real_A_complete_event_constraint",
+      "passed": true
+    },
+    {
+      "name": "ordinary_charset_literal",
+      "passed": true
+    },
+    {
+      "name": "bit_literal_metadata_hex",
+      "passed": true
+    },
+    {
+      "name": "SQL_quote_escape_equivalence",
+      "passed": true
+    },
+    {
+      "name": "retain_underscore_suffix",
+      "passed": true
+    },
+    {
+      "name": "retain_event_suffix",
+      "passed": true
+    },
+    {
+      "name": "retain_literal_case",
+      "passed": true
+    },
+    {
+      "name": "retain_literal_whitespace",
+      "passed": true
+    },
+    {
+      "name": "retain_literal_parentheses",
+      "passed": true
+    },
+    {
+      "name": "retain_charset_looking_literal_suffix",
+      "passed": true
+    },
+    {
+      "name": "real_B_complete_order_constraint",
+      "passed": true
+    },
+    {
+      "name": "real_B_complete_event_constraint",
+      "passed": true
+    },
+    {
+      "name": "accept_redundant_parentheses_and_associative_grouping",
+      "passed": true
+    },
+    {
+      "name": "reject_real_P1_simulation_bypass_precedence",
+      "passed": true
+    },
+    {
+      "name": "simulation_zero_payment_event_truth_table_counterexample",
+      "passed": true
+    },
+    {
+      "name": "fail_closed_function",
+      "passed": true
+    },
+    {
+      "name": "fail_closed_comment",
+      "passed": true
+    },
+    {
+      "name": "fail_closed_arithmetic",
+      "passed": true
+    },
+    {
+      "name": "fail_closed_between",
+      "passed": true
+    },
+    {
+      "name": "fail_closed_unsupported_charset",
+      "passed": true
+    },
+    {
+      "name": "fail_closed_trailing",
+      "passed": true
+    },
+    {
+      "name": "fail_closed_unbalanced",
+      "passed": true
+    },
+    {
+      "name": "fail_closed_quoted_keyword",
+      "passed": true
+    },
+    {
+      "name": "trigger_preserves_literal_case",
+      "passed": true
+    },
+    {
+      "name": "trigger_preserves_literal_spaces",
+      "passed": true
+    },
+    {
+      "name": "trigger_preserves_literal_parentheses",
+      "passed": true
+    },
+    {
+      "name": "trigger_canonicalizes_only_outside_literals",
+      "passed": true
+    },
+    {
+      "name": "declared_SQL_complete_constraints_pass",
+      "passed": true
+    },
+    {
+      "name": "reject_missing_primary_key",
+      "passed": true
+    },
+    {
+      "name": "reject_missing_idempotency_unique_index",
+      "passed": true
+    },
+    {
+      "name": "reject_prefix_unique_index",
+      "passed": true
+    },
+    {
+      "name": "reject_nontransactional_engine",
+      "passed": true
+    },
+    {
+      "name": "reject_missing_CHECK",
+      "passed": true
+    },
+    {
+      "name": "reject_unenforced_CHECK",
+      "passed": true
+    },
+    {
+      "name": "reject_same_count_FK_wrong_source_column",
+      "passed": true
+    },
+    {
+      "name": "reject_same_count_FK_wrong_target_schema",
+      "passed": true
+    },
+    {
+      "name": "reject_same_count_FK_wrong_target_table",
+      "passed": true
+    },
+    {
+      "name": "reject_same_count_FK_wrong_target_column",
+      "passed": true
+    },
+    {
+      "name": "reject_same_count_FK_cascade_update",
+      "passed": true
+    },
+    {
+      "name": "reject_same_count_FK_cascade_delete",
+      "passed": true
+    },
+    {
+      "name": "reject_same_count_FK_set_null_delete",
+      "passed": true
+    },
+    {
+      "name": "reject_missing_FK_member",
+      "passed": true
+    },
+    {
+      "name": "reject_additional_FK",
+      "passed": true
+    },
+    {
+      "name": "accept_equivalent_InnoDB_NO_ACTION",
+      "passed": true
+    },
+    {
+      "name": "reject_CHECK_identity_or_enforcement_field_0",
+      "passed": true
+    },
+    {
+      "name": "reject_CHECK_identity_or_enforcement_field_1",
+      "passed": true
+    },
+    {
+      "name": "reject_CHECK_identity_or_enforcement_field_2",
+      "passed": true
+    },
+    {
+      "name": "reject_CHECK_identity_or_enforcement_field_3",
+      "passed": true
+    },
+    {
+      "name": "reject_CHECK_identity_or_enforcement_field_4",
+      "passed": true
+    },
+    {
+      "name": "prebackup_zero_DDL_reject_NOT_ENFORCED_chk_print_order_initial",
+      "passed": true
+    },
+    {
+      "name": "before_removal_reject_NOT_ENFORCED_chk_print_order_initial",
+      "passed": true
+    },
+    {
+      "name": "prebackup_zero_DDL_reject_NOT_ENFORCED_chk_print_order_event_initial",
+      "passed": true
+    },
+    {
+      "name": "before_removal_reject_NOT_ENFORCED_chk_print_order_event_initial",
+      "passed": true
+    },
+    {
+      "name": "prebackup_zero_DDL_reject_NOT_ENFORCED_chk_print_order_payment_v2",
+      "passed": true
+    },
+    {
+      "name": "before_removal_reject_NOT_ENFORCED_chk_print_order_payment_v2",
+      "passed": true
+    },
+    {
+      "name": "prebackup_zero_DDL_reject_NOT_ENFORCED_chk_print_order_event_payment_v2",
+      "passed": true
+    },
+    {
+      "name": "before_removal_reject_NOT_ENFORCED_chk_print_order_event_payment_v2",
+      "passed": true
+    },
+    {
+      "name": "final_reject_NOT_ENFORCED_chk_print_order_payment_v2",
+      "passed": true
+    },
+    {
+      "name": "final_reject_NOT_ENFORCED_chk_print_order_event_payment_v2",
+      "passed": true
+    },
+    {
+      "name": "A_B_controlled_interleaving_superseded_zero_backup_DDL_no_guard_reinstall",
+      "passed": true
+    },
+    {
+      "name": "both_defaults_NOT_APPLIED_zero_database_or_process_calls",
+      "passed": true
+    },
+    {
+      "name": "preflight_and_complete_verification_precede_old_protection_removal",
+      "passed": true
+    }
+  ],
+  "current_schema_read_only_probe": {
+    "kind": "current_read_only_information_schema_contract_probe",
+    "passed": true,
+    "metadata_selects": 42,
+    "business_rows_read": false,
+    "ddl_executed": false,
+    "backup_executed": false,
+    "apply_executed": false
+  }
+}

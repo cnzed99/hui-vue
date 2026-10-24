@@ -1,0 +1,319 @@
+{
+  "passed": true,
+  "finished_utc": "2026-10-23T10:48:09.837002+00:00",
+  "scope": "AST and mocked HTTP/provenance only; no DB, real HTTP, build or application process start",
+  "checks": [
+    {
+      "name": "explicit_tenant_header_is_used",
+      "passed": true
+    },
+    {
+      "name": "explicit_scope_http_is_loopback_only",
+      "passed": true
+    },
+    {
+      "name": "invalid_tenant_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "six_barrier_callers_complete",
+      "passed": true
+    },
+    {
+      "name": "immutable_process_argument_is_attested",
+      "passed": true
+    },
+    {
+      "name": "current_link_argument_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "actual_process_jar_hash_mismatch_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "source_and_release_drift_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "55_historical_assertion_names_remain_in_source_patterns",
+      "passed": true
+    },
+    {
+      "name": "same_order_same_key_concurrency_is_six",
+      "passed": true
+    },
+    {
+      "name": "new_real_scope_and_race_assertions_are_present",
+      "passed": true
+    },
+    {
+      "name": "16_new_scope_and_race_assertions_execute_under_mock",
+      "passed": true
+    },
+    {
+      "name": "store_mutant_retains_tenant_and_owner_and_exposes_only_own_old_store",
+      "passed": true
+    },
+    {
+      "name": "mock_detects_duplicate_key",
+      "passed": true
+    },
+    {
+      "name": "mock_detects_all_scope_missing",
+      "passed": true
+    },
+    {
+      "name": "mock_detects_store_leak",
+      "passed": true
+    },
+    {
+      "name": "mock_detects_store_write_leak",
+      "passed": true
+    },
+    {
+      "name": "session_counts_real_baseline_logout_deletion_and_optional_not_generated",
+      "passed": true
+    },
+    {
+      "name": "redis_tokens_never_enter_argv_or_public_summary",
+      "passed": true
+    },
+    {
+      "name": "redis_wrong_prefix_cannot_pass_required_baseline",
+      "passed": true
+    },
+    {
+      "name": "redis_wrong_prefix_cannot_report_cleanup_verified",
+      "passed": true
+    },
+    {
+      "name": "redis_wrong_database_cannot_pass_required_baseline",
+      "passed": true
+    },
+    {
+      "name": "redis_wrong_database_cannot_report_cleanup_verified",
+      "passed": true
+    },
+    {
+      "name": "redis_always_absent_cannot_pass_required_baseline",
+      "passed": true
+    },
+    {
+      "name": "redis_always_absent_cannot_report_cleanup_verified",
+      "passed": true
+    },
+    {
+      "name": "absent_optional_key_is_not_claimed_as_deleted",
+      "passed": true
+    },
+    {
+      "name": "failed_exact_delete_with_remaining_key_is_detected",
+      "passed": true
+    },
+    {
+      "name": "canonical_fixture_cache_baselines_and_actual_deletion_counts",
+      "passed": true
+    },
+    {
+      "name": "redis_noauth_exit_zero_fails_preflight",
+      "passed": true
+    },
+    {
+      "name": "preflight_acl_rejects_exists",
+      "passed": true
+    },
+    {
+      "name": "preflight_extra_exists_reply",
+      "passed": true
+    },
+    {
+      "name": "preflight_exists_nonzero_exit",
+      "passed": true
+    },
+    {
+      "name": "preflight_run_key_already_exists",
+      "passed": true
+    },
+    {
+      "name": "preflight_nonnumeric_exists_reply",
+      "passed": true
+    },
+    {
+      "name": "read_only_preflight_precedes_key_init_and_fixtures",
+      "passed": true
+    },
+    {
+      "name": "mock_external_key_is_0600_and_32_bytes",
+      "passed": true
+    },
+    {
+      "name": "initialization_never_rotates_existing_key",
+      "passed": true
+    },
+    {
+      "name": "signed_ledger_directory_and_file_modes_are_private",
+      "passed": true
+    },
+    {
+      "name": "signed_payload_persists_fixture_identifiers_and_session_cache_baselines",
+      "passed": true
+    },
+    {
+      "name": "whole_payload_has_domain_separated_hmac",
+      "passed": true
+    },
+    {
+      "name": "all_original_fixture_and_ledger_objects_are_destroyed",
+      "passed": true
+    },
+    {
+      "name": "disk_and_external_key_only_recovery_restores_sessions_caches_and_sql",
+      "passed": true
+    },
+    {
+      "name": "repeated_signed_recovery_is_idempotent",
+      "passed": true
+    },
+    {
+      "name": "recovery_is_cleanup_only_not_business_acceptance",
+      "passed": true
+    },
+    {
+      "name": "recovery_has_only_derived_owned_keys",
+      "passed": true
+    },
+    {
+      "name": "recovery_respects_same_fixture_lock_without_sql_side_effects",
+      "passed": true
+    },
+    {
+      "name": "payload_identity_tamper_fails_before_identifier_parsing",
+      "passed": true
+    },
+    {
+      "name": "unauthenticated_identifiers_are_never_validated_or_derived",
+      "passed": true
+    },
+    {
+      "name": "signed_record_path_outside_fixed_batch_rejected",
+      "passed": true
+    },
+    {
+      "name": "signed_record_wrong_run_identity_rejected",
+      "passed": true
+    },
+    {
+      "name": "signed_record_loose_mode_rejected",
+      "passed": true
+    },
+    {
+      "name": "signed_record_symlink_rejected",
+      "passed": true
+    },
+    {
+      "name": "missing_external_key_fails_without_regeneration",
+      "passed": true
+    },
+    {
+      "name": "recovery_does_not_recreate_missing_key",
+      "passed": true
+    },
+    {
+      "name": "external_key_loose_mode_rejected",
+      "passed": true
+    },
+    {
+      "name": "replaced_external_key_cannot_authenticate_signed_record",
+      "passed": true
+    },
+    {
+      "name": "external_key_wrong_length_rejected_without_rotation",
+      "passed": true
+    },
+    {
+      "name": "external_key_open_fstat_owner_is_enforced",
+      "passed": true
+    },
+    {
+      "name": "signed_arbitrary_cache_key_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "signed_official_tenant_fixture_identity_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "ledger_cannot_be_removed_before_cache_proof",
+      "passed": true
+    },
+    {
+      "name": "ledger_cannot_be_removed_before_corresponding_sql_proof",
+      "passed": true
+    },
+    {
+      "name": "sql_failure_occurs_after_signed_login_response_is_durable",
+      "passed": true
+    },
+    {
+      "name": "unverified_response_is_in_signed_disk_record",
+      "passed": true
+    },
+    {
+      "name": "missing_baselines_never_become_green_from_current_zero",
+      "passed": true
+    },
+    {
+      "name": "unverified_baseline_prevents_ledger_deletion",
+      "passed": true
+    },
+    {
+      "name": "ledger_write_failure_rejects_login",
+      "passed": true
+    },
+    {
+      "name": "ledger_write_failure_is_not_hidden_during_cleanup",
+      "passed": true
+    },
+    {
+      "name": "ledger_write_failure_still_attempts_exact_logout",
+      "passed": true
+    },
+    {
+      "name": "sql_failure_preserves_signed_record_before_baseline",
+      "passed": true
+    },
+    {
+      "name": "redis_failure_is_reported_independently",
+      "passed": true
+    },
+    {
+      "name": "redis_failure_attempts_logout_and_retains_signed_ledger",
+      "passed": true
+    },
+    {
+      "name": "corresponding_fixture_sql_remaining_keeps_record_unverified",
+      "passed": true
+    },
+    {
+      "name": "real_hmac_key_was_not_initialized_or_changed_by_mocks",
+      "passed": true
+    },
+    {
+      "name": "old_failed_attempt_and_open_orphan_remain_explicit",
+      "passed": true
+    }
+  ],
+  "check_count": 75,
+  "real_acceptance": "NOT_RUN",
+  "repair_round": 1,
+  "review_findings": "P2 store-axis masking and Redis absent-key false cleanup evidence",
+  "reviewed_old_manifest_sha256": "411f7b7e8ae2aebb0eef11fe8203748f7cabdc82315f3a14c0969dccad283945",
+  "auth_ledger_repair_round": 2,
+  "old_failed_report_sha256": "28b7e94aea0a40ce29e17093eb57fdf2863d0bd8d4399728c85bb8b0856f9c39",
+  "files": {
+    "payment_http_smoke.py": "d943c63fc3b8dc0865c0a7bdb873dc586c7fe22a8848b9faee3c60a4211b043a",
+    "payment_smoke_support.py": "008c662c9bf75b472a1c08f90c39531ea08545c7fe4f0c2125f03bd9b6a211bc",
+    "payment_smoke_support_checks.py": "9ab8ee2a3ce70d1dda9f53493155ca30b0275223c1120d2188c9cab1c7cbdac5"
+  }
+}

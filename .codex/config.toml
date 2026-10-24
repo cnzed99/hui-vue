@@ -1,0 +1,8 @@
+# Project defaults; explicit model settings in the UI/current turn may take precedence.
+model = "gpt-6.1-sol"
+model_reasoning_effort = "high"
+
+[agents]
+enabled = true
+default_subagent_model = "gpt-6.1-sol"
+default_subagent_reasoning_effort = "high"

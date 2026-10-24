@@ -1,0 +1,28 @@
+{
+  "at": "2026-10-23T10:40:55.039579+00:00",
+  "actual_model": "gpt-6-astra",
+  "effort": "high",
+  "agent": "astra_reviewer_config_check",
+  "session_id": "01a16808-4bfe-7df2-9d50-2555abb680cf",
+  "conclusion": "PASS",
+  "scope": "repair scripts and isolated mocks only; no real HMAC key initialization, actual cleanup, or HTTP rerun authorized by this review",
+  "requirements": [
+    "PING plus restricted numeric preflight before fixtures/login",
+    "persist session and fixture cache derivation identifiers and verification state",
+    "fixed external 256-bit HMAC key and domain-separated canonical signed envelope",
+    "NOFOLLOW and post-open owner/mode/length verification",
+    "recovery missing key fails without regeneration",
+    "authenticate before using payload; fixed key derivation only; shared fixture lock",
+    "retain private ledger until session cache and SQL cleanup verification",
+    "destroy original objects and recover only from signed disk record and external key in isolated mock"
+  ],
+  "prior_failed_run": {
+    "status": "OPEN_UNVERIFIED",
+    "report": "evidence/acceptance/payment-http-smoke-v2.json",
+    "sha256": "28b7e94aea0a40ce29e17093eb57fdf2863d0bd8d4399728c85bb8b0856f9c39",
+    "known": "one SQL token pair removed; exact Redis cleanup not proven; original identifiers unavailable",
+    "prohibited": "no Redis scan, no administrator-wide deletion, no flush",
+    "not_overwritten_by_future_batch_pass": true
+  },
+  "actual_implementation": "Sol High second repair in progress; final hashes pending"
+}

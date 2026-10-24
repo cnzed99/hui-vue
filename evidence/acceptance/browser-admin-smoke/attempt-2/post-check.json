@@ -1,0 +1,16 @@
+{
+  "scope": "attempt-2-post-cleanup",
+  "ownContextClosed": true,
+  "ownBrowserClosed": true,
+  "ownTokenRevocationConfirmed": true,
+  "servicesActive": true,
+  "freeDiskBytes": 49189158912,
+  "ownedTempCleanup": [
+    {
+      "directory": "run-tmp",
+      "remainingOwnedFilesBeforeCleanup": 0
+    }
+  ],
+  "retainedReusableRuntime": true,
+  "extraLoginRuns": 0
+}

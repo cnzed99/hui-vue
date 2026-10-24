@@ -1,0 +1,15 @@
+{
+  "credentialsRead": false,
+  "loginSubmitted": false,
+  "screenshot": false,
+  "namedCheckboxCount": 1,
+  "inputCheckboxCount": 1,
+  "checkboxAttributes": {
+    "ariaHidden": null,
+    "disabled": false,
+    "tabIndex": 0,
+    "role": null
+  },
+  "namedUncheckPassed": false,
+  "afterChecked": true
+}

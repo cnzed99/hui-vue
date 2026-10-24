@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-23T10:40:55.039579+00:00",
+  "actual_model": "gpt-6-astra",
+  "effort": "high",
+  "agent": "astra_reviewer_config_check",
+  "session_id": "01a16808-4bfe-7df2-9d50-2555abb680cf",
+  "conclusion": "CHANGES_REQUIRED",
+  "scope": "AUTH ledger repair first final-code review; no actual HTTP or Redis executed by reviewer",
+  "independent_mock_checks": 52,
+  "reviewed_manifest_sha256": "943c7c6c14b4b5935dd6ac9316b6e8c1a7f298c2130e228e595998b728ff54fd",
+  "blocking_findings": [
+    "PING preflight lacks restricted numeric EXISTS command",
+    "fixture cache recovery identifiers not persisted",
+    "trusted digest unavailable after destruction of live memory objects"
+  ],
+  "prior_failed_run": {
+    "status": "OPEN_UNVERIFIED",
+    "report": "evidence/acceptance/payment-http-smoke-v2.json",
+    "sha256": "28b7e94aea0a40ce29e17093eb57fdf2863d0bd8d4399728c85bb8b0856f9c39",
+    "known": "one SQL token pair removed; exact Redis cleanup not proven; original identifiers unavailable",
+    "prohibited": "no Redis scan, no administrator-wide deletion, no flush",
+    "not_overwritten_by_future_batch_pass": true
+  },
+  "real_v3_status": "NOT_RUN"
+}

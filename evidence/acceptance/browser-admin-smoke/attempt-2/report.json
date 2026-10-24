@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "scope": "deployed-admin-shell-orders-disabled-only",
+  "startedAt": "2026-10-23T11:15:13.253Z",
+  "browser": "156.0.8078.4",
+  "checks": [
+    {
+      "id": "disk-reserve-at-least-10GiB-before",
+      "status": "PASS"
+    },
+    {
+      "id": "four-services-active-before",
+      "status": "PASS"
+    },
+    {
+      "id": "unauthenticated-orders-route-redirects-to-login",
+      "status": "PASS"
+    },
+    {
+      "id": "real-tenant-field-visible",
+      "status": "PASS"
+    },
+    {
+      "id": "remember-me-disabled-through-normal-label-click",
+      "status": "PASS"
+    },
+    {
+      "id": "one-real-login-request-and-success-with-own-token-captured",
+      "status": "PASS"
+    },
+    {
+      "id": "real-form-login-keeps-protected-redirect",
+      "status": "PASS"
+    },
+    {
+      "id": "deployed-orders-shows-feature-disabled",
+      "status": "PASS"
+    },
+    {
+      "id": "disabled-is-not-empty-data",
+      "status": "PASS"
+    },
+    {
+      "id": "actual-orders-HTTP503-business-code-observed",
+      "status": "PASS"
+    },
+    {
+      "id": "workbench-renders-real-store-context",
+      "status": "PASS"
+    },
+    {
+      "id": "context-owner-matches-authenticated-user",
+      "status": "PASS"
+    },
+    {
+      "id": "deployed-shell-has-original-module-navigation",
+      "status": "PASS"
+    },
+    {
+      "id": "deployed-workbench-has-demo-orders-link",
+      "status": "PASS"
+    },
+    {
+      "id": "workbench-orders-navigation-reaches-disabled-state",
+      "status": "PASS"
+    },
+    {
+      "id": "normal-ui-logout-returns-to-login",
+      "status": "PASS"
+    },
+    {
+      "id": "real-logout-response-succeeded",
+      "status": "PASS"
+    },
+    {
+      "id": "logout-workbench-access-requires-login",
+      "status": "PASS"
+    },
+    {
+      "id": "no-print-business-write-attempted",
+      "status": "PASS"
+    },
+    {
+      "id": "fresh-login-session-did-not-require-auth-refresh",
+      "status": "PASS"
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "orders-disabled",
+      "path": "evidence/acceptance/browser-admin-smoke/attempt-2/orders-disabled.png",
+      "sha256": "7b80563f2eb7a81a4a457cf2d76aca0eb869f860a8f06df9f49f74a6e5665a26"
+    },
+    {
+      "name": "workbench-context",
+      "path": "evidence/acceptance/browser-admin-smoke/attempt-2/workbench-context.png",
+      "sha256": "fa1c9710fa2be4465b65edde8887d1da4221d9e2ee72101c587de85dcf29fd9b"
+    }
+  ],
+  "collection": {
+    "har": false,
+    "trace": false,
+    "video": false,
+    "console": false,
+    "networkPayloadLogs": false,
+    "loginScreenshots": false,
+    "storageStateExport": false,
+    "persistentContext": false
+  },
+  "exclusions": [
+    "order-data-page",
+    "end-to-end-workflow",
+    "visual-parity",
+    "real-payment",
+    "terminal-receipt",
+    "physical-printing"
+  ],
+  "blockedBusinessWrites": 0,
+  "loginRequests": 1,
+  "loginSuccessfulResponses": 1,
+  "refreshRequests": 0,
+  "loginResponseCodes": [
+    {
+      "http": 200,
+      "business": 0
+    }
+  ],
+  "attempt": "2",
+  "completed": true,
+  "scriptSha256": "cf8e45a01b8c10dcc894732a06e357ad4bbede14ca404e0cf7017366bc08c0a7",
+  "playwrightVersion": "1.64.1",
+  "deployedDocumentSha256": "3fc5036a39bd3c9ac25a0aee4d96ff8d3ac70bfc06e17a5b70406b2bca7ac83b",
+  "loginClickAttempted": true,
+  "loginSubmitted": true,
+  "ownSessionRevocation": {
+    "http": 200,
+    "business": 401,
+    "confirmed": true
+  },
+  "contextClosed": true,
+  "browserClosed": true,
+  "finishedAt": "2026-10-23T11:15:18.785Z",
+  "fourServicesActiveAfter": true,
+  "diskReserveAfter": true
+}

@@ -1,0 +1,52 @@
+{
+  "generated_at": "2026-10-23T09:25:54.080591+00:00",
+  "scope": "Source-verified auth endpoint smoke only",
+  "state_changes": "Test session login/logout only",
+  "cases": [
+    {
+      "id": "M1-03-no-token",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 401
+    },
+    {
+      "id": "M1-03-forged-token",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 401
+    },
+    {
+      "id": "M1-04-login",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 0
+    },
+    {
+      "id": "M1-04-permission-info",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 0
+    },
+    {
+      "id": "M1-04-logout",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 0
+    },
+    {
+      "id": "M1-04-revoked-token",
+      "status": "PASS",
+      "http_status": 200,
+      "business_code": 401
+    }
+  ],
+  "not_covered": [
+    "role_action_permissions",
+    "cross_store_ownership",
+    "expired_refresh_tokens",
+    "database_restart_persistence",
+    "printing_business",
+    "visual_parity",
+    "user_acceptance"
+  ]
+}

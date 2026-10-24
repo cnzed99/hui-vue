@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "started_at": "2026-10-23T10:04:01.191688+00:00",
+  "actual_model": "gpt-6.1-sol",
+  "effort": "high",
+  "frozen_commit": "b5f60306a841e5ed5ba7a1f5b7dcf8018c75de3f",
+  "root_cause": "unrelated repository push includes shallow boundary whose real parent is absent locally and on target; exact missing remote object matches parent of sole local shallow boundary",
+  "shallow_boundary": "050bac1eccfbe7393a1568d614151cc99501b949",
+  "missing_parent": "9bd6a91286573af70874ebd9c23d73177dd8001d",
+  "source_or_index_or_HEAD_edits": false,
+  "tags_fetched": false,
+  "push_performed": false,
+  "free_bytes_before": 49741176832,
+  "index_sha256_before": "eb3e30a480e5ead40442e263f8b22562b2a6fe8aef2f33c9f742eb74d0846230",
+  "local_heads_before": [
+    "bcb9635f631e3959fed769add00473b9fb6c45ab refs/heads/print-phase1",
+    "b5f60306a841e5ed5ba7a1f5b7dcf8018c75de3f refs/heads/print/phase1-admin"
+  ],
+  "boundary_parents_before": [
+    "9bd6a91286573af70874ebd9c23d73177dd8001d",
+    "0af03a93b6b6300f878e28add69b1c7a9f09ec34"
+  ],
+  "phase": "finished",
+  "fetch_command": [
+    "git",
+    "fetch",
+    "--unshallow",
+    "--no-tags",
+    "origin",
+    "050bac1eccfbe7393a1568d614151cc99501b949"
+  ],
+  "fetch_stdout": "",
+  "index_sha256_after": "eb3e30a480e5ead40442e263f8b22562b2a6fe8aef2f33c9f742eb74d0846230",
+  "shallow_after": "false",
+  "missing_parent_type_after": "commit",
+  "HEAD_ancestor_count": 5671,
+  "connectivity_check": "",
+  "full_HEAD_object_walk_sha256": "3863656c7cc12cf4a40550589c8aa502ac9912b6554d4884d18d3de918340885",
+  "free_bytes_after": 49722372096,
+  "HEAD_after": "b5f60306a841e5ed5ba7a1f5b7dcf8018c75de3f",
+  "local_development_heads_unchanged": true,
+  "index_unchanged": true,
+  "finished_at": "2026-10-23T10:08:16.652011+00:00"
+}

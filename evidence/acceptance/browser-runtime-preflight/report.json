@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "scope": "browser-runtime-preflight-no-login",
+  "startedAt": "2026-10-23T11:02:52.178Z",
+  "browser": "156.0.8078.4",
+  "checks": [
+    {
+      "id": "disk-reserve-at-least-10GiB-before",
+      "status": "PASS"
+    },
+    {
+      "id": "four-services-active-before",
+      "status": "PASS"
+    },
+    {
+      "id": "chromium-launches-isolated-context-without-network-or-credentials",
+      "status": "PASS"
+    }
+  ],
+  "screenshots": [],
+  "collection": {
+    "har": false,
+    "trace": false,
+    "video": false,
+    "console": false,
+    "networkPayloadLogs": false,
+    "loginScreenshots": false,
+    "storageStateExport": false,
+    "persistentContext": false
+  },
+  "exclusions": [
+    "order-data-page",
+    "end-to-end-workflow",
+    "visual-parity",
+    "real-payment",
+    "terminal-receipt",
+    "physical-printing"
+  ],
+  "blockedBusinessWrites": 0,
+  "completed": true,
+  "playwrightVersion": "1.64.1",
+  "contextClosed": true,
+  "browserClosed": true,
+  "finishedAt": "2026-10-23T11:02:52.975Z",
+  "fourServicesActiveAfter": true,
+  "diskReserveAfter": true
+}

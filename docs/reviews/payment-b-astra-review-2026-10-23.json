@@ -1,0 +1,19 @@
+{
+  "scope": "post-deployment independent B review; not approval before historical migration",
+  "session": "01a16808-4bfe-7df2-9d50-2555abb680cf",
+  "reviewed_manifest_sha256": "ca3dc39bfa5ddb46c2c4af7a21b5d75e0f228ac6472187c069e16629ff822571",
+  "findings": [
+    "P1: CHECK normalization loses semantic grouping; trigger normalization changes literals",
+    "P1: replacement/legacy order/event CHECK metadata must include ENFORCED/table/type/schema",
+    "P2: recheck legacy migration superseded after shared lock",
+    "P2: HTTP evidence needs real tenant/store, concurrent cross-order same key, independent owner same key, >=6 same-key requests, UTC and actual running JAR/source/script hashes"
+  ],
+  "at": "2026-10-23T09:33:59.489560+00:00",
+  "actual_model": "gpt-6-astra",
+  "actual_effort": "high",
+  "model_evidence": "parent verified local reviewer turn_context",
+  "conclusion": "CHANGES_REQUIRED",
+  "fix_owner": "gpt-6.1-sol/high",
+  "verification_status": "pending",
+  "review_changed_business_or_database": false
+}

@@ -1,0 +1,443 @@
+{
+  "passed": true,
+  "finished_utc": "2026-10-23T11:20:06.409101+00:00",
+  "scope": "AST and mocked HTTP/provenance only; no DB, real HTTP, build or application process start",
+  "checks": [
+    {
+      "name": "explicit_tenant_header_is_used",
+      "passed": true
+    },
+    {
+      "name": "explicit_scope_http_is_loopback_only",
+      "passed": true
+    },
+    {
+      "name": "invalid_tenant_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "six_barrier_callers_complete",
+      "passed": true
+    },
+    {
+      "name": "immutable_process_argument_is_attested",
+      "passed": true
+    },
+    {
+      "name": "current_link_argument_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "actual_process_jar_hash_mismatch_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "source_and_release_drift_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "55_historical_assertion_names_remain_in_source_patterns",
+      "passed": true
+    },
+    {
+      "name": "same_order_same_key_concurrency_is_six",
+      "passed": true
+    },
+    {
+      "name": "new_real_scope_and_race_assertions_are_present",
+      "passed": true
+    },
+    {
+      "name": "16_new_scope_and_race_assertions_execute_under_mock",
+      "passed": true
+    },
+    {
+      "name": "store_mutant_retains_tenant_and_owner_and_exposes_only_own_old_store",
+      "passed": true
+    },
+    {
+      "name": "mock_detects_duplicate_key",
+      "passed": true
+    },
+    {
+      "name": "mock_detects_all_scope_missing",
+      "passed": true
+    },
+    {
+      "name": "mock_detects_store_leak",
+      "passed": true
+    },
+    {
+      "name": "mock_detects_store_write_leak",
+      "passed": true
+    },
+    {
+      "name": "session_counts_real_baseline_logout_deletion_and_optional_not_generated",
+      "passed": true
+    },
+    {
+      "name": "redis_tokens_never_enter_argv_or_public_summary",
+      "passed": true
+    },
+    {
+      "name": "redis_wrong_prefix_cannot_pass_required_baseline",
+      "passed": true
+    },
+    {
+      "name": "redis_wrong_prefix_cannot_report_cleanup_verified",
+      "passed": true
+    },
+    {
+      "name": "redis_wrong_database_cannot_pass_required_baseline",
+      "passed": true
+    },
+    {
+      "name": "redis_wrong_database_cannot_report_cleanup_verified",
+      "passed": true
+    },
+    {
+      "name": "redis_always_absent_cannot_pass_required_baseline",
+      "passed": true
+    },
+    {
+      "name": "redis_always_absent_cannot_report_cleanup_verified",
+      "passed": true
+    },
+    {
+      "name": "absent_optional_key_is_not_claimed_as_deleted",
+      "passed": true
+    },
+    {
+      "name": "failed_exact_delete_with_remaining_key_is_detected",
+      "passed": true
+    },
+    {
+      "name": "canonical_fixture_cache_baselines_and_actual_deletion_counts",
+      "passed": true
+    },
+    {
+      "name": "redis_noauth_exit_zero_fails_preflight",
+      "passed": true
+    },
+    {
+      "name": "preflight_acl_rejects_exists",
+      "passed": true
+    },
+    {
+      "name": "preflight_extra_exists_reply",
+      "passed": true
+    },
+    {
+      "name": "preflight_exists_nonzero_exit",
+      "passed": true
+    },
+    {
+      "name": "preflight_run_key_already_exists",
+      "passed": true
+    },
+    {
+      "name": "preflight_nonnumeric_exists_reply",
+      "passed": true
+    },
+    {
+      "name": "read_only_preflight_precedes_key_init_and_fixtures",
+      "passed": true
+    },
+    {
+      "name": "mock_external_key_is_0600_and_32_bytes",
+      "passed": true
+    },
+    {
+      "name": "initialization_never_rotates_existing_key",
+      "passed": true
+    },
+    {
+      "name": "signed_ledger_directory_and_file_modes_are_private",
+      "passed": true
+    },
+    {
+      "name": "signed_payload_persists_fixture_identifiers_and_session_cache_baselines",
+      "passed": true
+    },
+    {
+      "name": "whole_payload_has_domain_separated_hmac",
+      "passed": true
+    },
+    {
+      "name": "all_original_fixture_and_ledger_objects_are_destroyed",
+      "passed": true
+    },
+    {
+      "name": "disk_and_external_key_only_recovery_restores_sessions_caches_and_sql",
+      "passed": true
+    },
+    {
+      "name": "repeated_signed_recovery_is_idempotent",
+      "passed": true
+    },
+    {
+      "name": "recovery_is_cleanup_only_not_business_acceptance",
+      "passed": true
+    },
+    {
+      "name": "recovery_has_only_derived_owned_keys",
+      "passed": true
+    },
+    {
+      "name": "recovery_respects_same_fixture_lock_without_sql_side_effects",
+      "passed": true
+    },
+    {
+      "name": "payload_identity_tamper_fails_before_identifier_parsing",
+      "passed": true
+    },
+    {
+      "name": "unauthenticated_identifiers_are_never_validated_or_derived",
+      "passed": true
+    },
+    {
+      "name": "signed_record_path_outside_fixed_batch_rejected",
+      "passed": true
+    },
+    {
+      "name": "signed_record_wrong_run_identity_rejected",
+      "passed": true
+    },
+    {
+      "name": "signed_record_loose_mode_rejected",
+      "passed": true
+    },
+    {
+      "name": "signed_record_symlink_rejected",
+      "passed": true
+    },
+    {
+      "name": "missing_external_key_fails_without_regeneration",
+      "passed": true
+    },
+    {
+      "name": "recovery_does_not_recreate_missing_key",
+      "passed": true
+    },
+    {
+      "name": "external_key_loose_mode_rejected",
+      "passed": true
+    },
+    {
+      "name": "replaced_external_key_cannot_authenticate_signed_record",
+      "passed": true
+    },
+    {
+      "name": "external_key_wrong_length_rejected_without_rotation",
+      "passed": true
+    },
+    {
+      "name": "external_key_open_fstat_owner_is_enforced",
+      "passed": true
+    },
+    {
+      "name": "signed_arbitrary_cache_key_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "signed_official_tenant_fixture_identity_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "ledger_cannot_be_removed_before_cache_proof",
+      "passed": true
+    },
+    {
+      "name": "ledger_cannot_be_removed_before_corresponding_sql_proof",
+      "passed": true
+    },
+    {
+      "name": "sql_failure_occurs_after_signed_login_response_is_durable",
+      "passed": true
+    },
+    {
+      "name": "unverified_response_is_in_signed_disk_record",
+      "passed": true
+    },
+    {
+      "name": "missing_baselines_never_become_green_from_current_zero",
+      "passed": true
+    },
+    {
+      "name": "unverified_baseline_prevents_ledger_deletion",
+      "passed": true
+    },
+    {
+      "name": "ledger_write_failure_rejects_login",
+      "passed": true
+    },
+    {
+      "name": "ledger_write_failure_is_not_hidden_during_cleanup",
+      "passed": true
+    },
+    {
+      "name": "ledger_write_failure_still_attempts_exact_logout",
+      "passed": true
+    },
+    {
+      "name": "sql_failure_preserves_signed_record_before_baseline",
+      "passed": true
+    },
+    {
+      "name": "redis_failure_is_reported_independently",
+      "passed": true
+    },
+    {
+      "name": "redis_failure_attempts_logout_and_retains_signed_ledger",
+      "passed": true
+    },
+    {
+      "name": "corresponding_fixture_sql_remaining_keeps_record_unverified",
+      "passed": true
+    },
+    {
+      "name": "real_hmac_key_was_not_initialized_or_changed_by_mocks",
+      "passed": true
+    },
+    {
+      "name": "old_failed_attempt_and_open_orphan_remain_explicit",
+      "passed": true
+    },
+    {
+      "name": "faithful_filter_seven_leaves_without_parent_yields_zero_permissions",
+      "passed": true
+    },
+    {
+      "name": "faithful_filter_adding_ancestor_2000_retains_all_seven_permissions",
+      "passed": true
+    },
+    {
+      "name": "generated_role_grant_is_exact_seven_leaves_plus_2000",
+      "passed": true
+    },
+    {
+      "name": "ancestor_does_not_expand_permission_cache_candidates",
+      "passed": true
+    },
+    {
+      "name": "fixture_permission_fix_never_updates_existing_roles_or_packages",
+      "passed": true
+    },
+    {
+      "name": "permission_preflight_rejects_missing_ancestor",
+      "passed": true
+    },
+    {
+      "name": "permission_preflight_missing_ancestor_fails_before_any_fixture_write",
+      "passed": true
+    },
+    {
+      "name": "permission_preflight_rejects_disabled_ancestor",
+      "passed": true
+    },
+    {
+      "name": "permission_preflight_disabled_ancestor_fails_before_any_fixture_write",
+      "passed": true
+    },
+    {
+      "name": "permission_preflight_rejects_deleted_ancestor",
+      "passed": true
+    },
+    {
+      "name": "permission_preflight_deleted_ancestor_fails_before_any_fixture_write",
+      "passed": true
+    },
+    {
+      "name": "permission_preflight_rejects_outside_package",
+      "passed": true
+    },
+    {
+      "name": "permission_preflight_outside_package_fails_before_any_fixture_write",
+      "passed": true
+    },
+    {
+      "name": "permission_preflight_rejects_duplicate_permission",
+      "passed": true
+    },
+    {
+      "name": "permission_preflight_duplicate_permission_fails_before_any_fixture_write",
+      "passed": true
+    },
+    {
+      "name": "permission_preflight_rejects_cycle",
+      "passed": true
+    },
+    {
+      "name": "permission_preflight_cycle_fails_before_any_fixture_write",
+      "passed": true
+    },
+    {
+      "name": "permission_preflight_rejects_nonempty_ancestor_permission",
+      "passed": true
+    },
+    {
+      "name": "permission_preflight_nonempty_ancestor_permission_fails_before_any_fixture_write",
+      "passed": true
+    },
+    {
+      "name": "permission_preflight_rejects_disabled_package",
+      "passed": true
+    },
+    {
+      "name": "permission_preflight_disabled_package_fails_before_any_fixture_write",
+      "passed": true
+    },
+    {
+      "name": "permission_preflight_rejects_deleted_leaf",
+      "passed": true
+    },
+    {
+      "name": "permission_preflight_deleted_leaf_fails_before_any_fixture_write",
+      "passed": true
+    },
+    {
+      "name": "permission_preflight_rejects_extra_ancestor",
+      "passed": true
+    },
+    {
+      "name": "permission_preflight_extra_ancestor_fails_before_any_fixture_write",
+      "passed": true
+    },
+    {
+      "name": "new_attempt_v5_preserves_prior_failure_references",
+      "passed": true
+    },
+    {
+      "name": "original_own_order_twice_succeeds_under_real_four_column_unique_constraint",
+      "passed": true
+    },
+    {
+      "name": "each_profile_version_is_stable_uuid_derived_and_within_schema_limit",
+      "passed": true
+    },
+    {
+      "name": "unique_version_fix_preserves_marker_id_tenant_exact_cleanup",
+      "passed": true
+    },
+    {
+      "name": "real_creator_fixed_v1_mutant_fails_second_insert_at_unique_index",
+      "passed": true
+    }
+  ],
+  "check_count": 105,
+  "real_acceptance": "NOT_RUN",
+  "repair_round": 1,
+  "review_findings": "P2 store-axis masking and Redis absent-key false cleanup evidence",
+  "reviewed_old_manifest_sha256": "411f7b7e8ae2aebb0eef11fe8203748f7cabdc82315f3a14c0969dccad283945",
+  "auth_ledger_repair_round": 2,
+  "permission_fixture_repair_round": 1,
+  "profile_fixture_repair_round": 1,
+  "prior_v4_failed_report_sha256": "6a4ee7c3cb087e05de1359272d79381741d1616205c143d9157d2163802598fb",
+  "prior_v3_failed_report_sha256": "1af6d3a14475b9e545e815a723bfe09b696d07bc752c76622af729a5d01cb746",
+  "old_failed_report_sha256": "28b7e94aea0a40ce29e17093eb57fdf2863d0bd8d4399728c85bb8b0856f9c39",
+  "files": {
+    "payment_http_smoke.py": "d6b166ebcb95181019dea1f3f93e3b73b68319f51e6335fbf986ed559e191cd9",
+    "payment_smoke_support.py": "bd0413caddbe5cfd22f0acc911f3737b45bec42cef4a44fd8e27fdf13cf735db",
+    "payment_smoke_support_checks.py": "31dbf0cd02907b4eb39b7b34732a3fba77c039c81c5405bce23b60d0fdb08917"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "generatedUtc": "2026-10-23T09:27:23.079464+00:00",
+  "scope": "Frontend read-only payment/print/event status presentation only; no backend build, DDL, business rule change or Git commit",
+  "executionLocation": "/home/ubuntu/print-system",
+  "model": {
+    "taskAssignment": "GPT-6.1 Sol High",
+    "actualModelAndEffort": "gpt-6.1-sol / high",
+    "astra": "Business rule review coordinated separately by root; no rule design/change in this frontend closeout",
+    "verification": "Parent verified local session turn_context for session 01a16810-3f51-7363-95fa-d2ac21daa4cb"
+  },
+  "frontendDiffSha256": "ca15a8db88ba2d3938ed2e62e8fcc6060a7fe3e73fb46ecfd43de54cae9daa0a",
+  "frontendFiles": [
+    "src/print-admin/orders/view.ts",
+    "src/print-admin/orders/DemoOrders.vue",
+    "src/print-admin/orders/DemoOrderDetail.vue",
+    "scripts/check-print-orders.cjs",
+    "docs/print-demo-orders.md"
+  ],
+  "contractChecks": {
+    "passed": 38,
+    "failed": 0,
+    "scope": "isolated frontend contract checks; no real HTTP/browser acceptance"
+  },
+  "build": {
+    "jobPid": 365514,
+    "exitCode": 0,
+    "viteDuration": "1m28s",
+    "log": "evidence/frontend-build.log",
+    "jobLog": "evidence/frontend-payment-build-job.log",
+    "diskRecord": "evidence/disk/frontend-latest.json",
+    "scratchBytesRemoved": 9488464
+  },
+  "publication": {
+    "files": 2734,
+    "verified": true,
+    "obsoleteAssetBytesRemoved": 14242635,
+    "previousSnapshotBytes": 8815787,
+    "freeAfterBytes": 49732653056
+  },
+  "authentication": {
+    "report": "evidence/acceptance/payment-after-frontend-auth.json",
+    "passed": 6,
+    "failed": 0,
+    "stateChanges": "Test session login/logout only"
+  },
+  "services": {
+    "print-backend": "active",
+    "nginx": "active",
+    "mysql": "active",
+    "redis-server": "active"
+  },
+  "cleanup": {
+    "distRemoved": true,
+    "distGeneratedBytesRemoved": 25695070,
+    "ownedPidExitFilesRemoved": true,
+    "freeBeforeBytes": 49731833856,
+    "freeAfterBytes": 49764388864,
+    "currentStaticRetained": "/var/www/print-system",
+    "previousSnapshotRetained": "runtime/backups/frontend-previous.tar.gz"
+  },
+  "browserUi": {
+    "status": "NOT_RUN",
+    "notCovered": [
+      "authenticated order list/detail UI",
+      "normal permissions UI",
+      "feature-disabled UI",
+      "visual parity"
+    ]
+  },
+  "limitations": [
+    "No real receipt or printer acceptance",
+    "Auth smoke does not establish role-action permissions or business UI acceptance"
+  ]
+}

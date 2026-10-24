@@ -1,0 +1,726 @@
+{
+  "passed": false,
+  "failure": "second_scope_has_all_required_permissions",
+  "checks": [
+    {
+      "name": "payment_absent_before_simulation",
+      "passed": true
+    },
+    {
+      "name": "reader_payment_permission_denied",
+      "passed": true
+    },
+    {
+      "name": "authorized_other_owner_hidden_read",
+      "passed": true
+    },
+    {
+      "name": "authorized_other_owner_hidden_write",
+      "passed": true
+    },
+    {
+      "name": "client_contract_rejected_amount",
+      "passed": true
+    },
+    {
+      "name": "client_contract_rejected_scope",
+      "passed": true
+    },
+    {
+      "name": "client_contract_rejected_provider",
+      "passed": true
+    },
+    {
+      "name": "client_contract_rejected_query",
+      "passed": true
+    },
+    {
+      "name": "client_contract_rejected_key_spaces",
+      "passed": true
+    },
+    {
+      "name": "invalid_attempts_leave_initial_state",
+      "passed": true
+    },
+    {
+      "name": "concurrent_same_key_returns_identical_receipt",
+      "passed": true
+    },
+    {
+      "name": "exactly_one_receipt_two_entries_one_job",
+      "passed": true
+    },
+    {
+      "name": "receipt_is_explicitly_simulated",
+      "passed": true
+    },
+    {
+      "name": "paired_exact_amount_ledger",
+      "passed": true
+    },
+    {
+      "name": "paid_order_is_queued_not_printed",
+      "passed": true
+    },
+    {
+      "name": "payment_event_once_version_two",
+      "passed": true
+    },
+    {
+      "name": "job_has_no_attempt_or_lease",
+      "passed": true
+    },
+    {
+      "name": "new_key_cannot_charge_paid_order",
+      "passed": true
+    },
+    {
+      "name": "app_cannot_update_print_payment_receipt",
+      "passed": true
+    },
+    {
+      "name": "app_cannot_delete_print_payment_receipt",
+      "passed": true
+    },
+    {
+      "name": "app_cannot_update_print_simulated_journal",
+      "passed": true
+    },
+    {
+      "name": "app_cannot_delete_print_simulated_journal",
+      "passed": true
+    },
+    {
+      "name": "app_cannot_update_print_job",
+      "passed": true
+    },
+    {
+      "name": "app_cannot_delete_print_job",
+      "passed": true
+    },
+    {
+      "name": "guard_denials_preserve_payment",
+      "passed": true
+    },
+    {
+      "name": "app_cannot_fake_paid_state",
+      "passed": true
+    },
+    {
+      "name": "app_cannot_change_order_amount",
+      "passed": true
+    },
+    {
+      "name": "same_key_other_order_conflicts",
+      "passed": true
+    },
+    {
+      "name": "different_keys_race_one_payment",
+      "passed": true
+    },
+    {
+      "name": "failure_response_second_journal",
+      "passed": true
+    },
+    {
+      "name": "full_transaction_rollback_second_journal",
+      "passed": true
+    },
+    {
+      "name": "same_key_retry_after_rollback_second_journal",
+      "passed": true
+    },
+    {
+      "name": "failure_response_job",
+      "passed": true
+    },
+    {
+      "name": "full_transaction_rollback_job",
+      "passed": true
+    },
+    {
+      "name": "same_key_retry_after_rollback_job",
+      "passed": true
+    },
+    {
+      "name": "failure_response_order_update",
+      "passed": true
+    },
+    {
+      "name": "full_transaction_rollback_order_update",
+      "passed": true
+    },
+    {
+      "name": "same_key_retry_after_rollback_order_update",
+      "passed": true
+    },
+    {
+      "name": "exact_frozen_amount_fraction",
+      "passed": true
+    },
+    {
+      "name": "journal_preserves_exact_amount_fraction",
+      "passed": true
+    },
+    {
+      "name": "exact_frozen_amount_zero",
+      "passed": true
+    },
+    {
+      "name": "journal_preserves_exact_amount_zero",
+      "passed": true
+    },
+    {
+      "name": "same_scope_two_orders_one_key_one_success_one_conflict",
+      "passed": true
+    },
+    {
+      "name": "same_scope_shared_key_loser_remains_v1_without_payment_residue",
+      "passed": true
+    },
+    {
+      "name": "different_owners_same_literal_key_independently_succeed",
+      "passed": true
+    },
+    {
+      "name": "real_second_tenant_store_context",
+      "passed": true
+    },
+    {
+      "name": "second_scope_has_all_required_permissions",
+      "passed": false
+    }
+  ],
+  "pdf_fixture_checks": [
+    {
+      "name": "parsed_fixture_payment-three",
+      "passed": true
+    },
+    {
+      "name": "parsed_fixture_payment-other-owner",
+      "passed": true
+    }
+  ],
+  "cleanup_errors": [
+    "scope_cache_cleanup_failed"
+  ],
+  "remaining_rows": {
+    "print_job": 0,
+    "print_simulated_journal": 0,
+    "print_payment_receipt": 0,
+    "print_order_event": 0,
+    "print_order_item": 0,
+    "print_order": 0,
+    "print_quote": 0,
+    "print_price_profile": 0,
+    "print_file": 0
+  },
+  "temporary_files_removed": false,
+  "temporary_instance_stopped": true,
+  "normal_runtime_payment_enabled": false,
+  "real_payment_or_printing": false,
+  "started_utc": "2026-10-23T10:52:17.613842+00:00",
+  "finished_utc": "2026-10-23T10:52:59.204198+00:00",
+  "version_evidence": {
+    "started_utc": "2026-10-23T10:52:17.613842+00:00",
+    "finished_utc": "2026-10-23T10:52:58.944732+00:00",
+    "initial": {
+      "source_manifest": [
+        {
+          "path": "ops/acceptance/file_http_smoke.py",
+          "sha256": "e5a159b49af32f75a632f5bb827ce6b954a184f6eb3778b55029e20e13cf06a2"
+        },
+        {
+          "path": "ops/acceptance/order_http_smoke.py",
+          "sha256": "7b4c6d1118d7a2a321b43f95c14002f9dcbf7a5957902b42d67966bf859f76cc"
+        },
+        {
+          "path": "ops/acceptance/payment_http_smoke.py",
+          "sha256": "d943c63fc3b8dc0865c0a7bdb873dc586c7fe22a8848b9faee3c60a4211b043a"
+        },
+        {
+          "path": "ops/acceptance/payment_smoke_support.py",
+          "sha256": "008c662c9bf75b472a1c08f90c39531ea08545c7fe4f0c2125f03bd9b6a211bc"
+        },
+        {
+          "path": "ops/acceptance/quote_http_smoke.py",
+          "sha256": "e84efc794972c009a26e7d610b7c9bfa7456a31f53598f410d14524b3e9377f6"
+        },
+        {
+          "path": "ops/runtime/application-cloud.yaml",
+          "sha256": "7cdb03ca75513335f37a663becd99de4a7893012a222d657ca2b6a85e63fbfd8"
+        },
+        {
+          "path": "ops/runtime/start-backend.sh",
+          "sha256": "acb08224974d383bc41544b0e196d1f25a8988a999d41709f5838f2ac6a56bcc"
+        },
+        {
+          "path": "src/backend/yudao-framework/yudao-spring-boot-starter-biz-tenant/src/main/java/cn/iocoder/yudao/framework/tenant/core/redis/TenantRedisCacheManager.java",
+          "sha256": "209aaf825bd54b6e964063f7e3700d8aa0eb802a289270ebb4a5e45d932451ce"
+        },
+        {
+          "path": "src/backend/yudao-framework/yudao-spring-boot-starter-redis/src/main/java/cn/iocoder/yudao/framework/redis/config/YudaoCacheAutoConfiguration.java",
+          "sha256": "e3e1db91abc76caa6ef7628b4b7cceb6c9a86ed703615ba14ca70e30503c4da0"
+        },
+        {
+          "path": "src/backend/yudao-module-system/src/main/java/cn/iocoder/yudao/module/system/dal/redis/RedisKeyConstants.java",
+          "sha256": "f24089e93a8528dcda08d39119d5c4698330a11bbc0bd954c47c0785a12db3c9"
+        },
+        {
+          "path": "src/backend/yudao-module-system/src/main/java/cn/iocoder/yudao/module/system/dal/redis/oauth2/OAuth2AccessTokenRedisDAO.java",
+          "sha256": "615b354a43784f9cbdbf311427b9d29efb5e16f368c1ff47ee7e541ca9179389"
+        },
+        {
+          "path": "src/backend/yudao-module-system/src/main/java/cn/iocoder/yudao/module/system/service/permission/PermissionServiceImpl.java",
+          "sha256": "927ac110285156fdb4f52b9dee7fe020672c54edc9f160a302bf19c6326abb61"
+        },
+        {
+          "path": "src/backend/yudao-module-system/src/main/java/cn/iocoder/yudao/module/system/service/permission/RoleServiceImpl.java",
+          "sha256": "505fb1aef99291f982a863f1a5ab2ec445a8df984cde38db5a2c1b87260cb5d1"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintContextController.java",
+          "sha256": "4064309260e3e7e4e9f4279412b5b995927757b2893fa7e79cc517afd0204de1"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintFileController.java",
+          "sha256": "65125eb4d56cad2c29ffc8c755a6555e32e3f0e9d0f802d0d384d01d90fbdb19"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintOrderController.java",
+          "sha256": "e0c2f49b0413db0e668202c345302ff0be6a04f6b8f0cefbd747fad192f5e246"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintPaymentController.java",
+          "sha256": "d105a6831e42980eeee7d108d2d46506fc6e6bf83f77c27b333e7d8c68d2da6f"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintQuoteController.java",
+          "sha256": "39ac993eeff05a14ddb021171c64152108b026db687b858102fd5e5269431e5b"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/file/PdfInspection.java",
+          "sha256": "cb7d0d24f11eef90291063346e601743181fcdcf516314d9e8ef6ffcb4904205"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/file/PrintFileException.java",
+          "sha256": "ab50dedad8ce4712c36ddbc16f5cf9f4884ff82142ae2d0029ba77fef67a6fa2"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/file/PrintFileMetadata.java",
+          "sha256": "aac599db518f265692086ac5ca0d91f3680dbd820f1990d452351741c8828d2e"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/file/PrintFileProperties.java",
+          "sha256": "767c9910b40b209d421ba9005201cd4c829d153e8fa2ff2e52638b7abb6b359e"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/file/PrintFileRepository.java",
+          "sha256": "927036bda24378d14ce553c51467d7926782f23a446502363e820202ad135c7e"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/file/PrintFileRow.java",
+          "sha256": "4a92940d3034a5e4c00b88dd58df397c2eca0206defd964a5365009a0ad23080"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/file/PrintFileService.java",
+          "sha256": "24c679a9757746af731ffbf193dbe075064d35d9b4996bcb0921280e815b321c"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/order/PrintOrderEventView.java",
+          "sha256": "d7413154344826dd46c204d6c161063bbc09df1e213f31dddbd1087e54f246db"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/order/PrintOrderException.java",
+          "sha256": "88361eb5999fdd9572d2de2ac97db2d963ab4ae6238e7b7fcd8e7ecd58911d42"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/order/PrintOrderPage.java",
+          "sha256": "da8a7d8f8a0e37cc93309cbb91ee608ba13dd5344219091044131fa24203f254"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/order/PrintOrderProperties.java",
+          "sha256": "e2f606b62129688c2cc2ab145755cf4ed4ef979070566d89a945224103e4873d"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/order/PrintOrderRepository.java",
+          "sha256": "aa53f9bf50418e5c20d19703a78ec91ea40dff8eaddd5284b4705625d4c490ab"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/order/PrintOrderService.java",
+          "sha256": "c1fa471be7a2257cf58c6cdbd2a5a4037c49abd2596db521bb6a4635d4aa3b8c"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/order/PrintOrderSummary.java",
+          "sha256": "b9f0cdf1a105febf6f7efc2e0b987525ebfe1eb5a9548959aa7858c782aee1f0"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/order/PrintOrderView.java",
+          "sha256": "e36832ffac39e2858ced1ae3d95f55845fafd78b8345af160f0b0fe5f40eb18c"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/payment/PrintPaymentException.java",
+          "sha256": "ef11a9608fbf560ba05911284d4bab37eaa8426e4c1550150057e0e0ba25c361"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/payment/PrintPaymentProperties.java",
+          "sha256": "97e5873bc8229598704dfe71b836f86920bc5cb5125799a2b4db2e16ecb3eeed"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/payment/PrintPaymentRepository.java",
+          "sha256": "642ab36b922ad14b196ae0668103237e7a71d35e7dc37badfb06d0ba2114b3f7"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/payment/PrintPaymentService.java",
+          "sha256": "7587cdca7143b660d26ad1be3f21474b79ba63be056435dd98347870c1ee4a45"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/payment/PrintPaymentView.java",
+          "sha256": "b310b46c684ef160d9053cb23670fae087ecaf4414a7e45909ef2cf6d839003c"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/quote/PrintQuoteException.java",
+          "sha256": "d7ced45061e741d938af5b190a0ace87eec4c0ddeeb65b73932203c6aa1927f9"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/quote/PrintQuoteProperties.java",
+          "sha256": "bba046d987644da824f4a7d8b99d973814bbc6b56ffea6f89f4e77ebf4a796ca"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/quote/PrintQuoteRepository.java",
+          "sha256": "f5cf73739e1d87044518bb7d5f5f0c9f9f328ecd897a1598ea01f04fa093617a"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/quote/PrintQuoteService.java",
+          "sha256": "83ddca81d23edd775770aac725c06eec1d9a92d1bf9f98051b40dc4eb193b601"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/quote/PrintQuoteSnapshot.java",
+          "sha256": "dfc665f64d54d0cfc5fb2d1de4f1709ce61ca444402155c4cb67a0bac26a6dc2"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/quote/PrintQuoteView.java",
+          "sha256": "8fdbf381b7197b2854dbb4f4f941625f538f96958a3abd474d04db236402baf7"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintActorType.java",
+          "sha256": "56829a1238a7676291d6a6c65e0794704d1d0f55578a9d6f5412f425eeb50d47"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintContext.java",
+          "sha256": "96751b42810d66370672a9afc774847e0873856ebfe11870f5eaa4fbe06bc0bf"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScope.java",
+          "sha256": "e1c8272abbf854be528e6ec825bd00e0e98ff5c8e9b7672b100ed0c4a0043f5d"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeErrorCodes.java",
+          "sha256": "4be6b3576b586df8c6b8f60391f4909f11a7a81f1232aeadeeaea14e8f2e8ea8"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+          "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/resources/application.yaml",
+          "sha256": "ba506b9e7f562c16668e4530cd1506b3e348990290356844580142c0bd92b491"
+        }
+      ],
+      "combined_sha256": "f40eb695e36ec5f420340865101391a820d03af26233e1d33f88060e81a127d2",
+      "script_sha256": "d943c63fc3b8dc0865c0a7bdb873dc586c7fe22a8848b9faee3c60a4211b043a",
+      "support_sha256": "008c662c9bf75b472a1c08f90c39531ea08545c7fe4f0c2125f03bd9b6a211bc",
+      "resolved_immutable_jar": "runtime/releases/5bb397ac15d6d3cb/backend.jar",
+      "jar_sha256": "5bb397ac15d6d3cb477f4b36935f258ae6b1de0057cf25ad20213e304021f64a"
+    },
+    "final": {
+      "source_manifest": [
+        {
+          "path": "ops/acceptance/file_http_smoke.py",
+          "sha256": "e5a159b49af32f75a632f5bb827ce6b954a184f6eb3778b55029e20e13cf06a2"
+        },
+        {
+          "path": "ops/acceptance/order_http_smoke.py",
+          "sha256": "7b4c6d1118d7a2a321b43f95c14002f9dcbf7a5957902b42d67966bf859f76cc"
+        },
+        {
+          "path": "ops/acceptance/payment_http_smoke.py",
+          "sha256": "d943c63fc3b8dc0865c0a7bdb873dc586c7fe22a8848b9faee3c60a4211b043a"
+        },
+        {
+          "path": "ops/acceptance/payment_smoke_support.py",
+          "sha256": "008c662c9bf75b472a1c08f90c39531ea08545c7fe4f0c2125f03bd9b6a211bc"
+        },
+        {
+          "path": "ops/acceptance/quote_http_smoke.py",
+          "sha256": "e84efc794972c009a26e7d610b7c9bfa7456a31f53598f410d14524b3e9377f6"
+        },
+        {
+          "path": "ops/runtime/application-cloud.yaml",
+          "sha256": "7cdb03ca75513335f37a663becd99de4a7893012a222d657ca2b6a85e63fbfd8"
+        },
+        {
+          "path": "ops/runtime/start-backend.sh",
+          "sha256": "acb08224974d383bc41544b0e196d1f25a8988a999d41709f5838f2ac6a56bcc"
+        },
+        {
+          "path": "src/backend/yudao-framework/yudao-spring-boot-starter-biz-tenant/src/main/java/cn/iocoder/yudao/framework/tenant/core/redis/TenantRedisCacheManager.java",
+          "sha256": "209aaf825bd54b6e964063f7e3700d8aa0eb802a289270ebb4a5e45d932451ce"
+        },
+        {
+          "path": "src/backend/yudao-framework/yudao-spring-boot-starter-redis/src/main/java/cn/iocoder/yudao/framework/redis/config/YudaoCacheAutoConfiguration.java",
+          "sha256": "e3e1db91abc76caa6ef7628b4b7cceb6c9a86ed703615ba14ca70e30503c4da0"
+        },
+        {
+          "path": "src/backend/yudao-module-system/src/main/java/cn/iocoder/yudao/module/system/dal/redis/RedisKeyConstants.java",
+          "sha256": "f24089e93a8528dcda08d39119d5c4698330a11bbc0bd954c47c0785a12db3c9"
+        },
+        {
+          "path": "src/backend/yudao-module-system/src/main/java/cn/iocoder/yudao/module/system/dal/redis/oauth2/OAuth2AccessTokenRedisDAO.java",
+          "sha256": "615b354a43784f9cbdbf311427b9d29efb5e16f368c1ff47ee7e541ca9179389"
+        },
+        {
+          "path": "src/backend/yudao-module-system/src/main/java/cn/iocoder/yudao/module/system/service/permission/PermissionServiceImpl.java",
+          "sha256": "927ac110285156fdb4f52b9dee7fe020672c54edc9f160a302bf19c6326abb61"
+        },
+        {
+          "path": "src/backend/yudao-module-system/src/main/java/cn/iocoder/yudao/module/system/service/permission/RoleServiceImpl.java",
+          "sha256": "505fb1aef99291f982a863f1a5ab2ec445a8df984cde38db5a2c1b87260cb5d1"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintContextController.java",
+          "sha256": "4064309260e3e7e4e9f4279412b5b995927757b2893fa7e79cc517afd0204de1"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintFileController.java",
+          "sha256": "65125eb4d56cad2c29ffc8c755a6555e32e3f0e9d0f802d0d384d01d90fbdb19"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintOrderController.java",
+          "sha256": "e0c2f49b0413db0e668202c345302ff0be6a04f6b8f0cefbd747fad192f5e246"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintPaymentController.java",
+          "sha256": "d105a6831e42980eeee7d108d2d46506fc6e6bf83f77c27b333e7d8c68d2da6f"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintQuoteController.java",
+          "sha256": "39ac993eeff05a14ddb021171c64152108b026db687b858102fd5e5269431e5b"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/file/PdfInspection.java",
+          "sha256": "cb7d0d24f11eef90291063346e601743181fcdcf516314d9e8ef6ffcb4904205"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/file/PrintFileException.java",
+          "sha256": "ab50dedad8ce4712c36ddbc16f5cf9f4884ff82142ae2d0029ba77fef67a6fa2"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/file/PrintFileMetadata.java",
+          "sha256": "aac599db518f265692086ac5ca0d91f3680dbd820f1990d452351741c8828d2e"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/file/PrintFileProperties.java",
+          "sha256": "767c9910b40b209d421ba9005201cd4c829d153e8fa2ff2e52638b7abb6b359e"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/file/PrintFileRepository.java",
+          "sha256": "927036bda24378d14ce553c51467d7926782f23a446502363e820202ad135c7e"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/file/PrintFileRow.java",
+          "sha256": "4a92940d3034a5e4c00b88dd58df397c2eca0206defd964a5365009a0ad23080"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/file/PrintFileService.java",
+          "sha256": "24c679a9757746af731ffbf193dbe075064d35d9b4996bcb0921280e815b321c"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/order/PrintOrderEventView.java",
+          "sha256": "d7413154344826dd46c204d6c161063bbc09df1e213f31dddbd1087e54f246db"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/order/PrintOrderException.java",
+          "sha256": "88361eb5999fdd9572d2de2ac97db2d963ab4ae6238e7b7fcd8e7ecd58911d42"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/order/PrintOrderPage.java",
+          "sha256": "da8a7d8f8a0e37cc93309cbb91ee608ba13dd5344219091044131fa24203f254"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/order/PrintOrderProperties.java",
+          "sha256": "e2f606b62129688c2cc2ab145755cf4ed4ef979070566d89a945224103e4873d"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/order/PrintOrderRepository.java",
+          "sha256": "aa53f9bf50418e5c20d19703a78ec91ea40dff8eaddd5284b4705625d4c490ab"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/order/PrintOrderService.java",
+          "sha256": "c1fa471be7a2257cf58c6cdbd2a5a4037c49abd2596db521bb6a4635d4aa3b8c"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/order/PrintOrderSummary.java",
+          "sha256": "b9f0cdf1a105febf6f7efc2e0b987525ebfe1eb5a9548959aa7858c782aee1f0"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/order/PrintOrderView.java",
+          "sha256": "e36832ffac39e2858ced1ae3d95f55845fafd78b8345af160f0b0fe5f40eb18c"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/payment/PrintPaymentException.java",
+          "sha256": "ef11a9608fbf560ba05911284d4bab37eaa8426e4c1550150057e0e0ba25c361"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/payment/PrintPaymentProperties.java",
+          "sha256": "97e5873bc8229598704dfe71b836f86920bc5cb5125799a2b4db2e16ecb3eeed"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/payment/PrintPaymentRepository.java",
+          "sha256": "642ab36b922ad14b196ae0668103237e7a71d35e7dc37badfb06d0ba2114b3f7"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/payment/PrintPaymentService.java",
+          "sha256": "7587cdca7143b660d26ad1be3f21474b79ba63be056435dd98347870c1ee4a45"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/payment/PrintPaymentView.java",
+          "sha256": "b310b46c684ef160d9053cb23670fae087ecaf4414a7e45909ef2cf6d839003c"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/quote/PrintQuoteException.java",
+          "sha256": "d7ced45061e741d938af5b190a0ace87eec4c0ddeeb65b73932203c6aa1927f9"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/quote/PrintQuoteProperties.java",
+          "sha256": "bba046d987644da824f4a7d8b99d973814bbc6b56ffea6f89f4e77ebf4a796ca"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/quote/PrintQuoteRepository.java",
+          "sha256": "f5cf73739e1d87044518bb7d5f5f0c9f9f328ecd897a1598ea01f04fa093617a"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/quote/PrintQuoteService.java",
+          "sha256": "83ddca81d23edd775770aac725c06eec1d9a92d1bf9f98051b40dc4eb193b601"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/quote/PrintQuoteSnapshot.java",
+          "sha256": "dfc665f64d54d0cfc5fb2d1de4f1709ce61ca444402155c4cb67a0bac26a6dc2"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/quote/PrintQuoteView.java",
+          "sha256": "8fdbf381b7197b2854dbb4f4f941625f538f96958a3abd474d04db236402baf7"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintActorType.java",
+          "sha256": "56829a1238a7676291d6a6c65e0794704d1d0f55578a9d6f5412f425eeb50d47"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintContext.java",
+          "sha256": "96751b42810d66370672a9afc774847e0873856ebfe11870f5eaa4fbe06bc0bf"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScope.java",
+          "sha256": "e1c8272abbf854be528e6ec825bd00e0e98ff5c8e9b7672b100ed0c4a0043f5d"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeErrorCodes.java",
+          "sha256": "4be6b3576b586df8c6b8f60391f4909f11a7a81f1232aeadeeaea14e8f2e8ea8"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+          "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+        },
+        {
+          "path": "src/backend/yudao-server/src/main/resources/application.yaml",
+          "sha256": "ba506b9e7f562c16668e4530cd1506b3e348990290356844580142c0bd92b491"
+        }
+      ],
+      "combined_sha256": "f40eb695e36ec5f420340865101391a820d03af26233e1d33f88060e81a127d2",
+      "script_sha256": "d943c63fc3b8dc0865c0a7bdb873dc586c7fe22a8848b9faee3c60a4211b043a",
+      "support_sha256": "008c662c9bf75b472a1c08f90c39531ea08545c7fe4f0c2125f03bd9b6a211bc",
+      "resolved_immutable_jar": "runtime/releases/5bb397ac15d6d3cb/backend.jar",
+      "jar_sha256": "5bb397ac15d6d3cb477f4b36935f258ae6b1de0057cf25ad20213e304021f64a"
+    },
+    "source_and_release_unchanged": true,
+    "actual_processes": [
+      {
+        "observed_utc": "2026-10-23T10:52:18.005340+00:00",
+        "pid": 366110,
+        "label": "normal_runtime",
+        "executable": "java",
+        "actual_jar_argument": "runtime/releases/5bb397ac15d6d3cb/backend.jar",
+        "jar_sha256": "5bb397ac15d6d3cb477f4b36935f258ae6b1de0057cf25ad20213e304021f64a",
+        "cmdline_verified": true
+      },
+      {
+        "observed_utc": "2026-10-23T10:52:43.254122+00:00",
+        "pid": 403379,
+        "label": "temporary_payment_acceptance",
+        "executable": "java",
+        "actual_jar_argument": "runtime/releases/5bb397ac15d6d3cb/backend.jar",
+        "jar_sha256": "5bb397ac15d6d3cb477f4b36935f258ae6b1de0057cf25ad20213e304021f64a",
+        "cmdline_verified": true
+      }
+    ],
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "model_verification": "parent session turn_context 01a16810-3f51-7363-95fa-d2ac21daa4cb"
+  },
+  "scope_cleanup": {
+    "redis_sessions": {
+      "candidate_count": 8,
+      "actual_existed": 4,
+      "actual_deleted": 4,
+      "removed_by_logout": 4,
+      "removed_by_explicit_delete": 0,
+      "final_remaining": 0,
+      "not_generated": 4,
+      "required_baselines_verified": 4,
+      "status": "VERIFIED"
+    },
+    "owned_session_pairs_removed": 4,
+    "logout_attempts": 4,
+    "session_cleanup_errors": [],
+    "identity_rows_remaining": {
+      "system_tenant": 0,
+      "print_store": 0,
+      "system_users": 0,
+      "system_role": 0,
+      "system_role_menu": 0,
+      "system_user_role": 0,
+      "print_staff_store": 0,
+      "system_oauth2_access_token_fixture_user_4_7": 0,
+      "system_oauth2_refresh_token_fixture_user_4_7": 0,
+      "system_oauth2_access_token_fixture_user_1_8": 0,
+      "system_oauth2_refresh_token_fixture_user_1_8": 0
+    },
+    "redis_fixture_caches": {
+      "candidate_count": 10,
+      "actual_existed": 3,
+      "actual_deleted": 3,
+      "removed_by_logout": 0,
+      "removed_by_explicit_delete": 3,
+      "final_remaining": 0,
+      "not_generated": 7,
+      "required_baselines_verified": 0,
+      "status": "UNVERIFIED"
+    }
+  },
+  "same_key_same_order_parallelism": 6,
+  "browser_ui": "NOT_RUN",
+  "attempt_name": "payment-http-v3",
+  "run_id": "7e9a403462434f0e944320eb8e69c078",
+  "session_ledger": {
+    "retained": true,
+    "records_count": 4,
+    "last_sha256": "14af411b7e0b25c9ebe855a2dc2bf33a0b40bc5d804c873aa0a67fa150005e4f"
+  },
+  "old_orphan_session": {
+    "status": "OPEN",
+    "verification": "UNVERIFIED",
+    "failed_report_sha256": "28b7e94aea0a40ce29e17093eb57fdf2863d0bd8d4399728c85bb8b0856f9c39",
+    "cleanup_scope": "Excluded: original token not recoverable from checked artifacts"
+  },
+  "auth_ledger_repair_round": 2
+}

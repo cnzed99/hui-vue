@@ -1,0 +1,129 @@
+{
+  "passed": true,
+  "finished_utc": "2026-10-23T10:03:51.721350+00:00",
+  "scope": "AST and mocked HTTP/provenance only; no DB, real HTTP, build or application process start",
+  "checks": [
+    {
+      "name": "explicit_tenant_header_is_used",
+      "passed": true
+    },
+    {
+      "name": "explicit_scope_http_is_loopback_only",
+      "passed": true
+    },
+    {
+      "name": "invalid_tenant_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "six_barrier_callers_complete",
+      "passed": true
+    },
+    {
+      "name": "immutable_process_argument_is_attested",
+      "passed": true
+    },
+    {
+      "name": "current_link_argument_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "actual_process_jar_hash_mismatch_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "source_and_release_drift_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "55_historical_assertion_names_remain_in_source_patterns",
+      "passed": true
+    },
+    {
+      "name": "same_order_same_key_concurrency_is_six",
+      "passed": true
+    },
+    {
+      "name": "new_real_scope_and_race_assertions_are_present",
+      "passed": true
+    },
+    {
+      "name": "16_new_scope_and_race_assertions_execute_under_mock",
+      "passed": true
+    },
+    {
+      "name": "store_mutant_retains_tenant_and_owner_and_exposes_only_own_old_store",
+      "passed": true
+    },
+    {
+      "name": "mock_detects_duplicate_key",
+      "passed": true
+    },
+    {
+      "name": "mock_detects_all_scope_missing",
+      "passed": true
+    },
+    {
+      "name": "mock_detects_store_leak",
+      "passed": true
+    },
+    {
+      "name": "mock_detects_store_write_leak",
+      "passed": true
+    },
+    {
+      "name": "session_counts_real_baseline_logout_deletion_and_optional_not_generated",
+      "passed": true
+    },
+    {
+      "name": "redis_tokens_never_enter_argv_or_public_summary",
+      "passed": true
+    },
+    {
+      "name": "redis_wrong_prefix_cannot_pass_required_baseline",
+      "passed": true
+    },
+    {
+      "name": "redis_wrong_prefix_cannot_report_cleanup_verified",
+      "passed": true
+    },
+    {
+      "name": "redis_wrong_database_cannot_pass_required_baseline",
+      "passed": true
+    },
+    {
+      "name": "redis_wrong_database_cannot_report_cleanup_verified",
+      "passed": true
+    },
+    {
+      "name": "redis_always_absent_cannot_pass_required_baseline",
+      "passed": true
+    },
+    {
+      "name": "redis_always_absent_cannot_report_cleanup_verified",
+      "passed": true
+    },
+    {
+      "name": "absent_optional_key_is_not_claimed_as_deleted",
+      "passed": true
+    },
+    {
+      "name": "failed_exact_delete_with_remaining_key_is_detected",
+      "passed": true
+    },
+    {
+      "name": "canonical_fixture_cache_baselines_and_actual_deletion_counts",
+      "passed": true
+    }
+  ],
+  "check_count": 28,
+  "real_acceptance": "NOT_RUN",
+  "repair_round": 1,
+  "review_findings": "P2 store-axis masking and Redis absent-key false cleanup evidence",
+  "reviewed_old_manifest_sha256": "411f7b7e8ae2aebb0eef11fe8203748f7cabdc82315f3a14c0969dccad283945",
+  "files": {
+    "payment_http_smoke.py": "fd3de810c5dadf0345162955041f4255ec52bf48ee46dc10b95a0e3ff5cce37d",
+    "payment_smoke_support.py": "adc2488d6371f199eb06e3a91028d7fcc1855e79929f58e4a8197211126ff975",
+    "payment_smoke_support_checks.py": "91cbb0af6e2a3272780af6f119d56960c2ec5e4c9d31f4489277393d19a1924f"
+  }
+}

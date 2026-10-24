@@ -1,0 +1,13 @@
+{
+  "scope": "attempt-1-time-window-all-nginx-clients",
+  "source": "nginx-access-log-aggregate-only",
+  "windowStart": "2026-10-23T11:04:42+00:00",
+  "windowEnd": "2026-10-23T11:04:59+00:00",
+  "loginRequests": 0,
+  "loginHttpStatuses": {},
+  "matchedUiRequests": 111,
+  "windowAllRequests": 111,
+  "available": true,
+  "latestLogTime": "2026-10-23T19:06:51+08:00",
+  "successfulLoginResponses": 0
+}

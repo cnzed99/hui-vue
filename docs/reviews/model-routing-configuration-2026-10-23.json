@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-23",
+  "scope": "Project model-routing instructions and fixed reviewer configuration only",
+  "goal_status": "paused",
+  "main_actual_model": "gpt-6.1-sol",
+  "main_actual_effort": "xhigh",
+  "project_default_model": "gpt-6.1-sol",
+  "project_default_effort": "high",
+  "reviewer_name": "astra_reviewer",
+  "review_actual_model": "gpt-6-astra",
+  "review_actual_effort": "high",
+  "review_session_id": "01a16808-4bfe-7df2-9d50-2555abb680cf",
+  "review_model_evidence": "Read-only turn_context model and effort from local reviewer session record",
+  "invocation": "Explicit spawn model and effort fallback; current collaboration tool does not expose a custom agent name selector",
+  "review_conclusion": "PASS",
+  "review_boundary": "Configuration completeness and consistency only; no business-code review, migration, deployment or production acceptance",
+  "verification": {
+    "local_toml_parse_and_model_contract": "PASS",
+    "codex_debug_prompt_input_project_instructions": "PASS",
+    "strict_config_debug_command": "UNSUPPORTED_COMMAND; not a configuration failure",
+    "standalone_custom_agent_name_runtime_loading": "NOT_VERIFIED_IN_CURRENT_SESSION",
+    "explicit_astra_high_spawn": "PASS",
+    "cloud_config_copies": 9,
+    "cloud_application_services_modified": false
+  },
+  "sha256": {
+    "AGENTS.md": "981eb5ba9a7b96b09eabad62609b591a2ea2687c3ec4490cc008b88ce9ae50ae",
+    ".codex/config.toml": "2fd6237312c21abaa063b6de74fdacc8374dc97b37dcb276e7be3a1cc49b8a05",
+    ".codex/agents/astra_reviewer.toml": "d599aa29b469b72329b1d8c9fcc30595245d5bab05f6f0f76785f08b57ddce05"
+  }
+}

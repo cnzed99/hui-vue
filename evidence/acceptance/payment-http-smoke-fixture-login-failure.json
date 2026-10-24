@@ -1,0 +1,22 @@
+{
+  "passed": false,
+  "failure": "unexpected_success_response_200_400",
+  "checks": [],
+  "pdf_fixture_checks": [],
+  "cleanup_errors": [],
+  "remaining_rows": {
+    "print_job": 0,
+    "print_simulated_journal": 0,
+    "print_payment_receipt": 0,
+    "print_order_event": 0,
+    "print_order_item": 0,
+    "print_order": 0,
+    "print_quote": 0,
+    "print_price_profile": 0,
+    "print_file": 0
+  },
+  "temporary_files_removed": true,
+  "temporary_instance_stopped": true,
+  "normal_runtime_payment_enabled": false,
+  "real_payment_or_printing": false
+}

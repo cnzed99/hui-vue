@@ -1,0 +1,227 @@
+{
+  "passed": true,
+  "finished_utc": "2026-10-23T10:33:05.923482+00:00",
+  "scope": "AST and mocked HTTP/provenance only; no DB, real HTTP, build or application process start",
+  "checks": [
+    {
+      "name": "explicit_tenant_header_is_used",
+      "passed": true
+    },
+    {
+      "name": "explicit_scope_http_is_loopback_only",
+      "passed": true
+    },
+    {
+      "name": "invalid_tenant_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "six_barrier_callers_complete",
+      "passed": true
+    },
+    {
+      "name": "immutable_process_argument_is_attested",
+      "passed": true
+    },
+    {
+      "name": "current_link_argument_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "actual_process_jar_hash_mismatch_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "source_and_release_drift_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "55_historical_assertion_names_remain_in_source_patterns",
+      "passed": true
+    },
+    {
+      "name": "same_order_same_key_concurrency_is_six",
+      "passed": true
+    },
+    {
+      "name": "new_real_scope_and_race_assertions_are_present",
+      "passed": true
+    },
+    {
+      "name": "16_new_scope_and_race_assertions_execute_under_mock",
+      "passed": true
+    },
+    {
+      "name": "store_mutant_retains_tenant_and_owner_and_exposes_only_own_old_store",
+      "passed": true
+    },
+    {
+      "name": "mock_detects_duplicate_key",
+      "passed": true
+    },
+    {
+      "name": "mock_detects_all_scope_missing",
+      "passed": true
+    },
+    {
+      "name": "mock_detects_store_leak",
+      "passed": true
+    },
+    {
+      "name": "mock_detects_store_write_leak",
+      "passed": true
+    },
+    {
+      "name": "session_counts_real_baseline_logout_deletion_and_optional_not_generated",
+      "passed": true
+    },
+    {
+      "name": "redis_tokens_never_enter_argv_or_public_summary",
+      "passed": true
+    },
+    {
+      "name": "redis_wrong_prefix_cannot_pass_required_baseline",
+      "passed": true
+    },
+    {
+      "name": "redis_wrong_prefix_cannot_report_cleanup_verified",
+      "passed": true
+    },
+    {
+      "name": "redis_wrong_database_cannot_pass_required_baseline",
+      "passed": true
+    },
+    {
+      "name": "redis_wrong_database_cannot_report_cleanup_verified",
+      "passed": true
+    },
+    {
+      "name": "redis_always_absent_cannot_pass_required_baseline",
+      "passed": true
+    },
+    {
+      "name": "redis_always_absent_cannot_report_cleanup_verified",
+      "passed": true
+    },
+    {
+      "name": "absent_optional_key_is_not_claimed_as_deleted",
+      "passed": true
+    },
+    {
+      "name": "failed_exact_delete_with_remaining_key_is_detected",
+      "passed": true
+    },
+    {
+      "name": "canonical_fixture_cache_baselines_and_actual_deletion_counts",
+      "passed": true
+    },
+    {
+      "name": "redis_noauth_exit_zero_fails_preflight",
+      "passed": true
+    },
+    {
+      "name": "auth_preflight_precedes_fixture_or_login_execution",
+      "passed": true
+    },
+    {
+      "name": "private_ledger_directory_and_file_modes_are_0700_0600",
+      "passed": true
+    },
+    {
+      "name": "login_response_is_persisted_before_first_sql_validation",
+      "passed": true
+    },
+    {
+      "name": "successful_login_baseline_is_recorded_privately",
+      "passed": true
+    },
+    {
+      "name": "ledger_is_retained_until_both_sql_and_redis_verified",
+      "passed": true
+    },
+    {
+      "name": "sql_query_failure_retains_exact_login_response_ledger",
+      "passed": true
+    },
+    {
+      "name": "interrupted_ledger_has_one_unverified_private_session",
+      "passed": true
+    },
+    {
+      "name": "redis_failure_is_reported",
+      "passed": true
+    },
+    {
+      "name": "redis_failure_still_attempts_logout_and_keeps_private_ledger",
+      "passed": true
+    },
+    {
+      "name": "failed_redis_measurement_is_unverified_not_not_generated",
+      "passed": true
+    },
+    {
+      "name": "interrupted_recovery_and_repeat_are_exact_and_idempotent",
+      "passed": true
+    },
+    {
+      "name": "recovery_without_original_baseline_never_claims_acceptance",
+      "passed": true
+    },
+    {
+      "name": "recovery_derives_only_owned_fixed_token_keys",
+      "passed": true
+    },
+    {
+      "name": "ledger_tamper_rejected_by_trusted_digest",
+      "passed": true
+    },
+    {
+      "name": "ledger_path_outside_batch_rejected",
+      "passed": true
+    },
+    {
+      "name": "ledger_marker_mismatch_rejected",
+      "passed": true
+    },
+    {
+      "name": "ledger_loose_permissions_rejected",
+      "passed": true
+    },
+    {
+      "name": "ledger_symlink_rejected",
+      "passed": true
+    },
+    {
+      "name": "ledger_arbitrary_key_field_rejected_even_with_matching_digest",
+      "passed": true
+    },
+    {
+      "name": "ledger_write_failure_fails_login_acceptance",
+      "passed": true
+    },
+    {
+      "name": "persistent_ledger_write_failure_is_reported_during_cleanup",
+      "passed": true
+    },
+    {
+      "name": "ledger_write_failure_still_attempts_exact_logout",
+      "passed": true
+    },
+    {
+      "name": "old_failed_attempt_and_orphan_are_explicit_in_new_report",
+      "passed": true
+    }
+  ],
+  "check_count": 52,
+  "real_acceptance": "NOT_RUN",
+  "repair_round": 1,
+  "review_findings": "P2 store-axis masking and Redis absent-key false cleanup evidence",
+  "reviewed_old_manifest_sha256": "411f7b7e8ae2aebb0eef11fe8203748f7cabdc82315f3a14c0969dccad283945",
+  "auth_ledger_repair_round": 1,
+  "old_failed_report_sha256": "28b7e94aea0a40ce29e17093eb57fdf2863d0bd8d4399728c85bb8b0856f9c39",
+  "files": {
+    "payment_http_smoke.py": "cd4cf899e88038647c812bee22308461b4db809d71bf7cee809b1d8fecc26e42",
+    "payment_smoke_support.py": "c7881a0117f3fb8bf848ca8497ac03d85552946d1cbb7a7a781baf3496f666b9",
+    "payment_smoke_support_checks.py": "6c6e60cecde9c9a3e55c17257dd410afabccb239c6bcbc64bed5fe52315cd81f"
+  }
+}
