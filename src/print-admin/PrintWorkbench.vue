@@ -6,6 +6,7 @@ import { useUserStore } from '@/store/modules/user'
 import { usePrintContextStore } from './contextStore'
 
 defineOptions({ name: 'PrintWorkbench' })
+const canStartDemo = computed(() => hasPermission(['print:file:upload']))
 const canQueryOrders = computed(() => hasPermission(['print:order:query']))
 const userStore = useUserStore()
 const contextStore = usePrintContextStore()
@@ -37,6 +38,10 @@ const reload = () => { void contextStore.load(userStore.getUser.id) }
         <div><dt>登录身份</dt><dd>后台员工</dd></div>
       </dl>
       <p class="workbench__hint">请选择上方业务模块查看对应菜单。</p>
+      <div v-if="canStartDemo" class="workbench__demo">
+        <RouterLink to="/print/demo-workflow">后台演示流程</RouterLink>
+        <span>上传 PDF、服务端报价、创建订单及显式模拟收款</span>
+      </div>
       <div v-if="canQueryOrders" class="workbench__demo">
         <RouterLink to="/print/demo-orders">演示订单</RouterLink>
         <span>查看当前账号的后台演示订单</span>

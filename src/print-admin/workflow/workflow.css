@@ -1,0 +1,25 @@
+.workflow { color: #263445; }
+.workflow-title { display: flex; align-items: center; justify-content: space-between; height: 71px; padding: 0 19px; background: #fff; }
+.workflow h1 { margin: 0; font-size: 16px; font-weight: 600; }
+.workflow h2 { margin: 0 0 16px; font-size: 15px; font-weight: 600; }
+.workflow p { margin: 12px 0; line-height: 1.7; }
+.workflow a { color: #0284c7; text-decoration: none; }
+.workflow-card { margin-top: 12px; padding: 24px 28px; background: #fff; }
+.workflow-notice, .workflow-warning { margin-top: 12px; padding: 12px 16px; border: 1px solid #facc15; background: #fffbeb; color: #854d0e; line-height: 1.7; }
+.workflow-error { margin-top: 12px; padding: 16px; border: 1px solid #fca5a5; background: #fff7f7; color: #991b1b; }
+.workflow-error p { margin-bottom: 0; }
+.workflow-badge { margin-left: 8px; padding: 2px 8px; border-radius: 3px; font-size: 12px; color: #854d0e; background: #fef3c7; }
+.workflow button { padding: 7px 12px; border: 1px solid #dce3eb; border-radius: 3px; color: #0284c7; background: #fff; font: inherit; }
+.workflow button:disabled { color: #94a3b8; cursor: not-allowed; }
+.workflow button:focus-visible, .workflow a:focus-visible, .workflow input:focus-visible, .workflow select:focus-visible { outline: 2px solid #38bdf8; outline-offset: 2px; }
+.workflow-fields, .workflow-actions, .workflow-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin: 16px 0; }
+.workflow-fields label, .workflow-confirm, .workflow-file { display: flex; align-items: center; gap: 12px; }
+.workflow-fields input, .workflow-fields select { max-width: 220px; min-height: 34px; padding: 4px 8px; border: 1px solid #dce3eb; border-radius: 3px; background: #fff; font: inherit; }
+.workflow-facts { margin: 20px 0; }
+.workflow-facts > div { display: flex; align-items: baseline; min-height: 34px; gap: 16px; }
+.workflow-facts dt { flex: 0 0 130px; color: #64748b; }
+.workflow-facts dd { margin: 0; overflow-wrap: anywhere; }
+.workflow-money { color: #0284c7; font-weight: 600; }
+.workflow-muted { color: #64748b; font-size: 12px; }
+.workflow-id { overflow-wrap: anywhere; }
+.workflow-footer { padding: 8px 0 20px; }
