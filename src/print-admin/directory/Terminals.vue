@@ -1,0 +1,16 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { display } from './api'
+import type { Terminal } from './api'
+import { useDirectory } from './useDirectory'
+const name = ref(''); const host = ref(''); const online = ref('ALL')
+const { permitted, ready, rows, total, page, pageSize, busy, loaded, message, search, load, changePage } = useDirectory<Terminal>('terminals', 'print:terminal-directory:query', () => ({ name: name.value, host: host.value, online: online.value }))
+const flag = (value: boolean | null) => value === null ? '未知' : value ? '开启' : '关闭'
+</script>
+<template><section class="terminal-directory"><h2>打印终端</h2><p>终端心跳尚未接入，在线状态统一显示“未知”；此列表不发送设备命令。</p><p v-if="!permitted" role="alert">当前账号没有查看终端的权限。</p><p v-else-if="!ready" role="status">请先确认当前门店身份。</p>
+<template v-else><el-radio-group v-model="online" :disabled="busy" @change="search"><el-radio-button value="ALL">全部终端</el-radio-button><el-radio-button value="ONLINE">在线终端</el-radio-button><el-radio-button value="OFFLINE">离线终端</el-radio-button></el-radio-group><el-form inline @submit.prevent="search"><el-form-item label="终端名称："><el-input v-model="name" maxlength="100" :disabled="busy" clearable /></el-form-item><el-form-item label="主机名："><el-input v-model="host" maxlength="128" :disabled="busy" clearable /></el-form-item><el-button native-type="submit" type="primary" :disabled="busy">查询</el-button></el-form>
+<p v-if="message" role="alert">{{ message }} <el-button @click="load" :disabled="busy">重新加载</el-button></p><p v-if="busy" role="status">正在加载终端…</p>
+<el-table v-if="loaded" :data="rows" border empty-text="当前筛选下暂无终端"><el-table-column prop="name" label="终端名称" min-width="130" /><el-table-column prop="hostName" label="主机名" min-width="120" /><el-table-column label="操作系统" min-width="120"><template #default="{row}">{{ display(row.operatingSystem) }}</template></el-table-column><el-table-column label="客户端版本"><template #default="{row}">{{ display(row.clientVersion) }}</template></el-table-column><el-table-column label="IP地址" min-width="140"><template #default="{row}">{{ display(row.ipAddress) }}</template></el-table-column><el-table-column label="手机自助打印" min-width="120"><template #default="{row}">{{ flag(row.mobileSelfService) }}</template></el-table-column><el-table-column label="在线状态"><template #default><el-tag type="info">未知</el-tag></template></el-table-column><el-table-column label="终端开关"><template #default="{row}"><span>{{ flag(row.enabled) }}</span><el-switch :model-value="row.enabled === true" disabled /></template></el-table-column><el-table-column label="更新日期" min-width="160"><template #default="{row}">{{ display(row.updatedAt) }}</template></el-table-column><el-table-column label="操作" min-width="210"><template #default><el-button link disabled>设置</el-button><el-button link disabled>设置打印免拦截</el-button><el-button link disabled>删除</el-button></template></el-table-column></el-table>
+<el-pagination v-if="loaded" v-model:current-page="page" :page-size="pageSize" :total="total" layout="total, prev, pager, next, jumper" :disabled="busy" @current-change="changePage" />
+<p>手机自助打印的多台计算机名称建议保持不同。打印免拦截配置及保存后重启流程尚未开放。</p></template></section></template>
+<style scoped>.terminal-directory{padding:20px;background:#fff}.el-form{margin-top:20px}.el-pagination{margin-top:20px}</style>

@@ -1,3 +1,7 @@
+import { printPrinterRoutes, printPrinterRouteNames } from './printer/routes'
+import { printDirectoryRoutes, printDirectoryRouteNames } from './directory/routes'
+import { printAdvertisingRoutes, printAdvertisingRouteNames } from './advertising/routes'
+import { printStatisticsRoutes, printStatisticsRouteNames } from './statistics/routes'
 import type { RouteRecordRaw } from 'vue-router'
 import { PRINT_HOME } from './navigation'
 
@@ -10,6 +14,11 @@ export const printAdminRoutes: RouteRecordRaw[] = [
     redirect: PRINT_HOME,
     meta: { hidden: true, noTagsView: true, title: '打印后台' },
     children: [
+      { path: 'admin-print-list', name: 'PrintAdminPrintList', component: () => import('./orders/AdminPrintList.vue'), meta: { hidden: true, noTagsView: true, title: '管理员打印列表（当前账号演示）' } },
+      ...printPrinterRoutes,
+      ...printDirectoryRoutes,
+      ...printAdvertisingRoutes,
+      ...printStatisticsRoutes,
       {
         path: 'workbench',
         name: 'PrintWorkbench',
@@ -17,10 +26,28 @@ export const printAdminRoutes: RouteRecordRaw[] = [
         meta: { hidden: true, noTagsView: true, title: '工作台' }
       },
       {
+        path: 'store/profile',
+        name: 'PrintStoreProfile',
+        component: () => import('./store/StoreProfile.vue'),
+        meta: { hidden: true, noTagsView: true, title: '门店详情' }
+      },
+      {
         path: 'store/password',
         name: 'PrintPasswordManagement',
         component: () => import('./store/PasswordManagement.vue'),
         meta: { hidden: true, noTagsView: true, title: '密码管理' }
+      },
+      {
+        path: 'library/categories',
+        name: 'PrintLibraryCategories',
+        component: () => import('./library/LibraryCategories.vue'),
+        meta: { hidden: true, noTagsView: true, title: '自定义分类' }
+      },
+      {
+        path: 'library/settings',
+        name: 'PrintLibrarySettings',
+        component: () => import('./library/LibrarySettings.vue'),
+        meta: { hidden: true, noTagsView: true, title: '文库设置' }
       },
       {
         path: 'demo-workflow',
@@ -44,4 +71,4 @@ export const printAdminRoutes: RouteRecordRaw[] = [
   }
 ]
 
-export const printAdminRouteNames = ['PrintAdmin', 'PrintWorkbench', 'PrintPasswordManagement', 'PrintDemoWorkflow', 'PrintDemoOrders', 'PrintDemoOrderDetail']
+export const printAdminRouteNames = ['PrintAdminPrintList',...printPrinterRouteNames,...printDirectoryRouteNames,...printAdvertisingRouteNames, 'PrintLibraryCategories', ...printStatisticsRouteNames, 'PrintLibrarySettings', 'PrintStoreProfile', 'PrintAdmin', 'PrintWorkbench', 'PrintPasswordManagement', 'PrintDemoWorkflow', 'PrintDemoOrders', 'PrintDemoOrderDetail']

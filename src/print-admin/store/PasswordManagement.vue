@@ -14,6 +14,7 @@ const profileReady = ref(false)
 const profileFailed = ref(false)
 const submitting = ref(false)
 const saveFailed = ref(false)
+const saved = ref(false)
 const password = reactive({ oldPassword: '', newPassword: '', confirmPassword: '' })
 let active = true
 
@@ -66,12 +67,16 @@ const submit = async () => {
   if (submitting.value || !profileReady.value || !formRef.value) return
   submitting.value = true
   saveFailed.value = false
+  saved.value = false
   try {
     const valid = await formRef.value.validate().catch(() => false)
     if (!valid || !active) return
     await updateUserPassword(password.oldPassword, password.newPassword)
     clearPasswords()
-    if (active) ElMessage.success('密码修改成功')
+    if (active) {
+      saved.value = true
+      ElMessage.success('密码修改成功')
+    }
   } catch {
     // Do not log request objects or echo password values; keep shared API error handling.
     if (active) saveFailed.value = true
@@ -88,10 +93,15 @@ onBeforeUnmount(() => {
 
 <template>
   <section class="password-page" data-testid="print-password-management" :aria-busy="profileLoading || submitting">
-    <header class="password-page__title"><h1>密码管理</h1></header>
+    <h2 class="password-page__title">密码管理</h2>
     <div class="password-page__card">
-      <h2>修改登录密码</h2>
-      <p class="password-page__hint">修改当前登录账号的密码，请填写旧密码及 4–16 位新密码。</p>
+      <h3>修改登录密码</h3>
+      <p class="password-page__hint">修改当前登录账号的密码，新密码长度为 4–16 位。</p>
+      <ol class="password-page__steps" aria-label="修改密码流程">
+        <li><span>1</span>确认登录账号</li>
+        <li><span>2</span>填写旧密码与新密码</li>
+        <li><span>3</span>保存修改</li>
+      </ol>
       <p v-if="profileLoading" role="status">正在加载当前账号…</p>
       <div v-else-if="profileFailed" class="password-page__error" role="alert">
         <p>当前账号加载失败，请重试。</p>
@@ -103,32 +113,39 @@ onBeforeUnmount(() => {
           <el-input :model-value="username" readonly autocomplete="username" aria-label="当前登录账号" />
         </el-form-item>
         <el-form-item label="旧密码" prop="oldPassword">
-          <InputPassword v-model="password.oldPassword" autocomplete="current-password" aria-label="旧密码" />
+          <InputPassword v-model="password.oldPassword" placeholder="请输入当前登录密码" autocomplete="current-password" aria-label="旧密码" />
         </el-form-item>
         <el-form-item label="新密码" prop="newPassword">
-          <InputPassword v-model="password.newPassword" strength autocomplete="new-password" aria-label="新密码" />
+          <InputPassword v-model="password.newPassword" placeholder="请输入 4–16 位新密码" strength autocomplete="new-password" aria-label="新密码" />
         </el-form-item>
         <el-form-item label="确认新密码" prop="confirmPassword">
-          <InputPassword v-model="password.confirmPassword" autocomplete="new-password" aria-label="确认新密码" />
+          <InputPassword v-model="password.confirmPassword" placeholder="请再次输入新密码" autocomplete="new-password" aria-label="确认新密码" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" native-type="submit" :loading="submitting" :disabled="submitting">保存</el-button>
-          <el-button :disabled="submitting" @click="clearPasswords(); saveFailed = false">清空</el-button>
+          <el-button type="primary" native-type="submit" :loading="submitting" :disabled="submitting">{{ submitting ? '正在保存' : '保存修改' }}</el-button>
+          <el-button :disabled="submitting" @click="clearPasswords(); saveFailed = false; saved = false">清空</el-button>
         </el-form-item>
+        <p v-if="saved" class="password-page__success" role="status">密码修改成功，密码输入已清空。下次登录请使用新密码。</p>
         <p v-if="saveFailed" class="password-page__error" role="alert">密码未保存，请根据错误提示检查后重试。</p>
       </el-form>
+      <p class="password-page__note">离开或刷新本页后，未保存的密码输入将清空。</p>
     </div>
   </section>
 </template>
 
 <style scoped>
-.password-page { color: #263445; }
-.password-page__title { display: flex; align-items: center; height: 71px; padding: 0 19px; background: #fff; }
-.password-page__title h1 { position: relative; margin: 0; font-size: 16px; line-height: 24px; font-weight: 600; }
-.password-page__title h1::after { position: absolute; right: 0; bottom: -13px; left: 0; height: 3px; content: ''; background: #0284c7; }
-.password-page__card { margin-top: 12px; padding: 24px 28px; background: #fff; }
-.password-page h2 { margin: 0; font-size: 15px; font-weight: 600; }
-.password-page__hint { margin: 16px 0 24px; color: #64748b; font-size: 12px; }
-.password-page__form { max-width: 500px; }
-.password-page__error { color: #b91c1c; }
+.password-page { min-height: 100%; padding: 20px 24px; color: #263445; background: #fff; }
+.password-page__title { margin: 0 0 24px; padding-bottom: 14px; border-bottom: 1px solid #e2e8f0; font-size: 16px; line-height: 24px; font-weight: 600; }
+.password-page__card { max-width: 760px; }
+.password-page h3 { margin: 0; font-size: 15px; font-weight: 600; }
+.password-page__hint { margin: 12px 0 20px; color: #64748b; font-size: 13px; line-height: 1.7; }
+.password-page__steps { display: flex; gap: 24px; margin: 0 0 28px; padding: 16px; list-style: none; color: #475569; background: #f4f7fb; }
+.password-page__steps li { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+.password-page__steps span { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; color: #0284c7; background: #e0f2fe; font-size: 12px; }
+.password-page__form { max-width: 520px; }
+.password-page__form :deep(.el-form-item) { margin-bottom: 24px; }
+.password-page__note { margin: 24px 0 0; padding-top: 16px; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 12px; line-height: 1.7; }
+.password-page__error, .password-page__success { padding: 12px 16px; border-radius: 4px; line-height: 1.7; }
+.password-page__error { color: #b91c1c; background: #fef2f2; }
+.password-page__success { color: #166534; background: #f0fdf4; }
 </style>

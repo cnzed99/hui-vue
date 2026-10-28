@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, defineComponent, markRaw, nextTick, onBeforeUnmount, ref, shallowReactive, watch } from 'vue'
+import type { Component } from 'vue'
 import { RouterView, useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/store/modules/user'
 import { useTagsViewStore } from '@/store/modules/tagsView'
@@ -7,6 +8,8 @@ import { usePrintContextStore } from './contextStore'
 import { printAdminGroups, printAdminMenu, printAdminModules } from './menu'
 import type { PrintAdminMenuEntry } from './menu'
 import { PRINT_HOME } from './navigation'
+import { printPage, rememberPrintTab, closePrintTab, restorePrintTabs, serializePrintTabs } from './tabs'
+import type { PrintAdminTab } from './tabs'
 
 defineOptions({ name: 'PrintAdminShell' })
 const router = useRouter()
@@ -15,9 +18,49 @@ const userStore = useUserStore()
 const tagsViewStore = useTagsViewStore()
 const contextStore = usePrintContextStore()
 const activeModule = ref<string>('工作台')
-const workbenchOpen = ref(true)
-const currentTabTitle = computed(() => String(route.meta.title || '工作台'))
-watch(() => route.fullPath, () => { workbenchOpen.value = true })
+const tabStorageKey = () => `print-admin:tabs:v1:${userStore.getUser.id}`
+const readTabs = () => {
+  try { return restorePrintTabs(sessionStorage.getItem(tabStorageKey())) }
+  catch { return [printPage(PRINT_HOME)] }
+}
+const tabs = ref<PrintAdminTab[]>(readTabs())
+let persistTabs = true
+watch(tabs, (value) => {
+  if (!persistTabs) return
+  try { sessionStorage.setItem(tabStorageKey(), serializePrintTabs(value)) } catch { /* Storage may be disabled. */ }
+}, { deep: true })
+const content = ref<HTMLElement>()
+const scrollPositions = new Map<string, number>()
+const cachedViews = shallowReactive(new Map<string, { name: string; view: Component }>())
+let viewSequence = 0
+const uncachedRevision = ref(0)
+const refreshing = ref(false)
+// Passwords and the demo workflow retain their existing unmount/route-leave lifecycle.
+const cacheablePaths = new Set([PRINT_HOME, '/print/store/profile', '/print/library/settings'])
+const createCachedView = (path: string) => {
+  if (!cacheablePaths.has(path)) return
+  const name = `PrintAdminCachedTab${++viewSequence}`
+  cachedViews.set(path, { name, view: markRaw(defineComponent({
+    name, setup: (_props, { slots }) => () => slots.default?.()
+  })) })
+}
+const activeView = computed(() => cachedViews.get(route.path)?.view)
+const cachedViewNames = computed(() => tabs.value.flatMap((tab) => {
+  const cached = cachedViews.get(tab.path)
+  return cached ? [cached.name] : []
+}))
+const currentTabTitle = computed(() => printPage(route.path, route.fullPath, route.meta.title).title)
+watch(() => route.fullPath, async (fullPath, previous) => {
+  if (previous && content.value) scrollPositions.set(previous.split(/[?#]/, 1)[0], content.value.scrollTop)
+  const tab = printPage(route.path, fullPath, route.meta.title)
+  if (cacheablePaths.has(tab.path) && !cachedViews.has(tab.path)) {
+    createCachedView(tab.path)
+  }
+  tabs.value = rememberPrintTab(tabs.value, tab)
+  activeModule.value = tab.module
+  await nextTick()
+  if (content.value) content.value.scrollTop = scrollPositions.get(tab.path) || 0
+}, { immediate: true, flush: 'pre' })
 const logoutLoading = ref(false)
 const logoutError = ref('')
 const visibleGroups = computed(() => printAdminGroups
@@ -38,12 +81,10 @@ onBeforeUnmount(() => contextStore.clear())
 
 const openEntry = (entry: PrintAdminMenuEntry) => {
   if (!entry.route) return
-  workbenchOpen.value = true
   activeModule.value = entry.module
   void router.push(entry.route)
 }
 const openWorkbench = () => {
-  workbenchOpen.value = true
   activeModule.value = '工作台'
   void router.push(PRINT_HOME)
 }
@@ -51,12 +92,36 @@ const selectModule = (module: string) => {
   activeModule.value = module
   if (module === '工作台') openWorkbench()
 }
+const openTab = async (tab: PrintAdminTab) => {
+  await router.push(tab.fullPath)
+  if (route.path === tab.path) activeModule.value = tab.module
+}
+const closeTab = async (path: string) => {
+  const closed = closePrintTab(tabs.value, path, route.path)
+  if (closed.nextFullPath && await router.push(closed.nextFullPath)) return
+  tabs.value = tabs.value.filter((tab) => tab.path !== path || path === PRINT_HOME)
+  cachedViews.delete(path)
+  scrollPositions.delete(path)
+}
+const refreshTab = async () => {
+  if (refreshing.value) return
+  refreshing.value = true
+  scrollPositions.delete(route.path)
+  if (cacheablePaths.has(route.path)) createCachedView(route.path)
+  else uncachedRevision.value++
+  await nextTick()
+  if (content.value) content.value.scrollTop = 0
+  refreshing.value = false
+}
 const logout = async () => {
   if (logoutLoading.value) return
   logoutLoading.value = true
   logoutError.value = ''
+  const storageKey = tabStorageKey()
   try {
     await userStore.loginOut()
+    persistTabs = false
+    try { sessionStorage.removeItem(storageKey) } catch { /* Storage may be disabled. */ }
     contextStore.clear()
     tagsViewStore.delAllViews()
     await router.replace({ path: '/login', query: { redirect: PRINT_HOME } })
@@ -90,7 +155,7 @@ const logout = async () => {
           <p class="print-admin__sidebar-label">{{ group.title }}</p>
           <nav>
             <button v-for="entry in group.entries" :key="entry.sourceId" type="button"
-              :disabled="!entry.route" :class="{ 'is-current': entry.route === route.path && workbenchOpen }"
+              :disabled="!entry.route" :class="{ 'is-current': entry.route === route.path }"
               :title="entry.route ? entry.title : `${entry.title}（暂未开放）`"
               :data-source-id="entry.sourceId" :data-available="Boolean(entry.route)"
               @click="openEntry(entry)"><span>{{ entry.title }}</span></button>
@@ -100,18 +165,27 @@ const logout = async () => {
       <div class="print-admin__gutter" aria-hidden="true"></div>
       <main class="print-admin__workspace">
         <div class="print-admin__tabs" aria-label="工作标签">
-          <div v-if="workbenchOpen" class="print-admin__tab">
-            <span class="print-admin__tab-label">{{ currentTabTitle }}</span>
-            <button type="button" class="print-admin__tab-close" :aria-label="`关闭${currentTabTitle}标签`"
-              @click="workbenchOpen = false">×</button>
+          <div class="print-admin__tab-list">
+          <div v-for="tab in tabs" :key="tab.path" class="print-admin__tab"
+            :class="{ 'is-current': tab.path === route.path }">
+            <button type="button" class="print-admin__tab-label" :aria-current="tab.path === route.path ? 'page' : undefined"
+              @click="openTab(tab)">{{ tab.title }}</button>
+            <button v-if="tab.path !== PRINT_HOME" type="button" class="print-admin__tab-close"
+              :aria-label="`关闭${tab.title}标签`" @click="closeTab(tab.path)">×</button>
           </div>
+          </div>
+          <button type="button" class="print-admin__tab-refresh" :disabled="refreshing"
+            aria-label="刷新当前页面" title="重新加载当前页面，清除该页未保存内容" @click="refreshTab">刷新当前页</button>
         </div>
-        <div class="print-admin__content">
-          <RouterView v-if="workbenchOpen" />
-          <section v-else class="print-admin__closed">
-            <p>当前标签已关闭</p>
-            <button type="button" @click="openWorkbench">打开工作台</button>
-          </section>
+        <div ref="content" class="print-admin__content" :aria-label="currentTabTitle">
+          <RouterView v-slot="{ Component }">
+            <KeepAlive :include="cachedViewNames">
+              <component v-if="activeView" :is="activeView" :key="cachedViews.get(route.path)?.name">
+                <component :is="Component" />
+              </component>
+            </KeepAlive>
+            <component v-if="!activeView" :is="Component" :key="`${route.path}:${uncachedRevision}`" />
+          </RouterView>
         </div>
       </main>
     </div>
@@ -158,12 +232,17 @@ const logout = async () => {
 .print-admin__sidebar nav button:disabled { cursor: not-allowed; }
 .print-admin__gutter { grid-column: 2; background: #e3eaf1; }
 .print-admin__workspace { grid-column: 3; display: flex; flex-direction: column; min-width: 0; min-height: 0; background: #f4f7fb; }
-.print-admin__tabs { display: flex; flex-shrink: 0; align-items: flex-start; height: 43px; border-bottom: 1px solid #e2e8f0; background: #fff; }
-.print-admin__tab { display: flex; align-items: center; height: 42px; border-bottom: 3px solid #0284c7; color: #0284c7; background: #f0f9ff; font-weight: 700; }
+.print-admin__tabs { display: flex; flex-shrink: 0; align-items: flex-start; height: 43px; min-width: 0; border-bottom: 1px solid #e2e8f0; background: #fff; }
+.print-admin__tab-list { display: flex; flex: 1; min-width: 0; overflow-x: auto; overflow-y: hidden; }
+.print-admin__tab-refresh { flex-shrink: 0; height: 42px; padding: 0 16px; border: 0; border-left: 1px solid #e2e8f0; color: #475569; background: #fff; }
+.print-admin__tab-refresh:hover { color: #0284c7; background: #f0f9ff; }
+.print-admin__tab { display: flex; flex-shrink: 0; align-items: center; height: 42px; border-right: 1px solid #e2e8f0; border-bottom: 3px solid transparent; color: #64748b; background: #fff; white-space: nowrap; }
+.print-admin__tab.is-current { border-bottom-color: #0284c7; color: #0284c7; background: #f0f9ff; font-weight: 700; }
 .print-admin__tab button { height: 100%; border: 0; color: inherit; background: transparent; }
-.print-admin__tab-label { display: flex; align-items: center; padding: 0 16px; font-weight: 700 !important; }
+.print-admin__tab-label { display: flex; align-items: center; padding: 0 16px; font-weight: inherit; }
 .print-admin__tab-close { width: 24px; margin-right: 7px; padding: 0; font-size: 17px !important; }
-.print-admin__content { flex: 1; min-height: 0; padding: 23px 16px 24px; overflow: auto; }
-.print-admin__closed { padding: 24px; color: #64748b; background: #fff; }
-.print-admin__closed button { padding: 7px 12px; border: 1px solid #dce3eb; border-radius: 3px; color: #0284c7; background: #fff; }
+.print-admin__content { flex: 1; min-height: 0; padding: 20px 16px 24px; overflow: auto; }
+/* Keep the page heading rhythm consistent without changing each page's form layout. */
+.print-admin__content :deep(.store-profile > h2),
+.print-admin__content :deep(.library-settings > h2) { margin: 0 0 20px; padding-bottom: 14px; border-bottom: 1px solid #e2e8f0; font-size: 16px; line-height: 24px; font-weight: 600; }
 </style>

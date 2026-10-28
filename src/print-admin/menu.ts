@@ -22,7 +22,7 @@ export const printAdminMenu: readonly PrintAdminMenuEntry[] = [
     "title": "门店详情",
     "module": "门店",
     "group": "门店管理",
-    "route": null
+    "route": "/print/store/profile"
   },
   {
     "sourceId": "P03",
@@ -64,14 +64,14 @@ export const printAdminMenu: readonly PrintAdminMenuEntry[] = [
     "title": "我的商品",
     "module": "门店",
     "group": "价格管理",
-    "route": null
+    "route": "/print/products/mine"
   },
   {
     "sourceId": "P09",
     "title": "平台商品库",
     "module": "门店",
     "group": "价格管理",
-    "route": null
+    "route": "/print/products/platform"
   },
   {
     "sourceId": "P10",
@@ -99,21 +99,21 @@ export const printAdminMenu: readonly PrintAdminMenuEntry[] = [
     "title": "文库列表",
     "module": "门店",
     "group": "文库管理",
-    "route": null
+    "route": "/print/library/entries"
   },
   {
     "sourceId": "P14",
     "title": "文库设置",
     "module": "门店",
     "group": "文库管理",
-    "route": null
+    "route": "/print/library/settings"
   },
   {
     "sourceId": "P15",
     "title": "自定义分类",
     "module": "门店",
     "group": "文库管理",
-    "route": null
+    "route": "/print/library/categories"
   },
   {
     "sourceId": "P16",
@@ -162,7 +162,7 @@ export const printAdminMenu: readonly PrintAdminMenuEntry[] = [
     "title": "管理员打印列表",
     "module": "订单",
     "group": "电脑自助打印",
-    "route": null
+    "route": "/print/admin-print-list"
   },
   {
     "sourceId": "P23",
@@ -239,14 +239,14 @@ export const printAdminMenu: readonly PrintAdminMenuEntry[] = [
     "title": "打印终端",
     "module": "终端",
     "group": "终端管理",
-    "route": null
+    "route": "/print/terminals"
   },
   {
     "sourceId": "P34",
     "title": "打印机",
     "module": "终端",
     "group": "终端管理",
-    "route": null
+    "route": "/print/printers"
   },
   {
     "sourceId": "P35",
@@ -260,21 +260,21 @@ export const printAdminMenu: readonly PrintAdminMenuEntry[] = [
     "title": "按终端统计",
     "module": "终端",
     "group": "打印订单量统计",
-    "route": null
+    "route": "/print/statistics/terminal"
   },
   {
     "sourceId": "P37",
     "title": "按总量统计",
     "module": "终端",
     "group": "打印纸张量统计",
-    "route": null
+    "route": "/print/statistics/paper-total"
   },
   {
     "sourceId": "P38",
     "title": "按日统计",
     "module": "终端",
     "group": "打印纸张量统计",
-    "route": null
+    "route": "/print/statistics/paper-daily"
   },
   {
     "sourceId": "P39",
@@ -330,56 +330,56 @@ export const printAdminMenu: readonly PrintAdminMenuEntry[] = [
     "title": "电脑终端广告",
     "module": "广告",
     "group": "广告中心",
-    "route": null
+    "route": "/print/advertising/computer-terminal"
   },
   {
     "sourceId": "P47",
     "title": "触屏终端广告",
     "module": "广告",
     "group": "广告中心",
-    "route": null
+    "route": "/print/advertising/touch-terminal"
   },
   {
     "sourceId": "P48",
     "title": "全屏终端广告",
     "module": "广告",
     "group": "广告中心",
-    "route": null
+    "route": "/print/advertising/fullscreen-terminal"
   },
   {
     "sourceId": "P49",
     "title": "竖屏终端广告",
     "module": "广告",
     "group": "广告中心",
-    "route": null
+    "route": "/print/advertising/portrait-terminal"
   },
   {
     "sourceId": "P50",
     "title": "云盒广告",
     "module": "广告",
     "group": "广告中心",
-    "route": null
+    "route": "/print/advertising/cloud-box"
   },
   {
     "sourceId": "P51",
     "title": "订单页广告",
     "module": "广告",
     "group": "广告中心",
-    "route": null
+    "route": "/print/advertising/order-page"
   },
   {
     "sourceId": "P52",
     "title": "电脑桌面广告",
     "module": "广告",
     "group": "广告中心",
-    "route": null
+    "route": "/print/advertising/computer-desktop"
   },
   {
     "sourceId": "P53",
     "title": "小程序分享图",
     "module": "广告",
     "group": "广告中心",
-    "route": null
+    "route": "/print/advertising/mini-share"
   }
 ]
 
