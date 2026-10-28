@@ -144,8 +144,12 @@ const page = <T>(data: unknown, parse: (value: unknown) => T, pageNo: number, pa
       data.list.length > pageSize || data.total < data.list.length) return invalid()
   return { list: data.list.map(parse), total: data.total, pageNo, pageSize }
 }
-export const getOrders = async (pageNo: number, pageSize: number): Promise<OrderPage<OrderSummary>> =>
-  page(await request.get<unknown>({ url: '/print/orders', params: { pageNo, pageSize }, transformResponse: [readResponse] }), summary, pageNo, pageSize)
+export interface OrderFilters {
+  orderNo?: string; createdFromMs?: number; createdToMs?: number
+  orderState?: string; paymentState?: string; refundState?: string; printState?: string
+}
+export const getOrders = async (pageNo: number, pageSize: number, filters: OrderFilters = {}): Promise<OrderPage<OrderSummary>> =>
+  page(await request.get<unknown>({ url: '/print/orders', params: { ...filters, pageNo, pageSize }, transformResponse: [readResponse] }), summary, pageNo, pageSize)
 export const getOrder = async (id: string): Promise<OrderDetail> => {
   if (!validOrderId(id)) throw new OrderApiError('invalid-input')
   const data = detail(await request.get<unknown>({ url: `/print/orders/${encodeURIComponent(id)}`, transformResponse: [readResponse] }))
