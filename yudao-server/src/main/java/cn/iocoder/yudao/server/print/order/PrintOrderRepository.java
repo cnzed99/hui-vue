@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Repository
@@ -70,13 +71,28 @@ public class PrintOrderRepository {
                         +" AND order_id=? ORDER BY sequence_no,id",(rs,n)->new Item(rs.getString("id"),rs.getString("quote_id"),rs.getString("file_id"),
                         rs.getString("file_content_sha256"),rs.getString("amount"),rs.getString("quote_snapshot_json")),s.tenantId(),s.storeId(),s.userId(),orderId);
     }
-    long count(PrintScope s){
-        Long n=jdbc.queryForObject("SELECT COUNT(*) FROM print_order WHERE "+OWNER,Long.class,s.tenantId(),s.storeId(),s.userId());
+    private record Filter(String sql,List<Object> args) { }
+    private static Filter filter(PrintScope s,PrintOrderQuery query){
+        StringBuilder sql=new StringBuilder(OWNER);List<Object> args=new ArrayList<>(List.of(s.tenantId(),s.storeId(),s.userId()));
+        add(sql,args,"order_no=?",query.orderNo());
+        add(sql,args,"created_at_ms>=?",query.createdFromMs());add(sql,args,"created_at_ms<=?",query.createdToMs());
+        add(sql,args,"order_state=?",query.orderState());add(sql,args,"payment_state=?",query.paymentState());
+        add(sql,args,"refund_state=?",query.refundState());add(sql,args,"print_state=?",query.printState());
+        return new Filter(sql.toString(),args);
+    }
+    private static void add(StringBuilder sql,List<Object> args,String clause,Object value){
+        if(value!=null){sql.append(" AND ").append(clause);args.add(value);}
+    }
+    long count(PrintScope s,PrintOrderQuery query){
+        Filter f=filter(s,query);
+        Long n=jdbc.queryForObject("SELECT COUNT(*) FROM print_order WHERE "+f.sql(),Long.class,f.args().toArray());
         return n==null?0:n;
     }
-    List<PrintOrderSummary> list(PrintScope s,int limit,long offset){
-        return jdbc.query("SELECT "+FIELDS+" FROM print_order WHERE "+OWNER+" ORDER BY created_at_ms DESC,id DESC LIMIT ? OFFSET ?",
-                ORDER_MAPPER,s.tenantId(),s.storeId(),s.userId(),limit,offset).stream().map(Order::summary).toList();
+    List<PrintOrderSummary> list(PrintScope s,PrintOrderQuery query){
+        Filter f=filter(s,query);List<Object> args=new ArrayList<>(f.args());
+        args.add(query.pageSize());args.add((long)(query.pageNo()-1)*query.pageSize());
+        return jdbc.query("SELECT "+FIELDS+" FROM print_order WHERE "+f.sql()+" ORDER BY created_at_ms DESC,id DESC LIMIT ? OFFSET ?",
+                ORDER_MAPPER,args.toArray()).stream().map(Order::summary).toList();
     }
     long eventCount(PrintScope s,String orderId){
         Long n=jdbc.queryForObject("SELECT COUNT(*) FROM print_order_event WHERE "+OWNER+" AND order_id=?",Long.class,

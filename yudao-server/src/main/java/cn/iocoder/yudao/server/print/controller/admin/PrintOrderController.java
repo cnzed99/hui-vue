@@ -35,7 +35,7 @@ public class PrintOrderController {
     @PreAuthorize("@ss.hasPermission('print:order:query')")
     @ApiAccessLog(requestEnable=false,responseEnable=false,operateModule="print-orders",operateName="list")
     public CommonResult<PrintOrderPage<PrintOrderSummary>> list(@RequestParam MultiValueMap<String,String> query){
-        int[] page=pagination(query);return CommonResult.success(orders.list(page[0],page[1]));
+        return CommonResult.success(orders.list(PrintOrderQuery.parse(query)));
     }
     @GetMapping("/{id}/events")
     @PreAuthorize("@ss.hasPermission('print:order:query')")

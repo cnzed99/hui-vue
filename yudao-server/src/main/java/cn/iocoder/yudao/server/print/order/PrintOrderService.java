@@ -69,8 +69,11 @@ public class PrintOrderService {
         return detail(s,repository.owned(s,id).orElseThrow(()->failure(ORDER_NOT_FOUND)).summary());
     }
     public PrintOrderPage<PrintOrderSummary> list(int pageNo,int pageSize){
-        properties.requireEnabled();validatePage(pageNo,pageSize);PrintScope s=scopes.requireCurrent();
-        return new PrintOrderPage<>(repository.list(s,pageSize,offset(pageNo,pageSize)),repository.count(s),pageNo,pageSize);
+        return list(new PrintOrderQuery(pageNo,pageSize,null,null,null,null,null,null,null));
+    }
+    public PrintOrderPage<PrintOrderSummary> list(PrintOrderQuery query){
+        properties.requireEnabled();if(query==null)throw failure(INVALID_INPUT);PrintScope s=scopes.requireCurrent();
+        return new PrintOrderPage<>(repository.list(s,query),repository.count(s,query),query.pageNo(),query.pageSize());
     }
     public PrintOrderPage<PrintOrderEventView> events(String id,int pageNo,int pageSize){
         properties.requireEnabled();requireUuid(id);validatePage(pageNo,pageSize);PrintScope s=scopes.requireCurrent();
