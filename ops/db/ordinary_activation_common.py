@@ -293,7 +293,7 @@ def plan_permissions(snapshot):
 HUMAN_FIELDS=('permissionMatrix','advertisingGateTrue','maintenanceWindow','acceptanceRecordRetention','localWriterExclusion')
 INPUT_GROUPS=('design','ddl','adapters','artifacts','config','backup')
 ADAPTER_SCHEMA='UNIFIED_ADAPTER_SOURCE_V3'
-REQUIRED_ACCEPTANCE_ADAPTERS={'ops/acceptance/unified_v3_session_ports.py': 'e2800011ba6d5d07c72b04665115995ceb2722d4060f769ac6d911b594efe62e', 'ops/acceptance/unified_v3_acceptance_ports.py': 'ff397d450933ecc755f757e9e81e3df132ea6d91ece0103e45efafe98f471ea7'}
+REQUIRED_ACCEPTANCE_ADAPTERS={'ops/acceptance/unified_v3_session_ports.py': 'e2800011ba6d5d07c72b04665115995ceb2722d4060f769ac6d911b594efe62e', 'ops/acceptance/unified_v3_acceptance_ports.py': '847e622d6c3f1df2b585f6a8c6d2c05a3503fd3982fa90dca7b19502ce5d6d8a'}
 def validate_ref(ref):
     require(isinstance(ref,dict) and set(ref)=={'path','sha256'},'exact_file_ref_required')
     path=pathlib.PurePosixPath(ref['path'])

@@ -1,0 +1,16 @@
+{
+  "reviewId": "sol-uuid-long-contract-review-not-run-2026-10-29",
+  "reviewedAt": "2026-10-29",
+  "intendedRole": "sol_reviewer",
+  "intendedModel": "gpt-6.1-sol",
+  "intendedReasoningEffort": "high",
+  "scope": "Unified v3 category UUID and Long total response-contract compatibility repair",
+  "verdict": "NOT_RUN_USAGE_LIMIT",
+  "sourceDiffSha256": "dd604110a0b47c95d878a939b0c2c7fce3bafdf376d6de6a5034062615ab499c",
+  "validationSha256": "da5d364df3a04258b3f33ec41235ff32507fd0d4d9028d6ef7cbc9e1a89e63fa",
+  "mechanicalSyncDiffSha256": "e54087cd4d9b473d1a6a5b50718f962be838fbeaf9df71e53037e8144e647966",
+  "mechanicalSyncValidationSha256": "40c26706d360d453f96e3dbf038c84f23255af7c5ada7a3324feef56e065887b",
+  "implementationChecks": "3/3 focused tests and 1/1 adapter inventory check passed",
+  "reason": "The independent Sol High reviewer reached the account usage limit before reading the remote evidence.",
+  "boundary": "This record is not a PASS. Source publication may continue on a development branch; activation remains closed and requires later independent review."
+}

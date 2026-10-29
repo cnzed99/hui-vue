@@ -1,0 +1,39 @@
+{
+  "validationId": "p06-reservation-source-v1",
+  "validatedAt": "2026-10-29",
+  "result": "PASS_SOURCE_BUILD_ONLY",
+  "sourceSha256": {
+    "ops/db/print-reservation-settings-v1.draft.sql": "cd8b664657226d8c5bf825b94f41959f19562ccbdd17258963e4e2ceb1fbb619",
+    "controller": "1f87fb58d043d2d3f0c436b160659e389a96f28ec5360a4111c2620d00d66fc5",
+    "command": "88f7646f46b77e457273501011368b3cbb3bc83db8ea53495c5d629939e4963b",
+    "exception": "363a3cf17ddcb8a333d3f46416254d8f7d5a27cd30fbd969c63f2c6fab143149",
+    "model": "b354a5b87a04d8e68e8fff8ccfbdbef3bfa03eafb843758701ac3c1c4bf840b7",
+    "repository": "018eded29abd7ea8449edc67058f86bebe2bff7551181d4f9fac169270730fa0",
+    "service": "6e56c91a5174d15eb29991e1d67f4e74f6ec8b8bedd6017d0587b66a4a070be2",
+    "javaChecks": "80c9e19d9d13565850f1f473eb7d88affbb092c3512b19606517d8b87ad85602",
+    "frontendApi": "8d18e9897b1c4b432a348c835a9e61aa5aba1ba04ae13bdb94c65fa837fd7a5d",
+    "frontendChecks": "e95d39ebbe893622e2d51154fd167f6a8a6fc9d8f85929d16b61fb198b86c4ce",
+    "frontendModel": "fc7da1ccd568705dd2bb50af08da3cb2757e01789f8e477a639b27f4c7f73bab",
+    "frontendView": "aa244b48b37f7b0b270024398a050cfda3def9b97560400119f3bcdeaa9a151e",
+    "frontendMenu": "1cd04d81b40ec31554fc5c1b23840f66cc4c7fdf31b5d7404d0b43caacc6526b",
+    "frontendRoutes": "1817a7776db87e99f2c3ea4ab09118e94bea897593e814626b99bce68258a01e"
+  },
+  "checks": {
+    "fiveObservedControls": true,
+    "tenantStoreScope": true,
+    "optimisticVersionCas": true,
+    "existingPermissionsReused": true,
+    "defaultWriteGateClosed": true,
+    "automaticPrintStatus": "SIMULATED_CONFIG_ONLY",
+    "p03Linkage": "PENDING_CONFIRMATION",
+    "mavenReactor": "PASS",
+    "vite": "PASS"
+  },
+  "notExecuted": [
+    "database migration",
+    "service installation or restart",
+    "real HTTP",
+    "browser acceptance",
+    "device printing"
+  ]
+}

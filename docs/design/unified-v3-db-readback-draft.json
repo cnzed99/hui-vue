@@ -1,0 +1,3121 @@
+{
+  "connectionAndWriteStopProof": {
+    "countLimitations": "Counts currently default-selected DB=print_demo only. Zero alone cannot prove there is no connection selected into another DB that can write print_demo with qualified identifiers, nor prevent later connections.",
+    "executionAuthorization": false,
+    "liveProofStatus": "UNPROVEN",
+    "localWriterExclusion": "PENDING_HUMAN",
+    "maintenanceWindow": "PENDING_HUMAN",
+    "query": {
+      "executionStatus": "NOT_RUN",
+      "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+      "parameterOrder": [],
+      "sources": [
+        {
+          "excerptSha256": "e962150a21b450e4ddcbe76471c743877fc623c6c86a2a7f0b374b155a1987e1",
+          "lineEnd": 11,
+          "lineStart": 11,
+          "path": "ops/db/unified_activation_db_ports.py",
+          "sha256": "3bf5257588f4435fcf7f897c5e2b6e9422dbbaf2703b60de6cb4e453a57541da"
+        },
+        {
+          "excerptSha256": "392bac5216190b576d1e364bf54ea926b178ca571e7ad698874bc962792986a3",
+          "lineEnd": 59,
+          "lineStart": 48,
+          "path": "ops/db/unified_activation_db_ports.py",
+          "sha256": "3bf5257588f4435fcf7f897c5e2b6e9422dbbaf2703b60de6cb4e453a57541da"
+        }
+      ],
+      "sql": "SELECT JSON_OBJECT('connectionCount',COUNT(*)) FROM information_schema.PROCESSLIST WHERE DB='print_demo' AND ID<>CONNECTION_ID()",
+      "when": "future explicitly injected observation; excludes collector own connection"
+    },
+    "requiredEvidence": [
+      {
+        "sources": [
+          {
+            "excerptSha256": "9d8f67aa5cd7f15508830a29f3018b7d451c31e25d7172a4c00d0538c583a0a5",
+            "lineEnd": 89,
+            "lineStart": 89,
+            "path": "docs/design/phase1-unified-activation-v3.md",
+            "sha256": "02ffe0a147d74f3c4303bb70f465a9a67640a69da34d055d7b84966f81c34c3e"
+          },
+          {
+            "excerptSha256": "e09d95ac5e54270629d8eb92897e7c950b54afd665a2d5fcdf3a494a75d6267f",
+            "lineEnd": 90,
+            "lineStart": 90,
+            "path": "docs/design/phase1-unified-activation-v3.md",
+            "sha256": "02ffe0a147d74f3c4303bb70f465a9a67640a69da34d055d7b84966f81c34c3e"
+          }
+        ],
+        "statement": "Nonblocking exclusive fixture mutation lease, exact frozen baseline, no other proxies or local writers; lease alone does not block web requests.",
+        "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+      },
+      {
+        "sources": [
+          {
+            "excerptSha256": "be8dcdb4ddd7a0d40cb726618382b87ef4d051839720ffc2742ee2c5074049b0",
+            "lineEnd": 586,
+            "lineStart": 569,
+            "path": "ops/runtime/ordinary_activation_runtime.py",
+            "sha256": "56f13dc4c35f8b24e9724594e8cfde7e1e680dfc9470710984ca5bfba931c9ba"
+          }
+        ],
+        "statement": "nginx inactive, no external listener and zero pending 18080 requests; backend inactive, PID 0, old process exited, no 48080 listener and dbConnections=0.",
+        "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+      },
+      {
+        "sources": [
+          {
+            "excerptSha256": "a36fff85a0aa64ff23db74b600c7b9c6049bcd1694a968e32664ab2a3066e54e",
+            "lineEnd": 305,
+            "lineStart": 278,
+            "path": "ops/runtime/ordinary_activation_runtime.py",
+            "sha256": "56f13dc4c35f8b24e9724594e8cfde7e1e680dfc9470710984ca5bfba931c9ba"
+          }
+        ],
+        "statement": "Actual listener list must match frozen listener allowlist; database count and gate proof ports must be configured.",
+        "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+      },
+      {
+        "sources": [
+          {
+            "excerptSha256": "09b1a2663e05058af408fb41ce296128dde45b1dc197adf45be82c850d603610",
+            "lineEnd": 206,
+            "lineStart": 200,
+            "path": "ops/db/unified_activation_db_ports.py",
+            "sha256": "3bf5257588f4435fcf7f897c5e2b6e9422dbbaf2703b60de6cb4e453a57541da"
+          }
+        ],
+        "statement": "Backup producer requires writers_closed callback exactly True and >=10GiB free, then exact identity/G0/table set before snapshot.",
+        "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+      },
+      {
+        "sources": [
+          {
+            "excerptSha256": "e14cb61a7d4024409edcf9a0a399eb29c22e5eb4abc2b8a75bb0d8f438dc8c6f",
+            "lineEnd": 71,
+            "lineStart": 61,
+            "path": "ops/db/unified_activation_db_ports.py",
+            "sha256": "3bf5257588f4435fcf7f897c5e2b6e9422dbbaf2703b60de6cb4e453a57541da"
+          }
+        ],
+        "statement": "Effective advertising gate proof must bind config/source hash; unknown value remains None and cannot stand in for true.",
+        "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+      }
+    ]
+  },
+  "createdAt": "2026-10-29T08:20:51.928259+00:00",
+  "ddlTransitions": [
+    {
+      "actualDefinitionStatus": "UNPROVEN",
+      "declaredConstraintLines": [
+        "ADD CONSTRAINT ck_print_store_profile_version CHECK (profile_version >= 0)"
+      ],
+      "executionStatus": "NOT_RUN",
+      "fromStage": "G0",
+      "kind": "ALTER_TABLE",
+      "ordinal": 1,
+      "source": {
+        "excerptSha256": "5bd36d9e21b6820e838a594951e6b8658664c00d3a0d6c4930f494ea889f2014",
+        "lineEnd": 6,
+        "lineStart": 4,
+        "path": "ops/db/print-store-profile-v1.sql",
+        "sha256": "fb9bc37814852586b7022ac341fa961fdf5fc3159cacbf04237015940275b676"
+      },
+      "sql": "ALTER TABLE print_store\n  ADD COLUMN profile_version BIGINT NOT NULL DEFAULT 0,\n  ADD CONSTRAINT ck_print_store_profile_version CHECK (profile_version >= 0)",
+      "sqlSha256": "f58206913e2d73962d2378d3b4b5d113880fe59c7f225d85aba537881f8ad8a6",
+      "table": "print_store",
+      "toStage": "G1"
+    },
+    {
+      "actualDefinitionStatus": "UNPROVEN",
+      "declaredConstraintLines": [
+        "PRIMARY KEY (tenant_id,store_id)",
+        "CONSTRAINT fk_print_store_profile_tenant FOREIGN KEY (tenant_id,store_id) REFERENCES print_store (tenant_id,id)",
+        "CONSTRAINT ck_print_store_profile_business CHECK (business_open IS NULL OR business_open IN (0,1))",
+        "CONSTRAINT ck_print_store_profile_times CHECK (",
+        "CONSTRAINT ck_print_store_profile_regions CHECK ("
+      ],
+      "executionStatus": "NOT_RUN",
+      "fromStage": "G1",
+      "kind": "CREATE_TABLE",
+      "ordinal": 2,
+      "source": {
+        "excerptSha256": "333bf5b54c22a9e52d278cd11f7207e697b8863ccde80d8fbd56c8ab33670b94",
+        "lineEnd": 47,
+        "lineStart": 9,
+        "path": "ops/db/print-store-profile-v1.sql",
+        "sha256": "fb9bc37814852586b7022ac341fa961fdf5fc3159cacbf04237015940275b676"
+      },
+      "sql": "CREATE TABLE print_store_profile (\n  tenant_id BIGINT NOT NULL,\n  store_id BIGINT NOT NULL,\n  notice VARCHAR(2000) NULL,\n  province_code VARCHAR(64) NULL,\n  province_name VARCHAR(128) NULL,\n  city_code VARCHAR(64) NULL,\n  city_name VARCHAR(128) NULL,\n  district_code VARCHAR(64) NULL,\n  district_name VARCHAR(128) NULL,\n  street_code VARCHAR(64) NULL,\n  street_name VARCHAR(128) NULL,\n  address VARCHAR(500) NULL,\n  contact VARCHAR(128) NULL,\n  telephone VARCHAR(64) NULL,\n  qq VARCHAR(64) NULL,\n  open_time VARCHAR(5) NULL,\n  close_time VARCHAR(5) NULL,\n  business_open TINYINT NULL,\n  creator VARCHAR(64) NOT NULL,\n  create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  updater VARCHAR(64) NOT NULL,\n  update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  PRIMARY KEY (tenant_id,store_id),\n  CONSTRAINT fk_print_store_profile_tenant FOREIGN KEY (tenant_id,store_id) REFERENCES print_store (tenant_id,id),\n  CONSTRAINT ck_print_store_profile_business CHECK (business_open IS NULL OR business_open IN (0,1)),\n  CONSTRAINT ck_print_store_profile_times CHECK (\n    (open_time IS NULL AND close_time IS NULL) OR\n    (open_time IS NOT NULL AND close_time IS NOT NULL AND CHAR_LENGTH(open_time)=5 AND CHAR_LENGTH(close_time)=5\n     AND open_time REGEXP '^([01][0-9]|2[0-3]):[0-5][0-9]$' AND close_time REGEXP '^([01][0-9]|2[0-3]):[0-5][0-9]$')),\n  CONSTRAINT ck_print_store_profile_regions CHECK (\n    ((province_code IS NULL AND province_name IS NULL) OR (province_code IS NOT NULL AND province_name IS NOT NULL)) AND\n    ((city_code IS NULL AND city_name IS NULL) OR (city_code IS NOT NULL AND city_name IS NOT NULL)) AND\n    ((district_code IS NULL AND district_name IS NULL) OR (district_code IS NOT NULL AND district_name IS NOT NULL)) AND\n    ((street_code IS NULL AND street_name IS NULL) OR (street_code IS NOT NULL AND street_name IS NOT NULL)) AND\n    (city_code IS NULL OR province_code IS NOT NULL) AND\n    (district_code IS NULL OR city_code IS NOT NULL) AND\n    (street_code IS NULL OR district_code IS NOT NULL))\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+      "sqlSha256": "24e5227ac77b709fdc04453696db949a0d9c2223bba8405f68492e4a807e3297",
+      "table": "print_store_profile",
+      "toStage": "G2"
+    },
+    {
+      "actualDefinitionStatus": "UNPROVEN",
+      "declaredConstraintLines": [
+        "PRIMARY KEY (tenant_id,store_id)",
+        "CONSTRAINT fk_print_library_settings_store FOREIGN KEY (tenant_id,store_id) REFERENCES print_store (tenant_id,id)",
+        "CONSTRAINT ck_print_library_settings_version CHECK (version > 0)",
+        "CONSTRAINT ck_print_library_settings_name CHECK (CHAR_LENGTH(name) BETWEEN 3 AND 20)",
+        "CONSTRAINT ck_print_library_settings_description CHECK (CHAR_LENGTH(description) BETWEEN 1 AND 30)"
+      ],
+      "executionStatus": "NOT_RUN",
+      "fromStage": "G2",
+      "kind": "CREATE_TABLE",
+      "ordinal": 3,
+      "source": {
+        "excerptSha256": "1b3ea5849f84f409f44af185355ed8e69ccb84cb34e5ad79d7ef573aabd1e725",
+        "lineEnd": 17,
+        "lineStart": 2,
+        "path": "ops/db/print-library-settings-v1.sql",
+        "sha256": "635266327c3c77b73277951686b5fc8a60cacd446dc6491f64ad164c7ab8d43f"
+      },
+      "sql": "CREATE TABLE print_library_settings (\n  tenant_id BIGINT NOT NULL,\n  store_id BIGINT NOT NULL,\n  version BIGINT NOT NULL,\n  name VARCHAR(20) NOT NULL,\n  description VARCHAR(30) NOT NULL,\n  creator VARCHAR(64) NOT NULL,\n  create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  updater VARCHAR(64) NOT NULL,\n  update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  PRIMARY KEY (tenant_id,store_id),\n  CONSTRAINT fk_print_library_settings_store FOREIGN KEY (tenant_id,store_id) REFERENCES print_store (tenant_id,id),\n  CONSTRAINT ck_print_library_settings_version CHECK (version > 0),\n  CONSTRAINT ck_print_library_settings_name CHECK (CHAR_LENGTH(name) BETWEEN 3 AND 20),\n  CONSTRAINT ck_print_library_settings_description CHECK (CHAR_LENGTH(description) BETWEEN 1 AND 30)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+      "sqlSha256": "d9603e2486d0422f0b8db6aa85b6d3d846484b7b3403f72fa163887286526385",
+      "table": "print_library_settings",
+      "toStage": "G3"
+    },
+    {
+      "actualDefinitionStatus": "UNPROVEN",
+      "declaredConstraintLines": [
+        "PRIMARY KEY(tenant_id,store_id,owner_user_id,id)",
+        "KEY idx_product_catalog_scope(tenant_id,store_id,owner_user_id,catalog_kind,code)",
+        "CONSTRAINT fk_product_catalog_store FOREIGN KEY(tenant_id,store_id) REFERENCES print_store(tenant_id,id)",
+        "CONSTRAINT ck_product_catalog_kind CHECK(catalog_kind IN ('MY','PLATFORM'))",
+        "CONSTRAINT ck_product_catalog_price CHECK(unit_price IS NULL OR unit_price>=0)"
+      ],
+      "executionStatus": "NOT_RUN",
+      "fromStage": "G3",
+      "kind": "CREATE_TABLE",
+      "ordinal": 4,
+      "source": {
+        "excerptSha256": "082f67fa8487b70a5739518434ef688a85974d459af0d42666692c5af70b470d",
+        "lineEnd": 15,
+        "lineStart": 4,
+        "path": "ops/db/print-readonly-directory-v1.draft.sql",
+        "sha256": "62848752c30014c1fee80a0c315168cb1baa4ae44cf6ca9c6acca3ff88e8c9dc"
+      },
+      "sql": "CREATE TABLE print_product_catalog_entry (\n tenant_id BIGINT NOT NULL, store_id BIGINT NOT NULL, owner_user_id BIGINT NOT NULL,\n id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,\n catalog_kind VARCHAR(16) NOT NULL, code VARCHAR(100) NOT NULL, name VARCHAR(100) NOT NULL,\n category_path VARCHAR(512) NOT NULL,\n unit_price DECIMAL(18,4) NULL, currency CHAR(3) NULL, price_description VARCHAR(1000) NULL,\n PRIMARY KEY(tenant_id,store_id,owner_user_id,id),\n KEY idx_product_catalog_scope(tenant_id,store_id,owner_user_id,catalog_kind,code),\n CONSTRAINT fk_product_catalog_store FOREIGN KEY(tenant_id,store_id) REFERENCES print_store(tenant_id,id),\n CONSTRAINT ck_product_catalog_kind CHECK(catalog_kind IN ('MY','PLATFORM')),\n CONSTRAINT ck_product_catalog_price CHECK(unit_price IS NULL OR unit_price>=0)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+      "sqlSha256": "fe5f97f4493d3bf1808eee38fb5d02c95b0ab9787f14b762ace8683b221df66b",
+      "table": "print_product_catalog_entry",
+      "toStage": "G4"
+    },
+    {
+      "actualDefinitionStatus": "UNPROVEN",
+      "declaredConstraintLines": [
+        "PRIMARY KEY(tenant_id,store_id,owner_user_id,id)",
+        "KEY idx_library_catalog_scope(tenant_id,store_id,owner_user_id,uploaded_at,id)",
+        "CONSTRAINT fk_library_catalog_store FOREIGN KEY(tenant_id,store_id) REFERENCES print_store(tenant_id,id)",
+        "CONSTRAINT ck_library_catalog_visibility CHECK(visibility IN ('PUBLIC','STORE_USERS','STORE_STAFF'))",
+        "CONSTRAINT ck_library_catalog_audit CHECK(audit_status IN ('PENDING','APPROVED','REJECTED'))",
+        "CONSTRAINT ck_library_catalog_counts CHECK((price IS NULL OR price>=0) AND (pages IS NULL OR pages>=0) AND (print_count IS NULL OR print_count>=0) AND (view_count IS NULL OR view_count>=0) AND (favorite_count IS NULL OR favorite_count>=0) AND (download_count IS NULL OR download_count>=0))"
+      ],
+      "executionStatus": "NOT_RUN",
+      "fromStage": "G4",
+      "kind": "CREATE_TABLE",
+      "ordinal": 5,
+      "source": {
+        "excerptSha256": "4b98a72c6d34d3f4a00627abfc3dfda599979729d7a3f5dcde3c435561a7a190",
+        "lineEnd": 30,
+        "lineStart": 16,
+        "path": "ops/db/print-readonly-directory-v1.draft.sql",
+        "sha256": "62848752c30014c1fee80a0c315168cb1baa4ae44cf6ca9c6acca3ff88e8c9dc"
+      },
+      "sql": "CREATE TABLE print_library_catalog_entry (\n tenant_id BIGINT NOT NULL, store_id BIGINT NOT NULL, owner_user_id BIGINT NOT NULL,\n id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,\n library_store_name VARCHAR(100) NOT NULL, file_name VARCHAR(100) NOT NULL, category_path VARCHAR(512) NOT NULL,\n visibility VARCHAR(16) NOT NULL, audit_status VARCHAR(16) NOT NULL,\n price DECIMAL(18,4) NULL, currency CHAR(3) NULL, pages INT NULL,\n print_count BIGINT NULL, view_count BIGINT NULL, favorite_count BIGINT NULL, download_count BIGINT NULL,\n uploaded_at DATETIME(3) NOT NULL,\n PRIMARY KEY(tenant_id,store_id,owner_user_id,id),\n KEY idx_library_catalog_scope(tenant_id,store_id,owner_user_id,uploaded_at,id),\n CONSTRAINT fk_library_catalog_store FOREIGN KEY(tenant_id,store_id) REFERENCES print_store(tenant_id,id),\n CONSTRAINT ck_library_catalog_visibility CHECK(visibility IN ('PUBLIC','STORE_USERS','STORE_STAFF')),\n CONSTRAINT ck_library_catalog_audit CHECK(audit_status IN ('PENDING','APPROVED','REJECTED')),\n CONSTRAINT ck_library_catalog_counts CHECK((price IS NULL OR price>=0) AND (pages IS NULL OR pages>=0) AND (print_count IS NULL OR print_count>=0) AND (view_count IS NULL OR view_count>=0) AND (favorite_count IS NULL OR favorite_count>=0) AND (download_count IS NULL OR download_count>=0))\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+      "sqlSha256": "5644529cdb1721f3d7f8973d69ecac2f5cb5a15b310be96baf610c64d839058f",
+      "table": "print_library_catalog_entry",
+      "toStage": "G5"
+    },
+    {
+      "actualDefinitionStatus": "UNPROVEN",
+      "declaredConstraintLines": [
+        "PRIMARY KEY(tenant_id,store_id,owner_user_id,id)",
+        "KEY idx_terminal_directory_scope(tenant_id,store_id,owner_user_id,updated_at,id)",
+        "CONSTRAINT fk_terminal_directory_store FOREIGN KEY(tenant_id,store_id) REFERENCES print_store(tenant_id,id)"
+      ],
+      "executionStatus": "NOT_RUN",
+      "fromStage": "G5",
+      "kind": "CREATE_TABLE",
+      "ordinal": 6,
+      "source": {
+        "excerptSha256": "b6cb165cdbdd34c8171a11d61e4330ee4f4919caee6c3d61c4bc662e51c1b839",
+        "lineEnd": 40,
+        "lineStart": 31,
+        "path": "ops/db/print-readonly-directory-v1.draft.sql",
+        "sha256": "62848752c30014c1fee80a0c315168cb1baa4ae44cf6ca9c6acca3ff88e8c9dc"
+      },
+      "sql": "CREATE TABLE print_terminal_directory (\n tenant_id BIGINT NOT NULL, store_id BIGINT NOT NULL, owner_user_id BIGINT NOT NULL,\n id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,\n name VARCHAR(100) NOT NULL, host_name VARCHAR(128) NOT NULL,\n operating_system VARCHAR(128) NULL, client_version VARCHAR(64) NULL, ip_address VARCHAR(64) NULL,\n mobile_self_service BIT NULL, enabled BIT NULL, updated_at DATETIME(3) NOT NULL,\n PRIMARY KEY(tenant_id,store_id,owner_user_id,id),\n KEY idx_terminal_directory_scope(tenant_id,store_id,owner_user_id,updated_at,id),\n CONSTRAINT fk_terminal_directory_store FOREIGN KEY(tenant_id,store_id) REFERENCES print_store(tenant_id,id)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+      "sqlSha256": "6ce66b497ff55dd262c17ce0e7bd5a721f58cbf42315690bad74437ca72772c0",
+      "table": "print_terminal_directory",
+      "toStage": "G6"
+    },
+    {
+      "actualDefinitionStatus": "UNPROVEN",
+      "declaredConstraintLines": [
+        "PRIMARY KEY(tenant_id,store_id,owner_user_id,id)",
+        "KEY idx_printer_directory_terminal(tenant_id,store_id,owner_user_id,terminal_id,name,id)",
+        "CONSTRAINT fk_printer_directory_terminal FOREIGN KEY(tenant_id,store_id,owner_user_id,terminal_id)"
+      ],
+      "executionStatus": "NOT_RUN",
+      "fromStage": "G6",
+      "kind": "CREATE_TABLE",
+      "ordinal": 7,
+      "source": {
+        "excerptSha256": "287d9b59f4a1ebeeada9c29413dcaf6e36bf18c8f82a6494563f356217e2772a",
+        "lineEnd": 13,
+        "lineStart": 3,
+        "path": "ops/db/print-printer-directory-v1.draft.sql",
+        "sha256": "525a5527b5219376ad9bf4798c13667215943aed0adaf3870407395abbdf8dbb"
+      },
+      "sql": "CREATE TABLE print_printer_directory (\n tenant_id BIGINT NOT NULL, store_id BIGINT NOT NULL, owner_user_id BIGINT NOT NULL,\n id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,\n terminal_id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,\n name VARCHAR(128) NOT NULL, address VARCHAR(255) NULL,\n default_printer BIT NULL, mobile_self_service BIT NULL, updated_at DATETIME(3) NOT NULL,\n PRIMARY KEY(tenant_id,store_id,owner_user_id,id),\n KEY idx_printer_directory_terminal(tenant_id,store_id,owner_user_id,terminal_id,name,id),\n CONSTRAINT fk_printer_directory_terminal FOREIGN KEY(tenant_id,store_id,owner_user_id,terminal_id)\n REFERENCES print_terminal_directory(tenant_id,store_id,owner_user_id,id)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+      "sqlSha256": "7337504662a325d8ef0ce3fc97b01c51a2e5c7aaadd95fa6d46e30b1973aac91",
+      "table": "print_printer_directory",
+      "toStage": "G7"
+    },
+    {
+      "actualDefinitionStatus": "UNPROVEN",
+      "declaredConstraintLines": [
+        "PRIMARY KEY (tenant_id,store_id,id)",
+        "KEY idx_print_library_category_page (tenant_id,store_id,create_time,id)",
+        "CONSTRAINT fk_print_library_category_store FOREIGN KEY (tenant_id,store_id) REFERENCES print_store(tenant_id,id)",
+        "CONSTRAINT ck_print_library_category_version CHECK (version > 0)",
+        "CONSTRAINT ck_print_library_category_name CHECK (CHAR_LENGTH(name) BETWEEN 1 AND 100)"
+      ],
+      "executionStatus": "NOT_RUN",
+      "fromStage": "G7",
+      "kind": "CREATE_TABLE",
+      "ordinal": 8,
+      "source": {
+        "excerptSha256": "ba1c0009d802b56d4b44b00cf90aea6b84517e8203bc5ab1c55a44a8b193e011",
+        "lineEnd": 18,
+        "lineStart": 3,
+        "path": "ops/db/print-library-category-v1.draft.sql",
+        "sha256": "99ce0b07863e0d360ef9d2c6d46033914fd8b7ee3f460b2195439f6d3359cab5"
+      },
+      "sql": "CREATE TABLE print_library_category (\n  tenant_id BIGINT NOT NULL,\n  store_id BIGINT NOT NULL,\n  id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,\n  version BIGINT NOT NULL,\n  name VARCHAR(100) NOT NULL,\n  creator VARCHAR(64) NOT NULL,\n  create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  updater VARCHAR(64) NOT NULL,\n  update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  PRIMARY KEY (tenant_id,store_id,id),\n  KEY idx_print_library_category_page (tenant_id,store_id,create_time,id),\n  CONSTRAINT fk_print_library_category_store FOREIGN KEY (tenant_id,store_id) REFERENCES print_store(tenant_id,id),\n  CONSTRAINT ck_print_library_category_version CHECK (version > 0),\n  CONSTRAINT ck_print_library_category_name CHECK (CHAR_LENGTH(name) BETWEEN 1 AND 100)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+      "sqlSha256": "7abd514dd901b64a05fbe97a19edb7493579f409d1d0c302f6302edb220874b2",
+      "table": "print_library_category",
+      "toStage": "G8"
+    },
+    {
+      "actualDefinitionStatus": "UNPROVEN",
+      "declaredConstraintLines": [
+        "PRIMARY KEY(id)",
+        "UNIQUE KEY uk_paper_total_report(tenant_id,store_id,terminal_key,printer_key,paper_spec,simulation)",
+        "KEY idx_paper_total_report_scope(tenant_id,store_id,updated_at,id)",
+        "CONSTRAINT fk_paper_total_report_store FOREIGN KEY(tenant_id,store_id) REFERENCES print_store(tenant_id,id)",
+        "CONSTRAINT chk_paper_total_report_counts CHECK(total_sheets>=0 AND (remaining_sheets IS NULL OR remaining_sheets>=0) AND (warning_sheets IS NULL OR warning_sheets>=0))"
+      ],
+      "executionStatus": "NOT_RUN",
+      "fromStage": "G8",
+      "kind": "CREATE_TABLE",
+      "ordinal": 9,
+      "source": {
+        "excerptSha256": "0ee59b6b76db9dce9d35dabda4f49b56b6225b6732a27172085533b4c25108cd",
+        "lineEnd": 17,
+        "lineStart": 5,
+        "path": "ops/db/print-statistics-reports-v1.draft.sql",
+        "sha256": "c0c657e469d9711f3995bf4fa38be5eff758aba235de517a131beda5912386cc"
+      },
+      "sql": "CREATE TABLE print_paper_total_report (\n id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,\n tenant_id BIGINT NOT NULL, store_id BIGINT NOT NULL,\n terminal_key VARCHAR(64) NOT NULL, printer_key VARCHAR(128) NOT NULL,\n terminal_name VARCHAR(128) NOT NULL, printer_name VARCHAR(128) NOT NULL, paper_spec VARCHAR(64) NOT NULL,\n remaining_sheets BIGINT NULL, warning_sheets BIGINT NULL, total_sheets BIGINT NOT NULL,\n simulation BIT NOT NULL, updated_at DATETIME(3) NOT NULL,\n PRIMARY KEY(id),\n UNIQUE KEY uk_paper_total_report(tenant_id,store_id,terminal_key,printer_key,paper_spec,simulation),\n KEY idx_paper_total_report_scope(tenant_id,store_id,updated_at,id),\n CONSTRAINT fk_paper_total_report_store FOREIGN KEY(tenant_id,store_id) REFERENCES print_store(tenant_id,id),\n CONSTRAINT chk_paper_total_report_counts CHECK(total_sheets>=0 AND (remaining_sheets IS NULL OR remaining_sheets>=0) AND (warning_sheets IS NULL OR warning_sheets>=0))\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin",
+      "sqlSha256": "fa7d582273c344404807ffcbc40cde83a4a1f3360073ebfa0381c781465a459c",
+      "table": "print_paper_total_report",
+      "toStage": "G9"
+    },
+    {
+      "actualDefinitionStatus": "UNPROVEN",
+      "declaredConstraintLines": [
+        "PRIMARY KEY(id)",
+        "UNIQUE KEY uk_paper_daily_report(tenant_id,store_id,terminal_key,printer_key,paper_spec,stat_day,simulation)",
+        "KEY idx_paper_daily_report_scope(tenant_id,store_id,stat_day,updated_at,id)",
+        "CONSTRAINT fk_paper_daily_report_store FOREIGN KEY(tenant_id,store_id) REFERENCES print_store(tenant_id,id)",
+        "CONSTRAINT chk_paper_daily_report_counts CHECK(total_sheets>=0 AND simplex_sheets>=0 AND duplex_sheets>=0)"
+      ],
+      "executionStatus": "NOT_RUN",
+      "fromStage": "G9",
+      "kind": "CREATE_TABLE",
+      "ordinal": 10,
+      "source": {
+        "excerptSha256": "fef92dbfbdf5a5d5eb820652362043229babfe1589d7278ecd4eddd9f25a2549",
+        "lineEnd": 30,
+        "lineStart": 18,
+        "path": "ops/db/print-statistics-reports-v1.draft.sql",
+        "sha256": "c0c657e469d9711f3995bf4fa38be5eff758aba235de517a131beda5912386cc"
+      },
+      "sql": "CREATE TABLE print_paper_daily_report (\n id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,\n tenant_id BIGINT NOT NULL, store_id BIGINT NOT NULL,\n terminal_key VARCHAR(64) NOT NULL, printer_key VARCHAR(128) NOT NULL,\n terminal_name VARCHAR(128) NOT NULL, printer_name VARCHAR(128) NOT NULL, paper_spec VARCHAR(64) NOT NULL,\n stat_day DATE NOT NULL, total_sheets BIGINT NOT NULL, simplex_sheets BIGINT NOT NULL, duplex_sheets BIGINT NOT NULL,\n simulation BIT NOT NULL, updated_at DATETIME(3) NOT NULL,\n PRIMARY KEY(id),\n UNIQUE KEY uk_paper_daily_report(tenant_id,store_id,terminal_key,printer_key,paper_spec,stat_day,simulation),\n KEY idx_paper_daily_report_scope(tenant_id,store_id,stat_day,updated_at,id),\n CONSTRAINT fk_paper_daily_report_store FOREIGN KEY(tenant_id,store_id) REFERENCES print_store(tenant_id,id),\n CONSTRAINT chk_paper_daily_report_counts CHECK(total_sheets>=0 AND simplex_sheets>=0 AND duplex_sheets>=0)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin",
+      "sqlSha256": "d00428f99b7c7bc477bc8460b25dc45b62d55e828efc78b7c04ff19ba22a0489",
+      "table": "print_paper_daily_report",
+      "toStage": "G10"
+    },
+    {
+      "actualDefinitionStatus": "UNPROVEN",
+      "declaredConstraintLines": [
+        "PRIMARY KEY (tenant_id,store_id,position)",
+        "CONSTRAINT fk_print_advertising_store FOREIGN KEY (tenant_id,store_id) REFERENCES print_store (tenant_id,id)",
+        "CONSTRAINT ck_print_advertising_version CHECK (version>0)",
+        "CONSTRAINT ck_print_advertising_position CHECK (position IN ('COMPUTER_TERMINAL','TOUCH_TERMINAL','FULLSCREEN_TERMINAL','PORTRAIT_TERMINAL','CLOUD_BOX','ORDER_PAGE','COMPUTER_DESKTOP','MINI_SHARE'))",
+        "CONSTRAINT ck_print_advertising_assets CHECK (JSON_TYPE(assets_json)='ARRAY')"
+      ],
+      "executionStatus": "NOT_RUN",
+      "fromStage": "G10",
+      "kind": "CREATE_TABLE",
+      "ordinal": 11,
+      "source": {
+        "excerptSha256": "c3a7724b0b32e636a6bad6ac7fe789d4c94a8507d1a886bcb90245abd5e1882d",
+        "lineEnd": 19,
+        "lineStart": 3,
+        "path": "ops/db/print-advertising-v1.draft.sql",
+        "sha256": "75717d1bec23a6186a7c03c7f8e8d4a98840dbd56ee822edd77cf888b68ffe8b"
+      },
+      "sql": "CREATE TABLE print_advertising_draft (\n  tenant_id BIGINT NOT NULL,\n  store_id BIGINT NOT NULL,\n  position VARCHAR(32) NOT NULL,\n  version BIGINT NOT NULL,\n  success_message_html TEXT NOT NULL,\n  assets_json JSON NOT NULL,\n  creator VARCHAR(64) NOT NULL,\n  create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  updater VARCHAR(64) NOT NULL,\n  update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,\n  PRIMARY KEY (tenant_id,store_id,position),\n  CONSTRAINT fk_print_advertising_store FOREIGN KEY (tenant_id,store_id) REFERENCES print_store (tenant_id,id),\n  CONSTRAINT ck_print_advertising_version CHECK (version>0),\n  CONSTRAINT ck_print_advertising_position CHECK (position IN ('COMPUTER_TERMINAL','TOUCH_TERMINAL','FULLSCREEN_TERMINAL','PORTRAIT_TERMINAL','CLOUD_BOX','ORDER_PAGE','COMPUTER_DESKTOP','MINI_SHARE')),\n  CONSTRAINT ck_print_advertising_assets CHECK (JSON_TYPE(assets_json)='ARRAY')\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+      "sqlSha256": "4f133e238aa1b5fc83a8ad135294a7df82096a3cceac38d969b8cb84ce8efd98",
+      "table": "print_advertising_draft",
+      "toStage": "G11"
+    }
+  ],
+  "effort": "high",
+  "entries": [
+    {
+      "ddlOrdinals": [
+        1,
+        2
+      ],
+      "httpResponseStatus": "NOT_RUN",
+      "liveResultStatus": "UNPROVEN",
+      "method": "GET",
+      "module": "P02",
+      "path": "/admin-api/print/store/current",
+      "readbackQueries": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "1ac347035adba7ec04b5ed7f6e66ab3ece2b8b872350205988f856f5444bb95a",
+              "lineEnd": 29,
+              "lineStart": 15,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileRepository.java",
+              "sha256": "5100c07dd589a52bd5aa6e79361f913e50413d951c86bc5ec8fbaf6e69fa3029"
+            }
+          ],
+          "sql": "SELECT s.name,s.profile_version,p.store_id,p.notice,p.province_code,p.province_name,p.city_code,p.city_name,p.district_code,p.district_name,p.street_code,p.street_name,p.address,p.contact,p.telephone,p.qq,p.open_time,p.close_time,p.business_open FROM print_store s LEFT JOIN print_store_profile p ON p.tenant_id=s.tenant_id AND p.store_id=s.id WHERE s.tenant_id=? AND s.id=? AND s.status=0 AND s.deleted=b'0'",
+          "when": "GET and independent readback after successful PUT"
+        }
+      ],
+      "requiredPermission": "print:store:query",
+      "scope": "TENANT_STORE_SHARED",
+      "scopeResolverSource": {
+        "excerptSha256": "d5443cd9885a334ba7c2b12246dc59957fbb2a7acfe84afe1c3fbb8e6967817f",
+        "lineEnd": 66,
+        "lineStart": 24,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+        "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+      },
+      "sources": [
+        {
+          "excerptSha256": "fa88ec1840f9a697854123f40656bce81b0b9a23a0d2a5462607399e79d2eda6",
+          "lineEnd": 30,
+          "lineStart": 15,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintStoreProfileController.java",
+          "sha256": "a1488b377c71ec1de747723aa7897f13a0a274acc7244d659f280f1c2ebdcac2"
+        },
+        {
+          "excerptSha256": "777fd385f51ffd1205f21526c20333b8456cb8bf6b8d5161604df0b209aa5245",
+          "lineEnd": 32,
+          "lineStart": 21,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileService.java",
+          "sha256": "9d255a3d013c6c2f582f5d9a65097ec13d31359361858889fbab73e60dda52a3"
+        }
+      ]
+    },
+    {
+      "ddlOrdinals": [
+        3
+      ],
+      "httpResponseStatus": "NOT_RUN",
+      "liveResultStatus": "UNPROVEN",
+      "method": "GET",
+      "module": "P14",
+      "path": "/admin-api/print/library/settings",
+      "readbackQueries": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "0b73ef0462c5ce9a6de0bf71c0ebef155f64911945d70987ef9c534a47cc3f90",
+              "lineEnd": 17,
+              "lineStart": 12,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/settings/PrintLibrarySettingsRepository.java",
+              "sha256": "7894dfd6e5ed7dabea2ed7d41e3ea9d82823c343bc2fe96699036733f1aee266"
+            }
+          ],
+          "sql": "SELECT p.version,p.name,p.description FROM print_store s LEFT JOIN print_library_settings p ON p.tenant_id=s.tenant_id AND p.store_id=s.id WHERE s.tenant_id=? AND s.id=? AND s.status=0 AND s.deleted=b'0'",
+          "when": "GET and independent readback after successful PUT"
+        }
+      ],
+      "requiredPermission": "print:library-settings:query",
+      "scope": "TENANT_STORE_SHARED",
+      "scopeResolverSource": {
+        "excerptSha256": "d5443cd9885a334ba7c2b12246dc59957fbb2a7acfe84afe1c3fbb8e6967817f",
+        "lineEnd": 66,
+        "lineStart": 24,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+        "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+      },
+      "sources": [
+        {
+          "excerptSha256": "89036177baf8325316c85da0403ccc70af7dab9d27b87810e40390a8764e0580",
+          "lineEnd": 25,
+          "lineStart": 15,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintLibrarySettingsController.java",
+          "sha256": "8f7d3e60ad28f44cb5f2d28d6ecf990a3e5dcf3ee0aee427ede301a7fcb52822"
+        },
+        {
+          "excerptSha256": "34ed59b78334208b7de9df49d29e8cf80e10c30d15837e28b3b3be7f7b77ab9f",
+          "lineEnd": 32,
+          "lineStart": 20,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/settings/PrintLibrarySettingsService.java",
+          "sha256": "6d906ec4b4bab0db7a29b40cf6877cb36f4a869db2b38d382ceb4f90aab98c69"
+        }
+      ]
+    },
+    {
+      "ddlOrdinals": [
+        4
+      ],
+      "filterAndSortStatus": "Existing source branches listed; concrete acceptance filter values/results are UNPROVEN.",
+      "filterCompositionSource": {
+        "excerptSha256": "1a9a2ec8a6fa463b8df7b6ae5b95e63ee6ee59c693f053dfee2faa75f1828660",
+        "lineEnd": 27,
+        "lineStart": 17,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java",
+        "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6"
+      },
+      "filterSqlLiterals": [
+        " AND d.",
+        "file_name",
+        "name",
+        " LIKE ? ESCAPE '!'",
+        "%",
+        "%",
+        " AND (d.category_path=? OR d.category_path LIKE ? ESCAPE '!')",
+        "/%",
+        "ALL",
+        " AND d.audit_status=?",
+        "ALL",
+        " AND d.visibility=?",
+        " AND d.host_name LIKE ? ESCAPE '!'",
+        "%",
+        "%"
+      ],
+      "httpResponseStatus": "NOT_RUN",
+      "liveResultStatus": "UNPROVEN",
+      "method": "GET",
+      "module": "P08",
+      "path": "/admin-api/print/directory/my-products",
+      "readbackQueries": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId",
+            "scope.userId",
+            "catalogKind=MY"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "b903c2c97ea97fd4d7a61528d447c83e1f13d18c1bef98cd1516e6d195f492a6",
+              "lineEnd": 24,
+              "lineStart": 11,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java",
+              "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6"
+            }
+          ],
+          "sql": "SELECT COUNT(*) FROM print_product_catalog_entry d JOIN print_store s ON s.tenant_id=d.tenant_id AND s.id=d.store_id WHERE d.tenant_id=? AND d.store_id=? AND d.owner_user_id=? AND s.status=0 AND s.deleted=b'0' AND d.catalog_kind=?",
+          "when": "unfiltered/default read"
+        },
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId",
+            "scope.userId",
+            "catalogKind=MY",
+            "pageSize",
+            "(page-1)*pageSize"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "fd15caf660ece9373f1a39ba401a7580cfd15e37dd656ccdf667fe72c614b017",
+              "lineEnd": 32,
+              "lineStart": 25,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java",
+              "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6"
+            }
+          ],
+          "sql": "SELECT d.id,d.code,d.name,d.category_path,d.unit_price,d.currency,d.price_description,d.catalog_kind FROM print_product_catalog_entry d JOIN print_store s ON s.tenant_id=d.tenant_id AND s.id=d.store_id WHERE d.tenant_id=? AND d.store_id=? AND d.owner_user_id=? AND s.status=0 AND s.deleted=b'0' AND d.catalog_kind=? ORDER BY d.code ASC,d.id LIMIT ? OFFSET ?",
+          "when": "no filters; source order branch d.code ASC"
+        },
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId",
+            "scope.userId",
+            "catalogKind=MY"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "7b3fb089db7b209918ee424e7b18d8fa3dc2fc68748e744a4392e97edfb797df",
+              "lineEnd": 18,
+              "lineStart": 16,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java",
+              "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6"
+            },
+            {
+              "excerptSha256": "b47671c6769a902c06b9c51f8bf42b69bf5cfdfbfc20db7da99e99bd3306e497",
+              "lineEnd": 34,
+              "lineStart": 33,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java",
+              "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6"
+            }
+          ],
+          "sql": "SELECT DISTINCT d.category_path FROM print_product_catalog_entry d JOIN print_store s ON s.tenant_id=d.tenant_id AND s.id=d.store_id WHERE d.tenant_id=? AND d.store_id=? AND d.owner_user_id=? AND s.status=0 AND s.deleted=b'0' AND d.catalog_kind=? AND d.category_path<>'' ORDER BY d.category_path",
+          "when": "category options use scope/catalog-kind only, before name/category/audit/visibility filters"
+        }
+      ],
+      "requiredPermission": "print:product:query",
+      "scope": "TENANT_STORE_OWNER",
+      "scopeResolverSource": {
+        "excerptSha256": "d5443cd9885a334ba7c2b12246dc59957fbb2a7acfe84afe1c3fbb8e6967817f",
+        "lineEnd": 66,
+        "lineStart": 24,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+        "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+      },
+      "sources": [
+        {
+          "excerptSha256": "c4cadf54e95601137ad8308b1d3debd8e5c14241126ff0b2a30164d3ec9f0c25",
+          "lineEnd": 27,
+          "lineStart": 12,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintDirectoryController.java",
+          "sha256": "44d391690749836216b8a718dbfc98aa98881e1cc472c1e7ac05f05c7155bee4"
+        },
+        {
+          "excerptSha256": "9c24a76c9a03a965c5aa517aaed949eecd4c651f4facc31cfda6496004e221a8",
+          "lineEnd": 16,
+          "lineStart": 11,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryService.java",
+          "sha256": "0b2f4760372183f02dc8cfa7dc1c26cd63b5f3e6b35728093a1b5606c99bf0e5"
+        }
+      ]
+    },
+    {
+      "ddlOrdinals": [
+        4
+      ],
+      "filterAndSortStatus": "Existing source branches listed; concrete acceptance filter values/results are UNPROVEN.",
+      "filterCompositionSource": {
+        "excerptSha256": "1a9a2ec8a6fa463b8df7b6ae5b95e63ee6ee59c693f053dfee2faa75f1828660",
+        "lineEnd": 27,
+        "lineStart": 17,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java",
+        "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6"
+      },
+      "filterSqlLiterals": [
+        " AND d.",
+        "file_name",
+        "name",
+        " LIKE ? ESCAPE '!'",
+        "%",
+        "%",
+        " AND (d.category_path=? OR d.category_path LIKE ? ESCAPE '!')",
+        "/%",
+        "ALL",
+        " AND d.audit_status=?",
+        "ALL",
+        " AND d.visibility=?",
+        " AND d.host_name LIKE ? ESCAPE '!'",
+        "%",
+        "%"
+      ],
+      "httpResponseStatus": "NOT_RUN",
+      "liveResultStatus": "UNPROVEN",
+      "method": "GET",
+      "module": "P09",
+      "path": "/admin-api/print/directory/platform-products",
+      "readbackQueries": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId",
+            "scope.userId",
+            "catalogKind=PLATFORM"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "b903c2c97ea97fd4d7a61528d447c83e1f13d18c1bef98cd1516e6d195f492a6",
+              "lineEnd": 24,
+              "lineStart": 11,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java",
+              "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6"
+            }
+          ],
+          "sql": "SELECT COUNT(*) FROM print_product_catalog_entry d JOIN print_store s ON s.tenant_id=d.tenant_id AND s.id=d.store_id WHERE d.tenant_id=? AND d.store_id=? AND d.owner_user_id=? AND s.status=0 AND s.deleted=b'0' AND d.catalog_kind=?",
+          "when": "unfiltered/default read"
+        },
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId",
+            "scope.userId",
+            "catalogKind=PLATFORM",
+            "pageSize",
+            "(page-1)*pageSize"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "fd15caf660ece9373f1a39ba401a7580cfd15e37dd656ccdf667fe72c614b017",
+              "lineEnd": 32,
+              "lineStart": 25,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java",
+              "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6"
+            }
+          ],
+          "sql": "SELECT d.id,d.code,d.name,d.category_path,d.unit_price,d.currency,d.price_description,d.catalog_kind FROM print_product_catalog_entry d JOIN print_store s ON s.tenant_id=d.tenant_id AND s.id=d.store_id WHERE d.tenant_id=? AND d.store_id=? AND d.owner_user_id=? AND s.status=0 AND s.deleted=b'0' AND d.catalog_kind=? ORDER BY d.code ASC,d.id LIMIT ? OFFSET ?",
+          "when": "no filters; source order branch d.code ASC"
+        },
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId",
+            "scope.userId",
+            "catalogKind=PLATFORM"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "7b3fb089db7b209918ee424e7b18d8fa3dc2fc68748e744a4392e97edfb797df",
+              "lineEnd": 18,
+              "lineStart": 16,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java",
+              "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6"
+            },
+            {
+              "excerptSha256": "b47671c6769a902c06b9c51f8bf42b69bf5cfdfbfc20db7da99e99bd3306e497",
+              "lineEnd": 34,
+              "lineStart": 33,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java",
+              "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6"
+            }
+          ],
+          "sql": "SELECT DISTINCT d.category_path FROM print_product_catalog_entry d JOIN print_store s ON s.tenant_id=d.tenant_id AND s.id=d.store_id WHERE d.tenant_id=? AND d.store_id=? AND d.owner_user_id=? AND s.status=0 AND s.deleted=b'0' AND d.catalog_kind=? AND d.category_path<>'' ORDER BY d.category_path",
+          "when": "category options use scope/catalog-kind only, before name/category/audit/visibility filters"
+        }
+      ],
+      "requiredPermission": "print:platform-product:query",
+      "scope": "TENANT_STORE_OWNER",
+      "scopeResolverSource": {
+        "excerptSha256": "d5443cd9885a334ba7c2b12246dc59957fbb2a7acfe84afe1c3fbb8e6967817f",
+        "lineEnd": 66,
+        "lineStart": 24,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+        "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+      },
+      "sources": [
+        {
+          "excerptSha256": "c4cadf54e95601137ad8308b1d3debd8e5c14241126ff0b2a30164d3ec9f0c25",
+          "lineEnd": 27,
+          "lineStart": 12,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintDirectoryController.java",
+          "sha256": "44d391690749836216b8a718dbfc98aa98881e1cc472c1e7ac05f05c7155bee4"
+        },
+        {
+          "excerptSha256": "9c24a76c9a03a965c5aa517aaed949eecd4c651f4facc31cfda6496004e221a8",
+          "lineEnd": 16,
+          "lineStart": 11,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryService.java",
+          "sha256": "0b2f4760372183f02dc8cfa7dc1c26cd63b5f3e6b35728093a1b5606c99bf0e5"
+        }
+      ]
+    },
+    {
+      "ddlOrdinals": [
+        5
+      ],
+      "filterAndSortStatus": "Existing source branches listed; concrete acceptance filter values/results are UNPROVEN.",
+      "filterCompositionSource": {
+        "excerptSha256": "1a9a2ec8a6fa463b8df7b6ae5b95e63ee6ee59c693f053dfee2faa75f1828660",
+        "lineEnd": 27,
+        "lineStart": 17,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java",
+        "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6"
+      },
+      "filterSqlLiterals": [
+        " AND d.",
+        "file_name",
+        "name",
+        " LIKE ? ESCAPE '!'",
+        "%",
+        "%",
+        " AND (d.category_path=? OR d.category_path LIKE ? ESCAPE '!')",
+        "/%",
+        "ALL",
+        " AND d.audit_status=?",
+        "ALL",
+        " AND d.visibility=?",
+        " AND d.host_name LIKE ? ESCAPE '!'",
+        "%",
+        "%"
+      ],
+      "httpResponseStatus": "NOT_RUN",
+      "liveResultStatus": "UNPROVEN",
+      "method": "GET",
+      "module": "P13",
+      "path": "/admin-api/print/directory/library",
+      "readbackQueries": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId",
+            "scope.userId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "b903c2c97ea97fd4d7a61528d447c83e1f13d18c1bef98cd1516e6d195f492a6",
+              "lineEnd": 24,
+              "lineStart": 11,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java",
+              "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6"
+            }
+          ],
+          "sql": "SELECT COUNT(*) FROM print_library_catalog_entry d JOIN print_store s ON s.tenant_id=d.tenant_id AND s.id=d.store_id WHERE d.tenant_id=? AND d.store_id=? AND d.owner_user_id=? AND s.status=0 AND s.deleted=b'0'",
+          "when": "unfiltered/default read"
+        },
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId",
+            "scope.userId",
+            "pageSize",
+            "(page-1)*pageSize"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "fd15caf660ece9373f1a39ba401a7580cfd15e37dd656ccdf667fe72c614b017",
+              "lineEnd": 32,
+              "lineStart": 25,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java",
+              "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6"
+            }
+          ],
+          "sql": "SELECT d.id,d.library_store_name,d.file_name,d.category_path,d.visibility,d.audit_status,d.price,d.currency,d.pages,d.print_count,d.view_count,d.favorite_count,d.download_count,d.uploaded_at FROM print_library_catalog_entry d JOIN print_store s ON s.tenant_id=d.tenant_id AND s.id=d.store_id WHERE d.tenant_id=? AND d.store_id=? AND d.owner_user_id=? AND s.status=0 AND s.deleted=b'0' ORDER BY d.uploaded_at DESC,d.id LIMIT ? OFFSET ?",
+          "when": "no filters; source order branch d.uploaded_at DESC"
+        },
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId",
+            "scope.userId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "7b3fb089db7b209918ee424e7b18d8fa3dc2fc68748e744a4392e97edfb797df",
+              "lineEnd": 18,
+              "lineStart": 16,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java",
+              "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6"
+            },
+            {
+              "excerptSha256": "b47671c6769a902c06b9c51f8bf42b69bf5cfdfbfc20db7da99e99bd3306e497",
+              "lineEnd": 34,
+              "lineStart": 33,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java",
+              "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6"
+            }
+          ],
+          "sql": "SELECT DISTINCT d.category_path FROM print_library_catalog_entry d JOIN print_store s ON s.tenant_id=d.tenant_id AND s.id=d.store_id WHERE d.tenant_id=? AND d.store_id=? AND d.owner_user_id=? AND s.status=0 AND s.deleted=b'0' AND d.category_path<>'' ORDER BY d.category_path",
+          "when": "category options use scope/catalog-kind only, before name/category/audit/visibility filters"
+        }
+      ],
+      "requiredPermission": "print:library-entry:query",
+      "scope": "TENANT_STORE_OWNER",
+      "scopeResolverSource": {
+        "excerptSha256": "d5443cd9885a334ba7c2b12246dc59957fbb2a7acfe84afe1c3fbb8e6967817f",
+        "lineEnd": 66,
+        "lineStart": 24,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+        "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+      },
+      "sources": [
+        {
+          "excerptSha256": "c4cadf54e95601137ad8308b1d3debd8e5c14241126ff0b2a30164d3ec9f0c25",
+          "lineEnd": 27,
+          "lineStart": 12,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintDirectoryController.java",
+          "sha256": "44d391690749836216b8a718dbfc98aa98881e1cc472c1e7ac05f05c7155bee4"
+        },
+        {
+          "excerptSha256": "9c24a76c9a03a965c5aa517aaed949eecd4c651f4facc31cfda6496004e221a8",
+          "lineEnd": 16,
+          "lineStart": 11,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryService.java",
+          "sha256": "0b2f4760372183f02dc8cfa7dc1c26cd63b5f3e6b35728093a1b5606c99bf0e5"
+        }
+      ]
+    },
+    {
+      "ddlOrdinals": [
+        6
+      ],
+      "filterAndSortStatus": "Existing source branches listed; concrete acceptance filter values/results are UNPROVEN.",
+      "filterCompositionSource": {
+        "excerptSha256": "1a9a2ec8a6fa463b8df7b6ae5b95e63ee6ee59c693f053dfee2faa75f1828660",
+        "lineEnd": 27,
+        "lineStart": 17,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java",
+        "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6"
+      },
+      "filterSqlLiterals": [
+        " AND d.",
+        "file_name",
+        "name",
+        " LIKE ? ESCAPE '!'",
+        "%",
+        "%",
+        " AND (d.category_path=? OR d.category_path LIKE ? ESCAPE '!')",
+        "/%",
+        "ALL",
+        " AND d.audit_status=?",
+        "ALL",
+        " AND d.visibility=?",
+        " AND d.host_name LIKE ? ESCAPE '!'",
+        "%",
+        "%"
+      ],
+      "httpResponseStatus": "NOT_RUN",
+      "liveResultStatus": "UNPROVEN",
+      "method": "GET",
+      "module": "P33",
+      "path": "/admin-api/print/directory/terminals",
+      "readbackQueries": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId",
+            "scope.userId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "b903c2c97ea97fd4d7a61528d447c83e1f13d18c1bef98cd1516e6d195f492a6",
+              "lineEnd": 24,
+              "lineStart": 11,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java",
+              "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6"
+            }
+          ],
+          "sql": "SELECT COUNT(*) FROM print_terminal_directory d JOIN print_store s ON s.tenant_id=d.tenant_id AND s.id=d.store_id WHERE d.tenant_id=? AND d.store_id=? AND d.owner_user_id=? AND s.status=0 AND s.deleted=b'0'",
+          "when": "unfiltered/default read"
+        },
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId",
+            "scope.userId",
+            "pageSize",
+            "(page-1)*pageSize"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "fd15caf660ece9373f1a39ba401a7580cfd15e37dd656ccdf667fe72c614b017",
+              "lineEnd": 32,
+              "lineStart": 25,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java",
+              "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6"
+            }
+          ],
+          "sql": "SELECT d.id,d.name,d.host_name,d.operating_system,d.client_version,d.ip_address,d.mobile_self_service,d.enabled,d.updated_at FROM print_terminal_directory d JOIN print_store s ON s.tenant_id=d.tenant_id AND s.id=d.store_id WHERE d.tenant_id=? AND d.store_id=? AND d.owner_user_id=? AND s.status=0 AND s.deleted=b'0' ORDER BY d.updated_at DESC,d.id LIMIT ? OFFSET ?",
+          "when": "no filters; source order branch d.updated_at DESC"
+        }
+      ],
+      "requiredPermission": "print:terminal-directory:query",
+      "scope": "TENANT_STORE_OWNER",
+      "scopeResolverSource": {
+        "excerptSha256": "d5443cd9885a334ba7c2b12246dc59957fbb2a7acfe84afe1c3fbb8e6967817f",
+        "lineEnd": 66,
+        "lineStart": 24,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+        "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+      },
+      "sources": [
+        {
+          "excerptSha256": "c4cadf54e95601137ad8308b1d3debd8e5c14241126ff0b2a30164d3ec9f0c25",
+          "lineEnd": 27,
+          "lineStart": 12,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintDirectoryController.java",
+          "sha256": "44d391690749836216b8a718dbfc98aa98881e1cc472c1e7ac05f05c7155bee4"
+        },
+        {
+          "excerptSha256": "9c24a76c9a03a965c5aa517aaed949eecd4c651f4facc31cfda6496004e221a8",
+          "lineEnd": 16,
+          "lineStart": 11,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryService.java",
+          "sha256": "0b2f4760372183f02dc8cfa7dc1c26cd63b5f3e6b35728093a1b5606c99bf0e5"
+        }
+      ]
+    },
+    {
+      "ddlOrdinals": [
+        7
+      ],
+      "httpResponseStatus": "NOT_RUN",
+      "liveResultStatus": "UNPROVEN",
+      "method": "GET",
+      "module": "P34",
+      "optionalFilter": {
+        "parameter": "terminalId",
+        "source": {
+          "excerptSha256": "0517f97034afb25754288ca9eb888bae5b67243a170775a2f7957b0b05a46972",
+          "lineEnd": 14,
+          "lineStart": 14,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/printer/PrintPrinterDirectoryRepository.java",
+          "sha256": "1c6c808c2689329d7bbec561338b0fb6aae8667d087c5c3e92a81a17c0aa3d28"
+        },
+        "sqlFragment": " AND p.terminal_id=?"
+      },
+      "path": "/admin-api/print/directory/printers",
+      "readbackQueries": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId",
+            "scope.userId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "b7191c890c0f41b3d7947268f05b1a7e2f382c11db48cc37ba8dae2c1c6f3932",
+              "lineEnd": 15,
+              "lineStart": 11,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/printer/PrintPrinterDirectoryRepository.java",
+              "sha256": "1c6c808c2689329d7bbec561338b0fb6aae8667d087c5c3e92a81a17c0aa3d28"
+            }
+          ],
+          "sql": "SELECT COUNT(*) FROM print_printer_directory p JOIN print_terminal_directory t ON t.tenant_id=p.tenant_id AND t.store_id=p.store_id AND t.owner_user_id=p.owner_user_id AND t.id=p.terminal_id JOIN print_store s ON s.tenant_id=p.tenant_id AND s.id=p.store_id WHERE p.tenant_id=? AND p.store_id=? AND p.owner_user_id=? AND s.status=0 AND s.deleted=b'0'",
+          "when": "unfiltered/default read"
+        },
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId",
+            "scope.userId",
+            "pageSize",
+            "(page-1)*pageSize"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "b30d5a869229c054b68a70f174a89ecedf0a60121dff888461e63fa191f50bbf",
+              "lineEnd": 17,
+              "lineStart": 11,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/printer/PrintPrinterDirectoryRepository.java",
+              "sha256": "1c6c808c2689329d7bbec561338b0fb6aae8667d087c5c3e92a81a17c0aa3d28"
+            }
+          ],
+          "sql": "SELECT p.id,p.name,p.terminal_id,t.name AS terminal_name,p.address,p.default_printer,p.mobile_self_service,p.updated_at FROM print_printer_directory p JOIN print_terminal_directory t ON t.tenant_id=p.tenant_id AND t.store_id=p.store_id AND t.owner_user_id=p.owner_user_id AND t.id=p.terminal_id JOIN print_store s ON s.tenant_id=p.tenant_id AND s.id=p.store_id WHERE p.tenant_id=? AND p.store_id=? AND p.owner_user_id=? AND s.status=0 AND s.deleted=b'0' ORDER BY t.name,t.id,p.name,p.id LIMIT ? OFFSET ?",
+          "when": "unfiltered/default read"
+        },
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId",
+            "scope.userId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "d44ea7b949e43bd57b18c4e085de83c383b0e575ec8b3d4a1b92752a9b213bbf",
+              "lineEnd": 20,
+              "lineStart": 18,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/printer/PrintPrinterDirectoryRepository.java",
+              "sha256": "1c6c808c2689329d7bbec561338b0fb6aae8667d087c5c3e92a81a17c0aa3d28"
+            }
+          ],
+          "sql": "SELECT t.id,t.name,t.host_name,t.mobile_self_service FROM print_terminal_directory t JOIN print_store s ON s.tenant_id=t.tenant_id AND s.id=t.store_id WHERE t.tenant_id=? AND t.store_id=? AND t.owner_user_id=? AND s.status=0 AND s.deleted=b'0' ORDER BY t.name,t.id LIMIT 1001",
+          "when": "terminal sidebar independent of selected terminal filter"
+        }
+      ],
+      "requiredPermission": "print:printer-directory:query",
+      "scope": "TENANT_STORE_OWNER",
+      "scopeResolverSource": {
+        "excerptSha256": "d5443cd9885a334ba7c2b12246dc59957fbb2a7acfe84afe1c3fbb8e6967817f",
+        "lineEnd": 66,
+        "lineStart": 24,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+        "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+      },
+      "sources": [
+        {
+          "excerptSha256": "b2c001596176b9e1e9954f6c9e5e691ae4b8e1edea237e932b240f97424660d9",
+          "lineEnd": 16,
+          "lineStart": 10,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintPrinterDirectoryController.java",
+          "sha256": "4de9eefbff498166e16dab93ebae477573e4a9ec60e8efea33e6e90cfdd94bf1"
+        },
+        {
+          "excerptSha256": "765e68e513e981d60aa7028cf19f5d239a210602c57a2b31b6e8638b564584d3",
+          "lineEnd": 11,
+          "lineStart": 10,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/printer/PrintPrinterDirectoryService.java",
+          "sha256": "3e8c65e5bdbd5e5bc0f2c4a695013f24e51b5bed57965da25116c85fcfd8fef4"
+        }
+      ]
+    },
+    {
+      "ddlOrdinals": [
+        8
+      ],
+      "httpResponseStatus": "NOT_RUN",
+      "liveResultStatus": "UNPROVEN",
+      "method": "GET",
+      "module": "P15",
+      "path": "/admin-api/print/library/categories",
+      "readbackQueries": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId",
+            "pageSize",
+            "(page-1)*pageSize"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "f12c88b1b8b2d4df4c00ba942093d640bd1fad43a2f488dfd00ae962ab5c866f",
+              "lineEnd": 18,
+              "lineStart": 13,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryRepository.java",
+              "sha256": "8d46806f795c8bc28fd17a21af8abe97565557c4891dba64b84746e5214226e5"
+            }
+          ],
+          "sql": "SELECT c.id,c.version,c.name FROM print_library_category c JOIN print_store s ON s.tenant_id=c.tenant_id AND s.id=c.store_id WHERE c.tenant_id=? AND c.store_id=? AND s.status=0 AND s.deleted=b'0' ORDER BY c.create_time,c.id LIMIT ? OFFSET ?",
+          "when": "unfiltered/default read"
+        },
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "f12c88b1b8b2d4df4c00ba942093d640bd1fad43a2f488dfd00ae962ab5c866f",
+              "lineEnd": 18,
+              "lineStart": 13,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryRepository.java",
+              "sha256": "8d46806f795c8bc28fd17a21af8abe97565557c4891dba64b84746e5214226e5"
+            }
+          ],
+          "sql": "SELECT COUNT(*) FROM print_library_category c JOIN print_store s ON s.tenant_id=c.tenant_id AND s.id=c.store_id WHERE c.tenant_id=? AND c.store_id=? AND s.status=0 AND s.deleted=b'0'",
+          "when": "unfiltered/default read"
+        }
+      ],
+      "requiredPermission": "print:library-category:query",
+      "scope": "TENANT_STORE_SHARED",
+      "scopeResolverSource": {
+        "excerptSha256": "d5443cd9885a334ba7c2b12246dc59957fbb2a7acfe84afe1c3fbb8e6967817f",
+        "lineEnd": 66,
+        "lineStart": 24,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+        "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+      },
+      "sources": [
+        {
+          "excerptSha256": "2b07678cad80431280866a4e7b7c4e05b732476d63a5e69f7daa580640d4c09b",
+          "lineEnd": 38,
+          "lineStart": 17,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintLibraryCategoryController.java",
+          "sha256": "c47b880f3d6aa6781247ac27e3abdea7145241b7791ac274a7b2f3ea88f5de5b"
+        },
+        {
+          "excerptSha256": "ed2b32d7227deb156fafc3f837994f5ffa49c10a710b2132332fbb1056009ccc",
+          "lineEnd": 36,
+          "lineStart": 19,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryService.java",
+          "sha256": "e49a0ea0f52d7847917b09065d83f5642eb8ea95d63f4fdbe33a0a634c503126"
+        }
+      ]
+    },
+    {
+      "ddlOrdinals": [],
+      "existingDdlSource": {
+        "excerptSha256": "0efb3f79822f1f34835416c2a80aba72b87028d986c8009843229f0fb9a1b7c2",
+        "lineEnd": 42,
+        "lineStart": 1,
+        "path": "ops/db/print-orders-v1.sql",
+        "sha256": "e4f50ad51e2848b85c21af84ffd738cdcd957d7af49bee4370cb6f03fcbcb3bc"
+      },
+      "existingTable": "print_order",
+      "httpResponseStatus": "NOT_RUN",
+      "liveResultStatus": "UNPROVEN",
+      "method": "GET",
+      "module": "P36",
+      "optionalFilter": {
+        "parameter": "scene",
+        "source": {
+          "excerptSha256": "7f22892b9fd0e22a4060ed728f22855f3d95fd21c88004cd51598308952feedd",
+          "lineEnd": 22,
+          "lineStart": 22,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsRepository.java",
+          "sha256": "1da926454aec6b81f76c3ab2236ff4114d5d84ff47cf52c48ce2d0609d68583b"
+        },
+        "sqlFragment": " AND source=?"
+      },
+      "path": "/admin-api/print/statistics/terminal",
+      "readbackQueries": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId",
+            "scope.userId",
+            "q.fromMs()",
+            "q.untilMs()"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "701a713eb7852a7ae2235439efd6add434be9eb98d45af07a831717af5c1eda2",
+              "lineEnd": 33,
+              "lineStart": 18,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsRepository.java",
+              "sha256": "1da926454aec6b81f76c3ab2236ff4114d5d84ff47cf52c48ce2d0609d68583b"
+            }
+          ],
+          "sql": "SELECT DATE_FORMAT(DATE_ADD('1970-01-01', INTERVAL FLOOR((created_at_ms+28800000)/86400000) DAY),'%Y-%m-%d') day,source,currency,simulation,COUNT(*) orders,SUM(CASE WHEN total_amount REGEXP '^[0-9]{1,38}([.][0-9]{1,18})?$' THEN 0 ELSE 1 END) invalid_amount_count,CASE WHEN SUM(CASE WHEN total_amount REGEXP '^[0-9]{1,38}([.][0-9]{1,18})?$' THEN 0 ELSE 1 END)=0 THEN CAST(SUM(CASE WHEN total_amount REGEXP '^[0-9]{1,38}([.][0-9]{1,18})?$' THEN CAST(total_amount AS DECIMAL(65,18)) ELSE NULL END) AS CHAR) ELSE NULL END amount_snapshot FROM print_order WHERE tenant_id=? AND store_id=? AND owner_user_id=? AND created_at_ms>=? AND created_at_ms<? GROUP BY day,source,currency,simulation ORDER BY day,source,currency,simulation LIMIT 1001",
+          "when": "terminal empty/matches source placeholder; scene empty; [from,until) Asia/Shanghai date range"
+        },
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId",
+            "scope.userId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "0aec3e77e5df8ff4a4f138020a13cf7b3808303534cd6cea91d1a73cc2bce096",
+              "lineEnd": 37,
+              "lineStart": 35,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsRepository.java",
+              "sha256": "1da926454aec6b81f76c3ab2236ff4114d5d84ff47cf52c48ce2d0609d68583b"
+            }
+          ],
+          "sql": "SELECT DISTINCT source FROM print_order WHERE tenant_id=? AND store_id=? AND owner_user_id=? ORDER BY source LIMIT 101",
+          "when": "scene choices"
+        }
+      ],
+      "requiredPermission": "print:statistics:query",
+      "scope": "TENANT_STORE_OWNER",
+      "scopeResolverSource": {
+        "excerptSha256": "d5443cd9885a334ba7c2b12246dc59957fbb2a7acfe84afe1c3fbb8e6967817f",
+        "lineEnd": 66,
+        "lineStart": 24,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+        "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+      },
+      "sources": [
+        {
+          "excerptSha256": "d454683def61cb5a15380395f2accc40b6002c8119f1b375e827a80942251291",
+          "lineEnd": 28,
+          "lineStart": 15,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintStatisticsController.java",
+          "sha256": "3135a2aaec7c0482f057befb7dc47cbac956267177d1bd19b9288eec9a67395e"
+        },
+        {
+          "excerptSha256": "a62191f6c31fd0a718bb629dc6bba0530c5a61343ec961ff98dab3afab97a7ba",
+          "lineEnd": 24,
+          "lineStart": 10,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsQuery.java",
+          "sha256": "275f0b3060d3de82de6fcb423c8ef9789a8533ab19044e32e5b9c7d38fce7c47"
+        }
+      ]
+    },
+    {
+      "ddlOrdinals": [
+        9
+      ],
+      "httpResponseStatus": "NOT_RUN",
+      "liveResultStatus": "UNPROVEN",
+      "method": "GET",
+      "module": "P37",
+      "optionalFilterSql": [
+        {
+          "source": {
+            "excerptSha256": "b6520d751fa7cc5632a805491a98494ad88c77630182e2fde53a86d5d611596f",
+            "lineEnd": 44,
+            "lineStart": 44,
+            "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsRepository.java",
+            "sha256": "1da926454aec6b81f76c3ab2236ff4114d5d84ff47cf52c48ce2d0609d68583b"
+          },
+          "sqlFragment": " AND terminal_name LIKE ? ESCAPE '!'"
+        },
+        {
+          "source": {
+            "excerptSha256": "a336141da54ef0cfb22fea4e3fcd3d478fc02c5fc6d1d2829703f64920dd258c",
+            "lineEnd": 45,
+            "lineStart": 45,
+            "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsRepository.java",
+            "sha256": "1da926454aec6b81f76c3ab2236ff4114d5d84ff47cf52c48ce2d0609d68583b"
+          },
+          "sqlFragment": " AND printer_name LIKE ? ESCAPE '!'"
+        }
+      ],
+      "path": "/admin-api/print/statistics/paper-total",
+      "readbackQueries": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "84e0fde37b36ead71568600728a6009dcd908fb1b672590078b9712818d9d3cd",
+              "lineEnd": 46,
+              "lineStart": 39,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsRepository.java",
+              "sha256": "1da926454aec6b81f76c3ab2236ff4114d5d84ff47cf52c48ce2d0609d68583b"
+            }
+          ],
+          "sql": "SELECT CAST(COUNT(*) AS CHAR) FROM print_paper_total_report WHERE tenant_id=? AND store_id=?",
+          "when": "unfiltered/default read"
+        },
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId",
+            "size",
+            "offset"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "cfe838a441f9ffa3fba05ace7ca45a2d550128fe4c8b8364133ab199eccc4b8f",
+              "lineEnd": 55,
+              "lineStart": 39,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsRepository.java",
+              "sha256": "1da926454aec6b81f76c3ab2236ff4114d5d84ff47cf52c48ce2d0609d68583b"
+            }
+          ],
+          "sql": "SELECT id,terminal_name,printer_name,paper_spec,remaining_sheets,warning_sheets,total_sheets,NULL simplex_sheets,NULL duplex_sheets,NULL stat_day,CAST(updated_at AS CHAR) updated_at,simulation FROM print_paper_total_report WHERE tenant_id=? AND store_id=? ORDER BY updated_at DESC,id DESC LIMIT ? OFFSET ?",
+          "when": "unfiltered/default read"
+        }
+      ],
+      "requiredPermission": "print:statistics:query",
+      "scope": "TENANT_STORE_SHARED",
+      "scopeResolverSource": {
+        "excerptSha256": "d5443cd9885a334ba7c2b12246dc59957fbb2a7acfe84afe1c3fbb8e6967817f",
+        "lineEnd": 66,
+        "lineStart": 24,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+        "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+      },
+      "sources": [
+        {
+          "excerptSha256": "480eb5036635f9b6e6b35b07b00aa19dae20e1e478329e45d9f7c4423a42e160",
+          "lineEnd": 37,
+          "lineStart": 30,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintStatisticsController.java",
+          "sha256": "3135a2aaec7c0482f057befb7dc47cbac956267177d1bd19b9288eec9a67395e"
+        }
+      ]
+    },
+    {
+      "ddlOrdinals": [
+        10
+      ],
+      "httpResponseStatus": "NOT_RUN",
+      "liveResultStatus": "UNPROVEN",
+      "method": "GET",
+      "module": "P38",
+      "optionalFilterSql": [
+        {
+          "source": {
+            "excerptSha256": "b6520d751fa7cc5632a805491a98494ad88c77630182e2fde53a86d5d611596f",
+            "lineEnd": 44,
+            "lineStart": 44,
+            "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsRepository.java",
+            "sha256": "1da926454aec6b81f76c3ab2236ff4114d5d84ff47cf52c48ce2d0609d68583b"
+          },
+          "sqlFragment": " AND terminal_name LIKE ? ESCAPE '!'"
+        },
+        {
+          "source": {
+            "excerptSha256": "a336141da54ef0cfb22fea4e3fcd3d478fc02c5fc6d1d2829703f64920dd258c",
+            "lineEnd": 45,
+            "lineStart": 45,
+            "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsRepository.java",
+            "sha256": "1da926454aec6b81f76c3ab2236ff4114d5d84ff47cf52c48ce2d0609d68583b"
+          },
+          "sqlFragment": " AND printer_name LIKE ? ESCAPE '!'"
+        }
+      ],
+      "path": "/admin-api/print/statistics/paper-daily",
+      "readbackQueries": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "84e0fde37b36ead71568600728a6009dcd908fb1b672590078b9712818d9d3cd",
+              "lineEnd": 46,
+              "lineStart": 39,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsRepository.java",
+              "sha256": "1da926454aec6b81f76c3ab2236ff4114d5d84ff47cf52c48ce2d0609d68583b"
+            }
+          ],
+          "sql": "SELECT CAST(COUNT(*) AS CHAR) FROM print_paper_daily_report WHERE tenant_id=? AND store_id=?",
+          "when": "unfiltered/default read"
+        },
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId",
+            "size",
+            "offset"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "cfe838a441f9ffa3fba05ace7ca45a2d550128fe4c8b8364133ab199eccc4b8f",
+              "lineEnd": 55,
+              "lineStart": 39,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsRepository.java",
+              "sha256": "1da926454aec6b81f76c3ab2236ff4114d5d84ff47cf52c48ce2d0609d68583b"
+            }
+          ],
+          "sql": "SELECT id,terminal_name,printer_name,paper_spec,NULL remaining_sheets,NULL warning_sheets,total_sheets,simplex_sheets,duplex_sheets,CAST(stat_day AS CHAR) stat_day,CAST(updated_at AS CHAR) updated_at,simulation FROM print_paper_daily_report WHERE tenant_id=? AND store_id=? ORDER BY stat_day DESC,updated_at DESC,id DESC LIMIT ? OFFSET ?",
+          "when": "unfiltered/default read"
+        }
+      ],
+      "requiredPermission": "print:statistics:query",
+      "scope": "TENANT_STORE_SHARED",
+      "scopeResolverSource": {
+        "excerptSha256": "d5443cd9885a334ba7c2b12246dc59957fbb2a7acfe84afe1c3fbb8e6967817f",
+        "lineEnd": 66,
+        "lineStart": 24,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+        "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+      },
+      "sources": [
+        {
+          "excerptSha256": "480eb5036635f9b6e6b35b07b00aa19dae20e1e478329e45d9f7c4423a42e160",
+          "lineEnd": 37,
+          "lineStart": 30,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintStatisticsController.java",
+          "sha256": "3135a2aaec7c0482f057befb7dc47cbac956267177d1bd19b9288eec9a67395e"
+        }
+      ]
+    },
+    {
+      "ddlOrdinals": [
+        11
+      ],
+      "gate": "print.advertising.enabled must actually be true; source conditional is not proof of live effective value.",
+      "httpResponseStatus": "NOT_RUN",
+      "liveResultStatus": "UNPROVEN",
+      "method": "GET",
+      "module": "P46",
+      "path": "/admin-api/print/advertising/COMPUTER_TERMINAL",
+      "position": "COMPUTER_TERMINAL",
+      "readbackQueries": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "position=COMPUTER_TERMINAL",
+            "scope.tenantId",
+            "scope.storeId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "464d83f8affb37fd84909906b3d6473c8a67599860f2ac6ef30f18463d2064c2",
+              "lineEnd": 18,
+              "lineStart": 11,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingRepository.java",
+              "sha256": "db46cab2ece224053f22a0e8a04dd5c0a372422a196272f6940c71635f17a796"
+            }
+          ],
+          "sql": "SELECT a.version,a.success_message_html,a.assets_json FROM print_store s LEFT JOIN print_advertising_draft a ON a.tenant_id=s.tenant_id AND a.store_id=s.id AND a.position=? WHERE s.tenant_id=? AND s.id=? AND s.status=0 AND s.deleted=b'0'",
+          "when": "GET and independent readback after successful PUT of this exact position"
+        }
+      ],
+      "requiredPermission": "print:advertising:query",
+      "scope": "TENANT_STORE_POSITION_SHARED",
+      "scopeResolverSource": {
+        "excerptSha256": "d5443cd9885a334ba7c2b12246dc59957fbb2a7acfe84afe1c3fbb8e6967817f",
+        "lineEnd": 66,
+        "lineStart": 24,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+        "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+      },
+      "sources": [
+        {
+          "excerptSha256": "495f579c0cd257116e72a419c9ea12dcd8036c0f5fc8bd71e5139485b0bda8f6",
+          "lineEnd": 24,
+          "lineStart": 14,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+          "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e"
+        },
+        {
+          "excerptSha256": "e40357171fae55195ed62c0a81173ab7940b2ea417a7d32e4ea10d5938c42253",
+          "lineEnd": 26,
+          "lineStart": 13,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingService.java",
+          "sha256": "8990a6e91f5665cb24fbf8890c5ca479220bac5d409ab997c3739067b40dcd2a"
+        }
+      ]
+    },
+    {
+      "ddlOrdinals": [
+        11
+      ],
+      "gate": "print.advertising.enabled must actually be true; source conditional is not proof of live effective value.",
+      "httpResponseStatus": "NOT_RUN",
+      "liveResultStatus": "UNPROVEN",
+      "method": "GET",
+      "module": "P47",
+      "path": "/admin-api/print/advertising/TOUCH_TERMINAL",
+      "position": "TOUCH_TERMINAL",
+      "readbackQueries": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "position=TOUCH_TERMINAL",
+            "scope.tenantId",
+            "scope.storeId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "464d83f8affb37fd84909906b3d6473c8a67599860f2ac6ef30f18463d2064c2",
+              "lineEnd": 18,
+              "lineStart": 11,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingRepository.java",
+              "sha256": "db46cab2ece224053f22a0e8a04dd5c0a372422a196272f6940c71635f17a796"
+            }
+          ],
+          "sql": "SELECT a.version,a.success_message_html,a.assets_json FROM print_store s LEFT JOIN print_advertising_draft a ON a.tenant_id=s.tenant_id AND a.store_id=s.id AND a.position=? WHERE s.tenant_id=? AND s.id=? AND s.status=0 AND s.deleted=b'0'",
+          "when": "GET and independent readback after successful PUT of this exact position"
+        }
+      ],
+      "requiredPermission": "print:advertising:query",
+      "scope": "TENANT_STORE_POSITION_SHARED",
+      "scopeResolverSource": {
+        "excerptSha256": "d5443cd9885a334ba7c2b12246dc59957fbb2a7acfe84afe1c3fbb8e6967817f",
+        "lineEnd": 66,
+        "lineStart": 24,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+        "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+      },
+      "sources": [
+        {
+          "excerptSha256": "495f579c0cd257116e72a419c9ea12dcd8036c0f5fc8bd71e5139485b0bda8f6",
+          "lineEnd": 24,
+          "lineStart": 14,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+          "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e"
+        },
+        {
+          "excerptSha256": "e40357171fae55195ed62c0a81173ab7940b2ea417a7d32e4ea10d5938c42253",
+          "lineEnd": 26,
+          "lineStart": 13,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingService.java",
+          "sha256": "8990a6e91f5665cb24fbf8890c5ca479220bac5d409ab997c3739067b40dcd2a"
+        }
+      ]
+    },
+    {
+      "ddlOrdinals": [
+        11
+      ],
+      "gate": "print.advertising.enabled must actually be true; source conditional is not proof of live effective value.",
+      "httpResponseStatus": "NOT_RUN",
+      "liveResultStatus": "UNPROVEN",
+      "method": "GET",
+      "module": "P48",
+      "path": "/admin-api/print/advertising/FULLSCREEN_TERMINAL",
+      "position": "FULLSCREEN_TERMINAL",
+      "readbackQueries": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "position=FULLSCREEN_TERMINAL",
+            "scope.tenantId",
+            "scope.storeId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "464d83f8affb37fd84909906b3d6473c8a67599860f2ac6ef30f18463d2064c2",
+              "lineEnd": 18,
+              "lineStart": 11,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingRepository.java",
+              "sha256": "db46cab2ece224053f22a0e8a04dd5c0a372422a196272f6940c71635f17a796"
+            }
+          ],
+          "sql": "SELECT a.version,a.success_message_html,a.assets_json FROM print_store s LEFT JOIN print_advertising_draft a ON a.tenant_id=s.tenant_id AND a.store_id=s.id AND a.position=? WHERE s.tenant_id=? AND s.id=? AND s.status=0 AND s.deleted=b'0'",
+          "when": "GET and independent readback after successful PUT of this exact position"
+        }
+      ],
+      "requiredPermission": "print:advertising:query",
+      "scope": "TENANT_STORE_POSITION_SHARED",
+      "scopeResolverSource": {
+        "excerptSha256": "d5443cd9885a334ba7c2b12246dc59957fbb2a7acfe84afe1c3fbb8e6967817f",
+        "lineEnd": 66,
+        "lineStart": 24,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+        "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+      },
+      "sources": [
+        {
+          "excerptSha256": "495f579c0cd257116e72a419c9ea12dcd8036c0f5fc8bd71e5139485b0bda8f6",
+          "lineEnd": 24,
+          "lineStart": 14,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+          "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e"
+        },
+        {
+          "excerptSha256": "e40357171fae55195ed62c0a81173ab7940b2ea417a7d32e4ea10d5938c42253",
+          "lineEnd": 26,
+          "lineStart": 13,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingService.java",
+          "sha256": "8990a6e91f5665cb24fbf8890c5ca479220bac5d409ab997c3739067b40dcd2a"
+        }
+      ]
+    },
+    {
+      "ddlOrdinals": [
+        11
+      ],
+      "gate": "print.advertising.enabled must actually be true; source conditional is not proof of live effective value.",
+      "httpResponseStatus": "NOT_RUN",
+      "liveResultStatus": "UNPROVEN",
+      "method": "GET",
+      "module": "P49",
+      "path": "/admin-api/print/advertising/PORTRAIT_TERMINAL",
+      "position": "PORTRAIT_TERMINAL",
+      "readbackQueries": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "position=PORTRAIT_TERMINAL",
+            "scope.tenantId",
+            "scope.storeId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "464d83f8affb37fd84909906b3d6473c8a67599860f2ac6ef30f18463d2064c2",
+              "lineEnd": 18,
+              "lineStart": 11,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingRepository.java",
+              "sha256": "db46cab2ece224053f22a0e8a04dd5c0a372422a196272f6940c71635f17a796"
+            }
+          ],
+          "sql": "SELECT a.version,a.success_message_html,a.assets_json FROM print_store s LEFT JOIN print_advertising_draft a ON a.tenant_id=s.tenant_id AND a.store_id=s.id AND a.position=? WHERE s.tenant_id=? AND s.id=? AND s.status=0 AND s.deleted=b'0'",
+          "when": "GET and independent readback after successful PUT of this exact position"
+        }
+      ],
+      "requiredPermission": "print:advertising:query",
+      "scope": "TENANT_STORE_POSITION_SHARED",
+      "scopeResolverSource": {
+        "excerptSha256": "d5443cd9885a334ba7c2b12246dc59957fbb2a7acfe84afe1c3fbb8e6967817f",
+        "lineEnd": 66,
+        "lineStart": 24,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+        "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+      },
+      "sources": [
+        {
+          "excerptSha256": "495f579c0cd257116e72a419c9ea12dcd8036c0f5fc8bd71e5139485b0bda8f6",
+          "lineEnd": 24,
+          "lineStart": 14,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+          "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e"
+        },
+        {
+          "excerptSha256": "e40357171fae55195ed62c0a81173ab7940b2ea417a7d32e4ea10d5938c42253",
+          "lineEnd": 26,
+          "lineStart": 13,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingService.java",
+          "sha256": "8990a6e91f5665cb24fbf8890c5ca479220bac5d409ab997c3739067b40dcd2a"
+        }
+      ]
+    },
+    {
+      "ddlOrdinals": [
+        11
+      ],
+      "gate": "print.advertising.enabled must actually be true; source conditional is not proof of live effective value.",
+      "httpResponseStatus": "NOT_RUN",
+      "liveResultStatus": "UNPROVEN",
+      "method": "GET",
+      "module": "P50",
+      "path": "/admin-api/print/advertising/CLOUD_BOX",
+      "position": "CLOUD_BOX",
+      "readbackQueries": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "position=CLOUD_BOX",
+            "scope.tenantId",
+            "scope.storeId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "464d83f8affb37fd84909906b3d6473c8a67599860f2ac6ef30f18463d2064c2",
+              "lineEnd": 18,
+              "lineStart": 11,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingRepository.java",
+              "sha256": "db46cab2ece224053f22a0e8a04dd5c0a372422a196272f6940c71635f17a796"
+            }
+          ],
+          "sql": "SELECT a.version,a.success_message_html,a.assets_json FROM print_store s LEFT JOIN print_advertising_draft a ON a.tenant_id=s.tenant_id AND a.store_id=s.id AND a.position=? WHERE s.tenant_id=? AND s.id=? AND s.status=0 AND s.deleted=b'0'",
+          "when": "GET and independent readback after successful PUT of this exact position"
+        }
+      ],
+      "requiredPermission": "print:advertising:query",
+      "scope": "TENANT_STORE_POSITION_SHARED",
+      "scopeResolverSource": {
+        "excerptSha256": "d5443cd9885a334ba7c2b12246dc59957fbb2a7acfe84afe1c3fbb8e6967817f",
+        "lineEnd": 66,
+        "lineStart": 24,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+        "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+      },
+      "sources": [
+        {
+          "excerptSha256": "495f579c0cd257116e72a419c9ea12dcd8036c0f5fc8bd71e5139485b0bda8f6",
+          "lineEnd": 24,
+          "lineStart": 14,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+          "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e"
+        },
+        {
+          "excerptSha256": "e40357171fae55195ed62c0a81173ab7940b2ea417a7d32e4ea10d5938c42253",
+          "lineEnd": 26,
+          "lineStart": 13,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingService.java",
+          "sha256": "8990a6e91f5665cb24fbf8890c5ca479220bac5d409ab997c3739067b40dcd2a"
+        }
+      ]
+    },
+    {
+      "ddlOrdinals": [
+        11
+      ],
+      "gate": "print.advertising.enabled must actually be true; source conditional is not proof of live effective value.",
+      "httpResponseStatus": "NOT_RUN",
+      "liveResultStatus": "UNPROVEN",
+      "method": "GET",
+      "module": "P51",
+      "path": "/admin-api/print/advertising/ORDER_PAGE",
+      "position": "ORDER_PAGE",
+      "readbackQueries": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "position=ORDER_PAGE",
+            "scope.tenantId",
+            "scope.storeId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "464d83f8affb37fd84909906b3d6473c8a67599860f2ac6ef30f18463d2064c2",
+              "lineEnd": 18,
+              "lineStart": 11,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingRepository.java",
+              "sha256": "db46cab2ece224053f22a0e8a04dd5c0a372422a196272f6940c71635f17a796"
+            }
+          ],
+          "sql": "SELECT a.version,a.success_message_html,a.assets_json FROM print_store s LEFT JOIN print_advertising_draft a ON a.tenant_id=s.tenant_id AND a.store_id=s.id AND a.position=? WHERE s.tenant_id=? AND s.id=? AND s.status=0 AND s.deleted=b'0'",
+          "when": "GET and independent readback after successful PUT of this exact position"
+        }
+      ],
+      "requiredPermission": "print:advertising:query",
+      "scope": "TENANT_STORE_POSITION_SHARED",
+      "scopeResolverSource": {
+        "excerptSha256": "d5443cd9885a334ba7c2b12246dc59957fbb2a7acfe84afe1c3fbb8e6967817f",
+        "lineEnd": 66,
+        "lineStart": 24,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+        "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+      },
+      "sources": [
+        {
+          "excerptSha256": "495f579c0cd257116e72a419c9ea12dcd8036c0f5fc8bd71e5139485b0bda8f6",
+          "lineEnd": 24,
+          "lineStart": 14,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+          "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e"
+        },
+        {
+          "excerptSha256": "e40357171fae55195ed62c0a81173ab7940b2ea417a7d32e4ea10d5938c42253",
+          "lineEnd": 26,
+          "lineStart": 13,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingService.java",
+          "sha256": "8990a6e91f5665cb24fbf8890c5ca479220bac5d409ab997c3739067b40dcd2a"
+        }
+      ]
+    },
+    {
+      "ddlOrdinals": [
+        11
+      ],
+      "gate": "print.advertising.enabled must actually be true; source conditional is not proof of live effective value.",
+      "httpResponseStatus": "NOT_RUN",
+      "liveResultStatus": "UNPROVEN",
+      "method": "GET",
+      "module": "P52",
+      "path": "/admin-api/print/advertising/COMPUTER_DESKTOP",
+      "position": "COMPUTER_DESKTOP",
+      "readbackQueries": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "position=COMPUTER_DESKTOP",
+            "scope.tenantId",
+            "scope.storeId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "464d83f8affb37fd84909906b3d6473c8a67599860f2ac6ef30f18463d2064c2",
+              "lineEnd": 18,
+              "lineStart": 11,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingRepository.java",
+              "sha256": "db46cab2ece224053f22a0e8a04dd5c0a372422a196272f6940c71635f17a796"
+            }
+          ],
+          "sql": "SELECT a.version,a.success_message_html,a.assets_json FROM print_store s LEFT JOIN print_advertising_draft a ON a.tenant_id=s.tenant_id AND a.store_id=s.id AND a.position=? WHERE s.tenant_id=? AND s.id=? AND s.status=0 AND s.deleted=b'0'",
+          "when": "GET and independent readback after successful PUT of this exact position"
+        }
+      ],
+      "requiredPermission": "print:advertising:query",
+      "scope": "TENANT_STORE_POSITION_SHARED",
+      "scopeResolverSource": {
+        "excerptSha256": "d5443cd9885a334ba7c2b12246dc59957fbb2a7acfe84afe1c3fbb8e6967817f",
+        "lineEnd": 66,
+        "lineStart": 24,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+        "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+      },
+      "sources": [
+        {
+          "excerptSha256": "495f579c0cd257116e72a419c9ea12dcd8036c0f5fc8bd71e5139485b0bda8f6",
+          "lineEnd": 24,
+          "lineStart": 14,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+          "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e"
+        },
+        {
+          "excerptSha256": "e40357171fae55195ed62c0a81173ab7940b2ea417a7d32e4ea10d5938c42253",
+          "lineEnd": 26,
+          "lineStart": 13,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingService.java",
+          "sha256": "8990a6e91f5665cb24fbf8890c5ca479220bac5d409ab997c3739067b40dcd2a"
+        }
+      ]
+    },
+    {
+      "ddlOrdinals": [
+        11
+      ],
+      "gate": "print.advertising.enabled must actually be true; source conditional is not proof of live effective value.",
+      "httpResponseStatus": "NOT_RUN",
+      "liveResultStatus": "UNPROVEN",
+      "method": "GET",
+      "module": "P53",
+      "path": "/admin-api/print/advertising/MINI_SHARE",
+      "position": "MINI_SHARE",
+      "readbackQueries": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "position=MINI_SHARE",
+            "scope.tenantId",
+            "scope.storeId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "464d83f8affb37fd84909906b3d6473c8a67599860f2ac6ef30f18463d2064c2",
+              "lineEnd": 18,
+              "lineStart": 11,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingRepository.java",
+              "sha256": "db46cab2ece224053f22a0e8a04dd5c0a372422a196272f6940c71635f17a796"
+            }
+          ],
+          "sql": "SELECT a.version,a.success_message_html,a.assets_json FROM print_store s LEFT JOIN print_advertising_draft a ON a.tenant_id=s.tenant_id AND a.store_id=s.id AND a.position=? WHERE s.tenant_id=? AND s.id=? AND s.status=0 AND s.deleted=b'0'",
+          "when": "GET and independent readback after successful PUT of this exact position"
+        }
+      ],
+      "requiredPermission": "print:advertising:query",
+      "scope": "TENANT_STORE_POSITION_SHARED",
+      "scopeResolverSource": {
+        "excerptSha256": "d5443cd9885a334ba7c2b12246dc59957fbb2a7acfe84afe1c3fbb8e6967817f",
+        "lineEnd": 66,
+        "lineStart": 24,
+        "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+        "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+      },
+      "sources": [
+        {
+          "excerptSha256": "495f579c0cd257116e72a419c9ea12dcd8036c0f5fc8bd71e5139485b0bda8f6",
+          "lineEnd": 24,
+          "lineStart": 14,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+          "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e"
+        },
+        {
+          "excerptSha256": "e40357171fae55195ed62c0a81173ab7940b2ea417a7d32e4ea10d5938c42253",
+          "lineEnd": 26,
+          "lineStart": 13,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingService.java",
+          "sha256": "8990a6e91f5665cb24fbf8890c5ca479220bac5d409ab997c3739067b40dcd2a"
+        }
+      ]
+    }
+  ],
+  "entryInventorySource": {
+    "excerptSha256": "f035a41d2dcb6f328c1a6c34abda9043ede902e5e2886a8795ac9fa2d01018a6",
+    "lineEnd": 41,
+    "lineStart": 22,
+    "path": "ops/acceptance/ordinary_modules_activation_acceptance.py",
+    "sha256": "90ec758113c1537882fd9ebf60f72ca5053ab07133685dbe41978ea8e0cf66f1"
+  },
+  "executionAuthorization": false,
+  "metadataReadbackTemplates": {
+    "checks": {
+      "executionStatus": "NOT_RUN",
+      "source": {
+        "excerptSha256": "cc928a5168c2012e3ad94e46fd39be68bacb214750cc6d2a82d61caed88cd672",
+        "lineEnd": 225,
+        "lineStart": 225,
+        "path": "ops/db/ordinary_activation_common.py",
+        "sha256": "b6a77d28f78c568f082445e23ac5b683b2980b3b338bdab2834513db72e6016e"
+      },
+      "sql": "SELECT JSON_ARRAY(t.TABLE_NAME,c.CONSTRAINT_NAME,c.CHECK_CLAUSE,t.ENFORCED) FROM information_schema.CHECK_CONSTRAINTS c JOIN information_schema.TABLE_CONSTRAINTS t ON t.CONSTRAINT_SCHEMA=c.CONSTRAINT_SCHEMA AND t.CONSTRAINT_NAME=c.CONSTRAINT_NAME WHERE c.CONSTRAINT_SCHEMA='print_demo' AND t.TABLE_NAME IN ('print_store','system_tenant','system_tenant_package','system_role','system_menu','system_role_menu','print_store_profile','print_library_settings','print_product_catalog_entry','print_library_catalog_entry','print_terminal_directory','print_printer_directory','print_library_category','print_paper_total_report','print_paper_daily_report','print_advertising_draft') ORDER BY t.TABLE_NAME,c.CONSTRAINT_NAME"
+    },
+    "columns": {
+      "executionStatus": "NOT_RUN",
+      "source": {
+        "excerptSha256": "aed9761b3c8dac296a55d697ba1bb2f05faf3afceff01f4dcaf0601570ade7d2",
+        "lineEnd": 221,
+        "lineStart": 221,
+        "path": "ops/db/ordinary_activation_common.py",
+        "sha256": "b6a77d28f78c568f082445e23ac5b683b2980b3b338bdab2834513db72e6016e"
+      },
+      "sql": "SELECT JSON_ARRAY(TABLE_NAME,COLUMN_NAME,ORDINAL_POSITION,COLUMN_TYPE,IS_NULLABLE,COLUMN_DEFAULT,EXTRA,CHARACTER_SET_NAME,COLLATION_NAME,GENERATION_EXPRESSION) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='print_demo' AND TABLE_NAME IN ('print_store','system_tenant','system_tenant_package','system_role','system_menu','system_role_menu','print_store_profile','print_library_settings','print_product_catalog_entry','print_library_catalog_entry','print_terminal_directory','print_printer_directory','print_library_category','print_paper_total_report','print_paper_daily_report','print_advertising_draft') ORDER BY TABLE_NAME,ORDINAL_POSITION"
+    },
+    "constraints": {
+      "executionStatus": "NOT_RUN",
+      "source": {
+        "excerptSha256": "3b50b400215c0e6db5d1508ebeed2f78174d080c5849d81614e2945d1b3144bc",
+        "lineEnd": 223,
+        "lineStart": 223,
+        "path": "ops/db/ordinary_activation_common.py",
+        "sha256": "b6a77d28f78c568f082445e23ac5b683b2980b3b338bdab2834513db72e6016e"
+      },
+      "sql": "SELECT JSON_ARRAY(TABLE_NAME,CONSTRAINT_NAME,CONSTRAINT_TYPE,ENFORCED) FROM information_schema.TABLE_CONSTRAINTS WHERE CONSTRAINT_SCHEMA='print_demo' AND TABLE_NAME IN ('print_store','system_tenant','system_tenant_package','system_role','system_menu','system_role_menu','print_store_profile','print_library_settings','print_product_catalog_entry','print_library_catalog_entry','print_terminal_directory','print_printer_directory','print_library_category','print_paper_total_report','print_paper_daily_report','print_advertising_draft') ORDER BY TABLE_NAME,CONSTRAINT_NAME"
+    },
+    "foreignKeys": {
+      "executionStatus": "NOT_RUN",
+      "source": {
+        "excerptSha256": "f05cd02508772d2b35e289cf20107dd6b05e35f14d37ba4a61e62cf034312640",
+        "lineEnd": 224,
+        "lineStart": 224,
+        "path": "ops/db/ordinary_activation_common.py",
+        "sha256": "b6a77d28f78c568f082445e23ac5b683b2980b3b338bdab2834513db72e6016e"
+      },
+      "sql": "SELECT JSON_ARRAY(k.TABLE_NAME,k.CONSTRAINT_NAME,k.ORDINAL_POSITION,k.COLUMN_NAME,k.REFERENCED_TABLE_SCHEMA,k.REFERENCED_TABLE_NAME,k.REFERENCED_COLUMN_NAME,r.UPDATE_RULE,r.DELETE_RULE) FROM information_schema.KEY_COLUMN_USAGE k JOIN information_schema.REFERENTIAL_CONSTRAINTS r ON r.CONSTRAINT_SCHEMA=k.CONSTRAINT_SCHEMA AND r.TABLE_NAME=k.TABLE_NAME AND r.CONSTRAINT_NAME=k.CONSTRAINT_NAME WHERE k.CONSTRAINT_SCHEMA='print_demo' AND k.TABLE_NAME IN ('print_store','system_tenant','system_tenant_package','system_role','system_menu','system_role_menu','print_store_profile','print_library_settings','print_product_catalog_entry','print_library_catalog_entry','print_terminal_directory','print_printer_directory','print_library_category','print_paper_total_report','print_paper_daily_report','print_advertising_draft') ORDER BY k.TABLE_NAME,k.CONSTRAINT_NAME,k.ORDINAL_POSITION"
+    },
+    "indexes": {
+      "executionStatus": "NOT_RUN",
+      "source": {
+        "excerptSha256": "3b18bcd3d48978732d21bbc5f07b1d0fe6decdfb7d769dd1c74952cdc9bdcf44",
+        "lineEnd": 222,
+        "lineStart": 222,
+        "path": "ops/db/ordinary_activation_common.py",
+        "sha256": "b6a77d28f78c568f082445e23ac5b683b2980b3b338bdab2834513db72e6016e"
+      },
+      "sql": "SELECT JSON_ARRAY(TABLE_NAME,INDEX_NAME,SEQ_IN_INDEX,NON_UNIQUE,COLUMN_NAME,SUB_PART,INDEX_TYPE,IS_VISIBLE,EXPRESSION) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA='print_demo' AND TABLE_NAME IN ('print_store','system_tenant','system_tenant_package','system_role','system_menu','system_role_menu','print_store_profile','print_library_settings','print_product_catalog_entry','print_library_catalog_entry','print_terminal_directory','print_printer_directory','print_library_category','print_paper_total_report','print_paper_daily_report','print_advertising_draft') ORDER BY TABLE_NAME,INDEX_NAME,SEQ_IN_INDEX"
+    },
+    "tables": {
+      "executionStatus": "NOT_RUN",
+      "source": {
+        "excerptSha256": "9e44d1669d0f6aa7e56b075e4ec6dcb904fc229903ebc3eb18b54cc0ee51853f",
+        "lineEnd": 220,
+        "lineStart": 220,
+        "path": "ops/db/ordinary_activation_common.py",
+        "sha256": "b6a77d28f78c568f082445e23ac5b683b2980b3b338bdab2834513db72e6016e"
+      },
+      "sql": "SELECT JSON_ARRAY(TABLE_NAME,ENGINE,TABLE_COLLATION) FROM information_schema.TABLES WHERE TABLE_SCHEMA='print_demo' AND TABLE_NAME IN ('print_store','system_tenant','system_tenant_package','system_role','system_menu','system_role_menu','print_store_profile','print_library_settings','print_product_catalog_entry','print_library_catalog_entry','print_terminal_directory','print_printer_directory','print_library_category','print_paper_total_report','print_paper_daily_report','print_advertising_draft') ORDER BY TABLE_NAME"
+    },
+    "triggers": {
+      "executionStatus": "NOT_RUN",
+      "source": {
+        "excerptSha256": "bfcddc08214f0134f8a76d6ece41c6ea90395b117280536c97956a457f179039",
+        "lineEnd": 226,
+        "lineStart": 226,
+        "path": "ops/db/ordinary_activation_common.py",
+        "sha256": "b6a77d28f78c568f082445e23ac5b683b2980b3b338bdab2834513db72e6016e"
+      },
+      "sql": "SELECT JSON_ARRAY(EVENT_OBJECT_TABLE,TRIGGER_NAME,ACTION_TIMING,EVENT_MANIPULATION,ACTION_STATEMENT,SQL_MODE,DEFINER) FROM information_schema.TRIGGERS WHERE TRIGGER_SCHEMA='print_demo' AND EVENT_OBJECT_TABLE IN ('print_store','system_tenant','system_tenant_package','system_role','system_menu','system_role_menu','print_store_profile','print_library_settings','print_product_catalog_entry','print_library_catalog_entry','print_terminal_directory','print_printer_directory','print_library_category','print_paper_total_report','print_paper_daily_report','print_advertising_draft') ORDER BY EVENT_OBJECT_TABLE,TRIGGER_NAME"
+    }
+  },
+  "metadataStages": [
+    {
+      "kind": "FROZEN_BASELINE",
+      "name": "G0",
+      "reason": "No database collection or isolated renderer executed in this task.",
+      "status": "UNPROVEN"
+    },
+    {
+      "name": "G1",
+      "requiredObservation": "Full exact metadata graph equals reviewed isolated-render output; count/name-only checks are insufficient.",
+      "status": "UNPROVEN",
+      "transitionDdlOrdinal": 1
+    },
+    {
+      "name": "G2",
+      "requiredObservation": "Full exact metadata graph equals reviewed isolated-render output; count/name-only checks are insufficient.",
+      "status": "UNPROVEN",
+      "transitionDdlOrdinal": 2
+    },
+    {
+      "name": "G3",
+      "requiredObservation": "Full exact metadata graph equals reviewed isolated-render output; count/name-only checks are insufficient.",
+      "status": "UNPROVEN",
+      "transitionDdlOrdinal": 3
+    },
+    {
+      "name": "G4",
+      "requiredObservation": "Full exact metadata graph equals reviewed isolated-render output; count/name-only checks are insufficient.",
+      "status": "UNPROVEN",
+      "transitionDdlOrdinal": 4
+    },
+    {
+      "name": "G5",
+      "requiredObservation": "Full exact metadata graph equals reviewed isolated-render output; count/name-only checks are insufficient.",
+      "status": "UNPROVEN",
+      "transitionDdlOrdinal": 5
+    },
+    {
+      "name": "G6",
+      "requiredObservation": "Full exact metadata graph equals reviewed isolated-render output; count/name-only checks are insufficient.",
+      "status": "UNPROVEN",
+      "transitionDdlOrdinal": 6
+    },
+    {
+      "name": "G7",
+      "requiredObservation": "Full exact metadata graph equals reviewed isolated-render output; count/name-only checks are insufficient.",
+      "status": "UNPROVEN",
+      "transitionDdlOrdinal": 7
+    },
+    {
+      "name": "G8",
+      "requiredObservation": "Full exact metadata graph equals reviewed isolated-render output; count/name-only checks are insufficient.",
+      "status": "UNPROVEN",
+      "transitionDdlOrdinal": 8
+    },
+    {
+      "name": "G9",
+      "requiredObservation": "Full exact metadata graph equals reviewed isolated-render output; count/name-only checks are insufficient.",
+      "status": "UNPROVEN",
+      "transitionDdlOrdinal": 9
+    },
+    {
+      "name": "G10",
+      "requiredObservation": "Full exact metadata graph equals reviewed isolated-render output; count/name-only checks are insufficient.",
+      "status": "UNPROVEN",
+      "transitionDdlOrdinal": 10
+    },
+    {
+      "name": "G11",
+      "requiredObservation": "Full exact metadata graph equals reviewed isolated-render output; count/name-only checks are insufficient.",
+      "status": "UNPROVEN",
+      "transitionDdlOrdinal": 11
+    }
+  ],
+  "model": "gpt-6.1-sol",
+  "pending": [
+    {
+      "id": "ACTUAL_G0_G11",
+      "reason": "Actual source identity/columns/full metadata graphs and approved isolated-render proof not collected.",
+      "status": "UNPROVEN"
+    },
+    {
+      "id": "PROGRAMS_TRIGGERS_CROSS_SCHEMA",
+      "reason": "Seven scoped DDL sources contain no new routine/trigger. Full database routine/trigger/cross-schema inventory was not queried; backup dump rejects supported-token matches and qualified source-schema references rather than guessing a restore.",
+      "sources": [
+        {
+          "excerptSha256": "06887aaba8643381902a5d3aa18747e217cf89a0ddb8f4a53ed0651cc3bd8cc7",
+          "lineEnd": 46,
+          "lineStart": 34,
+          "path": "ops/db/unified_activation_db_ports.py",
+          "sha256": "3bf5257588f4435fcf7f897c5e2b6e9422dbbaf2703b60de6cb4e453a57541da"
+        },
+        {
+          "excerptSha256": "a299a01a3a127eab340c91de8e2e94c1c79d106fc381b6000025b725ec95e4ac",
+          "lineEnd": 137,
+          "lineStart": 130,
+          "path": "ops/db/unified_activation_db_ports.py",
+          "sha256": "3bf5257588f4435fcf7f897c5e2b6e9422dbbaf2703b60de6cb4e453a57541da"
+        },
+        {
+          "excerptSha256": "0c690c685f00e8c563fde0146b082738cef475e085575c6ca3f558da8e91feff",
+          "lineEnd": 228,
+          "lineStart": 215,
+          "path": "ops/db/ordinary_activation_common.py",
+          "sha256": "b6a77d28f78c568f082445e23ac5b683b2980b3b338bdab2834513db72e6016e"
+        }
+      ],
+      "status": "UNPROVEN"
+    },
+    {
+      "id": "HUMAN_BOUNDARIES",
+      "reason": "Advertising gate enable, maintenance, acceptance record retention and local writer exclusion require confirmed values; permission confirmation is not blanket execution authorization.",
+      "source": {
+        "excerptSha256": "0b1e457f3822940f9515966965753da47dc2744a03fd997cd6cd1af6670cf023",
+        "lineEnd": 129,
+        "lineStart": 129,
+        "path": "docs/design/phase1-unified-activation-v3.md",
+        "sha256": "02ffe0a147d74f3c4303bb70f465a9a67640a69da34d055d7b84966f81c34c3e"
+      },
+      "status": "PENDING_HUMAN"
+    },
+    {
+      "id": "EXACT_WRITE_VALUES_AUDIT",
+      "reason": "No business payload or version/audit retention values frozen; current GET projections do not cover every physical audit column.",
+      "status": "PENDING_HUMAN"
+    },
+    {
+      "id": "ASSET_GLOBAL_OWNER",
+      "reason": "Existing infra_file admission is creator-only; no tenant/store isolation or actual legal asset existence asserted.",
+      "status": "UNPROVEN"
+    },
+    {
+      "id": "PAPER_INGESTION_DELETE",
+      "reason": "Paper writers/device protocol/deletion not defined; do not seed invented results.",
+      "status": "PENDING_HUMAN"
+    },
+    {
+      "id": "TRANSACTION_AMOUNT_DEFINITION",
+      "reason": "P36 exposes order snapshots grouped by currency/simulation; paid business amount definition remains source-labeled pending.",
+      "status": "PENDING_HUMAN"
+    },
+    {
+      "id": "READBACK_EXECUTABLE_WIRING",
+      "reason": "This JSON is evidence/draft only, not an approved SQL allowlist or executable candidate; no CLI/native gate enabled.",
+      "status": "UNPROVEN"
+    }
+  ],
+  "preservationInvariants": {
+    "allOldPermissionRows": {
+      "sources": [
+        {
+          "excerptSha256": "9dd60c14ddc198499f1db0a6015b0c67a34b7002a3627c60ab0f2b8c8b60ae15",
+          "lineEnd": 48,
+          "lineStart": 37,
+          "path": "ops/db/ordinary_activation_db.py",
+          "sha256": "8a43a1c14ce49d57489df9c91e484b782e2d79ba7a3d95b0c2f140e0462d874a"
+        },
+        {
+          "excerptSha256": "f103f452ac4ef11eba2c7e0d292dff0e16761aa09d9378ff86591480aa40dd6d",
+          "lineEnd": 64,
+          "lineStart": 54,
+          "path": "ops/db/ordinary_activation_db.py",
+          "sha256": "8a43a1c14ce49d57489df9c91e484b782e2d79ba7a3d95b0c2f140e0462d874a"
+        }
+      ],
+      "statement": "Full physical tenant/package/role/menu/grant rows are preserved; expected after is before plus 16 exact menus/25 grants, with package menu_ids union only. Package update_time is restored to frozen before value.",
+      "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+    },
+    "businessReadback": {
+      "sources": [
+        {
+          "excerptSha256": "01922229131deb7f1fe1b7f3c7e690d9c9d83783fbef4dfea6b3edbbd60d54a4",
+          "lineEnd": 112,
+          "lineStart": 112,
+          "path": "docs/design/phase1-unified-activation-v3.md",
+          "sha256": "02ffe0a147d74f3c4303bb70f465a9a67640a69da34d055d7b84966f81c34c3e"
+        },
+        {
+          "excerptSha256": "7f924f32a0c700de73c7e2205a7221a09ed4ae2ef85f64bc86c1247b91246db1",
+          "lineEnd": 125,
+          "lineStart": 125,
+          "path": "docs/design/phase1-unified-activation-v3.md",
+          "sha256": "02ffe0a147d74f3c4303bb70f465a9a67640a69da34d055d7b84966f81c34c3e"
+        }
+      ],
+      "statement": "Every successful business write needs independent scoped SQL readback; refused requests need before/after SQL or version evidence. HTTP200 alone is insufficient.",
+      "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+    },
+    "businessRows": {
+      "statement": "Exact write values, category marker/requestId, affected-field before/after values, retention/restoration and audits must be frozen; this artifact contains no data values or executable acceptance payload.",
+      "status": "PENDING_HUMAN"
+    },
+    "metadata": {
+      "sources": [
+        {
+          "excerptSha256": "47eed163d565a3ab3a46a057da651b492fd946fa9879625ba729e60e98d3f28c",
+          "lineEnd": 36,
+          "lineStart": 29,
+          "path": "ops/db/ordinary_activation_db.py",
+          "sha256": "8a43a1c14ce49d57489df9c91e484b782e2d79ba7a3d95b0c2f140e0462d874a"
+        },
+        {
+          "excerptSha256": "dae4457b6332f2339577b590de8230ff347989735bafae2daacfae195ab11f77",
+          "lineEnd": 92,
+          "lineStart": 92,
+          "path": "docs/design/phase1-unified-activation-v3.md",
+          "sha256": "02ffe0a147d74f3c4303bb70f465a9a67640a69da34d055d7b84966f81c34c3e"
+        }
+      ],
+      "statement": "Before each DDL compare exact predecessor graph, then exact successor graph. Any exception logs UNKNOWN; no auto replay or inverse DDL.",
+      "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+    },
+    "permissionReadback": {
+      "sources": [
+        {
+          "excerptSha256": "8b9c8aa429f3eebfad85faa4a14fdc43e33df8dc097077d57aca9ad5a1bf4b34",
+          "lineEnd": 78,
+          "lineStart": 62,
+          "path": "ops/db/ordinary_activation_db.py",
+          "sha256": "8a43a1c14ce49d57489df9c91e484b782e2d79ba7a3d95b0c2f140e0462d874a"
+        }
+      ],
+      "statement": "Precommit locked full physical comparison and fresh postcommit identity/G11/full physical comparison. COMMIT acknowledgement unknown stops without retry.",
+      "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+    },
+    "permissionSnapshot": {
+      "exactExpandedSqlStatus": "UNPROVEN until actual frozen baseline column graph exists; do not guess unknown columns.",
+      "existingSqlFormula": "SELECT JSON_OBJECT(<every physical column from frozen G0 columns; BIT cast unsigned; menu_ids cast JSON>) FROM <fixed five tables> ORDER BY id [FOR UPDATE]",
+      "source": {
+        "excerptSha256": "2ddcbe71e1d46352f79bbe7c393be64866a3476f996cf02491cab395981d4ec6",
+        "lineEnd": 268,
+        "lineStart": 255,
+        "path": "ops/db/ordinary_activation_common.py",
+        "sha256": "b6a77d28f78c568f082445e23ac5b683b2980b3b338bdab2834513db72e6016e"
+      },
+      "tables": [
+        "system_tenant",
+        "system_tenant_package",
+        "system_role",
+        "system_menu",
+        "system_role_menu"
+      ]
+    },
+    "rejectConflicts": {
+      "sources": [
+        {
+          "excerptSha256": "3627331363c0ba3aa84419b3c06818fabd2ff921c7fa9ba49bf61a203e9d2300",
+          "lineEnd": 290,
+          "lineStart": 269,
+          "path": "ops/db/ordinary_activation_common.py",
+          "sha256": "b6a77d28f78c568f082445e23ac5b683b2980b3b338bdab2834513db72e6016e"
+        }
+      ],
+      "statement": "Reject shared package, inactive tenant/package/roles/parent, menu id or permission string conflict including soft deleted, grant conflicts including soft deleted, duplicate physical grants and role menus outside package.",
+      "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+    },
+    "unknownColumns": {
+      "statement": "DDL proves declared columns, not the current live schema. Any unknown actual column or unsupported metadata must stop planning rather than synthesize a value.",
+      "status": "UNPROVEN"
+    }
+  },
+  "schema": "UNIFIED_V3_DB_READBACK_DRAFT_V1",
+  "scope": {
+    "businessSchema": "print_demo",
+    "ddlStatements": 11,
+    "getEntries": 19,
+    "metadataStages": 12,
+    "newTables": 10,
+    "note": "Sources are local source bytes only. No live schema/history/data accessed.",
+    "plannedStore": "Resolved active current staff store; concrete id not inferred from tenant/package id",
+    "plannedTenantId": 1
+  },
+  "scopeRules": {
+    "authentication": {
+      "sources": [
+        {
+          "excerptSha256": "b7c9fe4b0a6cccffa6e4a7250008226cc0f6b830cbc214dcfd994067534b5be5",
+          "lineEnd": 42,
+          "lineStart": 24,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+          "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+        }
+      ],
+      "statement": "Authenticated ADMIN actor with positive id; positive tenant matches token owner; ignore/foreign visit tenant rejected.",
+      "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+    },
+    "scopeInput": "tenant/store/owner values are resolved from authenticated actor and current assignment, not supplied by business request parameters.",
+    "sharedStoreScope": "No owner_user_id predicate is invented for store profile/settings/category/advertising/paper-report tables.",
+    "staffAdmission": {
+      "queries": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "actor.tenantId",
+            "actor.userId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "c7dc064ef034a008193673499a29ea293cbbd6054534a68df6ec9a87abe3ceb2",
+              "lineEnd": 49,
+              "lineStart": 44,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+              "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+            }
+          ],
+          "sql": "SELECT status FROM system_users WHERE tenant_id = ? AND id = ? AND deleted = b'0'",
+          "when": "unfiltered/default read"
+        },
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "actor.tenantId",
+            "actor.userId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "62894dc8045d8125a5805237be4215dc9f362cdc93efcdb4e96876e28a8fc8e5",
+              "lineEnd": 63,
+              "lineStart": 50,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+              "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+            }
+          ],
+          "sql": "SELECT store_id FROM print_staff_store WHERE tenant_id = ? AND user_id = ? AND status = 0 AND deleted = b'0' ORDER BY store_id LIMIT 2",
+          "when": "unfiltered/default read"
+        },
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "actor.tenantId",
+            "resolvedStoreId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "3f624053d06225dab2c4e1d9266af6b1803209e46824c60da2474462cda5831b",
+              "lineEnd": 82,
+              "lineStart": 75,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+              "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+            }
+          ],
+          "sql": "SELECT name FROM print_store WHERE tenant_id = ? AND id = ? AND status = 0 AND deleted = b'0'",
+          "when": "unfiltered/default read"
+        }
+      ],
+      "requiredResult": "one active user and exactly one active staff-store assignment and one active store",
+      "sources": [
+        {
+          "excerptSha256": "d5443cd9885a334ba7c2b12246dc59957fbb2a7acfe84afe1c3fbb8e6967817f",
+          "lineEnd": 66,
+          "lineStart": 24,
+          "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java",
+          "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+        }
+      ]
+    }
+  },
+  "sources": {
+    "docs/design/phase1-unified-activation-v3.md": {
+      "lineCount": 131,
+      "sha256": "02ffe0a147d74f3c4303bb70f465a9a67640a69da34d055d7b84966f81c34c3e"
+    },
+    "ops/acceptance/ordinary_modules_activation_acceptance.py": {
+      "lineCount": 599,
+      "sha256": "90ec758113c1537882fd9ebf60f72ca5053ab07133685dbe41978ea8e0cf66f1"
+    },
+    "ops/db/ordinary_activation_common.py": {
+      "lineCount": 390,
+      "sha256": "b6a77d28f78c568f082445e23ac5b683b2980b3b338bdab2834513db72e6016e"
+    },
+    "ops/db/ordinary_activation_db.py": {
+      "lineCount": 82,
+      "sha256": "8a43a1c14ce49d57489df9c91e484b782e2d79ba7a3d95b0c2f140e0462d874a"
+    },
+    "ops/db/print-advertising-v1.draft.sql": {
+      "lineCount": 21,
+      "sha256": "75717d1bec23a6186a7c03c7f8e8d4a98840dbd56ee822edd77cf888b68ffe8b"
+    },
+    "ops/db/print-library-category-v1.draft.sql": {
+      "lineCount": 21,
+      "sha256": "99ce0b07863e0d360ef9d2c6d46033914fd8b7ee3f460b2195439f6d3359cab5"
+    },
+    "ops/db/print-library-settings-v1.sql": {
+      "lineCount": 19,
+      "sha256": "635266327c3c77b73277951686b5fc8a60cacd446dc6491f64ad164c7ab8d43f"
+    },
+    "ops/db/print-orders-v1.sql": {
+      "lineCount": 81,
+      "sha256": "e4f50ad51e2848b85c21af84ffd738cdcd957d7af49bee4370cb6f03fcbcb3bc"
+    },
+    "ops/db/print-printer-directory-v1.draft.sql": {
+      "lineCount": 15,
+      "sha256": "525a5527b5219376ad9bf4798c13667215943aed0adaf3870407395abbdf8dbb"
+    },
+    "ops/db/print-readonly-directory-v1.draft.sql": {
+      "lineCount": 41,
+      "sha256": "62848752c30014c1fee80a0c315168cb1baa4ae44cf6ca9c6acca3ff88e8c9dc"
+    },
+    "ops/db/print-statistics-reports-v1.draft.sql": {
+      "lineCount": 30,
+      "sha256": "c0c657e469d9711f3995bf4fa38be5eff758aba235de517a131beda5912386cc"
+    },
+    "ops/db/print-store-profile-v1.sql": {
+      "lineCount": 49,
+      "sha256": "fb9bc37814852586b7022ac341fa961fdf5fc3159cacbf04237015940275b676"
+    },
+    "ops/db/unified_activation_db_ports.py": {
+      "lineCount": 267,
+      "sha256": "3bf5257588f4435fcf7f897c5e2b6e9422dbbaf2703b60de6cb4e453a57541da"
+    },
+    "ops/runtime/ordinary_activation_runtime.py": {
+      "lineCount": 694,
+      "sha256": "56f13dc4c35f8b24e9724594e8cfde7e1e680dfc9470710984ca5bfba931c9ba"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingRepository.java": {
+      "lineCount": 31,
+      "sha256": "db46cab2ece224053f22a0e8a04dd5c0a372422a196272f6940c71635f17a796"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingService.java": {
+      "lineCount": 27,
+      "sha256": "8990a6e91f5665cb24fbf8890c5ca479220bac5d409ab997c3739067b40dcd2a"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java": {
+      "lineCount": 32,
+      "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintDirectoryController.java": {
+      "lineCount": 32,
+      "sha256": "44d391690749836216b8a718dbfc98aa98881e1cc472c1e7ac05f05c7155bee4"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintLibraryCategoryController.java": {
+      "lineCount": 50,
+      "sha256": "c47b880f3d6aa6781247ac27e3abdea7145241b7791ac274a7b2f3ea88f5de5b"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintLibrarySettingsController.java": {
+      "lineCount": 32,
+      "sha256": "8f7d3e60ad28f44cb5f2d28d6ecf990a3e5dcf3ee0aee427ede301a7fcb52822"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintPrinterDirectoryController.java": {
+      "lineCount": 21,
+      "sha256": "4de9eefbff498166e16dab93ebae477573e4a9ec60e8efea33e6e90cfdd94bf1"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintStatisticsController.java": {
+      "lineCount": 43,
+      "sha256": "3135a2aaec7c0482f057befb7dc47cbac956267177d1bd19b9288eec9a67395e"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintStoreProfileController.java": {
+      "lineCount": 47,
+      "sha256": "a1488b377c71ec1de747723aa7897f13a0a274acc7244d659f280f1c2ebdcac2"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java": {
+      "lineCount": 37,
+      "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryService.java": {
+      "lineCount": 17,
+      "sha256": "0b2f4760372183f02dc8cfa7dc1c26cd63b5f3e6b35728093a1b5606c99bf0e5"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryRepository.java": {
+      "lineCount": 24,
+      "sha256": "8d46806f795c8bc28fd17a21af8abe97565557c4891dba64b84746e5214226e5"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryService.java": {
+      "lineCount": 37,
+      "sha256": "e49a0ea0f52d7847917b09065d83f5642eb8ea95d63f4fdbe33a0a634c503126"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/settings/PrintLibrarySettingsRepository.java": {
+      "lineCount": 34,
+      "sha256": "7894dfd6e5ed7dabea2ed7d41e3ea9d82823c343bc2fe96699036733f1aee266"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/settings/PrintLibrarySettingsService.java": {
+      "lineCount": 33,
+      "sha256": "6d906ec4b4bab0db7a29b40cf6877cb36f4a869db2b38d382ceb4f90aab98c69"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/printer/PrintPrinterDirectoryRepository.java": {
+      "lineCount": 23,
+      "sha256": "1c6c808c2689329d7bbec561338b0fb6aae8667d087c5c3e92a81a17c0aa3d28"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/printer/PrintPrinterDirectoryService.java": {
+      "lineCount": 12,
+      "sha256": "3e8c65e5bdbd5e5bc0f2c4a695013f24e51b5bed57965da25116c85fcfd8fef4"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeService.java": {
+      "lineCount": 84,
+      "sha256": "9bccff4df9f86885955a1604e957087be78cf1e7eb754fd30675020f52dacd36"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsQuery.java": {
+      "lineCount": 36,
+      "sha256": "275f0b3060d3de82de6fcb423c8ef9789a8533ab19044e32e5b9c7d38fce7c47"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsRepository.java": {
+      "lineCount": 58,
+      "sha256": "1da926454aec6b81f76c3ab2236ff4114d5d84ff47cf52c48ce2d0609d68583b"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileRepository.java": {
+      "lineCount": 50,
+      "sha256": "5100c07dd589a52bd5aa6e79361f913e50413d951c86bc5ec8fbaf6e69fa3029"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileService.java": {
+      "lineCount": 34,
+      "sha256": "9d255a3d013c6c2f582f5d9a65097ec13d31359361858889fbab73e60dda52a3"
+    }
+  },
+  "status": "DRAFT_SOURCE_EVIDENCE_NOT_EXECUTABLE",
+  "writeAndRejectInvariants": {
+    "P02": {
+      "auditReadbackStatus": "UNPROVEN: existing current() projection omits creator/updater/timestamps; no new supplemental SQL inferred.",
+      "preserveReject": [
+        {
+          "sources": [
+            {
+              "excerptSha256": "17cdaa09762c22067e92e658c673aed675f6a3ee9ede0ebee0985ed516616cef",
+              "lineEnd": 21,
+              "lineStart": 17,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileRepository.java",
+              "sha256": "5100c07dd589a52bd5aa6e79361f913e50413d951c86bc5ec8fbaf6e69fa3029"
+            },
+            {
+              "excerptSha256": "66ea48067eddef12cd1b812909e46636f599d0097e835d04d234c8e2da1c37ca",
+              "lineEnd": 48,
+              "lineStart": 31,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileRepository.java",
+              "sha256": "5100c07dd589a52bd5aa6e79361f913e50413d951c86bc5ec8fbaf6e69fa3029"
+            }
+          ],
+          "statement": "Store status and deleted admission predicates are unchanged; business_open belongs to optional profile and does not change store.status.",
+          "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+        },
+        {
+          "sources": [
+            {
+              "excerptSha256": "871bb6fd1e7f7c307bf812e8c5d951e43e3efa2ae615c85b1ba88fa70bff82e8",
+              "lineEnd": 29,
+              "lineStart": 22,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileService.java",
+              "sha256": "9d255a3d013c6c2f582f5d9a65097ec13d31359361858889fbab73e60dda52a3"
+            }
+          ],
+          "statement": "VERSION_CONFLICT if CAS affects no row; independent before/after same-scope projection is required for refused/failed requests.",
+          "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+        },
+        {
+          "sources": [
+            {
+              "excerptSha256": "58720efde76434e5772197a91878327946ce6244e058a388fb8eb61deaccaf51",
+              "lineEnd": 119,
+              "lineStart": 119,
+              "path": "docs/design/phase1-unified-activation-v3.md",
+              "sha256": "02ffe0a147d74f3c4303bb70f465a9a67640a69da34d055d7b84966f81c34c3e"
+            }
+          ],
+          "statement": "Actual test payload and retention/restoration values must be frozen before any write.",
+          "status": "PENDING_HUMAN"
+        }
+      ],
+      "successReadback": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "1ac347035adba7ec04b5ed7f6e66ab3ece2b8b872350205988f856f5444bb95a",
+              "lineEnd": 29,
+              "lineStart": 15,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileRepository.java",
+              "sha256": "5100c07dd589a52bd5aa6e79361f913e50413d951c86bc5ec8fbaf6e69fa3029"
+            }
+          ],
+          "sql": "SELECT s.name,s.profile_version,p.store_id,p.notice,p.province_code,p.province_name,p.city_code,p.city_name,p.district_code,p.district_name,p.street_code,p.street_name,p.address,p.contact,p.telephone,p.qq,p.open_time,p.close_time,p.business_open FROM print_store s LEFT JOIN print_store_profile p ON p.tenant_id=s.tenant_id AND p.store_id=s.id WHERE s.tenant_id=? AND s.id=? AND s.status=0 AND s.deleted=b'0'",
+          "when": "GET and independent readback after successful PUT"
+        }
+      ],
+      "versionRule": {
+        "sources": [
+          {
+            "excerptSha256": "66ea48067eddef12cd1b812909e46636f599d0097e835d04d234c8e2da1c37ca",
+            "lineEnd": 48,
+            "lineStart": 31,
+            "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileRepository.java",
+            "sha256": "5100c07dd589a52bd5aa6e79361f913e50413d951c86bc5ec8fbaf6e69fa3029"
+          },
+          {
+            "excerptSha256": "871bb6fd1e7f7c307bf812e8c5d951e43e3efa2ae615c85b1ba88fa70bff82e8",
+            "lineEnd": 29,
+            "lineStart": 22,
+            "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileService.java",
+            "sha256": "9d255a3d013c6c2f582f5d9a65097ec13d31359361858889fbab73e60dda52a3"
+          }
+        ],
+        "statement": "CAS print_store.profile_version increments by one; name/profile/version committed together or rolled back.",
+        "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+      },
+      "writeMethods": [
+        "PUT"
+      ]
+    },
+    "P14": {
+      "auditReadbackStatus": "UNPROVEN: existing current() omits audit columns.",
+      "preserveReject": [
+        {
+          "sources": [
+            {
+              "excerptSha256": "0b73ef0462c5ce9a6de0bf71c0ebef155f64911945d70987ef9c534a47cc3f90",
+              "lineEnd": 17,
+              "lineStart": 12,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/settings/PrintLibrarySettingsRepository.java",
+              "sha256": "7894dfd6e5ed7dabea2ed7d41e3ea9d82823c343bc2fe96699036733f1aee266"
+            }
+          ],
+          "statement": "GET when settings absent returns unconfigured view without an insert.",
+          "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+        },
+        {
+          "sources": [
+            {
+              "excerptSha256": "1d2f403baea09b2d88bd1c929c985cdd97ae1c43f1601967cc2dd5c7e8d55a23",
+              "lineEnd": 18,
+              "lineStart": 18,
+              "path": "ops/db/print-library-settings-v1.sql",
+              "sha256": "635266327c3c77b73277951686b5fc8a60cacd446dc6491f64ad164c7ab8d43f"
+            }
+          ],
+          "statement": "miniProgramPath is server-owned NOT_CONFIGURED/null; it is not a persisted or client-writable SQL field.",
+          "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+        },
+        {
+          "sources": [
+            {
+              "excerptSha256": "127285ced061bf9b775715a6dc91b0ea9abcd33dc5d7ff1dde8c51091b1835e8",
+              "lineEnd": 29,
+              "lineStart": 25,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/settings/PrintLibrarySettingsService.java",
+              "sha256": "6d906ec4b4bab0db7a29b40cf6877cb36f4a869db2b38d382ceb4f90aab98c69"
+            }
+          ],
+          "statement": "Stale version rejects before a committed replacement.",
+          "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+        }
+      ],
+      "successReadback": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "0b73ef0462c5ce9a6de0bf71c0ebef155f64911945d70987ef9c534a47cc3f90",
+              "lineEnd": 17,
+              "lineStart": 12,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/settings/PrintLibrarySettingsRepository.java",
+              "sha256": "7894dfd6e5ed7dabea2ed7d41e3ea9d82823c343bc2fe96699036733f1aee266"
+            }
+          ],
+          "sql": "SELECT p.version,p.name,p.description FROM print_store s LEFT JOIN print_library_settings p ON p.tenant_id=s.tenant_id AND p.store_id=s.id WHERE s.tenant_id=? AND s.id=? AND s.status=0 AND s.deleted=b'0'",
+          "when": "GET and independent readback after successful PUT"
+        }
+      ],
+      "versionRule": {
+        "sources": [
+          {
+            "excerptSha256": "9747e8d84b49f2df9b6dd4e1b8b91c3b908e9c17b454ffd87ae2cefb8cfaebbf",
+            "lineEnd": 32,
+            "lineStart": 12,
+            "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/settings/PrintLibrarySettingsRepository.java",
+            "sha256": "7894dfd6e5ed7dabea2ed7d41e3ea9d82823c343bc2fe96699036733f1aee266"
+          },
+          {
+            "excerptSha256": "c0bf2fb7a99358417b8c465967ba5b5b170b82624efb71ab634cd6ec1e8a465a",
+            "lineEnd": 30,
+            "lineStart": 21,
+            "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/settings/PrintLibrarySettingsService.java",
+            "sha256": "6d906ec4b4bab0db7a29b40cf6877cb36f4a869db2b38d382ceb4f90aab98c69"
+          }
+        ],
+        "statement": "Active parent store row lock; unconfigured view has version 0; insert creates version 1; update increments version under expectedVersion.",
+        "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+      },
+      "writeMethods": [
+        "PUT"
+      ]
+    },
+    "P15": {
+      "auditReadbackStatus": "UNPROVEN: get() projection omits audit columns.",
+      "preserveReject": [
+        {
+          "sources": [
+            {
+              "excerptSha256": "399832113f50db72fd814fed000d6bdb194ecb9bcc7c7a226bdddf9aa09ed91d",
+              "lineEnd": 36,
+              "lineStart": 34,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryService.java",
+              "sha256": "e49a0ea0f52d7847917b09065d83f5642eb8ea95d63f4fdbe33a0a634c503126"
+            },
+            {
+              "excerptSha256": "b4a7f24e7a6bf2e16244191cb9dce44cdebe22138b13e6124d2c071ee0b71534",
+              "lineEnd": 21,
+              "lineStart": 19,
+              "path": "ops/db/print-library-category-v1.draft.sql",
+              "sha256": "99ce0b07863e0d360ef9d2c6d46033914fd8b7ee3f460b2195439f6d3359cab5"
+            }
+          ],
+          "statement": "DELETE always raises RULE_PENDING after scoped lookup; no physical deletion, hierarchy, file-count mutation or cascade is inferred.",
+          "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+        },
+        {
+          "sources": [
+            {
+              "excerptSha256": "04756ff2cca2721cf03cdc573a13c9a4b091df39ee27ec28b263745c8b206cba",
+              "lineEnd": 120,
+              "lineStart": 120,
+              "path": "docs/design/phase1-unified-activation-v3.md",
+              "sha256": "02ffe0a147d74f3c4303bb70f465a9a67640a69da34d055d7b84966f81c34c3e"
+            }
+          ],
+          "statement": "Creation marker/requestId and retention must be frozen; test row is retained until confirmed rule.",
+          "status": "PENDING_HUMAN"
+        }
+      ],
+      "successReadback": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "scope.tenantId",
+            "scope.storeId",
+            "id/requestId"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "43be0686a593379b87b90ae32d9b313a135da4098e5d4b5e1e2c79852d030d42",
+              "lineEnd": 19,
+              "lineStart": 13,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryRepository.java",
+              "sha256": "8d46806f795c8bc28fd17a21af8abe97565557c4891dba64b84746e5214226e5"
+            }
+          ],
+          "sql": "SELECT c.id,c.version,c.name FROM print_library_category c JOIN print_store s ON s.tenant_id=c.tenant_id AND s.id=c.store_id WHERE c.tenant_id=? AND c.store_id=? AND s.status=0 AND s.deleted=b'0' AND c.id=?",
+          "when": "independent readback after category create/update/replay"
+        }
+      ],
+      "versionRule": {
+        "sources": [
+          {
+            "excerptSha256": "6b41ad06d531fc6f5923d48af0f614f190c79492addf98d942f2707f06686480",
+            "lineEnd": 33,
+            "lineStart": 21,
+            "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryService.java",
+            "sha256": "e49a0ea0f52d7847917b09065d83f5642eb8ea95d63f4fdbe33a0a634c503126"
+          },
+          {
+            "excerptSha256": "50c78d649f18760ff19669248a6f957e91e4e4dad9d9675a5d53a2d332f0e859",
+            "lineEnd": 23,
+            "lineStart": 22,
+            "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryRepository.java",
+            "sha256": "8d46806f795c8bc28fd17a21af8abe97565557c4891dba64b84746e5214226e5"
+          }
+        ],
+        "statement": "Create requestId replay is accepted only for version 1 plus same name; first insert version 1; update is scoped id+version CAS.",
+        "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+      },
+      "writeMethods": [
+        "POST",
+        "PUT /{id}"
+      ]
+    },
+    "P34": {
+      "preserveReject": [
+        {
+          "sources": [
+            {
+              "excerptSha256": "d5e0fd17025b4bb56cb3db74c0946f8b5b9b8413ae6d5a22972a2c84fb546fdf",
+              "lineEnd": 11,
+              "lineStart": 11,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/printer/PrintPrinterDirectoryRepository.java",
+              "sha256": "1c6c808c2689329d7bbec561338b0fb6aae8667d087c5c3e92a81a17c0aa3d28"
+            },
+            {
+              "excerptSha256": "35d006eac04af86d3dd9b404bd10be552cab396d0925fdab11e96f0503d61dff",
+              "lineEnd": 12,
+              "lineStart": 9,
+              "path": "ops/db/print-printer-directory-v1.draft.sql",
+              "sha256": "525a5527b5219376ad9bf4798c13667215943aed0adaf3870407395abbdf8dbb"
+            }
+          ],
+          "statement": "Printer-terminal join and FK carry tenant/store/owner/terminal id; no cross-owner join is accepted.",
+          "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+        },
+        {
+          "sources": [
+            {
+              "excerptSha256": "f7c82bcc2c93907a480d3dec84bc0bfe89e4e07c738bd23bef20bcc6f43631db",
+              "lineEnd": 20,
+              "lineStart": 17,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/printer/PrintPrinterDirectoryRepository.java",
+              "sha256": "1c6c808c2689329d7bbec561338b0fb6aae8667d087c5c3e92a81a17c0aa3d28"
+            },
+            {
+              "excerptSha256": "5f0cc1cb7f31d3fab9081fe28de3ffcca45db77885385fe502d2022c308ee951",
+              "lineEnd": 15,
+              "lineStart": 14,
+              "path": "ops/db/print-printer-directory-v1.draft.sql",
+              "sha256": "525a5527b5219376ad9bf4798c13667215943aed0adaf3870407395abbdf8dbb"
+            }
+          ],
+          "statement": "Status is NOT_REPORTED, nullable flags are metadata only; device-report proof is absent.",
+          "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+        }
+      ],
+      "writeMethods": []
+    },
+    "P36": {
+      "preserveReject": [
+        {
+          "sources": [
+            {
+              "excerptSha256": "88b2625f9bb01443bb5947fd83fe765c9967cb67daeb6ccb209b58234e0f45a6",
+              "lineEnd": 8,
+              "lineStart": 8,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsRepository.java",
+              "sha256": "1da926454aec6b81f76c3ab2236ff4114d5d84ff47cf52c48ce2d0609d68583b"
+            },
+            {
+              "excerptSha256": "8ff5deea5206005b75c387cb1365c8b91396c1fbe6e569a514680a81839edfcd",
+              "lineEnd": 28,
+              "lineStart": 26,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintStatisticsController.java",
+              "sha256": "3135a2aaec7c0482f057befb7dc47cbac956267177d1bd19b9288eec9a67395e"
+            }
+          ],
+          "statement": "Statistics are current actor order snapshots grouped by source/currency/simulation; no paid-transaction interpretation is asserted.",
+          "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+        },
+        {
+          "sources": [
+            {
+              "excerptSha256": "114f39234e7c65c7eaa978875bc628593ac2e46da24f4d0eb04b48e6ff65d920",
+              "lineEnd": 32,
+              "lineStart": 23,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsRepository.java",
+              "sha256": "1da926454aec6b81f76c3ab2236ff4114d5d84ff47cf52c48ce2d0609d68583b"
+            }
+          ],
+          "statement": "Nonrepresentable amount groups explicitly return invalid count and null snapshot, never silently truncate.",
+          "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+        },
+        {
+          "sources": [
+            {
+              "excerptSha256": "1688bf1d7af1266ed56967d96598a8d83abdbfe10d579e95a0ad1c0de1b5c099",
+              "lineEnd": 20,
+              "lineStart": 18,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsRepository.java",
+              "sha256": "1da926454aec6b81f76c3ab2236ff4114d5d84ff47cf52c48ce2d0609d68583b"
+            },
+            {
+              "excerptSha256": "113be62fb64c73aed5ac6080ddca70db512921431ef62f4419e806b0bcd12ef2",
+              "lineEnd": 31,
+              "lineStart": 30,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsRepository.java",
+              "sha256": "1da926454aec6b81f76c3ab2236ff4114d5d84ff47cf52c48ce2d0609d68583b"
+            }
+          ],
+          "statement": "Terminal association is unavailable: only source placeholder 未关联终端 exists; real device association is not inferred.",
+          "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+        },
+        {
+          "sources": [
+            {
+              "excerptSha256": "9595c9cddde205980ff46c6d83ad7987e0a4519882fdbfee44bdcdff18bd3adb",
+              "lineEnd": 122,
+              "lineStart": 122,
+              "path": "docs/design/phase1-unified-activation-v3.md",
+              "sha256": "02ffe0a147d74f3c4303bb70f465a9a67640a69da34d055d7b84966f81c34c3e"
+            }
+          ],
+          "statement": "Date range and export acceptance values are not frozen and actual totals have not been queried.",
+          "status": "UNPROVEN"
+        }
+      ],
+      "writeMethods": []
+    },
+    "P37_P38": {
+      "actualRows": "UNPROVEN",
+      "ingestionAndDeleteRules": "PENDING_HUMAN",
+      "preserveReject": [
+        {
+          "sources": [
+            {
+              "excerptSha256": "0934b7106bdb0b05c17a782550b122c7c9583b0a921239b5234f96ec842917d4",
+              "lineEnd": 4,
+              "lineStart": 1,
+              "path": "ops/db/print-statistics-reports-v1.draft.sql",
+              "sha256": "c0c657e469d9711f3995bf4fa38be5eff758aba235de517a131beda5912386cc"
+            }
+          ],
+          "statement": "No ingestion writer/trigger/seed/delete semantics are supplied by the two table draft; real empty tables remain empty.",
+          "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+        },
+        {
+          "sources": [
+            {
+              "excerptSha256": "cfe838a441f9ffa3fba05ace7ca45a2d550128fe4c8b8364133ab199eccc4b8f",
+              "lineEnd": 55,
+              "lineStart": 39,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsRepository.java",
+              "sha256": "1da926454aec6b81f76c3ab2236ff4114d5d84ff47cf52c48ce2d0609d68583b"
+            }
+          ],
+          "statement": "Paper report SQL is tenant/store shared; no owner_user_id column or invented user predicate.",
+          "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+        }
+      ],
+      "writeMethods": []
+    },
+    "advertising": {
+      "assetAdmissionQueries": [
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "url",
+            "Long.toString(scope.userId)"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "c78d0df1e68f982673186697584852e9e9f9f013cb5c2de75e79c71aed14dd4c",
+              "lineEnd": 24,
+              "lineStart": 21,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingRepository.java",
+              "sha256": "db46cab2ece224053f22a0e8a04dd5c0a372422a196272f6940c71635f17a796"
+            }
+          ],
+          "sql": "SELECT COUNT(*) FROM infra_file WHERE url=? AND creator=? AND deleted=b'0' AND type LIKE 'image/%' AND size>0",
+          "when": "positions except ORDER_PAGE"
+        },
+        {
+          "executionStatus": "NOT_RUN",
+          "origin": "EXISTING_JDBC_LITERAL_OR_EXACT_COMPOSITION",
+          "parameterOrder": [
+            "url",
+            "Long.toString(scope.userId)"
+          ],
+          "sources": [
+            {
+              "excerptSha256": "c78d0df1e68f982673186697584852e9e9f9f013cb5c2de75e79c71aed14dd4c",
+              "lineEnd": 24,
+              "lineStart": 21,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingRepository.java",
+              "sha256": "db46cab2ece224053f22a0e8a04dd5c0a372422a196272f6940c71635f17a796"
+            }
+          ],
+          "sql": "SELECT COUNT(*) FROM infra_file WHERE url=? AND creator=? AND deleted=b'0' AND type LIKE 'image/%' AND size>0 AND size<=1000000",
+          "when": "ORDER_PAGE"
+        }
+      ],
+      "assetScope": {
+        "sources": [
+          {
+            "excerptSha256": "c78d0df1e68f982673186697584852e9e9f9f013cb5c2de75e79c71aed14dd4c",
+            "lineEnd": 24,
+            "lineStart": 21,
+            "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingRepository.java",
+            "sha256": "db46cab2ece224053f22a0e8a04dd5c0a372422a196272f6940c71635f17a796"
+          }
+        ],
+        "statement": "infra_file is global in existing code; admission is creator=current user, url exact, image, nondeleted, size>0, count exactly 1; tenant/store predicates are absent and must not be claimed.",
+        "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+      },
+      "auditReadbackStatus": "UNPROVEN: existing current() projection omits audit columns.",
+      "preserveReject": [
+        {
+          "sources": [
+            {
+              "excerptSha256": "2dde7cf86932edf69d206220cc20b4eda8cea49ab6ea67349edfe73b0c85e433",
+              "lineEnd": 23,
+              "lineStart": 19,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingService.java",
+              "sha256": "8990a6e91f5665cb24fbf8890c5ca479220bac5d409ab997c3739067b40dcd2a"
+            },
+            {
+              "excerptSha256": "c78d0df1e68f982673186697584852e9e9f9f013cb5c2de75e79c71aed14dd4c",
+              "lineEnd": 24,
+              "lineStart": 21,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingRepository.java",
+              "sha256": "db46cab2ece224053f22a0e8a04dd5c0a372422a196272f6940c71635f17a796"
+            }
+          ],
+          "statement": "Replacing a draft cannot remove any existing slot; deletion semantics pending. No device push or remote URL fetch is implemented by repository.",
+          "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+        },
+        {
+          "sources": [
+            {
+              "excerptSha256": "1a9e96312b28dd720a1ceed3771f1a823ac72b5d6dddf96f70b2987d036f3b98",
+              "lineEnd": 123,
+              "lineStart": 123,
+              "path": "docs/design/phase1-unified-activation-v3.md",
+              "sha256": "02ffe0a147d74f3c4303bb70f465a9a67640a69da34d055d7b84966f81c34c3e"
+            }
+          ],
+          "statement": "Existing-image fixtures may be absent: record NOT_RUN rather than create fabricated assets.",
+          "status": "UNPROVEN"
+        },
+        {
+          "sources": [
+            {
+              "excerptSha256": "1a9e96312b28dd720a1ceed3771f1a823ac72b5d6dddf96f70b2987d036f3b98",
+              "lineEnd": 123,
+              "lineStart": 123,
+              "path": "docs/design/phase1-unified-activation-v3.md",
+              "sha256": "02ffe0a147d74f3c4303bb70f465a9a67640a69da34d055d7b84966f81c34c3e"
+            }
+          ],
+          "statement": "Retention, version and audit policy remain to confirm before write acceptance.",
+          "status": "PENDING_HUMAN"
+        }
+      ],
+      "successReadback": "Reuse exact position readback query from its entry; independently compare version/text/assets response with committed SQL values.",
+      "versionRule": {
+        "sources": [
+          {
+            "excerptSha256": "8931bf9053b5ddf4cb76facf8231b2e4a8d21096d8c49a05705e7118d205438a",
+            "lineEnd": 29,
+            "lineStart": 20,
+            "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingRepository.java",
+            "sha256": "db46cab2ece224053f22a0e8a04dd5c0a372422a196272f6940c71635f17a796"
+          },
+          {
+            "excerptSha256": "245505911db4109d187a9d4e925dc307a067110cf98ca412d4ae87378a307a5b",
+            "lineEnd": 24,
+            "lineStart": 14,
+            "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingService.java",
+            "sha256": "8990a6e91f5665cb24fbf8890c5ca479220bac5d409ab997c3739067b40dcd2a"
+          }
+        ],
+        "statement": "Lock active store; stale expectedVersion rejects; create version 1 or update version+1 CAS; one transaction returns current row.",
+        "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+      },
+      "writeMethods": [
+        "PUT /{position}"
+      ]
+    },
+    "directory": {
+      "physicalRowPreservation": "A read-only annotated method is source evidence only; real before/after SQL equality has NOT_RUN.",
+      "preserveReject": [
+        {
+          "sources": [
+            {
+              "excerptSha256": "7c9c0b9134a70aec6db33bc578874c192c2944ab5669e57d19049d676c9b87a6",
+              "lineEnd": 3,
+              "lineStart": 1,
+              "path": "ops/db/print-readonly-directory-v1.draft.sql",
+              "sha256": "62848752c30014c1fee80a0c315168cb1baa4ae44cf6ca9c6acca3ff88e8c9dc"
+            },
+            {
+              "excerptSha256": "4d524377452956bef7af5690f4f2de8d0c34a6b15ebf74bbe73b08bd4858ed18",
+              "lineEnd": 27,
+              "lineStart": 11,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintDirectoryController.java",
+              "sha256": "44d391690749836216b8a718dbfc98aa98881e1cc472c1e7ac05f05c7155bee4"
+            }
+          ],
+          "statement": "Read-only metadata API; pricing columns are display metadata, not quotation profiles; no directory write endpoint inferred.",
+          "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+        },
+        {
+          "sources": [
+            {
+              "excerptSha256": "f9c4cfb1f4dc49bbf65df9fe9044c3bed6a9f5a20cb3a166ff9746c8caf65df0",
+              "lineEnd": 15,
+              "lineStart": 13,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryService.java",
+              "sha256": "0b2f4760372183f02dc8cfa7dc1c26cd63b5f3e6b35728093a1b5606c99bf0e5"
+            },
+            {
+              "excerptSha256": "c60e8126a2c0e2faaf01525b7d8e6d0f73bf20e7c70ca66b7085fe22b890229f",
+              "lineEnd": 34,
+              "lineStart": 31,
+              "path": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java",
+              "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6"
+            }
+          ],
+          "statement": "Terminal ONLINE/OFFLINE filters reject because heartbeat is not connected; rows return UNKNOWN.",
+          "status": "SOURCE_PROVEN_RUNTIME_UNPROVEN"
+        }
+      ],
+      "writeMethods": []
+    }
+  }
+}

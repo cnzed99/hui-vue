@@ -1,0 +1,40 @@
+{
+  "status": "PASS_SOURCE_FAKE_PORTS_ONLY",
+  "createdAtUtc": "2026-10-29T09:14:27.117247+00:00",
+  "implementation": {
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high",
+    "effortSource": "parent task and project AGENTS.md; no independent effort telemetry"
+  },
+  "contractSha256": "2e3c54f9187ca9a3e289aa267ee01a2a8dc9eed5cb9d64bf0236813a11918f69",
+  "sourceManifestVerified": {
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryCommand.java": "9991feb5b3f6d2a8b7771f2ec3870e5ddadf7cbcf7763d9e9b2168f86731aac3",
+    "src/backend/yudao-framework/yudao-common/src/main/java/cn/iocoder/yudao/framework/common/util/json/databind/NumberSerializer.java": "83c7c1a896bcd40416e0b7f5758d7ff925d78466eb6514ea1a62c8851e4db415",
+    "src/backend/yudao-framework/yudao-spring-boot-starter-web/src/main/java/cn/iocoder/yudao/framework/jackson/config/YudaoJacksonAutoConfiguration.java": "bba9fc2b6e2fe62249df434f7d32d898d978881812a0fa8c52a745484306ce65"
+  },
+  "changedFiles": {
+    "ops/acceptance/unified_v3_acceptance_ports.py": "847e622d6c3f1df2b585f6a8c6d2c05a3503fd3982fa90dca7b19502ce5d6d8a",
+    "ops/acceptance/tests/test_unified_v3_live_ports.py": "c682cdfab1a8fc96f435e60912ba048b4916ed67b8cca36b0db99881b824eb6c"
+  },
+  "diffSha256": "dd604110a0b47c95d878a939b0c2c7fce3bafdf376d6de6a5034062615ab499c",
+  "focusedLogSha256": "7d350f5115e71fa9f0e79e2838040eb469848515fbc57acafb91e27a3622fbed",
+  "tests": {
+    "newRepresentativeTests": 2,
+    "affectedExistingTests": 1,
+    "passed": 3,
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 ops/acceptance/tests/test_unified_v3_live_ports.py Tests.test_02_source_endpoint_schema_and_one_shot_concurrent_cas Tests.test_05_category_uuid_v4_exact_contract Tests.test_06_long_total_exact_serializer_boundaries -v"
+  },
+  "compile": "2/2 PASS; in-memory compile, no bytecode files",
+  "unchangedBoundaries": {
+    "ops/acceptance/ordinary_modules_activation_acceptance.py": "90ec758113c1537882fd9ebf60f72ca5053ab07133685dbe41978ea8e0cf66f1",
+    "ops/acceptance/unified_v3_session_ports.py": "e2800011ba6d5d07c72b04665115995ceb2722d4060f769ac6d911b594efe62e"
+  },
+  "executionAuthorization": false,
+  "realDbRedisHttpCredentialServiceBuildOperations": "NOT_RUN",
+  "remaining": [
+    "candidate adapter hash pin must bind repaired acceptance-ports SHA",
+    "runtime HTTP/null inclusion and frontend Long decoding remain unproven",
+    "execution boundaries and final executable plan remain pending"
+  ],
+  "patchPreparation": "git apply --check rejected malformed diff headers before any write; corrected patch framing, then one production application and one focused test run passed"
+}

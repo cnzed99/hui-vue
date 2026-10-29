@@ -19,12 +19,47 @@ def array(items):
     return {'type': 'array', 'items': items}
 
 
+CATEGORY_ID = '[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}'
+
+
+def _decimal_range_pattern(low, high):
+    """Canonical unsigned decimal strings in an inclusive integer interval."""
+    def fixed(left, right):
+        if left == right:
+            return left
+        if left == '0' * len(left) and right == '9' * len(right):
+            return '[0-9]{' + str(len(left)) + '}'
+        if len(left) == 1:
+            return '[' + left + '-' + right + ']'
+        if left[0] == right[0]:
+            return left[0] + fixed(left[1:], right[1:])
+        width = len(left) - 1
+        parts = [left[0] + fixed(left[1:], '9' * width),
+                 right[0] + fixed('0' * width, right[1:])]
+        if int(left[0]) + 1 <= int(right[0]) - 1:
+            parts.append('[' + str(int(left[0]) + 1) + '-' + str(int(right[0]) - 1) +
+                         '][0-9]{' + str(width) + '}')
+        return '(?:' + '|'.join(parts) + ')'
+    return '(?:' + '|'.join(fixed(str(max(low, 10 ** (width - 1))),
+                                    str(min(high, 10 ** width - 1)))
+                              for width in range(len(str(low)), len(str(high)) + 1)) + ')'
+
+
+def serialized_long_total_schema():
+    # NumberSerializer.java:31 uses strict bounds; Long.MIN/MAX bound the strings.
+    safe = 9007199254740991
+    pattern = '(?:' + _decimal_range_pattern(safe, 2**63 - 1) + '|-' + _decimal_range_pattern(safe, 2**63) + ')'
+    return scalar('union', variants=[scalar('integer', minimum=-safe + 1, maximum=safe - 1),
+                                     scalar('string', pattern=pattern)])
+
+
 def endpoint_schema(path, method='GET'):
     """Exact serialized record/map fields read from the frozen Java source DTOs."""
     base = urlsplit(path).path
     text, maybe_text = scalar('string'), scalar('string', True)
     integer, boolean = scalar('integer'), scalar('boolean')
-    identifier = scalar('string', pattern='[1-9][0-9]*')
+    identifier = scalar('string', pattern=CATEGORY_ID)
+    long_total = serialized_long_total_schema()
     version = scalar('string', pattern='[0-9]+')
     category = obj({'id': identifier, 'version': version, 'name': text,
                     'fileCount': scalar('union', True, variants=[integer, scalar('string', pattern='[0-9]+')]),
@@ -58,15 +93,15 @@ def endpoint_schema(path, method='GET'):
     if base == '/admin-api/print/library/categories' and method == 'POST':
         return category
     if base == '/admin-api/print/library/categories':
-        return obj({'list': array(category), 'total': integer, 'page': integer, 'pageSize': integer})
-    if re.fullmatch('/admin-api/print/library/categories/[1-9][0-9]*', base):
+        return obj({'list': array(category), 'total': long_total, 'page': integer, 'pageSize': integer})
+    if re.fullmatch('/admin-api/print/library/categories/' + CATEGORY_ID, base):
         return category
     directory = {'/admin-api/print/directory/my-products': product,
                  '/admin-api/print/directory/platform-products': product,
                  '/admin-api/print/directory/library': library,
                  '/admin-api/print/directory/terminals': terminal}
     if base in directory:
-        return obj({'list': array(directory[base]), 'total': integer, 'page': integer,
+        return obj({'list': array(directory[base]), 'total': long_total, 'page': integer,
                     'pageSize': integer, 'categories': array(text), 'dataBasis': text})
     if base == '/admin-api/print/directory/printers':
         printer = obj({**{key: text for key in ('id', 'name', 'terminalId', 'terminalName', 'updatedAt')},
@@ -75,7 +110,7 @@ def endpoint_schema(path, method='GET'):
                        'reportStatus': scalar('string', enum=['NOT_REPORTED'])})
         option = obj({'id': text, 'name': text, 'hostName': text,
                       'mobileSelfService': scalar('boolean', True)})
-        return obj({'list': array(printer), 'total': integer, 'page': integer, 'pageSize': integer,
+        return obj({'list': array(printer), 'total': long_total, 'page': integer, 'pageSize': integer,
                     'terminals': array(option),
                     'statusBasis': scalar('string', enum=['DEVICE_REPORT_NOT_CONNECTED'])})
     if base == '/admin-api/print/statistics/terminal':

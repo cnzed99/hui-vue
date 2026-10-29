@@ -192,10 +192,10 @@ class Tests(unittest.TestCase):
                     self.count += 1
                     if self.count == 1:
                         sql.value = {'version': '1', 'name': body['name']}
-                        return {'status': 200, 'body': {'code': 0, 'data': {'id': '15', 'version': '1',
+                        return {'status': 200, 'body': {'code': 0, 'data': {'id': '04000000-0000-4000-8000-000000000015', 'version': '1',
                             'name': body['name'], 'fileCount': None, 'sort': None}}}
                     return {'status': 409, 'body': {'code': 987654, 'msg': 'FAKE_CONFLICT'}}
-        calls = [{'id': name, 'alias': 'admin', 'method': 'PUT', 'path': '/admin-api/print/library/categories/15',
+        calls = [{'id': name, 'alias': 'admin', 'method': 'PUT', 'path': '/admin-api/print/library/categories/04000000-0000-4000-8000-000000000015',
                   'body': {'name': name, 'expectedVersion': '0'}} for name in ('A', 'B')]
         group = {'id': 'fake-cas', 'calls': calls, 'readbackKey': 'fake-row', 'beforeVersion': '0',
                  'expectedBefore': {'version': '0'}, 'successDataSchema': ports.endpoint_schema(calls[0]['path'], 'PUT'),
@@ -333,6 +333,42 @@ class Tests(unittest.TestCase):
                 self.assertFalse(sessions.NATIVE_EXECUTION_ENABLED)
             finally:
                 ledger.close()
+
+    def test_05_category_uuid_v4_exact_contract(self):
+        category_id = '0400000a-000b-400c-800d-000000000015'
+        path = '/admin-api/print/library/categories/' + category_id
+        schema = ports.endpoint_schema(path, 'PUT')
+        category = {'id': category_id, 'version': '1', 'name': 'FAKE', 'fileCount': None, 'sort': None}
+        self.assertTrue(acceptance.data_matches(category, schema))
+        self.assertEqual(schema, ports.endpoint_schema('/admin-api/print/library/categories', 'POST'))
+        for invalid in ('15', category_id.upper(), category_id.replace('-400c-', '-500c-'),
+                        category_id.replace('-800d-', '-700d-')):
+            with self.subTest(invalid=invalid):
+                self.assertFalse(acceptance.data_matches({**category, 'id': invalid}, schema))
+                with self.assertRaisesRegex(ValueError, 'endpoint_schema_not_frozen'):
+                    ports.endpoint_schema('/admin-api/print/library/categories/' + invalid, 'PUT')
+
+    def test_06_long_total_exact_serializer_boundaries(self):
+        paths = ('/admin-api/print/library/categories', '/admin-api/print/directory/my-products',
+                 '/admin-api/print/directory/platform-products', '/admin-api/print/directory/library',
+                 '/admin-api/print/directory/terminals', '/admin-api/print/directory/printers')
+        safe = 9007199254740991
+        accepted = (0, safe - 1, -safe + 1, str(safe), str(-safe), str(safe + 1), str(-safe - 1),
+                    str(2**63 - 1), str(-2**63))
+        rejected = (safe, -safe, 2**63 - 1, -2**63, True, 1.0, None, '0', str(safe - 1),
+                    str(-safe + 1), '+' + str(safe), '0' + str(safe), '-0' + str(safe),
+                    str(2**63), str(-2**63 - 1), str(safe) + '.0', str(safe) + 'e0')
+        for path in paths:
+            schema = ports.endpoint_schema(path)['properties']['total']
+            for value in accepted:
+                with self.subTest(path=path, accepted=value):
+                    self.assertTrue(acceptance.data_matches(value, schema))
+            for value in rejected:
+                with self.subTest(path=path, rejected=value):
+                    self.assertFalse(acceptance.data_matches(value, schema))
+        # P37/P38 totals are declared Strings, unaffected by Long serialization.
+        self.assertEqual(ports.endpoint_schema('/admin-api/print/statistics/paper-total')
+                         ['properties']['total'], ports.scalar('string'))
 
 
 if __name__ == '__main__':

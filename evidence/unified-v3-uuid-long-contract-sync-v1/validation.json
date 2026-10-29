@@ -1,0 +1,33 @@
+{
+  "status": "PASS_MECHANICAL_SOURCE_SYNC_ONLY",
+  "createdAtUtc": "2026-10-29T09:17:03.352981+00:00",
+  "implementation": {
+    "model": "gpt-6.1-sol",
+    "reasoningEffort": "high",
+    "effortSource": "parent task and project AGENTS.md; no independent effort telemetry"
+  },
+  "changedFiles": {
+    "ops/db/ordinary_activation_common.py": "fe0d7d320c24cec4ef06f5494b5a4fa2d06dc6d3637855fb11138ef3e1ce2692",
+    "docs/design/unified-v3-api-contract-draft.json": "8649d3f0bb5c46bf2d2f540a5b156abcdcde71591bdf199aa818aba5e41a66e7"
+  },
+  "executorUnchangedSha256": "187b29c3fac992e965a3e7ef10a4b397d998cff88bd4de9aa5ad8acec445ed19",
+  "diffSha256": "e54087cd4d9b473d1a6a5b50718f962be838fbeaf9df71e53037e8144e647966",
+  "focusedLogSha256": "d98d644a7c75a57293d17b755cb2e3d6a7e406071fdc67d8daf1e68f0f01a603",
+  "candidateInventoryTests": "1/1 PASS",
+  "compile": "common and executor 2/2 PASS; in-memory",
+  "draftChecks": {
+    "json": "PASS",
+    "sourceManifestFiles": 55,
+    "lineAnchorReferences": 198,
+    "onlyTwoPendingRecordsChanged": true
+  },
+  "repairEvidence": {
+    "diffSha256": "dd604110a0b47c95d878a939b0c2c7fce3bafdf376d6de6a5034062615ab499c",
+    "validationSha256": "da5d364df3a04258b3f33ec41235ff32507fd0d4d9028d6ef7cbc9e1a89e63fa"
+  },
+  "executionAuthorization": false,
+  "realDbRedisHttpCredentialServiceBuildOperations": "NOT_RUN",
+  "remaining": [
+    "runtime HTTP/null inclusion, frontend Long decoding and execution boundaries remain pending"
+  ]
+}

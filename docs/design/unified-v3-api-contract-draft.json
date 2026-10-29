@@ -1,0 +1,4737 @@
+{
+  "id": "unified-v3-api-contract-draft",
+  "status": "SOURCE_ONLY_DRAFT_NOT_EXECUTABLE",
+  "executionAuthorization": false,
+  "date": "2026-10-29",
+  "counts": {
+    "pageGetEntries": 19,
+    "expandedMethodPathOperations": 33
+  },
+  "countingNote": "19 is page/GET-entry count, not total method+path count. Category item routes and writes are nested; advertising enum expands 8 concrete paths.",
+  "sourceCommits": {
+    "root": "d3374df4088005a0c5a35daad9c4936028e89544",
+    "backend": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+    "frontend": "d8123c61ffebeb5b41032238395bf72cd2f79ee9"
+  },
+  "prefix": {
+    "sourceDefault": "/admin-api",
+    "liveEffectivePrefix": "UNPROVEN",
+    "sources": [
+      {
+        "file": "src/backend/yudao-framework/yudao-spring-boot-starter-web/src/main/java/cn/iocoder/yudao/framework/web/config/WebProperties.java",
+        "line": 24,
+        "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+        "sha256": "ee1389a9d10ea59c2afe478eeda5012b5b00065deb22b0bbcf4255427e862473",
+        "anchor": "private Api adminApi"
+      },
+      {
+        "file": "src/backend/yudao-framework/yudao-spring-boot-starter-web/src/main/java/cn/iocoder/yudao/framework/web/config/YudaoWebAutoConfiguration.java",
+        "line": 53,
+        "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+        "sha256": "4e7593637e6987876aeb5cce762b2b113db260ad3bdfe72c2b47bfc29301e7ef",
+        "anchor": "mapping.setPathPrefixes"
+      }
+    ]
+  },
+  "commonResult": {
+    "successCode": 0,
+    "codeType": "integer",
+    "successMsg": "",
+    "failureData": "null in Java error factory; runtime JSON null inclusion UNPROVEN",
+    "sources": [
+      {
+        "file": "src/backend/yudao-framework/yudao-common/src/main/java/cn/iocoder/yudao/framework/common/pojo/CommonResult.java",
+        "line": 72,
+        "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+        "sha256": "14c561042a8bb8212ec1dc60c7c916d3b00c6d0d556d90e38986665c59e9e187",
+        "anchor": "public static <T> CommonResult<T> success"
+      },
+      {
+        "file": "src/backend/yudao-framework/yudao-common/src/main/java/cn/iocoder/yudao/framework/common/pojo/CommonResult.java",
+        "line": 52,
+        "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+        "sha256": "14c561042a8bb8212ec1dc60c7c916d3b00c6d0d556d90e38986665c59e9e187",
+        "anchor": "public static <T> CommonResult<T> error(Integer"
+      },
+      {
+        "file": "src/backend/yudao-framework/yudao-common/src/main/java/cn/iocoder/yudao/framework/common/exception/enums/GlobalErrorCodeConstants.java",
+        "line": 17,
+        "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+        "sha256": "34a320c0a584e7b9c55ccb9d229fdb9af437a0f363e05ed56a1a85f404b64f92",
+        "anchor": "ErrorCode SUCCESS"
+      }
+    ]
+  },
+  "serialization": {
+    "long": {
+      "sources": [
+        {
+          "file": "src/backend/yudao-framework/yudao-common/src/main/java/cn/iocoder/yudao/framework/common/util/json/databind/NumberSerializer.java",
+          "line": 31,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "83c7c1a896bcd40416e0b7f5758d7ff925d78466eb6514ea1a62c8851e4db415",
+          "anchor": "if (value.longValue()"
+        },
+        {
+          "file": "src/backend/yudao-framework/yudao-spring-boot-starter-web/src/main/java/cn/iocoder/yudao/framework/jackson/config/YudaoJacksonAutoConfiguration.java",
+          "line": 35,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "bba9fc2b6e2fe62249df434f7d32d898d978881812a0fa8c52a745484306ce65",
+          "anchor": ".serializerByType(Long.class"
+        }
+      ]
+    },
+    "runtimeNullInclusion": "UNPROVEN_NOT_TESTED"
+  },
+  "sharedFailures": {
+    "permissionDenied": {
+      "businessCode": 403,
+      "httpStatus": "UNPROVEN_SOURCE_RETURNS_COMMONRESULT_WITHOUT_STATUS",
+      "sources": [
+        {
+          "file": "src/backend/yudao-framework/yudao-spring-boot-starter-web/src/main/java/cn/iocoder/yudao/framework/web/core/handler/GlobalExceptionHandler.java",
+          "line": 281,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "ee0d2395ceb324a99e02eeb42db289419d4723220970208d6b9aedc1cef4ca57",
+          "anchor": "return CommonResult.error(FORBIDDEN);"
+        },
+        {
+          "file": "src/backend/yudao-framework/yudao-common/src/main/java/cn/iocoder/yudao/framework/common/exception/enums/GlobalErrorCodeConstants.java",
+          "line": 23,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "34a320c0a584e7b9c55ccb9d229fdb9af437a0f363e05ed56a1a85f404b64f92",
+          "anchor": "ErrorCode FORBIDDEN"
+        }
+      ]
+    },
+    "scopeErrors": [
+      {
+        "businessCode": 1510000001,
+        "httpStatus": "UNPROVEN",
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeErrorCodes.java",
+          "line": 7,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "4be6b3576b586df8c6b8f60391f4909f11a7a81f1232aeadeeaea14e8f2e8ea8",
+          "anchor": "LOGIN_REQUIRED"
+        }
+      },
+      {
+        "businessCode": 1510000002,
+        "httpStatus": "UNPROVEN",
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeErrorCodes.java",
+          "line": 8,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "4be6b3576b586df8c6b8f60391f4909f11a7a81f1232aeadeeaea14e8f2e8ea8",
+          "anchor": "TENANT_REQUIRED"
+        }
+      },
+      {
+        "businessCode": 1510000003,
+        "httpStatus": "UNPROVEN",
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeErrorCodes.java",
+          "line": 9,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "4be6b3576b586df8c6b8f60391f4909f11a7a81f1232aeadeeaea14e8f2e8ea8",
+          "anchor": "SCOPE_FORBIDDEN"
+        }
+      },
+      {
+        "businessCode": 1510000004,
+        "httpStatus": "UNPROVEN",
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeErrorCodes.java",
+          "line": 10,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "4be6b3576b586df8c6b8f60391f4909f11a7a81f1232aeadeeaea14e8f2e8ea8",
+          "anchor": "STORE_NOT_ASSIGNED"
+        }
+      },
+      {
+        "businessCode": 1510000005,
+        "httpStatus": "UNPROVEN",
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeErrorCodes.java",
+          "line": 11,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "4be6b3576b586df8c6b8f60391f4909f11a7a81f1232aeadeeaea14e8f2e8ea8",
+          "anchor": "STORE_AMBIGUOUS"
+        }
+      },
+      {
+        "businessCode": 1510000006,
+        "httpStatus": "UNPROVEN",
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeErrorCodes.java",
+          "line": 12,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "4be6b3576b586df8c6b8f60391f4909f11a7a81f1232aeadeeaea14e8f2e8ea8",
+          "anchor": "ACTOR_NOT_IMPLEMENTED"
+        }
+      },
+      {
+        "businessCode": 1510000007,
+        "httpStatus": "UNPROVEN",
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeErrorCodes.java",
+          "line": 13,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "4be6b3576b586df8c6b8f60391f4909f11a7a81f1232aeadeeaea14e8f2e8ea8",
+          "anchor": "STORE_UNAVAILABLE"
+        }
+      }
+    ],
+    "scopeHandlerSource": {
+      "file": "src/backend/yudao-framework/yudao-spring-boot-starter-web/src/main/java/cn/iocoder/yudao/framework/web/core/handler/GlobalExceptionHandler.java",
+      "line": 300,
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "ee0d2395ceb324a99e02eeb42db289419d4723220970208d6b9aedc1cef4ca57",
+      "anchor": "public CommonResult<?> serviceExceptionHandler"
+    },
+    "exhaustiveGlobalFailureSet": "UNPROVEN; framework/authentication/filter paths not exhaustively frozen"
+  },
+  "querySchemas": {
+    "Empty": {
+      "fields": {},
+      "unknownKeys": "REJECT",
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintStoreProfileController.java",
+          "line": 32,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "a1488b377c71ec1de747723aa7897f13a0a274acc7244d659f280f1c2ebdcac2",
+          "anchor": "private static void requireEmpty"
+        }
+      ],
+      "duplicateKeys": "REJECT"
+    },
+    "CategoryList": {
+      "fields": {
+        "page": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": 1,
+            "range": [
+              1,
+              1000000
+            ],
+            "pattern": "[1-9][0-9]{0,6}"
+          }
+        },
+        "pageSize": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": 20,
+            "range": [
+              1,
+              100
+            ],
+            "pattern": "[1-9][0-9]{0,6}"
+          }
+        }
+      },
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintLibraryCategoryController.java",
+          "line": 40,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "c47b880f3d6aa6781247ac27e3abdea7145241b7791ac274a7b2f3ea88f5de5b",
+          "anchor": "private static int number"
+        },
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryService.java",
+          "line": 19,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "e49a0ea0f52d7847917b09065d83f5642eb8ea95d63f4fdbe33a0a634c503126",
+          "anchor": "public Page list"
+        }
+      ],
+      "unknownKeys": "REJECT",
+      "duplicateKeys": "REJECT"
+    },
+    "Product": {
+      "fields": {
+        "page": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": 1,
+            "range": [
+              1,
+              1000000
+            ]
+          }
+        },
+        "pageSize": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": 10,
+            "range": [
+              1,
+              100
+            ]
+          }
+        },
+        "name": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": "",
+            "strip": true,
+            "maxUtf16Units": 100,
+            "rejectISOControl": true
+          }
+        },
+        "category": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": "",
+            "strip": true,
+            "maxUtf16Units": 512,
+            "rejectISOControl": true
+          }
+        }
+      },
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryQuery.java",
+          "line": 6,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "820e49a7d913c38b1e33fef497058c55b0a1a19b0ff730d92b45fd71e59a4c63",
+          "anchor": "public static PrintDirectoryQuery parse"
+        }
+      ],
+      "unknownKeys": "REJECT",
+      "duplicateKeys": "REJECT"
+    },
+    "Library": {
+      "fields": {
+        "page": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": 1,
+            "range": [
+              1,
+              1000000
+            ]
+          }
+        },
+        "pageSize": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": 10,
+            "range": [
+              1,
+              100
+            ]
+          }
+        },
+        "name": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": "",
+            "strip": true,
+            "maxUtf16Units": 100,
+            "rejectISOControl": true
+          }
+        },
+        "category": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": "",
+            "strip": true,
+            "maxUtf16Units": 512,
+            "rejectISOControl": true
+          }
+        },
+        "audit": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": "ALL",
+            "enum": [
+              "ALL",
+              "PENDING",
+              "APPROVED",
+              "REJECTED"
+            ]
+          }
+        },
+        "visibility": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": "ALL",
+            "enum": [
+              "ALL",
+              "PUBLIC",
+              "STORE_USERS",
+              "STORE_STAFF"
+            ]
+          }
+        },
+        "sort": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": "UPLOADED_DESC",
+            "enum": [
+              "UPLOADED_DESC",
+              "PRINT_DESC",
+              "VIEW_DESC",
+              "FAVORITE_DESC",
+              "PRICE_DESC",
+              "PRICE_ASC"
+            ]
+          }
+        }
+      },
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryQuery.java",
+          "line": 6,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "820e49a7d913c38b1e33fef497058c55b0a1a19b0ff730d92b45fd71e59a4c63",
+          "anchor": "public static PrintDirectoryQuery parse"
+        }
+      ],
+      "unknownKeys": "REJECT",
+      "duplicateKeys": "REJECT"
+    },
+    "Terminal": {
+      "fields": {
+        "page": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": 1,
+            "range": [
+              1,
+              1000000
+            ]
+          }
+        },
+        "pageSize": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": 10,
+            "range": [
+              1,
+              100
+            ]
+          }
+        },
+        "name": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": "",
+            "strip": true,
+            "maxUtf16Units": 100,
+            "rejectISOControl": true
+          }
+        },
+        "host": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": "",
+            "strip": true,
+            "maxUtf16Units": 128,
+            "rejectISOControl": true
+          }
+        },
+        "online": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": "ALL",
+            "enum": [
+              "ALL",
+              "ONLINE",
+              "OFFLINE",
+              "UNKNOWN"
+            ],
+            "onlineOfflineRejectedHttp": 422,
+            "onlineOfflineRejectedCode": 1510090003
+          }
+        }
+      },
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryQuery.java",
+          "line": 6,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "820e49a7d913c38b1e33fef497058c55b0a1a19b0ff730d92b45fd71e59a4c63",
+          "anchor": "public static PrintDirectoryQuery parse"
+        },
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryService.java",
+          "line": 14,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "0b2f4760372183f02dc8cfa7dc1c26cd63b5f3e6b35728093a1b5606c99bf0e5",
+          "anchor": "1510090003"
+        }
+      ],
+      "unknownKeys": "REJECT",
+      "duplicateKeys": "REJECT"
+    },
+    "Printer": {
+      "fields": {
+        "page": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": 1,
+            "range": [
+              1,
+              1000000
+            ]
+          }
+        },
+        "pageSize": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": 10,
+            "range": [
+              1,
+              100
+            ]
+          }
+        },
+        "terminalId": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": "",
+            "canonicalUuid": true,
+            "maxUtf16Units": 36
+          }
+        }
+      },
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/printer/PrintPrinterDirectoryQuery.java",
+          "line": 5,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "17a45595da34c141c93d3b3d49d22649f22d9e4a31a590492adbd084b4319fc1",
+          "anchor": "public static PrintPrinterDirectoryQuery parse"
+        }
+      ],
+      "unknownKeys": "REJECT",
+      "duplicateKeys": "REJECT"
+    },
+    "TerminalReport": {
+      "fields": {
+        "terminal": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": "",
+            "strip": true,
+            "maxUtf16Units": 128,
+            "rejectISOControl": true
+          }
+        },
+        "scene": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": "",
+            "strip": true,
+            "maxUtf16Units": 128,
+            "rejectISOControl": true
+          }
+        },
+        "startDate": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "format": "LocalDate.parse",
+            "default": "Asia/Shanghai yesterday minus29days"
+          }
+        },
+        "endDate": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "format": "LocalDate.parse",
+            "default": "Asia/Shanghai yesterday"
+          }
+        }
+      },
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsQuery.java",
+          "line": 11,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "275f0b3060d3de82de6fcb423c8ef9789a8533ab19044e32e5b9c7d38fce7c47",
+          "anchor": "public static PrintStatisticsQuery parse"
+        }
+      ],
+      "crossFieldValidation": [
+        "start.year>=1970; end.year<=9999; end>=start; endEpochDay-startEpochDay<=365; at most1000 aggregate groups"
+      ],
+      "unknownKeys": "REJECT",
+      "duplicateKeys": "REJECT"
+    },
+    "Paper": {
+      "fields": {
+        "terminal": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": "",
+            "strip": true,
+            "maxUtf16Units": 128,
+            "rejectISOControl": true
+          }
+        },
+        "printer": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": "",
+            "strip": true,
+            "maxUtf16Units": 128,
+            "rejectISOControl": true
+          }
+        },
+        "page": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": 1,
+            "range": [
+              1,
+              1000000
+            ],
+            "parser": "Integer.parseInt"
+          }
+        },
+        "size": {
+          "type": "string",
+          "required": false,
+          "nullable": false,
+          "validation": {
+            "default": 20,
+            "enum": [
+              10,
+              20,
+              40,
+              100
+            ],
+            "parser": "Integer.parseInt"
+          }
+        }
+      },
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsQuery.java",
+          "line": 11,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "275f0b3060d3de82de6fcb423c8ef9789a8533ab19044e32e5b9c7d38fce7c47",
+          "anchor": "public static PrintStatisticsQuery parse"
+        }
+      ],
+      "unknownKeys": "REJECT",
+      "duplicateKeys": "REJECT"
+    }
+  },
+  "requestSchemas": {
+    "StorePut": {
+      "type": "object",
+      "exactFieldSet": true,
+      "fields": {
+        "expectedVersion": {
+          "type": "string",
+          "nullable": false,
+          "validation": {
+            "pattern": "0|[1-9][0-9]{0,18}",
+            "numericRange": "0..9223372036854775806"
+          }
+        },
+        "storeName": {
+          "type": "string",
+          "nullable": false,
+          "validation": {
+            "maxLength": 128,
+            "minLength": 1,
+            "lengthUnit": "Unicode code points",
+            "rejectNul": true,
+            "nonBlank": true
+          }
+        },
+        "notice": {
+          "type": "string",
+          "nullable": true,
+          "validation": {
+            "maxLength": 2000,
+            "lengthUnit": "Unicode code points",
+            "rejectNul": true
+          }
+        },
+        "provinceCode": {
+          "type": "null",
+          "nullable": true,
+          "validation": {
+            "onlyNullUntilRegionDictionaryConfigured": true
+          }
+        },
+        "provinceName": {
+          "type": "null",
+          "nullable": true,
+          "validation": {
+            "onlyNullUntilRegionDictionaryConfigured": true
+          }
+        },
+        "cityCode": {
+          "type": "null",
+          "nullable": true,
+          "validation": {
+            "onlyNullUntilRegionDictionaryConfigured": true
+          }
+        },
+        "cityName": {
+          "type": "null",
+          "nullable": true,
+          "validation": {
+            "onlyNullUntilRegionDictionaryConfigured": true
+          }
+        },
+        "districtCode": {
+          "type": "null",
+          "nullable": true,
+          "validation": {
+            "onlyNullUntilRegionDictionaryConfigured": true
+          }
+        },
+        "districtName": {
+          "type": "null",
+          "nullable": true,
+          "validation": {
+            "onlyNullUntilRegionDictionaryConfigured": true
+          }
+        },
+        "streetCode": {
+          "type": "null",
+          "nullable": true,
+          "validation": {
+            "onlyNullUntilRegionDictionaryConfigured": true
+          }
+        },
+        "streetName": {
+          "type": "null",
+          "nullable": true,
+          "validation": {
+            "onlyNullUntilRegionDictionaryConfigured": true
+          }
+        },
+        "address": {
+          "type": "string",
+          "nullable": true,
+          "validation": {
+            "maxLength": 500,
+            "lengthUnit": "Unicode code points",
+            "rejectNul": true
+          }
+        },
+        "contact": {
+          "type": "string",
+          "nullable": true,
+          "validation": {
+            "maxLength": 128,
+            "lengthUnit": "Unicode code points",
+            "rejectNul": true
+          }
+        },
+        "telephone": {
+          "type": "string",
+          "nullable": true,
+          "validation": {
+            "maxLength": 64,
+            "lengthUnit": "Unicode code points",
+            "rejectNul": true
+          }
+        },
+        "qq": {
+          "type": "string",
+          "nullable": true,
+          "validation": {
+            "maxLength": 64,
+            "lengthUnit": "Unicode code points",
+            "rejectNul": true
+          }
+        },
+        "openTime": {
+          "type": "string",
+          "nullable": true,
+          "validation": {
+            "pattern": "(?:[01][0-9]|2[0-3]):[0-5][0-9]",
+            "pairedWithOtherTime": true
+          }
+        },
+        "closeTime": {
+          "type": "string",
+          "nullable": true,
+          "validation": {
+            "pattern": "(?:[01][0-9]|2[0-3]):[0-5][0-9]",
+            "pairedWithOtherTime": true
+          }
+        },
+        "businessOpen": {
+          "type": "boolean",
+          "nullable": true,
+          "validation": {}
+        }
+      },
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileCommand.java",
+          "line": 13,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "74223c5ead74858fa511b51bdf0abb66a8455dfcafa02e51ce07b3a5f6344392",
+          "anchor": "parse("
+        }
+      ]
+    },
+    "SettingsPut": {
+      "type": "object",
+      "exactFieldSet": true,
+      "fields": {
+        "expectedVersion": {
+          "type": "string",
+          "nullable": false,
+          "validation": {
+            "pattern": "0|[1-9][0-9]{0,18}",
+            "numericRange": "0..9223372036854775806"
+          }
+        },
+        "name": {
+          "type": "string",
+          "nullable": false,
+          "validation": {
+            "maxLength": 20,
+            "minLength": 3,
+            "lengthUnit": "Unicode code points",
+            "rejectNul": true
+          }
+        },
+        "description": {
+          "type": "string",
+          "nullable": false,
+          "validation": {
+            "maxLength": 30,
+            "minLength": 1,
+            "lengthUnit": "Unicode code points",
+            "rejectNul": true
+          }
+        }
+      },
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/settings/PrintLibrarySettingsCommand.java",
+          "line": 9,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "28e31dcbe1832bfff4cfc820659bfb26afe619d6607a0ec12146692aa97a68f4",
+          "anchor": "parse("
+        }
+      ],
+      "crossFieldValidation": [
+        "nonBlank strings; reject unpaired UTF-16 surrogates"
+      ]
+    },
+    "CategoryPost": {
+      "type": "object",
+      "exactFieldSet": true,
+      "fields": {
+        "name": {
+          "type": "string",
+          "nullable": false,
+          "validation": {
+            "maxLength": 100,
+            "minLength": 1,
+            "lengthUnit": "Unicode code points",
+            "rejectNul": true
+          }
+        },
+        "requestId": {
+          "type": "string",
+          "nullable": false,
+          "validation": {
+            "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}"
+          }
+        }
+      },
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryCommand.java",
+          "line": 10,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "9991feb5b3f6d2a8b7771f2ec3870e5ddadf7cbcf7763d9e9b2168f86731aac3",
+          "anchor": "parse("
+        }
+      ],
+      "crossFieldValidation": [
+        "name nonBlank; reject unpaired UTF-16 surrogates; limit100 is new API limit, not observed original form rule"
+      ]
+    },
+    "CategoryPut": {
+      "type": "object",
+      "exactFieldSet": true,
+      "fields": {
+        "name": {
+          "type": "string",
+          "nullable": false,
+          "validation": {
+            "maxLength": 100,
+            "minLength": 1,
+            "lengthUnit": "Unicode code points",
+            "rejectNul": true
+          }
+        },
+        "expectedVersion": {
+          "type": "string",
+          "nullable": false,
+          "validation": {
+            "pattern": "[1-9][0-9]{0,18}",
+            "numericRange": "1..9223372036854775806"
+          }
+        }
+      },
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryCommand.java",
+          "line": 10,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "9991feb5b3f6d2a8b7771f2ec3870e5ddadf7cbcf7763d9e9b2168f86731aac3",
+          "anchor": "parse("
+        }
+      ],
+      "crossFieldValidation": [
+        "name nonBlank; reject unpaired UTF-16 surrogates; limit100 is new API limit, not observed original form rule"
+      ]
+    },
+    "AdPut": {
+      "type": "object",
+      "exactFieldSet": true,
+      "fields": {
+        "expectedVersion": {
+          "type": "string",
+          "nullable": false,
+          "validation": {
+            "pattern": "0|[1-9][0-9]{0,18}",
+            "numericRange": "0..9223372036854775806"
+          }
+        },
+        "customEnabled": {
+          "type": "boolean",
+          "nullable": false,
+          "validation": {
+            "onlyFalse": true
+          }
+        },
+        "successMessageHtml": {
+          "type": "string",
+          "nullable": false,
+          "validation": {
+            "maxLength": 10000,
+            "lengthUnit": "UTF-16 code units",
+            "rejectNul": true
+          }
+        },
+        "assets": {
+          "type": "array",
+          "nullable": false,
+          "validation": {
+            "items": {
+              "slot": {
+                "type": "string",
+                "nullable": false,
+                "validation": {}
+              },
+              "url": {
+                "type": "string",
+                "nullable": false,
+                "validation": {
+                  "maxLength": 2048,
+                  "scheme": "https",
+                  "hostRequired": true,
+                  "userInfoForbidden": true,
+                  "fragmentForbidden": true
+                }
+              }
+            },
+            "uniqueSlot": true,
+            "uniqueUrl": true,
+            "maximum": "position.maximum"
+          }
+        }
+      },
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingCommand.java",
+          "line": 7,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "fb127aa3ba5e3a7b5f6c27d15517ab8a963d4c724f192f41f20530cfa3d41c9c",
+          "anchor": "parse("
+        },
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingService.java",
+          "line": 19,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "8990a6e91f5665cb24fbf8890c5ca479220bac5d409ab997c3739067b40dcd2a",
+          "anchor": "existing slots cannot be removed"
+        },
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingService.java",
+          "line": 21,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "8990a6e91f5665cb24fbf8890c5ca479220bac5d409ab997c3739067b40dcd2a",
+          "anchor": "repository.existingImage"
+        }
+      ],
+      "crossFieldValidation": [
+        "successMessageHtml must be empty except COMPUTER_TERMINAL; non-ORDER_PAGE slots IMAGE_1..maximum; ORDER_PAGE slots FRONT/BACK",
+        "existing slots cannot be removed; each material URL must pass repository.existingImage; enabled=true rejected PENDING",
+        "This is implemented draft-only behavior, not human authorization to enable advertising"
+      ]
+    }
+  },
+  "definitions": {
+    "StoreProfileValue": {
+      "type": "object",
+      "properties": {
+        "storeName": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "notice": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "provinceCode": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "provinceName": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "cityCode": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "cityName": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "districtCode": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "districtName": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "streetCode": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "streetName": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "address": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "contact": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "telephone": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "qq": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "openTime": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "closeTime": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "businessOpen": {
+          "type": "boolean",
+          "javaType": "Boolean",
+          "nullable": "UNPROVEN"
+        }
+      },
+      "fieldPresence": "UNPROVEN_RUNTIME_JACKSON_INCLUSION",
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileValue.java",
+          "line": 4,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "1a27a6d55f1a3550057bd04d1b088a203c52c58d2bf62655df38f69d7e0179c0",
+          "anchor": "public record PrintStoreProfileValue"
+        }
+      ]
+    },
+    "StoreProfile": {
+      "type": "object",
+      "properties": {
+        "profileVersion": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "configured": {
+          "type": "boolean",
+          "javaType": "boolean",
+          "nullable": false
+        },
+        "profile": {
+          "$ref": "#/definitions/StoreProfileValue",
+          "nullable": "UNPROVEN"
+        },
+        "regionDictionaryStatus": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN",
+          "const": "NOT_CONFIGURED"
+        },
+        "officialAccountQrStatus": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN",
+          "const": "NOT_CONFIGURED"
+        },
+        "officialAccountQrUrl": {
+          "type": "null",
+          "nullable": true
+        },
+        "miniProgramQrStatus": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN",
+          "const": "NOT_CONFIGURED"
+        },
+        "miniProgramQrUrl": {
+          "type": "null",
+          "nullable": true
+        }
+      },
+      "fieldPresence": "UNPROVEN_RUNTIME_JACKSON_INCLUSION",
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileView.java",
+          "line": 3,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "b84b55c730f558bc8d58235332c63163763801f0a0377cacb4cf641b796f5d83",
+          "anchor": "public record PrintStoreProfileView"
+        },
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileView.java",
+          "line": 8,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "b84b55c730f558bc8d58235332c63163763801f0a0377cacb4cf641b796f5d83",
+          "anchor": "\"NOT_CONFIGURED\""
+        },
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileRepository.java",
+          "line": 22,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "5100c07dd589a52bd5aa6e79361f913e50413d951c86bc5ec8fbaf6e69fa3029",
+          "anchor": "Object business="
+        }
+      ]
+    },
+    "LibrarySettings": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "configured": {
+          "type": "boolean",
+          "javaType": "boolean",
+          "nullable": false
+        },
+        "name": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "description": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "miniProgramPathStatus": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN",
+          "const": "NOT_CONFIGURED"
+        },
+        "miniProgramPath": {
+          "type": "null",
+          "nullable": true
+        }
+      },
+      "fieldPresence": "UNPROVEN_RUNTIME_JACKSON_INCLUSION",
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/settings/PrintLibrarySettings.java",
+          "line": 4,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "45d9091664bfde59e90b09a3810f59b29c3d6e0283f7c30f7965387cede2d3e9",
+          "anchor": "public record PrintLibrarySettings"
+        },
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/settings/PrintLibrarySettings.java",
+          "line": 8,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "45d9091664bfde59e90b09a3810f59b29c3d6e0283f7c30f7965387cede2d3e9",
+          "anchor": "\"NOT_CONFIGURED\""
+        },
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/settings/PrintLibrarySettingsRepository.java",
+          "line": 15,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "7894dfd6e5ed7dabea2ed7d41e3ea9d82823c343bc2fe96699036733f1aee266",
+          "anchor": "rs.getObject(\"version\")"
+        }
+      ]
+    },
+    "Category": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN",
+          "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}"
+        },
+        "version": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "name": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "fileCount": {
+          "type": "null",
+          "nullable": true
+        },
+        "sort": {
+          "type": "null",
+          "nullable": true
+        }
+      },
+      "fieldPresence": "UNPROVEN_RUNTIME_JACKSON_INCLUSION",
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategory.java",
+          "line": 4,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "4c7204d02ce0b4443d46886b87d32d33688edefbb7525d24473b7bdbb19b90d0",
+          "anchor": "public record PrintLibraryCategory"
+        },
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryRepository.java",
+          "line": 15,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "8d46806f795c8bc28fd17a21af8abe97565557c4891dba64b84746e5214226e5",
+          "anchor": "return new PrintLibraryCategory"
+        },
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryCommand.java",
+          "line": 30,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "9991feb5b3f6d2a8b7771f2ec3870e5ddadf7cbcf7763d9e9b2168f86731aac3",
+          "anchor": "public static String id"
+        }
+      ]
+    },
+    "CategoryPage": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Category"
+          },
+          "nullable": "UNPROVEN"
+        },
+        "total": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "javaType": "long",
+          "nullable": false,
+          "serialization": "JSON integer iff -9007199254740991 < value < 9007199254740991; otherwise decimal string"
+        },
+        "page": {
+          "type": "integer",
+          "javaType": "int",
+          "nullable": false
+        },
+        "pageSize": {
+          "type": "integer",
+          "javaType": "int",
+          "nullable": false
+        }
+      },
+      "fieldPresence": "UNPROVEN_RUNTIME_JACKSON_INCLUSION",
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryService.java",
+          "line": 14,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "e49a0ea0f52d7847917b09065d83f5642eb8ea95d63f4fdbe33a0a634c503126",
+          "anchor": "public record Page"
+        }
+      ]
+    },
+    "Product": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "code": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "name": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "categoryPath": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "unitPrice": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "currency": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "priceDescription": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "catalogKind": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        }
+      },
+      "fieldPresence": "UNPROVEN_RUNTIME_JACKSON_INCLUSION",
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryModel.java",
+          "line": 8,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "64f8318fb14e71fc77c90558a155b82baafd411a6f378da678caa0356bf1dbf4",
+          "anchor": "public record Product"
+        },
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java",
+          "line": 29,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6",
+          "anchor": "new Product("
+        }
+      ]
+    },
+    "LibraryEntry": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "libraryStoreName": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "fileName": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "categoryPath": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "visibility": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "auditStatus": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "price": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "currency": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "pages": {
+          "type": "integer",
+          "javaType": "Integer",
+          "nullable": "UNPROVEN"
+        },
+        "printCount": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "viewCount": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "favoriteCount": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "downloadCount": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "uploadedAt": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        }
+      },
+      "fieldPresence": "UNPROVEN_RUNTIME_JACKSON_INCLUSION",
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryModel.java",
+          "line": 9,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "64f8318fb14e71fc77c90558a155b82baafd411a6f378da678caa0356bf1dbf4",
+          "anchor": "public record LibraryEntry"
+        },
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java",
+          "line": 30,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6",
+          "anchor": "new LibraryEntry("
+        }
+      ]
+    },
+    "Terminal": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "name": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "hostName": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "operatingSystem": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "clientVersion": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "ipAddress": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "mobileSelfService": {
+          "type": "boolean",
+          "javaType": "Boolean",
+          "nullable": "UNPROVEN"
+        },
+        "enabled": {
+          "type": "boolean",
+          "javaType": "Boolean",
+          "nullable": "UNPROVEN"
+        },
+        "updatedAt": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "onlineStatus": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN",
+          "const": "UNKNOWN"
+        }
+      },
+      "fieldPresence": "UNPROVEN_RUNTIME_JACKSON_INCLUSION",
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryModel.java",
+          "line": 10,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "64f8318fb14e71fc77c90558a155b82baafd411a6f378da678caa0356bf1dbf4",
+          "anchor": "public record Terminal"
+        },
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java",
+          "line": 31,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6",
+          "anchor": "new Terminal("
+        }
+      ]
+    },
+    "ProductPage": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Product"
+          },
+          "nullable": "UNPROVEN"
+        },
+        "total": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "javaType": "long",
+          "nullable": false,
+          "serialization": "JSON integer iff -9007199254740991 < value < 9007199254740991; otherwise decimal string"
+        },
+        "page": {
+          "type": "integer",
+          "javaType": "int",
+          "nullable": false
+        },
+        "pageSize": {
+          "type": "integer",
+          "javaType": "int",
+          "nullable": false
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "nullable": "UNPROVEN"
+        },
+        "dataBasis": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        }
+      },
+      "fieldPresence": "UNPROVEN_RUNTIME_JACKSON_INCLUSION",
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryModel.java",
+          "line": 7,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "64f8318fb14e71fc77c90558a155b82baafd411a6f378da678caa0356bf1dbf4",
+          "anchor": "public record Page"
+        }
+      ]
+    },
+    "LibraryEntryPage": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LibraryEntry"
+          },
+          "nullable": "UNPROVEN"
+        },
+        "total": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "javaType": "long",
+          "nullable": false,
+          "serialization": "JSON integer iff -9007199254740991 < value < 9007199254740991; otherwise decimal string"
+        },
+        "page": {
+          "type": "integer",
+          "javaType": "int",
+          "nullable": false
+        },
+        "pageSize": {
+          "type": "integer",
+          "javaType": "int",
+          "nullable": false
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "nullable": "UNPROVEN"
+        },
+        "dataBasis": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        }
+      },
+      "fieldPresence": "UNPROVEN_RUNTIME_JACKSON_INCLUSION",
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryModel.java",
+          "line": 7,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "64f8318fb14e71fc77c90558a155b82baafd411a6f378da678caa0356bf1dbf4",
+          "anchor": "public record Page"
+        }
+      ]
+    },
+    "TerminalPage": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Terminal"
+          },
+          "nullable": "UNPROVEN"
+        },
+        "total": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "javaType": "long",
+          "nullable": false,
+          "serialization": "JSON integer iff -9007199254740991 < value < 9007199254740991; otherwise decimal string"
+        },
+        "page": {
+          "type": "integer",
+          "javaType": "int",
+          "nullable": false
+        },
+        "pageSize": {
+          "type": "integer",
+          "javaType": "int",
+          "nullable": false
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "nullable": "UNPROVEN"
+        },
+        "dataBasis": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        }
+      },
+      "fieldPresence": "UNPROVEN_RUNTIME_JACKSON_INCLUSION",
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryModel.java",
+          "line": 7,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "64f8318fb14e71fc77c90558a155b82baafd411a6f378da678caa0356bf1dbf4",
+          "anchor": "public record Page"
+        }
+      ]
+    },
+    "Printer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "name": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "terminalId": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "terminalName": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "address": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "defaultPrinter": {
+          "type": "boolean",
+          "javaType": "Boolean",
+          "nullable": "UNPROVEN"
+        },
+        "mobileSelfService": {
+          "type": "boolean",
+          "javaType": "Boolean",
+          "nullable": "UNPROVEN"
+        },
+        "updatedAt": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "reportStatus": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN",
+          "const": "NOT_REPORTED"
+        }
+      },
+      "fieldPresence": "UNPROVEN_RUNTIME_JACKSON_INCLUSION",
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/printer/PrintPrinterDirectoryModel.java",
+          "line": 6,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "6357a829dc1024bdad8074b7cda37d00f10e329550e7e6d3638c6887378099c6",
+          "anchor": "public record Printer"
+        }
+      ]
+    },
+    "TerminalOption": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "name": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "hostName": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "mobileSelfService": {
+          "type": "boolean",
+          "javaType": "Boolean",
+          "nullable": "UNPROVEN"
+        }
+      },
+      "fieldPresence": "UNPROVEN_RUNTIME_JACKSON_INCLUSION",
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/printer/PrintPrinterDirectoryModel.java",
+          "line": 7,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "6357a829dc1024bdad8074b7cda37d00f10e329550e7e6d3638c6887378099c6",
+          "anchor": "public record TerminalOption"
+        }
+      ]
+    },
+    "PrinterPage": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Printer"
+          },
+          "nullable": "UNPROVEN"
+        },
+        "total": {
+          "type": [
+            "integer",
+            "string"
+          ],
+          "javaType": "long",
+          "nullable": false,
+          "serialization": "JSON integer iff -9007199254740991 < value < 9007199254740991; otherwise decimal string"
+        },
+        "page": {
+          "type": "integer",
+          "javaType": "int",
+          "nullable": false
+        },
+        "pageSize": {
+          "type": "integer",
+          "javaType": "int",
+          "nullable": false
+        },
+        "terminals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TerminalOption"
+          },
+          "nullable": "UNPROVEN"
+        },
+        "statusBasis": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN",
+          "const": "DEVICE_REPORT_NOT_CONNECTED"
+        }
+      },
+      "fieldPresence": "UNPROVEN_RUNTIME_JACKSON_INCLUSION",
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/printer/PrintPrinterDirectoryModel.java",
+          "line": 8,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "6357a829dc1024bdad8074b7cda37d00f10e329550e7e6d3638c6887378099c6",
+          "anchor": "public record Page"
+        },
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/printer/PrintPrinterDirectoryRepository.java",
+          "line": 20,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "1c6c808c2689329d7bbec561338b0fb6aae8667d087c5c3e92a81a17c0aa3d28",
+          "anchor": "return new Page"
+        }
+      ]
+    },
+    "OrderPoint": {
+      "type": "object",
+      "properties": {
+        "day": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "terminal": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "scene": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "currency": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "simulation": {
+          "type": "boolean",
+          "javaType": "boolean",
+          "nullable": false
+        },
+        "orders": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "amountSnapshot": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": true
+        },
+        "invalidAmountCount": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        }
+      },
+      "fieldPresence": "UNPROVEN_RUNTIME_JACKSON_INCLUSION",
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsRepository.java",
+          "line": 13,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "1da926454aec6b81f76c3ab2236ff4114d5d84ff47cf52c48ce2d0609d68583b",
+          "anchor": "public record OrderPoint"
+        }
+      ]
+    },
+    "PaperRow": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "terminal": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "printer": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "paper": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "remaining": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": true
+        },
+        "warning": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": true
+        },
+        "total": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "simplex": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": true
+        },
+        "duplex": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": true
+        },
+        "day": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": true
+        },
+        "updatedAt": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "simulation": {
+          "type": "boolean",
+          "javaType": "boolean",
+          "nullable": false
+        }
+      },
+      "fieldPresence": "UNPROVEN_RUNTIME_JACKSON_INCLUSION",
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsRepository.java",
+          "line": 15,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "1da926454aec6b81f76c3ab2236ff4114d5d84ff47cf52c48ce2d0609d68583b",
+          "anchor": "public record PaperRow"
+        },
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsRepository.java",
+          "line": 47,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "1da926454aec6b81f76c3ab2236ff4114d5d84ff47cf52c48ce2d0609d68583b",
+          "anchor": "String fields=daily?"
+        }
+      ]
+    },
+    "PaperPage": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PaperRow"
+          },
+          "nullable": "UNPROVEN"
+        },
+        "total": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "page": {
+          "type": "integer",
+          "javaType": "int",
+          "nullable": false
+        },
+        "size": {
+          "type": "integer",
+          "javaType": "int",
+          "nullable": false
+        }
+      },
+      "fieldPresence": "UNPROVEN_RUNTIME_JACKSON_INCLUSION",
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsRepository.java",
+          "line": 17,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "1da926454aec6b81f76c3ab2236ff4114d5d84ff47cf52c48ce2d0609d68583b",
+          "anchor": "public record Page"
+        }
+      ]
+    },
+    "TerminalReport": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderPoint"
+          }
+        },
+        "scenes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "startDate": {
+          "type": "string"
+        },
+        "endDate": {
+          "type": "string"
+        },
+        "basis": {
+          "const": "CURRENT_ACTOR_ORDER_SNAPSHOTS"
+        },
+        "timezone": {
+          "const": "Asia/Shanghai"
+        },
+        "transactionAmountDefinition": {
+          "const": "PENDING_CONFIRMATION"
+        }
+      },
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintStatisticsController.java",
+          "line": 26,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "3135a2aaec7c0482f057befb7dc47cbac956267177d1bd19b9288eec9a67395e",
+          "anchor": "return CommonResult.success(Map.of("
+        }
+      ]
+    },
+    "AdAsset": {
+      "type": "object",
+      "properties": {
+        "slot": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "url": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        }
+      },
+      "fieldPresence": "UNPROVEN_RUNTIME_JACKSON_INCLUSION",
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingDraft.java",
+          "line": 6,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "172b1403a693ba4bf33e2c0aec6c3cc8ac3986f583fb705873c198637ee9848a",
+          "anchor": "public record Asset"
+        }
+      ]
+    },
+    "AdDraft": {
+      "type": "object",
+      "properties": {
+        "position": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "version": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "configured": {
+          "type": "boolean",
+          "javaType": "boolean",
+          "nullable": false
+        },
+        "customEnabled": {
+          "type": "boolean",
+          "javaType": "boolean",
+          "nullable": false
+        },
+        "successMessageHtml": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN"
+        },
+        "assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AdAsset"
+          },
+          "nullable": "UNPROVEN"
+        },
+        "deliveryStatus": {
+          "type": "string",
+          "javaType": "String",
+          "nullable": "UNPROVEN",
+          "const": "NOT_CONNECTED"
+        }
+      },
+      "fieldPresence": "UNPROVEN_RUNTIME_JACKSON_INCLUSION",
+      "sources": [
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingDraft.java",
+          "line": 4,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "172b1403a693ba4bf33e2c0aec6c3cc8ac3986f583fb705873c198637ee9848a",
+          "anchor": "public record PrintAdvertisingDraft"
+        },
+        {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingDraft.java",
+          "line": 7,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "172b1403a693ba4bf33e2c0aec6c3cc8ac3986f583fb705873c198637ee9848a",
+          "anchor": "static PrintAdvertisingDraft empty"
+        }
+      ]
+    }
+  },
+  "failureCatalog": {
+    "Store": [
+      {
+        "reason": "INVALID_INPUT",
+        "httpStatus": 400,
+        "businessCode": 1510050001,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileException.java",
+          "line": 7,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "80482a5a52e4c689ee865863ccbd07b7bd5fc8331be567f1b774834ec98e0d3c",
+          "anchor": "INVALID_INPUT(1_510_050_001, HttpStatus.BAD_REQUEST,"
+        }
+      },
+      {
+        "reason": "VERSION_CONFLICT",
+        "httpStatus": 409,
+        "businessCode": 1510050002,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileException.java",
+          "line": 8,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "80482a5a52e4c689ee865863ccbd07b7bd5fc8331be567f1b774834ec98e0d3c",
+          "anchor": "VERSION_CONFLICT(1_510_050_002, HttpStatus.CONFLICT,"
+        }
+      },
+      {
+        "reason": "NOT_AVAILABLE",
+        "httpStatus": 404,
+        "businessCode": 1510050003,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileException.java",
+          "line": 9,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "80482a5a52e4c689ee865863ccbd07b7bd5fc8331be567f1b774834ec98e0d3c",
+          "anchor": "NOT_AVAILABLE(1_510_050_003, HttpStatus.NOT_FOUND,"
+        }
+      },
+      {
+        "reason": "STORAGE_UNAVAILABLE",
+        "httpStatus": 503,
+        "businessCode": 1510050004,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileException.java",
+          "line": 10,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "80482a5a52e4c689ee865863ccbd07b7bd5fc8331be567f1b774834ec98e0d3c",
+          "anchor": "STORAGE_UNAVAILABLE(1_510_050_004, HttpStatus.SERVICE_UNAVAILABLE,"
+        }
+      },
+      {
+        "reason": "REGION_NOT_CONFIGURED",
+        "httpStatus": 400,
+        "businessCode": 1510050005,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileException.java",
+          "line": 11,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "80482a5a52e4c689ee865863ccbd07b7bd5fc8331be567f1b774834ec98e0d3c",
+          "anchor": "REGION_NOT_CONFIGURED(1_510_050_005, HttpStatus.BAD_REQUEST,"
+        }
+      }
+    ],
+    "Settings": [
+      {
+        "reason": "INVALID_INPUT",
+        "httpStatus": 400,
+        "businessCode": 1510060001,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/settings/PrintLibrarySettingsException.java",
+          "line": 7,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "40a06cb8f81f00abca5f6d5f5d0135b656114803ee9b6299eac95a29bb45d56f",
+          "anchor": "INVALID_INPUT(1510060001, HttpStatus.BAD_REQUEST,"
+        }
+      },
+      {
+        "reason": "VERSION_CONFLICT",
+        "httpStatus": 409,
+        "businessCode": 1510060002,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/settings/PrintLibrarySettingsException.java",
+          "line": 8,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "40a06cb8f81f00abca5f6d5f5d0135b656114803ee9b6299eac95a29bb45d56f",
+          "anchor": "VERSION_CONFLICT(1510060002, HttpStatus.CONFLICT,"
+        }
+      },
+      {
+        "reason": "NOT_AVAILABLE",
+        "httpStatus": 404,
+        "businessCode": 1510060003,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/settings/PrintLibrarySettingsException.java",
+          "line": 9,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "40a06cb8f81f00abca5f6d5f5d0135b656114803ee9b6299eac95a29bb45d56f",
+          "anchor": "NOT_AVAILABLE(1510060003, HttpStatus.NOT_FOUND,"
+        }
+      },
+      {
+        "reason": "STORAGE_UNAVAILABLE",
+        "httpStatus": 503,
+        "businessCode": 1510060004,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/settings/PrintLibrarySettingsException.java",
+          "line": 10,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "40a06cb8f81f00abca5f6d5f5d0135b656114803ee9b6299eac95a29bb45d56f",
+          "anchor": "STORAGE_UNAVAILABLE(1510060004, HttpStatus.SERVICE_UNAVAILABLE,"
+        }
+      }
+    ],
+    "Category": [
+      {
+        "reason": "INVALID_INPUT",
+        "httpStatus": 400,
+        "businessCode": 1510080001,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryException.java",
+          "line": 7,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "0bf84a40e4b74fa28b1cb775bc48e1e9f8d7b70a1422a6bcf9d79d8de5cc27fa",
+          "anchor": "INVALID_INPUT(1510080001, HttpStatus.BAD_REQUEST,"
+        }
+      },
+      {
+        "reason": "VERSION_CONFLICT",
+        "httpStatus": 409,
+        "businessCode": 1510080002,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryException.java",
+          "line": 8,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "0bf84a40e4b74fa28b1cb775bc48e1e9f8d7b70a1422a6bcf9d79d8de5cc27fa",
+          "anchor": "VERSION_CONFLICT(1510080002, HttpStatus.CONFLICT,"
+        }
+      },
+      {
+        "reason": "NOT_FOUND",
+        "httpStatus": 404,
+        "businessCode": 1510080003,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryException.java",
+          "line": 9,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "0bf84a40e4b74fa28b1cb775bc48e1e9f8d7b70a1422a6bcf9d79d8de5cc27fa",
+          "anchor": "NOT_FOUND(1510080003, HttpStatus.NOT_FOUND,"
+        }
+      },
+      {
+        "reason": "STORAGE_UNAVAILABLE",
+        "httpStatus": 503,
+        "businessCode": 1510080004,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryException.java",
+          "line": 10,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "0bf84a40e4b74fa28b1cb775bc48e1e9f8d7b70a1422a6bcf9d79d8de5cc27fa",
+          "anchor": "STORAGE_UNAVAILABLE(1510080004, HttpStatus.SERVICE_UNAVAILABLE,"
+        }
+      },
+      {
+        "reason": "RULE_PENDING",
+        "httpStatus": 409,
+        "businessCode": 1510080005,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryException.java",
+          "line": 11,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "0bf84a40e4b74fa28b1cb775bc48e1e9f8d7b70a1422a6bcf9d79d8de5cc27fa",
+          "anchor": "RULE_PENDING(1510080005, HttpStatus.CONFLICT,"
+        }
+      }
+    ],
+    "Advertising": [
+      {
+        "reason": "INVALID",
+        "httpStatus": 400,
+        "businessCode": 1510100001,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java",
+          "line": 5,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c",
+          "anchor": "INVALID(1510100001,HttpStatus.BAD_REQUEST,"
+        }
+      },
+      {
+        "reason": "CONFLICT",
+        "httpStatus": 409,
+        "businessCode": 1510100002,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java",
+          "line": 6,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c",
+          "anchor": "CONFLICT(1510100002,HttpStatus.CONFLICT,"
+        }
+      },
+      {
+        "reason": "UNAVAILABLE",
+        "httpStatus": 404,
+        "businessCode": 1510100003,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java",
+          "line": 7,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c",
+          "anchor": "UNAVAILABLE(1510100003,HttpStatus.NOT_FOUND,"
+        }
+      },
+      {
+        "reason": "STORAGE",
+        "httpStatus": 503,
+        "businessCode": 1510100004,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java",
+          "line": 8,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c",
+          "anchor": "STORAGE(1510100004,HttpStatus.SERVICE_UNAVAILABLE,"
+        }
+      },
+      {
+        "reason": "PENDING",
+        "httpStatus": 409,
+        "businessCode": 1510100005,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java",
+          "line": 9,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c",
+          "anchor": "PENDING(1510100005,HttpStatus.CONFLICT,"
+        }
+      },
+      {
+        "reason": "ASSET",
+        "httpStatus": 400,
+        "businessCode": 1510100006,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java",
+          "line": 10,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c",
+          "anchor": "ASSET(1510100006,HttpStatus.BAD_REQUEST,"
+        }
+      }
+    ],
+    "Directory": [
+      {
+        "reason": "INVALID",
+        "httpStatus": 400,
+        "businessCode": 1510090001,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryException.java",
+          "line": 5,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "8c11eaf1bd9df89f7a0940b7625a81b1080ac2b2ffcabf6b3e37adc8fb8455e2",
+          "anchor": "1510090001"
+        }
+      },
+      {
+        "reason": "STORAGE",
+        "httpStatus": 503,
+        "businessCode": 1510090002,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintDirectoryController.java",
+          "line": 31,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "44d391690749836216b8a718dbfc98aa98881e1cc472c1e7ac05f05c7155bee4",
+          "anchor": "1510090002"
+        }
+      }
+    ],
+    "Terminal": [
+      {
+        "reason": "INVALID",
+        "httpStatus": 400,
+        "businessCode": 1510090001,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryException.java",
+          "line": 5,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "8c11eaf1bd9df89f7a0940b7625a81b1080ac2b2ffcabf6b3e37adc8fb8455e2",
+          "anchor": "1510090001"
+        }
+      },
+      {
+        "reason": "STORAGE",
+        "httpStatus": 503,
+        "businessCode": 1510090002,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintDirectoryController.java",
+          "line": 31,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "44d391690749836216b8a718dbfc98aa98881e1cc472c1e7ac05f05c7155bee4",
+          "anchor": "1510090002"
+        }
+      },
+      {
+        "reason": "HEARTBEAT_NOT_CONNECTED",
+        "httpStatus": 422,
+        "businessCode": 1510090003,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryService.java",
+          "line": 14,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "0b2f4760372183f02dc8cfa7dc1c26cd63b5f3e6b35728093a1b5606c99bf0e5",
+          "anchor": "1510090003"
+        }
+      }
+    ],
+    "Printer": [
+      {
+        "reason": "INVALID",
+        "httpStatus": 400,
+        "businessCode": 1510100001,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/printer/PrintPrinterDirectoryException.java",
+          "line": 5,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "be53443721bba8e72c588f98d4d5e45ce43891b475357b85160e10171156fbb8",
+          "anchor": "1510100001"
+        }
+      },
+      {
+        "reason": "STORAGE",
+        "httpStatus": 503,
+        "businessCode": 1510100002,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintPrinterDirectoryController.java",
+          "line": 20,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "4de9eefbff498166e16dab93ebae477573e4a9ec60e8efea33e6e90cfdd94bf1",
+          "anchor": "1510100002"
+        }
+      }
+    ],
+    "Statistics": [
+      {
+        "reason": "INVALID",
+        "httpStatus": 400,
+        "businessCode": 1510070001,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintStatisticsController.java",
+          "line": 40,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "3135a2aaec7c0482f057befb7dc47cbac956267177d1bd19b9288eec9a67395e",
+          "anchor": "1510070001"
+        }
+      },
+      {
+        "reason": "STORAGE",
+        "httpStatus": 503,
+        "businessCode": 1510070002,
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintStatisticsController.java",
+          "line": 42,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "3135a2aaec7c0482f057befb7dc47cbac956267177d1bd19b9288eec9a67395e",
+          "anchor": "1510070002"
+        }
+      }
+    ]
+  },
+  "entries": [
+    {
+      "pageEntry": "P02",
+      "path": "/admin-api/print/store/current",
+      "status": "SOURCE_MAPPED_NOT_LIVE_VERIFIED",
+      "failureCodesRef": "#/failureCatalog/Store",
+      "sharedFailuresRef": "#/sharedFailures",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/admin-api/print/store/current",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": null
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/StoreProfile"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintStoreProfileController.java",
+              "line": 20,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "a1488b377c71ec1de747723aa7897f13a0a274acc7244d659f280f1c2ebdcac2",
+              "anchor": "@GetMapping"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/admin-api/print/store/current",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": {
+              "$ref": "#/requestSchemas/StorePut"
+            }
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/StoreProfile"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintStoreProfileController.java",
+              "line": 26,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "a1488b377c71ec1de747723aa7897f13a0a274acc7244d659f280f1c2ebdcac2",
+              "anchor": "@PutMapping"
+            }
+          ]
+        }
+      ],
+      "frontendSources": [
+        {
+          "file": "src/frontend/src/print-admin/store/profileApi.ts",
+          "line": 21,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "151073ef14a10764e9d3d838ded511ae3d2b700bfa1806a2dae9048a8438fa84",
+          "anchor": "export const getStoreProfile"
+        }
+      ],
+      "conflict": [
+        {
+          "reason": "VERSION_CONFLICT",
+          "httpStatus": 409,
+          "businessCode": 1510050002,
+          "source": {
+            "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileException.java",
+            "line": 8,
+            "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+            "sha256": "80482a5a52e4c689ee865863ccbd07b7bd5fc8331be567f1b774834ec98e0d3c",
+            "anchor": "VERSION_CONFLICT(1_510_050_002, HttpStatus.CONFLICT,"
+          }
+        }
+      ]
+    },
+    {
+      "pageEntry": "P14",
+      "path": "/admin-api/print/library/settings",
+      "status": "SOURCE_MAPPED_NOT_LIVE_VERIFIED",
+      "failureCodesRef": "#/failureCatalog/Settings",
+      "sharedFailuresRef": "#/sharedFailures",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/admin-api/print/library/settings",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": null
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/LibrarySettings"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintLibrarySettingsController.java",
+              "line": 19,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "8f7d3e60ad28f44cb5f2d28d6ecf990a3e5dcf3ee0aee427ede301a7fcb52822",
+              "anchor": "@GetMapping"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/admin-api/print/library/settings",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": {
+              "$ref": "#/requestSchemas/SettingsPut"
+            }
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/LibrarySettings"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintLibrarySettingsController.java",
+              "line": 22,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "8f7d3e60ad28f44cb5f2d28d6ecf990a3e5dcf3ee0aee427ede301a7fcb52822",
+              "anchor": "@PutMapping"
+            }
+          ]
+        }
+      ],
+      "frontendSources": [
+        {
+          "file": "src/frontend/src/print-admin/library/settingsApi.ts",
+          "line": 19,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "5e7d3b57d297f9b4ea747aa93574f582b06c617bc035a0a1b6764665f64e5bec",
+          "anchor": "export const getLibrarySettings"
+        }
+      ],
+      "conflict": [
+        {
+          "reason": "VERSION_CONFLICT",
+          "httpStatus": 409,
+          "businessCode": 1510060002,
+          "source": {
+            "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/settings/PrintLibrarySettingsException.java",
+            "line": 8,
+            "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+            "sha256": "40a06cb8f81f00abca5f6d5f5d0135b656114803ee9b6299eac95a29bb45d56f",
+            "anchor": "VERSION_CONFLICT(1510060002, HttpStatus.CONFLICT,"
+          }
+        }
+      ]
+    },
+    {
+      "pageEntry": "P15",
+      "path": "/admin-api/print/library/categories",
+      "status": "SOURCE_MAPPED_NOT_LIVE_VERIFIED",
+      "failureCodesRef": "#/failureCatalog/Category",
+      "sharedFailuresRef": "#/sharedFailures",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/admin-api/print/library/categories",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/CategoryList"
+            },
+            "body": null
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/CategoryPage"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintLibraryCategoryController.java",
+              "line": 22,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "c47b880f3d6aa6781247ac27e3abdea7145241b7791ac274a7b2f3ea88f5de5b",
+              "anchor": "@GetMapping @"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/admin-api/print/library/categories",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": {
+              "$ref": "#/requestSchemas/CategoryPost"
+            }
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/Category"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintLibraryCategoryController.java",
+              "line": 31,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "c47b880f3d6aa6781247ac27e3abdea7145241b7791ac274a7b2f3ea88f5de5b",
+              "anchor": "@PostMapping"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/admin-api/print/library/categories/{id}",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": null,
+            "pathFields": {
+              "id": {
+                "type": "string",
+                "nullable": false,
+                "validation": {
+                  "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}"
+                }
+              }
+            }
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/Category"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintLibraryCategoryController.java",
+              "line": 28,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "c47b880f3d6aa6781247ac27e3abdea7145241b7791ac274a7b2f3ea88f5de5b",
+              "anchor": "@GetMapping(\"/{id}\")"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/admin-api/print/library/categories/{id}",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": {
+              "$ref": "#/requestSchemas/CategoryPut"
+            },
+            "pathFields": {
+              "id": {
+                "type": "string",
+                "nullable": false,
+                "validation": {
+                  "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}"
+                }
+              }
+            }
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/Category"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintLibraryCategoryController.java",
+              "line": 34,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "c47b880f3d6aa6781247ac27e3abdea7145241b7791ac274a7b2f3ea88f5de5b",
+              "anchor": "@PutMapping(\"/{id}\")"
+            }
+          ]
+        },
+        {
+          "method": "DELETE",
+          "path": "/admin-api/print/library/categories/{id}",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": null,
+            "pathFields": {
+              "id": {
+                "type": "string",
+                "nullable": false,
+                "validation": {
+                  "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}"
+                }
+              }
+            }
+          },
+          "success": {
+            "status": "UNREACHABLE_CURRENT_SOURCE",
+            "businessCode": null,
+            "data": null
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintLibraryCategoryController.java",
+              "line": 37,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "c47b880f3d6aa6781247ac27e3abdea7145241b7791ac274a7b2f3ea88f5de5b",
+              "anchor": "@DeleteMapping(\"/{id}\")"
+            }
+          ],
+          "blocked": {
+            "reason": "delete() always throws RULE_PENDING after get",
+            "source": {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryService.java",
+              "line": 35,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "e49a0ea0f52d7847917b09065d83f5642eb8ea95d63f4fdbe33a0a634c503126",
+              "anchor": "public void delete"
+            }
+          }
+        }
+      ],
+      "frontendSources": [
+        {
+          "file": "src/frontend/src/print-admin/library/categoryApi.ts",
+          "line": 18,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "d21a389628d438da3c5b046b7ebe0d9fc46b5192436b91abc46af9b06c8b843c",
+          "anchor": "export const getCategories"
+        },
+        {
+          "file": "src/frontend/src/print-admin/library/categoryApi.ts",
+          "line": 20,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "d21a389628d438da3c5b046b7ebe0d9fc46b5192436b91abc46af9b06c8b843c",
+          "anchor": "export const createCategory"
+        },
+        {
+          "file": "src/frontend/src/print-admin/library/categoryApi.ts",
+          "line": 21,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "d21a389628d438da3c5b046b7ebe0d9fc46b5192436b91abc46af9b06c8b843c",
+          "anchor": "export const updateCategory"
+        }
+      ],
+      "conflict": [
+        {
+          "reason": "VERSION_CONFLICT",
+          "httpStatus": 409,
+          "businessCode": 1510080002,
+          "source": {
+            "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryException.java",
+            "line": 8,
+            "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+            "sha256": "0bf84a40e4b74fa28b1cb775bc48e1e9f8d7b70a1422a6bcf9d79d8de5cc27fa",
+            "anchor": "VERSION_CONFLICT(1510080002, HttpStatus.CONFLICT,"
+          }
+        },
+        {
+          "reason": "RULE_PENDING",
+          "httpStatus": 409,
+          "businessCode": 1510080005,
+          "source": {
+            "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryException.java",
+            "line": 11,
+            "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+            "sha256": "0bf84a40e4b74fa28b1cb775bc48e1e9f8d7b70a1422a6bcf9d79d8de5cc27fa",
+            "anchor": "RULE_PENDING(1510080005, HttpStatus.CONFLICT,"
+          }
+        }
+      ]
+    },
+    {
+      "pageEntry": "P08",
+      "path": "/admin-api/print/directory/my-products",
+      "status": "SOURCE_MAPPED_NOT_LIVE_VERIFIED",
+      "failureCodesRef": "#/failureCatalog/Directory",
+      "sharedFailuresRef": "#/sharedFailures",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/admin-api/print/directory/my-products",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Product"
+            },
+            "body": null
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/ProductPage"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintDirectoryController.java",
+              "line": 16,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "44d391690749836216b8a718dbfc98aa98881e1cc472c1e7ac05f05c7155bee4",
+              "anchor": "@GetMapping(\"/my-products\")"
+            }
+          ]
+        }
+      ],
+      "frontendSources": [
+        {
+          "file": "src/frontend/src/print-admin/directory/api.ts",
+          "line": 15,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "cafaa2ab1f48aff8da63f3f9899043e7e4b51b685c343836c3c7f449148dd089",
+          "anchor": "export async function getDirectory"
+        },
+        {
+          "file": "src/frontend/src/print-admin/directory/ProductDirectory.vue",
+          "line": 8,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "279f74cc6d8f74f36821db3b3a4eafb750e22ba28ff0a70b0a7881e749e47f23",
+          "anchor": "useDirectory<"
+        }
+      ],
+      "conflict": {
+        "status": "NOT_APPLICABLE_NO_WRITE_ROUTE_IN_ENTRY"
+      }
+    },
+    {
+      "pageEntry": "P09",
+      "path": "/admin-api/print/directory/platform-products",
+      "status": "SOURCE_MAPPED_NOT_LIVE_VERIFIED",
+      "failureCodesRef": "#/failureCatalog/Directory",
+      "sharedFailuresRef": "#/sharedFailures",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/admin-api/print/directory/platform-products",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Product"
+            },
+            "body": null
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/ProductPage"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintDirectoryController.java",
+              "line": 19,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "44d391690749836216b8a718dbfc98aa98881e1cc472c1e7ac05f05c7155bee4",
+              "anchor": "@GetMapping(\"/platform-products\")"
+            }
+          ]
+        }
+      ],
+      "frontendSources": [
+        {
+          "file": "src/frontend/src/print-admin/directory/api.ts",
+          "line": 15,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "cafaa2ab1f48aff8da63f3f9899043e7e4b51b685c343836c3c7f449148dd089",
+          "anchor": "export async function getDirectory"
+        },
+        {
+          "file": "src/frontend/src/print-admin/directory/ProductDirectory.vue",
+          "line": 8,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "279f74cc6d8f74f36821db3b3a4eafb750e22ba28ff0a70b0a7881e749e47f23",
+          "anchor": "useDirectory<"
+        }
+      ],
+      "conflict": {
+        "status": "NOT_APPLICABLE_NO_WRITE_ROUTE_IN_ENTRY"
+      }
+    },
+    {
+      "pageEntry": "P13",
+      "path": "/admin-api/print/directory/library",
+      "status": "SOURCE_MAPPED_NOT_LIVE_VERIFIED",
+      "failureCodesRef": "#/failureCatalog/Directory",
+      "sharedFailuresRef": "#/sharedFailures",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/admin-api/print/directory/library",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Library"
+            },
+            "body": null
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/LibraryEntryPage"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintDirectoryController.java",
+              "line": 22,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "44d391690749836216b8a718dbfc98aa98881e1cc472c1e7ac05f05c7155bee4",
+              "anchor": "@GetMapping(\"/library\")"
+            }
+          ]
+        }
+      ],
+      "frontendSources": [
+        {
+          "file": "src/frontend/src/print-admin/directory/api.ts",
+          "line": 15,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "cafaa2ab1f48aff8da63f3f9899043e7e4b51b685c343836c3c7f449148dd089",
+          "anchor": "export async function getDirectory"
+        },
+        {
+          "file": "src/frontend/src/print-admin/directory/LibraryEntries.vue",
+          "line": 10,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "945de680874d64270a3ed656dcf23c88917354cb0041fe754eeacfbb4b080bdd",
+          "anchor": "useDirectory<"
+        }
+      ],
+      "conflict": {
+        "status": "NOT_APPLICABLE_NO_WRITE_ROUTE_IN_ENTRY"
+      }
+    },
+    {
+      "pageEntry": "P33",
+      "path": "/admin-api/print/directory/terminals",
+      "status": "SOURCE_MAPPED_NOT_LIVE_VERIFIED",
+      "failureCodesRef": "#/failureCatalog/Terminal",
+      "sharedFailuresRef": "#/sharedFailures",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/admin-api/print/directory/terminals",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Terminal"
+            },
+            "body": null
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/TerminalPage"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintDirectoryController.java",
+              "line": 25,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "44d391690749836216b8a718dbfc98aa98881e1cc472c1e7ac05f05c7155bee4",
+              "anchor": "@GetMapping(\"/terminals\")"
+            }
+          ]
+        }
+      ],
+      "frontendSources": [
+        {
+          "file": "src/frontend/src/print-admin/directory/api.ts",
+          "line": 15,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "cafaa2ab1f48aff8da63f3f9899043e7e4b51b685c343836c3c7f449148dd089",
+          "anchor": "export async function getDirectory"
+        },
+        {
+          "file": "src/frontend/src/print-admin/directory/Terminals.vue",
+          "line": 7,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "4e92c2db0d50c08c903d91d83c16a04c986b99509326eef4178b3d111d2db75e",
+          "anchor": "useDirectory<"
+        }
+      ],
+      "conflict": {
+        "status": "NOT_APPLICABLE_NO_WRITE_ROUTE_IN_ENTRY"
+      }
+    },
+    {
+      "pageEntry": "P34",
+      "path": "/admin-api/print/directory/printers",
+      "status": "SOURCE_MAPPED_NOT_LIVE_VERIFIED",
+      "failureCodesRef": "#/failureCatalog/Printer",
+      "sharedFailuresRef": "#/sharedFailures",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/admin-api/print/directory/printers",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Printer"
+            },
+            "body": null
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/PrinterPage"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintPrinterDirectoryController.java",
+              "line": 14,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "4de9eefbff498166e16dab93ebae477573e4a9ec60e8efea33e6e90cfdd94bf1",
+              "anchor": "@GetMapping"
+            }
+          ]
+        }
+      ],
+      "frontendSources": [
+        {
+          "file": "src/frontend/src/print-admin/printer/api.ts",
+          "line": 14,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "54edceadf5200497f59e68f82a76e48fe4571773fe784dffdbd32a6101482270",
+          "anchor": "export async function getPrinters"
+        }
+      ],
+      "conflict": {
+        "status": "NOT_APPLICABLE_NO_WRITE_ROUTE_IN_ENTRY"
+      }
+    },
+    {
+      "pageEntry": "P36",
+      "path": "/admin-api/print/statistics/terminal",
+      "status": "SOURCE_MAPPED_NOT_LIVE_VERIFIED",
+      "failureCodesRef": "#/failureCatalog/Statistics",
+      "sharedFailuresRef": "#/sharedFailures",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/admin-api/print/statistics/terminal",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/TerminalReport"
+            },
+            "body": null
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/TerminalReport"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintStatisticsController.java",
+              "line": 22,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "3135a2aaec7c0482f057befb7dc47cbac956267177d1bd19b9288eec9a67395e",
+              "anchor": "@GetMapping(\"/terminal\")"
+            }
+          ]
+        }
+      ],
+      "frontendSources": [
+        {
+          "file": "src/frontend/src/print-admin/statistics/api.ts",
+          "line": 15,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "4b6a87e8a2a2dc75b84ae56e3618fbb7023ead00ec2db5f015189b2aeaa87fac",
+          "anchor": "export const terminalReport"
+        }
+      ],
+      "conflict": {
+        "status": "NOT_APPLICABLE_NO_WRITE_ROUTE_IN_ENTRY"
+      }
+    },
+    {
+      "pageEntry": "P37",
+      "path": "/admin-api/print/statistics/paper-total",
+      "status": "SOURCE_MAPPED_NOT_LIVE_VERIFIED",
+      "failureCodesRef": "#/failureCatalog/Statistics",
+      "sharedFailuresRef": "#/sharedFailures",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/admin-api/print/statistics/paper-total",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Paper"
+            },
+            "body": null
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/PaperPage"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintStatisticsController.java",
+              "line": 31,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "3135a2aaec7c0482f057befb7dc47cbac956267177d1bd19b9288eec9a67395e",
+              "anchor": "@GetMapping(\"/paper-total\")"
+            }
+          ]
+        }
+      ],
+      "frontendSources": [
+        {
+          "file": "src/frontend/src/print-admin/statistics/api.ts",
+          "line": 16,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "4b6a87e8a2a2dc75b84ae56e3618fbb7023ead00ec2db5f015189b2aeaa87fac",
+          "anchor": "export const paperReport"
+        }
+      ],
+      "conflict": {
+        "status": "NOT_APPLICABLE_NO_WRITE_ROUTE_IN_ENTRY"
+      }
+    },
+    {
+      "pageEntry": "P38",
+      "path": "/admin-api/print/statistics/paper-daily",
+      "status": "SOURCE_MAPPED_NOT_LIVE_VERIFIED",
+      "failureCodesRef": "#/failureCatalog/Statistics",
+      "sharedFailuresRef": "#/sharedFailures",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/admin-api/print/statistics/paper-daily",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Paper"
+            },
+            "body": null
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/PaperPage"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintStatisticsController.java",
+              "line": 34,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "3135a2aaec7c0482f057befb7dc47cbac956267177d1bd19b9288eec9a67395e",
+              "anchor": "@GetMapping(\"/paper-daily\")"
+            }
+          ]
+        }
+      ],
+      "frontendSources": [
+        {
+          "file": "src/frontend/src/print-admin/statistics/api.ts",
+          "line": 16,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "4b6a87e8a2a2dc75b84ae56e3618fbb7023ead00ec2db5f015189b2aeaa87fac",
+          "anchor": "export const paperReport"
+        }
+      ],
+      "conflict": {
+        "status": "NOT_APPLICABLE_NO_WRITE_ROUTE_IN_ENTRY"
+      }
+    },
+    {
+      "pageEntry": "P46",
+      "path": "/admin-api/print/advertising/COMPUTER_TERMINAL",
+      "status": "SOURCE_MAPPED_NOT_LIVE_VERIFIED",
+      "failureCodesRef": "#/failureCatalog/Advertising",
+      "sharedFailuresRef": "#/sharedFailures",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/admin-api/print/advertising/COMPUTER_TERMINAL",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": null
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/AdDraft"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+              "line": 19,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+              "anchor": "@GetMapping"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/admin-api/print/advertising/COMPUTER_TERMINAL",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": {
+              "$ref": "#/requestSchemas/AdPut"
+            }
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/AdDraft"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+              "line": 22,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+              "anchor": "@PutMapping"
+            }
+          ]
+        }
+      ],
+      "frontendSources": [
+        {
+          "file": "src/frontend/src/print-admin/advertising/api.ts",
+          "line": 29,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "ed7a6a89fc1c8b3f82f2444d552ab754c9be8b70e2396080bac798aa364ff906",
+          "anchor": "export const getAdDraft"
+        },
+        {
+          "file": "src/frontend/src/print-admin/advertising/api.ts",
+          "line": 30,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "ed7a6a89fc1c8b3f82f2444d552ab754c9be8b70e2396080bac798aa364ff906",
+          "anchor": "export const saveAdDraft"
+        }
+      ],
+      "conflict": [
+        {
+          "reason": "CONFLICT",
+          "httpStatus": 409,
+          "businessCode": 1510100002,
+          "source": {
+            "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java",
+            "line": 6,
+            "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+            "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c",
+            "anchor": "CONFLICT(1510100002,HttpStatus.CONFLICT,"
+          }
+        },
+        {
+          "reason": "PENDING",
+          "httpStatus": 409,
+          "businessCode": 1510100005,
+          "source": {
+            "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java",
+            "line": 9,
+            "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+            "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c",
+            "anchor": "PENDING(1510100005,HttpStatus.CONFLICT,"
+          }
+        }
+      ],
+      "position": "COMPUTER_TERMINAL",
+      "maximumAssets": 5,
+      "pendingHuman": {
+        "status": "PENDING_HUMAN",
+        "advertisingGateTrue": false,
+        "executionAuthorization": false,
+        "scope": "Draft management source only. Human phase1 advertising boundary not confirmed."
+      },
+      "gate": {
+        "property": "print.advertising.enabled",
+        "requiredValue": "true",
+        "liveEffectiveValue": "UNPROVEN",
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+          "line": 15,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+          "anchor": "@ConditionalOnProperty"
+        }
+      },
+      "positionSource": {
+        "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdPosition.java",
+        "line": 5,
+        "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+        "sha256": "ea4092aa059328e3c72ca1500f086194717660a17f03c6a7df87f50e07feedd2",
+        "anchor": "COMPUTER_TERMINAL"
+      }
+    },
+    {
+      "pageEntry": "P47",
+      "path": "/admin-api/print/advertising/TOUCH_TERMINAL",
+      "status": "SOURCE_MAPPED_NOT_LIVE_VERIFIED",
+      "failureCodesRef": "#/failureCatalog/Advertising",
+      "sharedFailuresRef": "#/sharedFailures",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/admin-api/print/advertising/TOUCH_TERMINAL",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": null
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/AdDraft"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+              "line": 19,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+              "anchor": "@GetMapping"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/admin-api/print/advertising/TOUCH_TERMINAL",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": {
+              "$ref": "#/requestSchemas/AdPut"
+            }
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/AdDraft"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+              "line": 22,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+              "anchor": "@PutMapping"
+            }
+          ]
+        }
+      ],
+      "frontendSources": [
+        {
+          "file": "src/frontend/src/print-admin/advertising/api.ts",
+          "line": 29,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "ed7a6a89fc1c8b3f82f2444d552ab754c9be8b70e2396080bac798aa364ff906",
+          "anchor": "export const getAdDraft"
+        },
+        {
+          "file": "src/frontend/src/print-admin/advertising/api.ts",
+          "line": 30,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "ed7a6a89fc1c8b3f82f2444d552ab754c9be8b70e2396080bac798aa364ff906",
+          "anchor": "export const saveAdDraft"
+        }
+      ],
+      "conflict": [
+        {
+          "reason": "CONFLICT",
+          "httpStatus": 409,
+          "businessCode": 1510100002,
+          "source": {
+            "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java",
+            "line": 6,
+            "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+            "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c",
+            "anchor": "CONFLICT(1510100002,HttpStatus.CONFLICT,"
+          }
+        },
+        {
+          "reason": "PENDING",
+          "httpStatus": 409,
+          "businessCode": 1510100005,
+          "source": {
+            "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java",
+            "line": 9,
+            "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+            "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c",
+            "anchor": "PENDING(1510100005,HttpStatus.CONFLICT,"
+          }
+        }
+      ],
+      "position": "TOUCH_TERMINAL",
+      "maximumAssets": 5,
+      "pendingHuman": {
+        "status": "PENDING_HUMAN",
+        "advertisingGateTrue": false,
+        "executionAuthorization": false,
+        "scope": "Draft management source only. Human phase1 advertising boundary not confirmed."
+      },
+      "gate": {
+        "property": "print.advertising.enabled",
+        "requiredValue": "true",
+        "liveEffectiveValue": "UNPROVEN",
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+          "line": 15,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+          "anchor": "@ConditionalOnProperty"
+        }
+      },
+      "positionSource": {
+        "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdPosition.java",
+        "line": 5,
+        "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+        "sha256": "ea4092aa059328e3c72ca1500f086194717660a17f03c6a7df87f50e07feedd2",
+        "anchor": "TOUCH_TERMINAL"
+      }
+    },
+    {
+      "pageEntry": "P48",
+      "path": "/admin-api/print/advertising/FULLSCREEN_TERMINAL",
+      "status": "SOURCE_MAPPED_NOT_LIVE_VERIFIED",
+      "failureCodesRef": "#/failureCatalog/Advertising",
+      "sharedFailuresRef": "#/sharedFailures",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/admin-api/print/advertising/FULLSCREEN_TERMINAL",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": null
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/AdDraft"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+              "line": 19,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+              "anchor": "@GetMapping"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/admin-api/print/advertising/FULLSCREEN_TERMINAL",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": {
+              "$ref": "#/requestSchemas/AdPut"
+            }
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/AdDraft"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+              "line": 22,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+              "anchor": "@PutMapping"
+            }
+          ]
+        }
+      ],
+      "frontendSources": [
+        {
+          "file": "src/frontend/src/print-admin/advertising/api.ts",
+          "line": 29,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "ed7a6a89fc1c8b3f82f2444d552ab754c9be8b70e2396080bac798aa364ff906",
+          "anchor": "export const getAdDraft"
+        },
+        {
+          "file": "src/frontend/src/print-admin/advertising/api.ts",
+          "line": 30,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "ed7a6a89fc1c8b3f82f2444d552ab754c9be8b70e2396080bac798aa364ff906",
+          "anchor": "export const saveAdDraft"
+        }
+      ],
+      "conflict": [
+        {
+          "reason": "CONFLICT",
+          "httpStatus": 409,
+          "businessCode": 1510100002,
+          "source": {
+            "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java",
+            "line": 6,
+            "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+            "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c",
+            "anchor": "CONFLICT(1510100002,HttpStatus.CONFLICT,"
+          }
+        },
+        {
+          "reason": "PENDING",
+          "httpStatus": 409,
+          "businessCode": 1510100005,
+          "source": {
+            "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java",
+            "line": 9,
+            "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+            "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c",
+            "anchor": "PENDING(1510100005,HttpStatus.CONFLICT,"
+          }
+        }
+      ],
+      "position": "FULLSCREEN_TERMINAL",
+      "maximumAssets": 5,
+      "pendingHuman": {
+        "status": "PENDING_HUMAN",
+        "advertisingGateTrue": false,
+        "executionAuthorization": false,
+        "scope": "Draft management source only. Human phase1 advertising boundary not confirmed."
+      },
+      "gate": {
+        "property": "print.advertising.enabled",
+        "requiredValue": "true",
+        "liveEffectiveValue": "UNPROVEN",
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+          "line": 15,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+          "anchor": "@ConditionalOnProperty"
+        }
+      },
+      "positionSource": {
+        "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdPosition.java",
+        "line": 5,
+        "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+        "sha256": "ea4092aa059328e3c72ca1500f086194717660a17f03c6a7df87f50e07feedd2",
+        "anchor": "FULLSCREEN_TERMINAL"
+      }
+    },
+    {
+      "pageEntry": "P49",
+      "path": "/admin-api/print/advertising/PORTRAIT_TERMINAL",
+      "status": "SOURCE_MAPPED_NOT_LIVE_VERIFIED",
+      "failureCodesRef": "#/failureCatalog/Advertising",
+      "sharedFailuresRef": "#/sharedFailures",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/admin-api/print/advertising/PORTRAIT_TERMINAL",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": null
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/AdDraft"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+              "line": 19,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+              "anchor": "@GetMapping"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/admin-api/print/advertising/PORTRAIT_TERMINAL",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": {
+              "$ref": "#/requestSchemas/AdPut"
+            }
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/AdDraft"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+              "line": 22,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+              "anchor": "@PutMapping"
+            }
+          ]
+        }
+      ],
+      "frontendSources": [
+        {
+          "file": "src/frontend/src/print-admin/advertising/api.ts",
+          "line": 29,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "ed7a6a89fc1c8b3f82f2444d552ab754c9be8b70e2396080bac798aa364ff906",
+          "anchor": "export const getAdDraft"
+        },
+        {
+          "file": "src/frontend/src/print-admin/advertising/api.ts",
+          "line": 30,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "ed7a6a89fc1c8b3f82f2444d552ab754c9be8b70e2396080bac798aa364ff906",
+          "anchor": "export const saveAdDraft"
+        }
+      ],
+      "conflict": [
+        {
+          "reason": "CONFLICT",
+          "httpStatus": 409,
+          "businessCode": 1510100002,
+          "source": {
+            "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java",
+            "line": 6,
+            "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+            "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c",
+            "anchor": "CONFLICT(1510100002,HttpStatus.CONFLICT,"
+          }
+        },
+        {
+          "reason": "PENDING",
+          "httpStatus": 409,
+          "businessCode": 1510100005,
+          "source": {
+            "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java",
+            "line": 9,
+            "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+            "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c",
+            "anchor": "PENDING(1510100005,HttpStatus.CONFLICT,"
+          }
+        }
+      ],
+      "position": "PORTRAIT_TERMINAL",
+      "maximumAssets": 5,
+      "pendingHuman": {
+        "status": "PENDING_HUMAN",
+        "advertisingGateTrue": false,
+        "executionAuthorization": false,
+        "scope": "Draft management source only. Human phase1 advertising boundary not confirmed."
+      },
+      "gate": {
+        "property": "print.advertising.enabled",
+        "requiredValue": "true",
+        "liveEffectiveValue": "UNPROVEN",
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+          "line": 15,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+          "anchor": "@ConditionalOnProperty"
+        }
+      },
+      "positionSource": {
+        "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdPosition.java",
+        "line": 6,
+        "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+        "sha256": "ea4092aa059328e3c72ca1500f086194717660a17f03c6a7df87f50e07feedd2",
+        "anchor": "PORTRAIT_TERMINAL"
+      }
+    },
+    {
+      "pageEntry": "P50",
+      "path": "/admin-api/print/advertising/CLOUD_BOX",
+      "status": "SOURCE_MAPPED_NOT_LIVE_VERIFIED",
+      "failureCodesRef": "#/failureCatalog/Advertising",
+      "sharedFailuresRef": "#/sharedFailures",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/admin-api/print/advertising/CLOUD_BOX",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": null
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/AdDraft"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+              "line": 19,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+              "anchor": "@GetMapping"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/admin-api/print/advertising/CLOUD_BOX",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": {
+              "$ref": "#/requestSchemas/AdPut"
+            }
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/AdDraft"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+              "line": 22,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+              "anchor": "@PutMapping"
+            }
+          ]
+        }
+      ],
+      "frontendSources": [
+        {
+          "file": "src/frontend/src/print-admin/advertising/api.ts",
+          "line": 29,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "ed7a6a89fc1c8b3f82f2444d552ab754c9be8b70e2396080bac798aa364ff906",
+          "anchor": "export const getAdDraft"
+        },
+        {
+          "file": "src/frontend/src/print-admin/advertising/api.ts",
+          "line": 30,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "ed7a6a89fc1c8b3f82f2444d552ab754c9be8b70e2396080bac798aa364ff906",
+          "anchor": "export const saveAdDraft"
+        }
+      ],
+      "conflict": [
+        {
+          "reason": "CONFLICT",
+          "httpStatus": 409,
+          "businessCode": 1510100002,
+          "source": {
+            "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java",
+            "line": 6,
+            "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+            "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c",
+            "anchor": "CONFLICT(1510100002,HttpStatus.CONFLICT,"
+          }
+        },
+        {
+          "reason": "PENDING",
+          "httpStatus": 409,
+          "businessCode": 1510100005,
+          "source": {
+            "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java",
+            "line": 9,
+            "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+            "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c",
+            "anchor": "PENDING(1510100005,HttpStatus.CONFLICT,"
+          }
+        }
+      ],
+      "position": "CLOUD_BOX",
+      "maximumAssets": 5,
+      "pendingHuman": {
+        "status": "PENDING_HUMAN",
+        "advertisingGateTrue": false,
+        "executionAuthorization": false,
+        "scope": "Draft management source only. Human phase1 advertising boundary not confirmed."
+      },
+      "gate": {
+        "property": "print.advertising.enabled",
+        "requiredValue": "true",
+        "liveEffectiveValue": "UNPROVEN",
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+          "line": 15,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+          "anchor": "@ConditionalOnProperty"
+        }
+      },
+      "positionSource": {
+        "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdPosition.java",
+        "line": 6,
+        "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+        "sha256": "ea4092aa059328e3c72ca1500f086194717660a17f03c6a7df87f50e07feedd2",
+        "anchor": "CLOUD_BOX"
+      }
+    },
+    {
+      "pageEntry": "P51",
+      "path": "/admin-api/print/advertising/ORDER_PAGE",
+      "status": "SOURCE_MAPPED_NOT_LIVE_VERIFIED",
+      "failureCodesRef": "#/failureCatalog/Advertising",
+      "sharedFailuresRef": "#/sharedFailures",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/admin-api/print/advertising/ORDER_PAGE",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": null
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/AdDraft"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+              "line": 19,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+              "anchor": "@GetMapping"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/admin-api/print/advertising/ORDER_PAGE",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": {
+              "$ref": "#/requestSchemas/AdPut"
+            }
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/AdDraft"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+              "line": 22,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+              "anchor": "@PutMapping"
+            }
+          ]
+        }
+      ],
+      "frontendSources": [
+        {
+          "file": "src/frontend/src/print-admin/advertising/api.ts",
+          "line": 29,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "ed7a6a89fc1c8b3f82f2444d552ab754c9be8b70e2396080bac798aa364ff906",
+          "anchor": "export const getAdDraft"
+        },
+        {
+          "file": "src/frontend/src/print-admin/advertising/api.ts",
+          "line": 30,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "ed7a6a89fc1c8b3f82f2444d552ab754c9be8b70e2396080bac798aa364ff906",
+          "anchor": "export const saveAdDraft"
+        }
+      ],
+      "conflict": [
+        {
+          "reason": "CONFLICT",
+          "httpStatus": 409,
+          "businessCode": 1510100002,
+          "source": {
+            "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java",
+            "line": 6,
+            "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+            "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c",
+            "anchor": "CONFLICT(1510100002,HttpStatus.CONFLICT,"
+          }
+        },
+        {
+          "reason": "PENDING",
+          "httpStatus": 409,
+          "businessCode": 1510100005,
+          "source": {
+            "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java",
+            "line": 9,
+            "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+            "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c",
+            "anchor": "PENDING(1510100005,HttpStatus.CONFLICT,"
+          }
+        }
+      ],
+      "position": "ORDER_PAGE",
+      "maximumAssets": 2,
+      "pendingHuman": {
+        "status": "PENDING_HUMAN",
+        "advertisingGateTrue": false,
+        "executionAuthorization": false,
+        "scope": "Draft management source only. Human phase1 advertising boundary not confirmed."
+      },
+      "gate": {
+        "property": "print.advertising.enabled",
+        "requiredValue": "true",
+        "liveEffectiveValue": "UNPROVEN",
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+          "line": 15,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+          "anchor": "@ConditionalOnProperty"
+        }
+      },
+      "positionSource": {
+        "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdPosition.java",
+        "line": 6,
+        "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+        "sha256": "ea4092aa059328e3c72ca1500f086194717660a17f03c6a7df87f50e07feedd2",
+        "anchor": "ORDER_PAGE"
+      }
+    },
+    {
+      "pageEntry": "P52",
+      "path": "/admin-api/print/advertising/COMPUTER_DESKTOP",
+      "status": "SOURCE_MAPPED_NOT_LIVE_VERIFIED",
+      "failureCodesRef": "#/failureCatalog/Advertising",
+      "sharedFailuresRef": "#/sharedFailures",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/admin-api/print/advertising/COMPUTER_DESKTOP",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": null
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/AdDraft"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+              "line": 19,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+              "anchor": "@GetMapping"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/admin-api/print/advertising/COMPUTER_DESKTOP",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": {
+              "$ref": "#/requestSchemas/AdPut"
+            }
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/AdDraft"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+              "line": 22,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+              "anchor": "@PutMapping"
+            }
+          ]
+        }
+      ],
+      "frontendSources": [
+        {
+          "file": "src/frontend/src/print-admin/advertising/api.ts",
+          "line": 29,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "ed7a6a89fc1c8b3f82f2444d552ab754c9be8b70e2396080bac798aa364ff906",
+          "anchor": "export const getAdDraft"
+        },
+        {
+          "file": "src/frontend/src/print-admin/advertising/api.ts",
+          "line": 30,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "ed7a6a89fc1c8b3f82f2444d552ab754c9be8b70e2396080bac798aa364ff906",
+          "anchor": "export const saveAdDraft"
+        }
+      ],
+      "conflict": [
+        {
+          "reason": "CONFLICT",
+          "httpStatus": 409,
+          "businessCode": 1510100002,
+          "source": {
+            "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java",
+            "line": 6,
+            "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+            "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c",
+            "anchor": "CONFLICT(1510100002,HttpStatus.CONFLICT,"
+          }
+        },
+        {
+          "reason": "PENDING",
+          "httpStatus": 409,
+          "businessCode": 1510100005,
+          "source": {
+            "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java",
+            "line": 9,
+            "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+            "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c",
+            "anchor": "PENDING(1510100005,HttpStatus.CONFLICT,"
+          }
+        }
+      ],
+      "position": "COMPUTER_DESKTOP",
+      "maximumAssets": 1,
+      "pendingHuman": {
+        "status": "PENDING_HUMAN",
+        "advertisingGateTrue": false,
+        "executionAuthorization": false,
+        "scope": "Draft management source only. Human phase1 advertising boundary not confirmed."
+      },
+      "gate": {
+        "property": "print.advertising.enabled",
+        "requiredValue": "true",
+        "liveEffectiveValue": "UNPROVEN",
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+          "line": 15,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+          "anchor": "@ConditionalOnProperty"
+        }
+      },
+      "positionSource": {
+        "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdPosition.java",
+        "line": 7,
+        "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+        "sha256": "ea4092aa059328e3c72ca1500f086194717660a17f03c6a7df87f50e07feedd2",
+        "anchor": "COMPUTER_DESKTOP"
+      }
+    },
+    {
+      "pageEntry": "P53",
+      "path": "/admin-api/print/advertising/MINI_SHARE",
+      "status": "SOURCE_MAPPED_NOT_LIVE_VERIFIED",
+      "failureCodesRef": "#/failureCatalog/Advertising",
+      "sharedFailuresRef": "#/sharedFailures",
+      "operations": [
+        {
+          "method": "GET",
+          "path": "/admin-api/print/advertising/MINI_SHARE",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": null
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/AdDraft"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+              "line": 19,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+              "anchor": "@GetMapping"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/admin-api/print/advertising/MINI_SHARE",
+          "request": {
+            "query": {
+              "$ref": "#/querySchemas/Empty"
+            },
+            "body": {
+              "$ref": "#/requestSchemas/AdPut"
+            }
+          },
+          "success": {
+            "httpStatus": 200,
+            "httpStatusEvidence": "SOURCE_SPRING_DEFAULT_NOT_LIVE_OBSERVED",
+            "businessCode": 0,
+            "data": {
+              "$ref": "#/definitions/AdDraft"
+            }
+          },
+          "sources": [
+            {
+              "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+              "line": 22,
+              "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+              "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+              "anchor": "@PutMapping"
+            }
+          ]
+        }
+      ],
+      "frontendSources": [
+        {
+          "file": "src/frontend/src/print-admin/advertising/api.ts",
+          "line": 29,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "ed7a6a89fc1c8b3f82f2444d552ab754c9be8b70e2396080bac798aa364ff906",
+          "anchor": "export const getAdDraft"
+        },
+        {
+          "file": "src/frontend/src/print-admin/advertising/api.ts",
+          "line": 30,
+          "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+          "sha256": "ed7a6a89fc1c8b3f82f2444d552ab754c9be8b70e2396080bac798aa364ff906",
+          "anchor": "export const saveAdDraft"
+        }
+      ],
+      "conflict": [
+        {
+          "reason": "CONFLICT",
+          "httpStatus": 409,
+          "businessCode": 1510100002,
+          "source": {
+            "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java",
+            "line": 6,
+            "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+            "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c",
+            "anchor": "CONFLICT(1510100002,HttpStatus.CONFLICT,"
+          }
+        },
+        {
+          "reason": "PENDING",
+          "httpStatus": 409,
+          "businessCode": 1510100005,
+          "source": {
+            "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java",
+            "line": 9,
+            "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+            "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c",
+            "anchor": "PENDING(1510100005,HttpStatus.CONFLICT,"
+          }
+        }
+      ],
+      "position": "MINI_SHARE",
+      "maximumAssets": 1,
+      "pendingHuman": {
+        "status": "PENDING_HUMAN",
+        "advertisingGateTrue": false,
+        "executionAuthorization": false,
+        "scope": "Draft management source only. Human phase1 advertising boundary not confirmed."
+      },
+      "gate": {
+        "property": "print.advertising.enabled",
+        "requiredValue": "true",
+        "liveEffectiveValue": "UNPROVEN",
+        "source": {
+          "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java",
+          "line": 15,
+          "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+          "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e",
+          "anchor": "@ConditionalOnProperty"
+        }
+      },
+      "positionSource": {
+        "file": "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdPosition.java",
+        "line": 7,
+        "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+        "sha256": "ea4092aa059328e3c72ca1500f086194717660a17f03c6a7df87f50e07feedd2",
+        "anchor": "MINI_SHARE"
+      }
+    }
+  ],
+  "pending": [
+    {
+      "id": "advertisingPhase1",
+      "status": "PENDING_HUMAN",
+      "detail": "Do not translate existing draft-only implementation into authorization to enable gate, deliver ads, upload, remove slots or delete."
+    },
+    {
+      "id": "referenceNullability",
+      "status": "UNPROVEN",
+      "detail": "Java reference types without constructor/DB constraint proof retain UNPROVEN nullability; source mapping is not live JSON validation."
+    },
+    {
+      "id": "runtimeEnvelopeHttp",
+      "status": "UNPROVEN",
+      "detail": "Success200 is Spring-source default; actual runtime/filter/security status and null inclusion need later controlled verification."
+    },
+    {
+      "id": "frontendDecoderBusiness200",
+      "status": "UNPROVEN_AS_SUCCESS",
+      "detail": "Several frontend decode functions allow code200/401 through for interceptor handling; backend CommonResult success is integer0. This is not evidence code200 succeeds."
+    },
+    {
+      "id": "acceptanceCategoryIdMismatch",
+      "status": "REPAIRED_SOURCE_ONLY_NOT_HTTP_ACCEPTED",
+      "detail": "Acceptance category ID and item-route schemas now match source lowercase UUIDv4; representative fake-port tests pass. Actual HTTP and JSON null inclusion remain unproven.",
+      "repairEvidence": {
+        "diffSha256": "dd604110a0b47c95d878a939b0c2c7fce3bafdf376d6de6a5034062615ab499c",
+        "validationSha256": "da5d364df3a04258b3f33ec41235ff32507fd0d4d9028d6ef7cbc9e1a89e63fa",
+        "adapterSha256": "847e622d6c3f1df2b585f6a8c6d2c05a3503fd3982fa90dca7b19502ce5d6d8a"
+      }
+    },
+    {
+      "id": "acceptanceLongTotalMismatch",
+      "status": "REPAIRED_ACCEPTANCE_SOURCE_ONLY_FRONTEND_UNPROVEN",
+      "detail": "Acceptance long total schemas now match the strict NumberSerializer bounds and canonical Java long decimal strings. Runtime HTTP/null inclusion and frontend decoding remain unproven.",
+      "repairEvidence": {
+        "diffSha256": "dd604110a0b47c95d878a939b0c2c7fce3bafdf376d6de6a5034062615ab499c",
+        "validationSha256": "da5d364df3a04258b3f33ec41235ff32507fd0d4d9028d6ef7cbc9e1a89e63fa",
+        "adapterSha256": "847e622d6c3f1df2b585f6a8c6d2c05a3503fd3982fa90dca7b19502ce5d6d8a"
+      }
+    }
+  ],
+  "sourceManifest": {
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileValue.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "1a27a6d55f1a3550057bd04d1b088a203c52c58d2bf62655df38f69d7e0179c0"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileView.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "b84b55c730f558bc8d58235332c63163763801f0a0377cacb4cf641b796f5d83"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileRepository.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "5100c07dd589a52bd5aa6e79361f913e50413d951c86bc5ec8fbaf6e69fa3029"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/settings/PrintLibrarySettings.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "45d9091664bfde59e90b09a3810f59b29c3d6e0283f7c30f7965387cede2d3e9"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/settings/PrintLibrarySettingsRepository.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "7894dfd6e5ed7dabea2ed7d41e3ea9d82823c343bc2fe96699036733f1aee266"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategory.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "4c7204d02ce0b4443d46886b87d32d33688edefbb7525d24473b7bdbb19b90d0"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryRepository.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "8d46806f795c8bc28fd17a21af8abe97565557c4891dba64b84746e5214226e5"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryCommand.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "9991feb5b3f6d2a8b7771f2ec3870e5ddadf7cbcf7763d9e9b2168f86731aac3"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryService.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "e49a0ea0f52d7847917b09065d83f5642eb8ea95d63f4fdbe33a0a634c503126"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryModel.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "64f8318fb14e71fc77c90558a155b82baafd411a6f378da678caa0356bf1dbf4"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryRepository.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "680d027a38e3118c777816233d5867da0366095d4c75fdf500dd6af41e3545a6"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/printer/PrintPrinterDirectoryModel.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "6357a829dc1024bdad8074b7cda37d00f10e329550e7e6d3638c6887378099c6"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/printer/PrintPrinterDirectoryRepository.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "1c6c808c2689329d7bbec561338b0fb6aae8667d087c5c3e92a81a17c0aa3d28"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsRepository.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "1da926454aec6b81f76c3ab2236ff4114d5d84ff47cf52c48ce2d0609d68583b"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintStatisticsController.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "3135a2aaec7c0482f057befb7dc47cbac956267177d1bd19b9288eec9a67395e"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingDraft.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "172b1403a693ba4bf33e2c0aec6c3cc8ac3986f583fb705873c198637ee9848a"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileCommand.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "74223c5ead74858fa511b51bdf0abb66a8455dfcafa02e51ce07b3a5f6344392"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/settings/PrintLibrarySettingsCommand.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "28e31dcbe1832bfff4cfc820659bfb26afe619d6607a0ec12146692aa97a68f4"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingCommand.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "fb127aa3ba5e3a7b5f6c27d15517ab8a963d4c724f192f41f20530cfa3d41c9c"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingService.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "8990a6e91f5665cb24fbf8890c5ca479220bac5d409ab997c3739067b40dcd2a"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintStoreProfileController.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "a1488b377c71ec1de747723aa7897f13a0a274acc7244d659f280f1c2ebdcac2"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintLibraryCategoryController.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "c47b880f3d6aa6781247ac27e3abdea7145241b7791ac274a7b2f3ea88f5de5b"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryQuery.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "820e49a7d913c38b1e33fef497058c55b0a1a19b0ff730d92b45fd71e59a4c63"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryService.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "0b2f4760372183f02dc8cfa7dc1c26cd63b5f3e6b35728093a1b5606c99bf0e5"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/printer/PrintPrinterDirectoryQuery.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "17a45595da34c141c93d3b3d49d22649f22d9e4a31a590492adbd084b4319fc1"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/statistics/PrintStatisticsQuery.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "275f0b3060d3de82de6fcb423c8ef9789a8533ab19044e32e5b9c7d38fce7c47"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/store/profile/PrintStoreProfileException.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "80482a5a52e4c689ee865863ccbd07b7bd5fc8331be567f1b774834ec98e0d3c"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/settings/PrintLibrarySettingsException.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "40a06cb8f81f00abca5f6d5f5d0135b656114803ee9b6299eac95a29bb45d56f"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/library/category/PrintLibraryCategoryException.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "0bf84a40e4b74fa28b1cb775bc48e1e9f8d7b70a1422a6bcf9d79d8de5cc27fa"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdvertisingException.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "a896df02f81e5802bbde468b3b8c2d0f233485dd9251e39dd80ad676bf00200c"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/directory/PrintDirectoryException.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "8c11eaf1bd9df89f7a0940b7625a81b1080ac2b2ffcabf6b3e37adc8fb8455e2"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintDirectoryController.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "44d391690749836216b8a718dbfc98aa98881e1cc472c1e7ac05f05c7155bee4"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/printer/PrintPrinterDirectoryException.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "be53443721bba8e72c588f98d4d5e45ce43891b475357b85160e10171156fbb8"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintPrinterDirectoryController.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "4de9eefbff498166e16dab93ebae477573e4a9ec60e8efea33e6e90cfdd94bf1"
+    },
+    "src/frontend/src/print-admin/store/profileApi.ts": {
+      "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+      "sha256": "151073ef14a10764e9d3d838ded511ae3d2b700bfa1806a2dae9048a8438fa84"
+    },
+    "src/frontend/src/print-admin/library/settingsApi.ts": {
+      "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+      "sha256": "5e7d3b57d297f9b4ea747aa93574f582b06c617bc035a0a1b6764665f64e5bec"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintLibrarySettingsController.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "8f7d3e60ad28f44cb5f2d28d6ecf990a3e5dcf3ee0aee427ede301a7fcb52822"
+    },
+    "src/frontend/src/print-admin/library/categoryApi.ts": {
+      "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+      "sha256": "d21a389628d438da3c5b046b7ebe0d9fc46b5192436b91abc46af9b06c8b843c"
+    },
+    "src/frontend/src/print-admin/directory/api.ts": {
+      "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+      "sha256": "cafaa2ab1f48aff8da63f3f9899043e7e4b51b685c343836c3c7f449148dd089"
+    },
+    "src/frontend/src/print-admin/directory/ProductDirectory.vue": {
+      "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+      "sha256": "279f74cc6d8f74f36821db3b3a4eafb750e22ba28ff0a70b0a7881e749e47f23"
+    },
+    "src/frontend/src/print-admin/directory/LibraryEntries.vue": {
+      "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+      "sha256": "945de680874d64270a3ed656dcf23c88917354cb0041fe754eeacfbb4b080bdd"
+    },
+    "src/frontend/src/print-admin/directory/Terminals.vue": {
+      "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+      "sha256": "4e92c2db0d50c08c903d91d83c16a04c986b99509326eef4178b3d111d2db75e"
+    },
+    "src/frontend/src/print-admin/printer/api.ts": {
+      "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+      "sha256": "54edceadf5200497f59e68f82a76e48fe4571773fe784dffdbd32a6101482270"
+    },
+    "src/frontend/src/print-admin/statistics/api.ts": {
+      "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+      "sha256": "4b6a87e8a2a2dc75b84ae56e3618fbb7023ead00ec2db5f015189b2aeaa87fac"
+    },
+    "src/frontend/src/print-admin/advertising/api.ts": {
+      "commit": "d8123c61ffebeb5b41032238395bf72cd2f79ee9",
+      "sha256": "ed7a6a89fc1c8b3f82f2444d552ab754c9be8b70e2396080bac798aa364ff906"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/controller/admin/PrintAdvertisingController.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "1a59c117c887f53c5637da45bd2df90d3ec326b0dc57335d38b347088c7fed8e"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/advertising/PrintAdPosition.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "ea4092aa059328e3c72ca1500f086194717660a17f03c6a7df87f50e07feedd2"
+    },
+    "src/backend/yudao-framework/yudao-spring-boot-starter-web/src/main/java/cn/iocoder/yudao/framework/web/config/WebProperties.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "ee1389a9d10ea59c2afe478eeda5012b5b00065deb22b0bbcf4255427e862473"
+    },
+    "src/backend/yudao-framework/yudao-spring-boot-starter-web/src/main/java/cn/iocoder/yudao/framework/web/config/YudaoWebAutoConfiguration.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "4e7593637e6987876aeb5cce762b2b113db260ad3bdfe72c2b47bfc29301e7ef"
+    },
+    "src/backend/yudao-framework/yudao-common/src/main/java/cn/iocoder/yudao/framework/common/pojo/CommonResult.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "14c561042a8bb8212ec1dc60c7c916d3b00c6d0d556d90e38986665c59e9e187"
+    },
+    "src/backend/yudao-framework/yudao-common/src/main/java/cn/iocoder/yudao/framework/common/exception/enums/GlobalErrorCodeConstants.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "34a320c0a584e7b9c55ccb9d229fdb9af437a0f363e05ed56a1a85f404b64f92"
+    },
+    "src/backend/yudao-framework/yudao-common/src/main/java/cn/iocoder/yudao/framework/common/util/json/databind/NumberSerializer.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "83c7c1a896bcd40416e0b7f5758d7ff925d78466eb6514ea1a62c8851e4db415"
+    },
+    "src/backend/yudao-framework/yudao-spring-boot-starter-web/src/main/java/cn/iocoder/yudao/framework/jackson/config/YudaoJacksonAutoConfiguration.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "bba9fc2b6e2fe62249df434f7d32d898d978881812a0fa8c52a745484306ce65"
+    },
+    "src/backend/yudao-framework/yudao-spring-boot-starter-web/src/main/java/cn/iocoder/yudao/framework/web/core/handler/GlobalExceptionHandler.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "ee0d2395ceb324a99e02eeb42db289419d4723220970208d6b9aedc1cef4ca57"
+    },
+    "src/backend/yudao-server/src/main/java/cn/iocoder/yudao/server/print/scope/PrintScopeErrorCodes.java": {
+      "commit": "cc5085d5cef4b7345fc2715db1f9531af3099230",
+      "sha256": "4be6b3576b586df8c6b8f60391f4909f11a7a81f1232aeadeeaea14e8f2e8ea8"
+    }
+  },
+  "verification": {
+    "realHttpDbRedisBrowserCalls": false,
+    "credentialsRead": false,
+    "mavenViteRun": false,
+    "sourceOnly": true
+  }
+}

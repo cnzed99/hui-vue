@@ -1,0 +1,23 @@
+{
+  "reviewId": "sol-p06-source-review-not-run-2026-10-29",
+  "reviewedAt": "2026-10-29",
+  "intendedRole": "sol_reviewer",
+  "intendedModel": "gpt-6.1-sol",
+  "intendedReasoningEffort": "high",
+  "scope": "P06 remote reservation settings ordinary frontend, API and persistence source",
+  "verdict": "NOT_RUN_USAGE_LIMIT",
+  "implementationChecks": {
+    "javaRecordingChecks": "15 checks passed; no database or HTTP",
+    "frontendContract": "PASS; no browser or HTTP",
+    "mavenReactor": "BUILD SUCCESS; 20 modules; 17.280 seconds",
+    "vite": "BUILD SUCCESS; 1 minute 50 seconds"
+  },
+  "evidenceSha256": {
+    "javaContractLog": "082237e1727253ef254606203e4dcc34f3ac49281ba71e148aa9c88a0496f167",
+    "frontendContractLog": "be3c0cd4aeaf0a5e7ae8702b28fc6976563d707797415a38ae708643d7f7c052",
+    "mavenLog": "ec1e88bd5b982b38ffa7dfa993f35443724c039911b41a030c969cab117cf878",
+    "viteLog": "c139fdaede6fc608372c3543d3b85e6ada9d93cc04110768397ede280c50a2e6"
+  },
+  "reason": "The requested independent Sol High reviewer reached the account usage limit before the review could start.",
+  "boundary": "This record is not a PASS. P06 remains source-and-build validated only; its DDL, write gate, HTTP and browser behavior are not activated or accepted."
+}
