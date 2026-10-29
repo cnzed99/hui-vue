@@ -50,7 +50,7 @@ export const printAdminMenu: readonly PrintAdminMenuEntry[] = [
     "title": "远程预约设置",
     "module": "门店",
     "group": "门店管理",
-    "route": null
+    "route": "/print/store/reservation-settings"
   },
   {
     "sourceId": "P07",
