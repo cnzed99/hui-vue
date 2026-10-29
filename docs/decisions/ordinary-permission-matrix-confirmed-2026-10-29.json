@@ -1,0 +1,63 @@
+{
+  "decisionId": "ordinary-permission-matrix-confirmed-2026-10-29",
+  "status": "CONFIRMED_HUMAN_SOURCE_ONLY",
+  "applicationStatus": "NOT_APPLIED",
+  "confirmedDate": "2026-10-29",
+  "timezone": "Asia/Shanghai",
+  "userReply": "同意权限口径",
+  "confirmedPolicy": {
+    "administrator": "目录、分类、打印机、统计、广告等模块查询与配置；准确能力限于已审源码接口",
+    "employee": "仅查看门店、商品、文库、终端、打印机、统计和广告",
+    "employeeWrites": "禁止新增、修改、删除",
+    "categoryDelete": "管理员与员工均保持关闭"
+  },
+  "candidateRoles": {"administrator": 1, "employee": 2},
+  "queryPermissionsForBothRoles": [
+    "print:store:query",
+    "print:library-settings:query",
+    "print:product:query",
+    "print:platform-product:query",
+    "print:library-entry:query",
+    "print:terminal-directory:query",
+    "print:printer-directory:query",
+    "print:library-category:query",
+    "print:statistics:query",
+    "print:advertising:query"
+  ],
+  "administratorOnlyWritePermissions": [
+    "print:store:update",
+    "print:library-settings:update",
+    "print:library-category:create",
+    "print:library-category:update",
+    "print:advertising:update"
+  ],
+  "noRoleGrantedPermissions": ["print:library-category:delete"],
+  "ordinaryV2Candidate": {
+    "menuIds": [2014, 2015, 2016, 2017, 2018, 2019, 2020],
+    "administratorGrantMenuIds": [2014, 2015, 2016, 2018, 2019, 2020],
+    "employeeGrantMenuIds": [2014, 2018, 2019],
+    "ungrantedMenuIds": [2017],
+    "preserveExistingFullPhysicalRows": true,
+    "preserveAndUnionPackageAndRoleSets": true
+  },
+  "directoryCandidate": {
+    "pages": ["P08", "P09", "P13", "P33", "P34"],
+    "menuIds": "UNASSIGNED_REQUIRE_ACTIVATION_BASELINE",
+    "writePermissions": [],
+    "scope": "both approved roles receive existing query capabilities only"
+  },
+  "confirmationStates": {
+    "permissionMatrix": "CONFIRMED_HUMAN",
+    "advertisingGateTrue": "PENDING_HUMAN",
+    "acceptanceRecordRetention": "PENDING_HUMAN",
+    "maintenanceWindow": "PENDING_HUMAN",
+    "localWriterExclusion": "PENDING_HUMAN"
+  },
+  "executionAuthorization": false,
+  "pendingExecutionRequirements": [
+    "准确实时基线、菜单完整字段及未分配ID冻结",
+    "广告gate、验收留痕、维护窗口和并行本机写入者排除确认",
+    "准确产物与配置冻结、备份恢复证明及Astra High执行审查"
+  ],
+  "evidenceBoundary": "仅记录用户已确认权限矩阵；未执行授权、DDL/DML、登录、服务、HTTP、构建或发布；不扩展只读目录为写能力。"
+}

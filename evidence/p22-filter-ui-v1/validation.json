@@ -1,0 +1,18 @@
+{
+  "scope": "P22 filter presentation v1",
+  "date": "2026-10-29",
+  "sourceDiff": "evidence/p22-filter-ui-v1/source.diff",
+  "sourceDiffSha256": "ebbf93faa9b4896d9e10c751ed581088efef8f761907587471744c03347a3960",
+  "changedFiles": ["src/print-admin/orders/AdminPrintList.vue"],
+  "checks": {
+    "gitDiffCheck": "PASS",
+    "scriptBusinessLogicMatchesHead": "PASS: after removing the sole presentation-only filledStateFilterCount computed, script is byte-for-byte identical to HEAD",
+    "vite": "PASS: built in 1m 51s, Node 22.23.4, cloud mode, max-old-space-size=1536",
+    "viteBuildCount": 1,
+    "viteLog": "evidence/p22-filter-ui-v1/vite.log",
+    "unitTests": "NOT_RUN: pure presentation change",
+    "browserAcceptance": "NOT_RUN"
+  },
+  "behaviorBoundary": "Existing filter fields, v-model bindings, input constraints, submit/reset handlers, request parameters, pagination, time conversion and disabled expressions unchanged. Four raw-state filters remain mounted in an Element Plus collapse. Count displays currently filled raw-state fields.",
+  "executionBoundary": "No API, routes, database, services or deployment changes."
+}

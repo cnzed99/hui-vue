@@ -1,0 +1,17 @@
+{
+  "reviewId": "astra-unified-v3-design-review-not-run-2026-10-29",
+  "reviewDate": "2026-10-29",
+  "scope": "phase-one unified activation v3 critical design review",
+  "reviewRole": "astra_reviewer",
+  "assignedModel": "gpt-6-astra",
+  "assignedEffort": "high",
+  "result": "REVIEW_NOT_RUN_USAGE_LIMIT",
+  "verdict": null,
+  "boundInputs": {
+    "docs/design/phase1-unified-activation-v3.md": "816d6e25647782a561c11f72c35c9f5665695f94886a39deb460ff3e42143480",
+    "docs/design/phase1-unified-permission-map-v3.json": "a394975a68bc31194f7db727e2aa11de45bb6f8d5ef376c9199b57c49d3b7eac"
+  },
+  "failure": "The fixed Astra High reviewer did not start because the account usage limit was reached.",
+  "reportedRetryAfter": "2026-10-29 14:12 Asia/Shanghai",
+  "authorizationBoundary": "No PASS was produced. This record does not authorize implementation of critical permission or migration logic, isolated rendering, database actions, service actions, login, publication, or activation. Sol and Astra Medium must not substitute for the mandatory Astra High review."
+}

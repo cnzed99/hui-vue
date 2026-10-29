@@ -1,0 +1,22 @@
+{
+  "scope": "ordinary admin UI fidelity v1",
+  "date": "2026-10-29",
+  "sourceDiff": "evidence/ordinary-ui-fidelity-v1/source.diff",
+  "sourceDiffSha256": "6389bb59a8a01f6bbd4f08a6a7c7115c123917b4bfe8046c2b0e6df1ce40c53a",
+  "changedFiles": [
+    "src/print-admin/PrintAdminShell.vue",
+    "src/print-admin/directory/ProductDirectory.vue",
+    "src/print-admin/advertising/AdvertisingPage.vue"
+  ],
+  "checks": {
+    "gitDiffCheck": "PASS",
+    "scriptBlocksMatchHead": "PASS: all three script blocks are byte-for-byte unchanged",
+    "vite": "PASS: built in 1m 52s, Node 22.23.4, mode cloud, max-old-space-size=1536",
+    "viteBuildCount": 1,
+    "viteLog": "evidence/ordinary-ui-fidelity-v1/vite.log",
+    "unitTests": "NOT_RUN: pure presentation changes",
+    "browserAndPixelAcceptance": "NOT_RUN"
+  },
+  "evidenceBoundary": "Source and build only. No database, services, deployment, API, permission, event handlers, routes or data model changes.",
+  "diskAvailableGiBApprox": 44
+}

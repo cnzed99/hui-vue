@@ -1,0 +1,30 @@
+{
+  "reviewId": "sol-ui-fidelity-batches-review-2026-10-29",
+  "reviewDate": "2026-10-29",
+  "reviewRole": "sol_reviewer",
+  "assignedModel": "gpt-6.1-sol",
+  "assignedEffort": "high",
+  "verdict": "PASS_SOURCE_ONLY",
+  "batches": [
+    {
+      "name": "ordinary-ui-fidelity-v1",
+      "diffSha256": "6389bb59a8a01f6bbd4f08a6a7c7115c123917b4bfe8046c2b0e6df1ce40c53a",
+      "validationSha256": "77901fbb43235450063f1b25d9f14e1e1c38512aa4993f0b41382bfa239f4606",
+      "vite": "PASS in 1 minute 52 seconds",
+      "scope": "ordinary title cards, product filters and advertising material placeholders"
+    },
+    {
+      "name": "p22-filter-ui-v1",
+      "diffSha256": "ebbf93faa9b4896d9e10c751ed581088efef8f761907587471744c03347a3960",
+      "validationSha256": "1853c037cc41510b6004cd60f7846b0b58fdd10d7eb2b50d5c3ee080b86fb89e",
+      "vite": "PASS in 1 minute 51 seconds",
+      "scope": "editable filter visual states and collapsible raw-state filters"
+    }
+  ],
+  "reviewFindings": [
+    "scripts, APIs, permission checks and business events remain unchanged except one display-only filled-filter count",
+    "upload, delete and advertising enable actions remain disabled",
+    "P22 query, reset, pagination and Beijing-time conversion remain unchanged"
+  ],
+  "authorizationBoundary": "Source and build review only. Browser rendering, pixel comparison and deployment were not performed."
+}
