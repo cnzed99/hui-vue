@@ -44,6 +44,12 @@ export const printAdminRoutes: RouteRecordRaw[] = [
         meta: { hidden: true, noTagsView: true, title: '远程预约设置' }
       },
       {
+        path: 'store/email-settings',
+        name: 'PrintEmailSettings',
+        component: () => import('./email/EmailSettings.vue'),
+        meta: { hidden: true, noTagsView: true, title: '邮箱发送设置' }
+      },
+      {
         path: 'library/categories',
         name: 'PrintLibraryCategories',
         component: () => import('./library/LibraryCategories.vue'),
@@ -77,4 +83,4 @@ export const printAdminRoutes: RouteRecordRaw[] = [
   }
 ]
 
-export const printAdminRouteNames = ['PrintReservationSettings', 'PrintAdminPrintList',...printPrinterRouteNames,...printDirectoryRouteNames,...printAdvertisingRouteNames, 'PrintLibraryCategories', ...printStatisticsRouteNames, 'PrintLibrarySettings', 'PrintStoreProfile', 'PrintAdmin', 'PrintWorkbench', 'PrintPasswordManagement', 'PrintDemoWorkflow', 'PrintDemoOrders', 'PrintDemoOrderDetail']
+export const printAdminRouteNames = ['PrintEmailSettings', 'PrintReservationSettings', 'PrintAdminPrintList',...printPrinterRouteNames,...printDirectoryRouteNames,...printAdvertisingRouteNames, 'PrintLibraryCategories', ...printStatisticsRouteNames, 'PrintLibrarySettings', 'PrintStoreProfile', 'PrintAdmin', 'PrintWorkbench', 'PrintPasswordManagement', 'PrintDemoWorkflow', 'PrintDemoOrders', 'PrintDemoOrderDetail']

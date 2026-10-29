@@ -253,7 +253,7 @@ export const printAdminMenu: readonly PrintAdminMenuEntry[] = [
     "title": "邮箱发送设置",
     "module": "终端",
     "group": "终端设置",
-    "route": null
+    "route": "/print/store/email-settings"
   },
   {
     "sourceId": "P36",
