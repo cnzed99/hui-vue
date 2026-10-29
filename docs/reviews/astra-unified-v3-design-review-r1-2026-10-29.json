@@ -1,0 +1,25 @@
+{
+  "reviewId": "astra-unified-v3-design-review-r1-2026-10-29",
+  "reviewDate": "2026-10-29",
+  "scope": "phase-one unified activation v3 critical design review",
+  "reviewRole": "astra_reviewer",
+  "assignedModel": "gpt-6-astra",
+  "assignedEffort": "high",
+  "verdict": "CHANGES_REQUIRED",
+  "boundInputs": {
+    "designSha256": "816d6e25647782a561c11f72c35c9f5665695f94886a39deb460ff3e42143480",
+    "permissionMapSha256": "a394975a68bc31194f7db727e2aa11de45bb6f8d5ef376c9199b57c49d3b7eac",
+    "cleanBuildValidationSha256": "0d41005400864a5364f3c5ab221f88a3de1469f980b81993523ccb1373e8f8bb"
+  },
+  "blockingFindings": [
+    "separate frozen inputs from runtime-generated backup artifacts and append-only session ledger outputs",
+    "require expected HTTP status, CommonResult code zero and exact data structure for every successful login, GET, cache and write assertion"
+  ],
+  "confirmedCorrect": [
+    "ten tables plus one ALTER with G0 through G11",
+    "sixteen permission nodes, administrator fifteen, employee ten query grants, twenty-five total grants and no role grant for 2017",
+    "full physical-row preservation, lock before service actions, unknown results are not replayed, browser ACK cannot be fabricated",
+    "four execution boundaries remain pending and executionAuthorization remains false"
+  ],
+  "authorizationBoundary": "No execution is authorized. This review does not permit implementation of live critical adapters, isolated rendering, database, service, login, publication or activation actions."
+}

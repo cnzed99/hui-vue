@@ -1,6 +1,6 @@
 # 首期已实现后台模块统一激活设计 v3
 
-日期：2026-10-29（Asia/Shanghai）。状态：CONFIRMED_PERMISSION_MATRIX / DESIGN_ONLY / NOT_EXECUTABLE / NOT_APPLIED；executionAuthorization=false。本设计是待 Astra High 审查的候选，不能作为执行 PASS。用户“同意权限口径”只确认权限能力；advertisingGateTrue、acceptanceRecordRetention、maintenanceWindow、localWriterExclusion 仍为 PENDING_HUMAN。
+日期：2026-10-29（Asia/Shanghai）。状态：CONFIRMED_PERMISSION_MATRIX / DESIGN_REPAIR_R1 / NOT_EXECUTABLE / NOT_APPLIED；executionAuthorization=false。本设计仅修复 Astra High 指出的输入/运行输出生命周期和 HTTP 业务成功判定两项阻断，待增量复审，不能作为执行 PASS。用户“同意权限口径”只确认权限能力；advertisingGateTrue、acceptanceRecordRetention、maintenanceWindow、localWriterExclusion 仍为 PENDING_HUMAN。
 
 ## 目标与范围
 
@@ -77,6 +77,12 @@ authoritative 图：G0=准确基线；G1=profile_version ALTER 完成；G2=store
 
 冻结运行链准确路径与哈希：systemd unit/drop-ins、start-backend.sh、配置优先级、配置文件、当前 release 指针、旧/新 JAR、nginx site/root 和前端清单；私密文件只记录安全元数据/受控摘要，不回显正文。已知路径仅为候选：/etc/systemd/system/print-backend.service、其 20-manual-demo.conf drop-in、ops/runtime/start-backend.sh、ops/runtime/application-cloud.yaml、runtime/releases/current/backend.jar、/var/www/print-system。实际生效值仍由执行计划重读绑定。
 
+输入/运行输出生命周期：执行计划事前冻结备份程序（候选 ops/backup/backup_verify.py 及本批适配器）的准确版本/SHA、固定命令和依赖、源实例/schema及完整备份对象范围与排除项、加密算法/密钥文件安全读取契约、隔离恢复库的唯一命名/账号范围、旧备份轮换的准确 owned 清单，以及本 run 的独占输出绝对路径和成功条件。备份输出候选为 /home/ubuntu/print-system/runtime/backups/phase1-unified/<runId>/snapshot.aesgcm，恢复证明/输出清单位于同一 run 私密目录；最终计划必须冻结具体 runId 后的准确路径，创建前确认不存在、目录 owner=执行用户/mode=0700且无符号链接，密文和证明普通文件 mode=0600、单链接，以 O_EXCL/O_NOFOLLOW 创建，不覆盖或复用旧 run。成功条件至少包含源 identity 与冻结基线一致、AES-GCM 解密/完整性验证、恢复 identity/准确 metadata/表集/行数及关键摘要一致、恢复库被精确移除且残留为零、输出文件独立重读一致、磁盘余量满足门限。
+
+本 run 的随机密文及恢复结果在持锁、入口/backend关闭且基线复核通过后才生成，属于运行输出，不要求事前 encryptedSha256 或 expectedProof 逐字等于尚不存在的结果。先写 durable BACKUP_RESTORE_INTENT，再运行一次备份/恢复；其实际密文 SHA、路径/大小、恢复证明摘要、临时 schema 实际身份和清理结果必须独立核验并追加 durable OBSERVED（文件和父目录 fsync）后，才允许第一条业务 DDL。输出路径/成功条件来自事前计划，实际内容 SHA/证明来自本 run 的观察；缺失、未知或不符立即停止。本契约明确替换旧 source-only RuntimeAdapter.backup_verified 中把未来密文 SHA 和整份 expectedProof 当事前精确输入的错误契约，实施时须同步修正后再审，不能靠填假哈希满足它。
+
+私密 session ledger 同样是运行输出：最终计划事前冻结独占绝对路径 /home/ubuntu/print-system/runtime/private/phase1-unified/<runId>/sessions.jsonl、准确父目录及 owner/mode，父目录 mode=0700、每级非符号链接；ledger普通文件 owner=执行用户/mode=0600/单链接，以 O_EXCL/O_NOFOLLOW 创建并 fsync 父目录，禁止覆盖、沿用旧 run 或以路径推定归属。以后只追加，使用受控 O_APPEND/O_NOFOLLOW 描述符并校验文件身份，每条含 runId/planSha；登录前 INTENT/基线、关联后的准确 access/refresh ID和安全摘要、撤销前后结果逐条 fsync，未知结果保留，不重放。token值只在内存。ledger内容及其后续摘要不属于事前输入，不要求尚未生成的 ledger SHA；此规定替换任何旧 source-only 预设 ledger 内容/摘要的契约，准确运行观察不能倒填为已审输入。
+
 ## 单窗口执行、持久日志与故障边界
 
 1. CLI 完整验证用户确认、run UUID、candidate/plan/review 的原始字节 SHA、全部 DDL/执行器/产物/配置绑定和固定私密凭据契约；review 必须固定 Astra/high 并明确 PASS_MIGRATION_EXECUTION。独立重读 review 普通文件，拒绝符号链接/异常链接数/路径逃逸；三适配器的完整 canonical plan 一致。所有验证先于 journal、端口和服务动作。默认/缺参/版本不符零动作。
@@ -102,6 +108,8 @@ advertisingGateTrue 尚待确认。候选 print.advertising.enabled=true 只开�
 CacheManager 复用现有 assignRoleMenu：调用前独立 DB 和 list-role-menus 双读两角色完整集合，证明全集包含于package且 handleTenantMenu 过滤后不变；管理员对自身角色只调用一次同全集赋权 API，调用前后role DML物理行/摘要均相同，只触发既有 CacheEvict。未知响应不重发。两角色真实请求证明权限生效，重启或源码注解不能替代证据。
 
 成功或失败都精确撤销本run会话，正常登出后仅按 ledger 操作准确SQL ID与Redis key；不SCAN/FLUSH/按用户或前缀批删。access、refresh SQL及对应Redis残留均零，浏览器认证清空才写TOKEN_CLEAN。异常保持入口关闭并保留私密ledger供只读定位，不清他人会话和正常审计记录。
+
+HTTP/业务响应统一契约：登录、所有 GET、list-role-menus、CacheManager 同全集赋权、所有写入和正常登出等成功步骤必须同时满足执行计划冻结的预期 HTTP 状态、可解析 CommonResult.code 为整数 0，以及对应端点的准确 data 结构/类型/身份或版本字段；列表还核 list/total，登录还核 token/用户关联，写入和缓存还核预期返回值及独立 SQL 读回。HTTP 200、仅存在 data 或适配器字符串 ACK 均不能单独判成功；非 JSON、结构缺失/错误、code 非零、状态不符一律失败并按已有未知副作用规则处理，不自动重试。预期拒绝用例核冻结的 HTTP 状态和 CommonResult 业务错误码（框架以 HTTP200 包装拒绝时必须 code 非零且精确匹配），并以准确 scoped SQL/版本/物理摘要证明无副作用；认证/授权等预期业务拒绝不得计入成功路径。最终实现只增加一个“HTTP200 + CommonResult.code 非零必须失败，不能进入后续成功阶段”的代表验证，覆盖共用响应判定器，不扩展同义测试套件。
 
 ## 最少充分集中验收
 

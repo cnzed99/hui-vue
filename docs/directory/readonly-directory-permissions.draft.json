@@ -1,0 +1,27 @@
+{
+  "status": "CONFIRMED_HUMAN_SOURCE_ONLY",
+  "applicationStatus": "NOT_APPLIED",
+  "confirmedDate": "2026-10-29",
+  "confirmation": "用户回复：同意权限口径",
+  "decisionRef": "docs/decisions/ordinary-permission-matrix-confirmed-2026-10-29.json",
+  "menuIds": "UNASSIGNED_REQUIRE_ACTIVATION_BASELINE",
+  "grants": {
+    "status": "CANDIDATE_NOT_APPLIED",
+    "administratorRoleId": 1,
+    "employeeRoleId": 2,
+    "grantBothRoles": [
+      "print:product:query",
+      "print:platform-product:query",
+      "print:library-entry:query",
+      "print:terminal-directory:query"
+    ]
+  },
+  "permissions": {
+    "P08": "print:product:query",
+    "P09": "print:platform-product:query",
+    "P13": "print:library-entry:query",
+    "P33": "print:terminal-directory:query"
+  },
+  "writePermissions": [],
+  "executionAuthorization": false
+}

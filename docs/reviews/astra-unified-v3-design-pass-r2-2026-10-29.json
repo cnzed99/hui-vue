@@ -1,0 +1,26 @@
+{
+  "reviewId": "astra-unified-v3-design-pass-r2-2026-10-29",
+  "reviewDate": "2026-10-29",
+  "scope": "phase-one unified activation v3 design repair-r1 incremental review",
+  "reviewRole": "astra_reviewer",
+  "assignedModel": "gpt-6-astra",
+  "assignedEffort": "high",
+  "verdict": "PASS_DESIGN",
+  "boundInputs": {
+    "designSha256": "02ffe0a147d74f3c4303bb70f465a9a67640a69da34d055d7b84966f81c34c3e",
+    "repairDiffSha256": "e20e40f47f63447dfde1895987c86ddfcb4a9bcb6af2b82d4899b099b4f333e1",
+    "permissionMapSha256": "a394975a68bc31194f7db727e2aa11de45bb6f8d5ef376c9199b57c49d3b7eac"
+  },
+  "closedFindings": [
+    "runtime-generated backup, restore proof and session ledger are outputs rather than immutable pre-run content hashes",
+    "HTTP success requires expected status, integer CommonResult code zero and endpoint-specific data structure"
+  ],
+  "retainedGates": {
+    "advertisingGateTrue": "PENDING_HUMAN",
+    "acceptanceRecordRetention": "PENDING_HUMAN",
+    "maintenanceWindow": "PENDING_HUMAN",
+    "localWriterExclusion": "PENDING_HUMAN",
+    "executionAuthorization": false
+  },
+  "authorizationBoundary": "Design implementation may proceed. This review does not authorize isolated rendering, migration, service actions, login, publication or activation. The final candidate still requires PASS_MIGRATION_EXECUTION."
+}

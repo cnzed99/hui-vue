@@ -1,0 +1,22 @@
+{
+  "status": "CONFIRMED_HUMAN_SOURCE_ONLY",
+  "applicationStatus": "NOT_APPLIED",
+  "confirmedDate": "2026-10-29",
+  "confirmation": "用户回复：同意权限口径",
+  "decisionRef": "docs/decisions/ordinary-permission-matrix-confirmed-2026-10-29.json",
+  "page": "P34",
+  "menu": {
+    "id": null,
+    "parentId": "PENDING_ACTIVATION_BASELINE",
+    "route": "/print/printers"
+  },
+  "permission": "print:printer-directory:query",
+  "roleGrants": {
+    "status": "CANDIDATE_NOT_APPLIED",
+    "administratorRoleId": 1,
+    "employeeRoleId": 2,
+    "grantBothRoles": ["print:printer-directory:query"]
+  },
+  "writePermissions": [],
+  "executionAuthorization": false
+}
