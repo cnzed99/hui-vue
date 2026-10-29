@@ -1,0 +1,30 @@
+{
+  "reviewId": "sol-p35-source-review-2026-10-29",
+  "reviewedAt": "2026-10-29",
+  "reviewerRole": "sol_reviewer",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "high",
+  "scope": "P35 ordinary frontend, API contract, persistence source and evidence",
+  "boundFrontendHead": "d3272b0f770749ed70ac97679cfdeed09230e525",
+  "boundBackendHead": "3c96a65d29ce3a8674d4ce231e40649553619fdc",
+  "reviewedFilesSortedAggregateSha256": "493d0e261562ed0ddc4a8348d67bf7093d5b1b90cb2e3a3cd2dfdd2edb6d419e",
+  "conclusion": "INSUFFICIENT_EVIDENCE",
+  "escalation": "ESCALATE_ASTRA_HIGH",
+  "confirmedBlockingDefects": [],
+  "escalationReason": "The new table tenant/store composite primary key, foreign key and scoped writes are a first implementation of scope-related database protection constraints for P35 and require mandatory Astra High review.",
+  "ordinaryReviewFindings": {
+    "passwordPlaintextReturnedOrStored": false,
+    "casOrBlankPasswordPreservationDefectFound": false,
+    "menuRouteOrPermissionReferenceDefectFound": false,
+    "uncertainSaveOutcomeLocksFurtherEditing": true,
+    "requestAndResponseAccessLoggingDisabled": true
+  },
+  "evidenceBoundary": {
+    "mavenProductionPackage": "PASS; tests and testCompile skipped",
+    "javaRecordingChecks": "17 passed; no database, SMTP, HTTP or Spring Security integration",
+    "frontendContract": "PASS; no browser or HTTP",
+    "vite": "exit 0 with P35 dist artifacts; full stdout/stderr not retained",
+    "notAccepted": ["real MySQL concurrency", "permission integration", "HTTP", "browser", "SMTP/TLS", "user acceptance"]
+  },
+  "highReviewRequiredBeforePublication": true
+}

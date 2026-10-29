@@ -1,0 +1,34 @@
+{
+  "reviewId": "astra-p35-scope-source-review-2026-10-29",
+  "reviewedAt": "2026-10-29",
+  "reviewerRole": "astra_reviewer",
+  "model": "gpt-6-astra",
+  "reasoningEffort": "high",
+  "trigger": "new tenant/store scope implementation and related database protection constraints",
+  "boundFrontendHead": "d3272b0f770749ed70ac97679cfdeed09230e525",
+  "boundBackendHead": "3c96a65d29ce3a8674d4ce231e40649553619fdc",
+  "reviewedFilesSortedAggregateSha256": "493d0e261562ed0ddc4a8348d67bf7093d5b1b90cb2e3a3cd2dfdd2edb6d419e",
+  "conclusion": "PASS_SOURCE_ONLY",
+  "blockingDefects": [],
+  "findings": {
+    "requestControlledScopeSwitch": false,
+    "tenantStoreBindingsOnAllReadsAndWrites": true,
+    "storeRowLockAndVersionCasConsistent": true,
+    "compositePrimaryAndForeignKeyProtectionReasonable": true,
+    "aes256GcmTenantStoreAad": true,
+    "plaintextReturnedOrStored": false,
+    "transactionRollbackOnRuntimeFailure": true
+  },
+  "evidence": {
+    "mavenProductionPackage": "PASS; 20 modules; tests and testCompile skipped",
+    "javaRecordingChecks": "17 passed",
+    "writeGateDefault": false,
+    "ddlExecuted": false
+  },
+  "requiredBeforeActivation": [
+    "real permission denial and cross-tenant scope denial",
+    "same-store concurrent first-create and same-version update conflict",
+    "real foreign-key mismatch rejection and rollback after write failure"
+  ],
+  "excluded": ["database migration authorization", "runtime activation", "real HTTP", "browser acceptance", "SMTP/TLS"]
+}

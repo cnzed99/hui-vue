@@ -1,0 +1,49 @@
+{
+  "validationId": "p35-email-settings-source-v1",
+  "validatedAt": "2026-10-29",
+  "result": "PASS_SOURCE_BUILD_ONLY",
+  "sourceAggregateSha256": "493d0e261562ed0ddc4a8348d67bf7093d5b1b90cb2e3a3cd2dfdd2edb6d419e",
+  "sourceSha256": {
+    "frontendModel": "c3af2046ee0fb64719c24f8ce40b66b9866f7e0bc0964bb21b576d1a759f3aef",
+    "frontendApi": "08853882da8f5473ab5ca8c9e7c411bf5dc49126e17b40cc15d037b37137fa4e",
+    "frontendView": "e1538653918c7955de50ded5eac6e80db8685edfe7048d3ffa743849d5429c86",
+    "frontendChecks": "2b9ed055b7e88dd96e4d3470eaeb4b6f7d73d9fc148e74dac2ee029f11340b86",
+    "frontendMenu": "f7b72f52d407fa4ed500e6a9503a9d9862c1365fac7684e7b6f70255e7df943e",
+    "frontendRoutes": "8cc3b6db4b98aa261f3bfc38ab9462cf66eed4c13c6f4e8653c0b1e063905ff1",
+    "backendController": "2318a6556ce78c1d16c2fbca4700413c30d2d42f90da0fb83cab6a51afc6a688",
+    "backendModel": "945f85ab5b41f624b88bca5dd41489aa345009d895d45553a9d5a27a981364b1",
+    "backendCommand": "cac6a9961bca5f21ba1b399adc7ef24d0a1a41361a7c19a210307f7af896c333",
+    "backendException": "ee8d8fbe5b0f185555e07b625eed292687f21eb14ab5e3554693013ab2bbbfd5",
+    "backendSecretCodec": "9bfff82bc3b5cd52a0f6149f40ff5f17d1ef4886fbe2e44117ec88e0a45ae518",
+    "backendRepository": "2754e326a6d2acefa85d217decb6bcad471954e9596e97b8fa65b15aab65b675",
+    "backendService": "25bbed1053df208bad53f3fc075e109f0aea30ef9280afb54d595928757af3d7",
+    "javaChecks": "f94d4095551c9d583dcbf2d99086c70e99a495efea81570f060f149749bc9fce",
+    "ddlDraft": "36da922dcfbfab2e979a49d300793acec632248e6ca010ade6fc2b49ac02350f"
+  },
+  "checks": {
+    "originalFourFields": true,
+    "passwordPlaintextNeverStoredOrReturned": true,
+    "aes256GcmTenantStoreAad": true,
+    "tenantStoreScopeAndCompositeForeignKey": true,
+    "optimisticVersionCas": true,
+    "existingPermissionsReused": true,
+    "defaultWriteGateClosed": true,
+    "sendingStatus": "SIMULATED_NOT_SENT",
+    "tlsStatus": "UNCONFIRMED_NOT_CONFIGURED",
+    "javaRecordingChecks": "PASS_17",
+    "frontendContract": "PASS",
+    "mavenProductionPackage": "PASS_20_MODULES",
+    "vite": "PASS_EXIT_0_WITH_P35_DIST_ARTIFACTS",
+    "solReview": "INSUFFICIENT_EVIDENCE_ESCALATED_TO_ASTRA_HIGH",
+    "astraHighScopeReview": "PASS_SOURCE_ONLY"
+  },
+  "notExecuted": [
+    "database migration",
+    "write gate activation",
+    "service installation or restart",
+    "real HTTP or browser",
+    "real MySQL concurrency or foreign-key execution",
+    "SMTP or TLS",
+    "user acceptance"
+  ]
+}

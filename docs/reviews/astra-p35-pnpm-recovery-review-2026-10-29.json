@@ -1,0 +1,34 @@
+{
+  "reviewId": "astra-p35-pnpm-recovery-2026-10-29",
+  "reviewerRole": "astra_reviewer",
+  "model": "gpt-6-astra",
+  "reasoningEffort": "high",
+  "trigger": "same frontend dependency-link recovery problem had two consecutive failed attempts before a third repair",
+  "scope": "P35 frontend dependency link recovery command only",
+  "boundHead": "d3272b0f770749ed70ac97679cfdeed09230e525",
+  "boundLockfileSha256": "045b4d48e08a94052ff245aaa4ff6aa92dc6b9073b0b0381c176c35eb41c9b23",
+  "boundLockfileGitBlob": "c73a7170c65bb4511e3714a4a4bee7571d8ff636",
+  "conclusion": "PASS",
+  "conclusionBoundary": "design approval for the exact revised recovery command; not a claim that recovery, build, deployment or runtime acceptance succeeded",
+  "requiredCommandConstraints": [
+    "fixed pnpm 12.16.1 absolute path under Node 22",
+    "pnpm_config_pm_on_fail=ignore",
+    "--prefer-offline --frozen-lockfile --trust-lockfile --ignore-scripts --ignore-pnpmfile",
+    "run vite directly from node_modules/.bin; do not use pnpm exec",
+    "verify lockfile blob and source status before and after"
+  ],
+  "executionResult": {
+    "installExitCode": 0,
+    "pnpmVersionAfter": "12.16.1",
+    "viteBuildExitCode": 0,
+    "lockfileGitBlobAfter": "c73a7170c65bb4511e3714a4a4bee7571d8ff636",
+    "sourceManifestOrLockfileUnexpectedChanges": false,
+    "diskFreeAfterBytes": 45426499584
+  },
+  "excluded": [
+    "database or service activation",
+    "SMTP or TLS behavior",
+    "browser acceptance",
+    "deployment or release approval"
+  ]
+}
