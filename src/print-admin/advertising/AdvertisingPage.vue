@@ -70,6 +70,10 @@ const save = async () => {
         </el-form-item>
         <el-form-item v-for="slot in slots" :key="slot" :label="`${slotLabel(slot)}：`">
           <div class="material-slot">
+            <div class="material-placeholder">
+              <button class="material-placeholder__add" type="button" disabled :aria-label="`${slotLabel(slot)}，素材上传尚未开放`" title="素材上传尚未开放"><span aria-hidden="true">＋</span></button>
+              <span class="material-placeholder__size">{{ info.size }}</span>
+            </div>
             <el-input v-model="urls[slot]" :disabled="busy || locked || !canSave" maxlength="2048" placeholder="当前账号已持久化图片的HTTPS地址" />
             <div class="slot-actions"><el-button disabled title="格式和安全图片上传接口待确认">选择文件</el-button><el-button disabled title="删除及文件引用规则待确认">删除</el-button></div>
             <span v-if="draft.assets.some((a) => a.slot === slot)" class="hint">已有素材仅可替换，删除规则待确认</span>
@@ -78,7 +82,7 @@ const save = async () => {
         <el-form-item v-if="props.position === 'COMPUTER_TERMINAL'" label="订单支付成功后广告语：">
           <div class="material-slot"><el-input v-model="successText" type="textarea" :rows="5" maxlength="10000" :disabled="busy || locked || !canSave" placeholder="富文本HTML草稿" /><span class="hint">富文本源稿保存；展示效果待确认。</span></div>
         </el-form-item>
-        <el-form-item><el-button type="primary" :disabled="busy || locked || !canSave" @click="save">保 存</el-button><span class="hint">保存后台草稿</span></el-form-item>
+        <el-form-item class="ad-save"><el-button type="primary" :disabled="busy || locked || !canSave" @click="save">保 存</el-button><span class="hint">保存后台草稿</span></el-form-item>
       </el-form>
     </template>
   </section>
@@ -90,6 +94,11 @@ h2 { margin: 0 0 20px; font-size: 18px; }
 .boundary { background: #f8fafc; padding: 10px 14px; }
 .ad-form { margin-top: 24px; max-width: 960px; }
 .material-slot { width: 100%; }
+.material-placeholder { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; margin-bottom: 14px; }
+.material-placeholder__add { display: grid; width: 50px; height: 50px; place-items: center; padding: 0; border: 0; background: #909090; color: #fff; cursor: not-allowed; }
+.material-placeholder__add span { display: grid; width: 29px; height: 29px; place-items: center; border: 1px solid #fff; border-radius: 50%; font-size: 26px; line-height: 1; }
+.material-placeholder__size { max-width: 280px; color: #777; font-size: 12px; line-height: 1.5; }
 .slot-actions { display: flex; gap: 8px; margin-top: 8px; }
+.ad-save { margin-top: 56px; padding-top: 24px; border-top: 1px solid #edf0f3; }
 .hint { margin-left: 10px; color: #64748b; font-size: 12px; }
 </style>

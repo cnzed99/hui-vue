@@ -245,4 +245,26 @@ const logout = async () => {
 /* Keep the page heading rhythm consistent without changing each page's form layout. */
 .print-admin__content :deep(.store-profile > h2),
 .print-admin__content :deep(.library-settings > h2) { margin: 0 0 20px; padding-bottom: 14px; border-bottom: 1px solid #e2e8f0; font-size: 16px; line-height: 24px; font-weight: 600; }
+/* Shared title cards for the ordinary pages; form and permission behavior stay local. */
+.print-admin__content :deep(:is(.directory-page, .library-directory, .terminal-directory, .printer-directory, .library-categories, .print-statistics, .advertising-page)) {
+  --print-page-inset: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px #e8edf2;
+}
+.print-admin__content :deep(:is(.library-categories, .print-statistics, .advertising-page)) { --print-page-inset: 24px; }
+.print-admin__content :deep(:is(.directory-page, .library-directory, .terminal-directory, .printer-directory, .library-categories, .print-statistics, .advertising-page) > h2) {
+  position: relative;
+  margin: -20px calc(-1 * var(--print-page-inset)) 20px;
+  padding: 20px var(--print-page-inset) 28px;
+  border-bottom: 12px solid #f4f7fb;
+  border-radius: 8px 8px 0 0;
+  background: #fff;
+  color: #182235;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+}
+.print-admin__content :deep(:is(.directory-page, .library-directory, .terminal-directory, .printer-directory, .library-categories, .print-statistics, .advertising-page) > h2::after) {
+  position: absolute; left: var(--print-page-inset); bottom: 14px; width: 64px; height: 3px; background: #0284c7; content: '';
+}
 </style>
