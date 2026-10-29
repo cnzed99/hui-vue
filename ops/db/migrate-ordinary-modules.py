@@ -8,7 +8,7 @@ import argparse, fcntl, json, os, pathlib, stat, sys, uuid
 sys.dont_write_bytecode=True
 from ordinary_activation_common import *
 LOCK=BASE/'runtime/locks/fixture-mutation.lock'
-SOURCES=('ops/db/ordinary_activation_common.py','ops/db/migrate-ordinary-modules.py','ops/db/ordinary_activation_db.py','ops/runtime/ordinary_activation_runtime.py','ops/db/ordinary_activation_recovery.py','ops/db/render-ordinary-modules-plan.py','ops/acceptance/ordinary_modules_activation_acceptance.py')
+SOURCES=('ops/acceptance/unified_v3_session_ports.py','ops/acceptance/unified_v3_acceptance_ports.py','ops/db/unified_activation_db_ports.py','ops/db/ordinary_activation_common.py','ops/db/migrate-ordinary-modules.py','ops/db/ordinary_activation_db.py','ops/runtime/ordinary_activation_runtime.py','ops/db/ordinary_activation_recovery.py','ops/db/render-ordinary-modules-plan.py','ops/acceptance/ordinary_modules_activation_acceptance.py')
 CONFIRMATIONS=('permissionMatrix','advertisingGateTrue','acceptanceRecordRetention','maintenanceWindow','localWriterExclusion')
 def source_hashes():
     return {p:digest(exact_file(BASE/p)) for p in (*SOURCES,*DDL_FILES,DESIGN_PATH,PERMISSION_MAP_PATH,CONFIRMATION_PATH)}

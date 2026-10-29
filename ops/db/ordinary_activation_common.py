@@ -117,7 +117,7 @@ class MysqlSession:
         scalar=r"(?:`[a-z_][a-z0-9_]*`|CAST\(`[a-z_][a-z0-9_]*` AS (?:UNSIGNED|JSON)\))"
         pair=r"'[a-z_][a-z0-9_]*',"+scalar
         projection=r'SELECT JSON_OBJECT\('+pair+r'(?:,'+pair+r')*\) FROM `system_(?:tenant|tenant_package|role|menu|role_menu)` ORDER BY id(?: FOR UPDATE)?'
-        require(sql in ('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE','START TRANSACTION','ROLLBACK','COMMIT') or sql in ddl_statements() or sql in metadata_queries().values() or sql==identity_sql or re.fullmatch(projection,sql) is not None,'sql_template_not_allowed')
+        require(sql in ('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE','START TRANSACTION','ROLLBACK','COMMIT') or sql in ddl_statements() or sql in metadata_queries().values() or sql==identity_sql or sql=="SELECT JSON_OBJECT('connectionCount',COUNT(*)) FROM information_schema.PROCESSLIST WHERE DB='print_demo' AND ID<>CONNECTION_ID()" or re.fullmatch(projection,sql) is not None,'sql_template_not_allowed')
         return sql
 
     def check_error(self):
@@ -293,6 +293,7 @@ def plan_permissions(snapshot):
 HUMAN_FIELDS=('permissionMatrix','advertisingGateTrue','maintenanceWindow','acceptanceRecordRetention','localWriterExclusion')
 INPUT_GROUPS=('design','ddl','adapters','artifacts','config','backup')
 ADAPTER_SCHEMA='UNIFIED_ADAPTER_SOURCE_V3'
+REQUIRED_ACCEPTANCE_ADAPTERS={'ops/acceptance/unified_v3_session_ports.py': 'e2800011ba6d5d07c72b04665115995ceb2722d4060f769ac6d911b594efe62e', 'ops/acceptance/unified_v3_acceptance_ports.py': 'ff397d450933ecc755f757e9e81e3df132ea6d91ece0103e45efafe98f471ea7'}
 def validate_ref(ref):
     require(isinstance(ref,dict) and set(ref)=={'path','sha256'},'exact_file_ref_required')
     path=pathlib.PurePosixPath(ref['path'])
@@ -323,8 +324,10 @@ def freeze_adapter_candidate(draft):
     require(value['sessionContract']==session_output_contract(value['runId']),'session_contract_not_exact')
     require(all(ref['path']!=value['sessionContract']['ledgerPath'] for refs in inputs.values() for ref in refs),'future_ledger_must_not_be_frozen_input')
 
-    adapter_paths={str(BASE/p) for p in ('ops/db/ordinary_activation_common.py','ops/db/migrate-ordinary-modules.py','ops/db/ordinary_activation_db.py','ops/db/ordinary_activation_recovery.py','ops/db/render-ordinary-modules-plan.py','ops/runtime/ordinary_activation_runtime.py','ops/acceptance/ordinary_modules_activation_acceptance.py')}
+    adapter_paths={str(BASE/p) for p in ('ops/db/ordinary_activation_common.py','ops/db/migrate-ordinary-modules.py','ops/db/ordinary_activation_db.py','ops/db/ordinary_activation_recovery.py','ops/db/render-ordinary-modules-plan.py','ops/runtime/ordinary_activation_runtime.py','ops/acceptance/ordinary_modules_activation_acceptance.py',*REQUIRED_ACCEPTANCE_ADAPTERS)}
     require({r['path'] for r in inputs['adapters']}==adapter_paths,'all_adapter_refs_required')
+    adapter_refs={r['path']:r['sha256'] for r in inputs['adapters']}
+    require(all(adapter_refs[str(BASE/path)]==sha for path,sha in REQUIRED_ACCEPTANCE_ADAPTERS.items()),'acceptance_adapter_sha_not_exact')
     for key,group in (('jar','artifacts'),('frontendManifest','artifacts'),('gateConfig','config')):
         require(validate_ref(value['release'][key]) in inputs[group],'release_ref_not_bound')
     backup=value['backupContract']

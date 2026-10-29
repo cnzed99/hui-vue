@@ -1,0 +1,64 @@
+{
+  "reviewId": "astra-unified-v3-live-ports-pass-r2-2026-10-29",
+  "reviewedAt": "2026-10-29",
+  "role": "astra_reviewer",
+  "model": "gpt-6-astra",
+  "reasoningEffort": "high",
+  "scope": "Unified phase-1 live-port source adapters and lost-login exact-session cleanup",
+  "verdict": "PASS_SOURCE_ONLY",
+  "sourceBatches": [
+    {
+      "name": "database-live-ports",
+      "diffSha256": "3bbbfba0cf191cf6c1a9146783192628f52f9f4dd8c2a939ff941f953501f59b",
+      "validationSha256": "2a9fc1783d800ae159364b40ebcece735dc0a2f956e319811e559e8593d5c84d",
+      "tests": "4/4 PASS"
+    },
+    {
+      "name": "runtime-live-ports",
+      "diffSha256": "03739cf20ab895eb2a8661c010b2cbcd37c5abee71b1fb79b9385e999718fa1a",
+      "validationSha256": "a7cce5019b7fb98ff11978ceab92b598ef18eccfce44b7e47e4915857e407a85",
+      "tests": "3/3 PASS"
+    },
+    {
+      "name": "lost-login-exact-cleanup-repair",
+      "diffSha256": "0783d495d29348b98b3c7e03aaaf53885c70764f2acaf9ed6fc9673352d048cb",
+      "validationSha256": "06d5561296b957d6da1e8cd88981da06b2efeec6ecbee18b4ca332e93a371239",
+      "tests": "4/4 PASS"
+    },
+    {
+      "name": "adapter-sha-sync",
+      "diffSha256": "0fc4e5e0a2932806ffb01fc73f3d899dfb9f15c7e76aea3e6621d6f15df8c8d6",
+      "validationSha256": "8398feea7c67cd5037b236c15befea983e83795e52fc42ac84ee1319765b15c7",
+      "tests": "1/1 PASS"
+    }
+  ],
+  "currentSourceSha256": {
+    "ops/db/ordinary_activation_common.py": "b6a77d28f78c568f082445e23ac5b683b2980b3b338bdab2834513db72e6016e",
+    "ops/db/migrate-ordinary-modules.py": "187b29c3fac992e965a3e7ef10a4b397d998cff88bd4de9aa5ad8acec445ed19",
+    "ops/db/unified_activation_db_ports.py": "3bf5257588f4435fcf7f897c5e2b6e9422dbbaf2703b60de6cb4e453a57541da",
+    "ops/acceptance/ordinary_modules_activation_acceptance.py": "90ec758113c1537882fd9ebf60f72ca5053ab07133685dbe41978ea8e0cf66f1",
+    "ops/acceptance/unified_v3_session_ports.py": "e2800011ba6d5d07c72b04665115995ceb2722d4060f769ac6d911b594efe62e",
+    "ops/acceptance/unified_v3_acceptance_ports.py": "ff397d450933ecc755f757e9e81e3df132ea6d91ece0103e45efafe98f471ea7"
+  },
+  "reviewConclusion": {
+    "nativeExecutionGatesFailClosed": true,
+    "exactEndpointResultValidationPresent": true,
+    "concurrencyWinnerTreatedAsRuntimeOutput": true,
+    "lostLoginExactSessionCleanupBlockerClosed": true,
+    "adapterHashesSynchronized": true
+  },
+  "executionPrerequisitesStillPending": [
+    "Freeze business SQL readback, exact write payloads and conflict codes.",
+    "Freeze quiescence and backend restore coordination.",
+    "Provide real browser callbacks and manual acceptance.",
+    "Resolve four PENDING_HUMAN execution boundaries."
+  ],
+  "executionBoundary": {
+    "executionAuthorization": false,
+    "migrationAuthorized": false,
+    "serviceSwitchAuthorized": false,
+    "publicationAuthorized": false,
+    "passMigrationExecution": false
+  },
+  "notes": "Independent source review only. No database, Redis, HTTP, service, credential or build operation was performed by the reviewer."
+}

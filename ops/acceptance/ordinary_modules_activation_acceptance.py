@@ -31,6 +31,7 @@ LOGIN = '/admin-api/system/auth/login'
 LOGOUT = '/admin-api/system/auth/logout'
 ROLE_LIST = '/admin-api/system/permission/list-role-menus'
 ASSIGN = '/admin-api/system/permission/assign-role-menu'
+NATIVE_EXECUTION_ENABLED = False
 CHECKS = {
     'permission': '16 nodes, 25 grants; original physical rows preserved; delete 2017 ungranted',
     'http': 'expected HTTP, integer CommonResult code zero and endpoint-specific data schema',
@@ -68,6 +69,10 @@ def data_matches(value, schema):
     kind = schema['type']
     if value is None:
         return kind == 'null' or schema.get('nullable') is True
+    if kind == 'union':
+        variants = schema.get('variants')
+        require(isinstance(variants, list) and len(variants) >= 2, 'union_schema_invalid')
+        return sum(data_matches(value, variant) for variant in variants) == 1
     if kind == 'object':
         if not isinstance(value, dict):
             return False
@@ -86,13 +91,15 @@ def data_matches(value, schema):
         return type(value) is bool
     if kind == 'string':
         return isinstance(value, str) and len(value) >= schema.get('minLength', 0) and (
-            'enum' not in schema or value in schema['enum'])
+            'enum' not in schema or value in schema['enum']) and (
+            'pattern' not in schema or re.fullmatch(schema['pattern'], value) is not None)
     if kind == 'null':
         return False
     raise ValueError('unsupported_data_schema_type')
 
 
 def common_result(reply, schema, expected_http=200, expected_code=0):
+    require(type(expected_http) is int and type(expected_code) is int, 'expected_response_codes_integer')
     require(isinstance(reply, dict) and set(reply) == {'status', 'body'} and
             type(reply['status']) is int and reply['status'] == expected_http, 'http_status_not_expected')
     body = reply['body']
@@ -141,6 +148,8 @@ class FixedLoopbackHttp:
                 'invalid_http_path')
         allowed = {(row['method'], row['path']) for row in
                    self.plan.get('acceptanceContract', {}).get('cases', [])}
+        allowed |= {(row['method'], row['path']) for group in
+                    self.plan.get('acceptanceContract', {}).get('concurrentCases', []) for row in group['calls']}
         allowed |= {('GET', item) for item in GET_PATHS}
         allowed |= {('POST', LOGIN), ('POST', LOGOUT), ('POST', ASSIGN)}
         allowed |= {('GET', ROLE_LIST + '?roleId=' + str(rid)) for rid in (1, 2)}
@@ -152,6 +161,7 @@ class FixedLoopbackHttp:
             headers['Authorization'] = 'Bearer ' + self.tokens[key]
         if self.exchange is not None:
             return self.exchange(host, port, method, path, body, headers)
+        require(NATIVE_EXECUTION_ENABLED, 'NATIVE_HTTP_EXECUTION_DISABLED')
         connection = http.client.HTTPConnection(host, port, timeout=20)
         try:
             connection.request(method, path, None if body is None else json.dumps(body).encode(), headers)
@@ -164,6 +174,7 @@ class FixedLoopbackHttp:
 
     def credential(self, ref):
         self.guard()
+        require(NATIVE_EXECUTION_ENABLED, 'NATIVE_CREDENTIAL_READ_DISABLED')
         allowed = {str(BASE / 'runtime/secrets/smoke-admin.json'),
                    str(BASE / 'runtime/secrets/smoke-reader.json')}
         path = pathlib.Path(ref['path'])
@@ -188,6 +199,8 @@ class FixedLoopbackHttp:
         self.logins.add(intent)
         credentials = self.credential(ref)
         try:
+            require(self.sql is not None and self.sql.assert_login_credential(ref, credentials['username']) ==
+                    'EXACT_FROZEN_CREDENTIAL_USER', 'login_credential_identity_not_proven')
             return self.raw(host, port, 'POST', path, credentials)
         except (OSError, TimeoutError, json.JSONDecodeError):
             raise LoginResponseLost('LOGIN_RESULT_UNKNOWN_NO_RETRY') from None
@@ -201,6 +214,14 @@ class FixedLoopbackHttp:
 
     def request(self, host, port, method, path, body, session):
         return self.raw(host, port, method, path, body, session)
+
+    def successful_get(self, path, session):
+        from unified_v3_acceptance_ports import endpoint_schema
+        require(path in GET_PATHS, 'successful_get_not_fixed')
+        schema = endpoint_schema(path)
+        require(self.plan['acceptanceContract']['getSchemas'][path] == schema,
+                'endpoint_data_schema_not_source_bound')
+        return common_result(self.raw('127.0.0.1', 48080, 'GET', path, session=session), schema)
 
     def role_menu_ids(self, host, port, role, session):
         schema = {'type': 'array', 'items': {'type': 'integer', 'minimum': 1}}
@@ -231,6 +252,10 @@ class FixedLoopbackHttp:
             require(case['alias'] in sessions and type(case['expectedCode']) is int and
                     type(case['expectedHttp']) is int, 'reviewed_case_contract_invalid')
             before = self.sql.case_readback(case['readbackKey'])
+            if case['expectedCode'] == 0:
+                from unified_v3_acceptance_ports import endpoint_schema
+                require(case['dataSchema'] == endpoint_schema(case['path'], case['method']),
+                        'case_endpoint_schema_not_source_bound')
             reply = self.raw('127.0.0.1', 48080, case['method'], case['path'],
                              copy.deepcopy(case.get('body')), sessions[case['alias']])
             data = common_result(reply, case['dataSchema'], case['expectedHttp'], case['expectedCode'])
@@ -241,7 +266,12 @@ class FixedLoopbackHttp:
                 require(after == case['expectedReadback'], 'case_not_independently_persisted')
             results.append({'id': case['id'], 'http': reply['status'],
                             'code': reply['body']['code'], 'readbackSha256': digest(canon(after))})
-        return {'cases': results}
+        proof = {'cases': results}
+        if 'concurrentCases' in contract:
+            from unified_v3_acceptance_ports import ConcurrentCases
+            coordinator = ConcurrentCases(self, self.sql)
+            proof['concurrentCases'] = [coordinator.run(group, sessions) for group in contract['concurrentCases']]
+        return proof
 
     def clear_tokens(self):
         self.tokens.clear()
@@ -267,6 +297,8 @@ class ExactSessionLedger:
 
     def bind(self, lease):
         self.lease = lease
+        if self.store is not None and hasattr(self.store, 'bind'):
+            self.store.bind(lease)
 
     def guard(self):
         require(self.lease is not None and self.store is not None, 'ledger_ports_not_configured')
@@ -354,6 +386,8 @@ class ExactSessionLedger:
                   'accessFingerprint': fingerprint(access['token']),
                   'refreshFingerprint': fingerprint(refresh['token'])}
         self.append('SESSION_ASSOCIATED', alias=alias, association=result)
+        if hasattr(self.store, 'bind_associated_logout'):
+            self.store.bind_associated_logout(copy.deepcopy(result), copy.deepcopy(found))
         return result
 
     def revoke_exact_once(self, run, sessions):
@@ -364,9 +398,12 @@ class ExactSessionLedger:
         try:
             require(self.started == set(self.rows) == set(sessions), 'unassociated_login_intent_unknown')
             for alias in sorted(self.rows):
-                rows = copy.deepcopy(self.rows[alias])
-                reply = self.store.logout_exact(rows)
+                reply = self.store.logout_exact(copy.deepcopy(self.rows[alias]))
                 require(common_result(reply, {'type': 'boolean'}) is True, 'logout_failed_or_unknown')
+            if hasattr(self.store, 'prepare_cleanup'):
+                self.store.prepare_cleanup(copy.deepcopy(self.rows))
+            for alias in sorted(self.rows):
+                rows = copy.deepcopy(self.rows[alias])
                 proof = self.store.revoke_exact(copy.deepcopy(rows))
                 require(proof == {'access': 0, 'refresh': 0, 'redisAccess': 0, 'redisRefresh': 0},
                         'exact_session_cleanup_not_proven')
@@ -416,7 +453,7 @@ class AcceptanceAdapter:
 
     def bind(self, lease, journal, receipts):
         self.lease, self.journal, self.receipts = lease, journal, receipts
-        for port in (self.http, self.ledger):
+        for port in (self.http, self.ledger, self.sql):
             if port is not None and hasattr(port, 'bind'):
                 port.bind(lease)
 
@@ -494,6 +531,8 @@ class AcceptanceAdapter:
     def get(self, alias, path):
         self.guard()
         require(path in GET_PATHS and alias in self.sessions, 'GET_scope_or_path_not_allowed')
+        if hasattr(self.http, 'successful_get'):
+            return self.http.successful_get(path, self.sessions[alias])
         schema = self.plan['acceptanceContract']['getSchemas'][path]
         return common_result(self.http.request('127.0.0.1', 48080, 'GET', path, None,
                                              self.sessions[alias]), schema)
@@ -523,9 +562,10 @@ class AcceptanceAdapter:
             for path in GET_PATHS:
                 self.get(alias, path)
         proof = self.http.reviewed_cases(self.plan['acceptanceContract'], copy.deepcopy(self.sessions))
-        require(proof == self.plan['acceptanceContract']['expectedProof'], 'reviewed_HTTP_cases_not_proven')
-        require(self.sql.scoped_readback(self.plan['acceptanceContract']) ==
-                self.plan['acceptanceContract']['expectedSqlReadback'], 'HTTP_write_not_persisted')
+        from unified_v3_acceptance_ports import validate_case_proof, validate_scoped_readback
+        validate_case_proof(self.plan['acceptanceContract'], proof)
+        validate_scoped_readback(self.plan['acceptanceContract'], proof,
+                                 self.sql.scoped_readback(self.plan['acceptanceContract']))
         require(self.browser.verify(self.plan['browserContract'], copy.deepcopy(self.sessions)) == 'ACK',
                 'controlled_browser_proof_missing')
         self.event('HTTP_BROWSER_ACCEPTANCE', 'OBSERVED', SLOT_REMOVAL_HTTP='NOT_RUN')
@@ -550,8 +590,9 @@ class AcceptanceAdapter:
             raise
         finally:
             self.tokens.clear()
-            if self.http is not None and hasattr(self.http, 'clear_tokens'):
-                self.http.clear_tokens()
+            for port in (self.http, self.sql, getattr(self.ledger, 'store', None)):
+                if port is not None and hasattr(port, 'clear_tokens'):
+                    port.clear_tokens()
 
 
 if __name__ == '__main__':
