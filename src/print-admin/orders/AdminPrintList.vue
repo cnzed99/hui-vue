@@ -16,6 +16,7 @@ const stateFields = [
   { key: 'orderState', label: '订单原始状态' }, { key: 'paymentState', label: '支付原始状态' },
   { key: 'refundState', label: '退款原始状态' }, { key: 'printState', label: '打印原始状态' }
 ] as const
+const filledStateFilterCount = computed(() => stateFields.filter(field => filters[field.key].trim()).length)
 const data = ref<OrderPage<OrderSummary> | null>(null), loading = ref(false), failure = ref<OrderFailure | null>(null)
 const selectedId = ref(''), detail = ref<OrderDetail | null>(null), detailLoading = ref(false), detailFailure = ref<OrderFailure | null>(null)
 const events = ref<OrderPage<OrderEvent> | null>(null), eventsLoading = ref(false), eventFailure = ref<OrderFailure | null>(null), eventPage = ref(1)
@@ -87,7 +88,21 @@ const resetFilters = () => {
 <section class="orders admin-print-list" data-testid="p22-admin-print-list">
   <header class="orders-title"><h1>管理员打印列表 · 受限只读</h1><RouterLink to="/print/workbench">返回工作台</RouterLink></header>
   <div class="orders-card"><p class="p22-scope"><strong>{{ P22_SCOPE }}</strong>。仅查看当前登录账号可访问的数据；此入口未提供全店管理员记录。</p><p class="p22-notice">支付与打印状态按原值分别显示。QUEUED 只表示排队，模拟回执不证明设备打印或实际出纸。“仅当天可看”的适用规则待确认，本页不实施该限制。</p>
-    <form class="p22-filters" @submit.prevent="search"><label>订单号：<input v-model="filters.orderNo" maxlength="34" placeholder="完整订单号，精确匹配" /></label><label>订单创建时间（北京时间）：<input v-model="filters.createdFrom" type="datetime-local" aria-label="订单创建时间起点" /><span>至</span><input v-model="filters.createdTo" type="datetime-local" aria-label="订单创建时间终点" /></label><label v-for="field in stateFields" :key="field.key">{{ field.label }}：<input v-model="filters[field.key]" maxlength="32" placeholder="按原始值精确匹配" /></label><button type="submit" :disabled="loading || !access.ready.value">查询</button><button type="button" :disabled="loading || !access.ready.value" @click="resetFilters">重置</button></form>
+    <form class="p22-filters" @submit.prevent="search">
+      <div class="p22-filters__primary">
+        <label>订单号：<input v-model="filters.orderNo" maxlength="34" placeholder="完整订单号，精确匹配" /></label>
+        <label class="p22-filters__time">订单创建时间（北京时间）：<input v-model="filters.createdFrom" type="datetime-local" aria-label="订单创建时间起点" /><span>至</span><input v-model="filters.createdTo" type="datetime-local" aria-label="订单创建时间终点" /></label>
+        <div class="p22-filters__actions"><button type="submit" :disabled="loading || !access.ready.value">查询</button><button type="button" :disabled="loading || !access.ready.value" @click="resetFilters">重置</button></div>
+      </div>
+      <el-collapse class="p22-filters__more">
+        <el-collapse-item name="states">
+          <template #title><span>更多筛选</span><span class="p22-filters__count">已填写 {{ filledStateFilterCount }} 项状态条件</span></template>
+          <div class="p22-filters__states">
+            <label v-for="field in stateFields" :key="field.key">{{ field.label }}：<input v-model="filters[field.key]" maxlength="32" placeholder="按原始值精确匹配" /></label>
+          </div>
+        </el-collapse-item>
+      </el-collapse>
+    </form>
     <p v-if="filterError" role="alert">{{ filterError }}</p>
     <p class="p22-notice">筛选在服务端执行；时间范围包含起止分钟。实际打印时间尚未接入。</p>
     <div class="orders-toolbar"><button type="button" disabled title="后端未提供实际打印完成记录筛选">已打印（筛选未接入）</button><button v-if="access.ready.value" type="button" :disabled="loading" @click="load">刷新</button></div>
@@ -106,4 +121,27 @@ const resetFilters = () => {
   </article>
 </section>
 </template>
-<style scoped>.p22-scope{line-height:1.8}.p22-notice{color:#7b8797;line-height:1.8;font-size:12px}.p22-filters{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin:20px 0}.p22-filters label{display:flex;gap:8px;align-items:center}.p22-filters input{border:1px solid #dce3eb;border-radius:3px;padding:7px 10px;color:#94a3b8;background:#f8fafc}.p22-unavailable{color:#94a3b8}.orders-table small{display:block;color:#8a96a5;font-size:11px;margin-top:7px}.orders-table th{white-space:nowrap}.orders-table td{min-width:90px;overflow-wrap:anywhere}.orders-table{min-width:2300px}.orders-identifier{min-width:180px!important}</style>
+<style scoped>
+.p22-scope { line-height: 1.8; }
+.p22-notice { color: #7b8797; line-height: 1.8; font-size: 12px; }
+.p22-filters { margin: 20px 0; }
+.p22-filters__primary { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+.p22-filters label { display: flex; gap: 8px; align-items: center; color: #334155; }
+.p22-filters input { border: 1px solid #cbd5e1; border-radius: 3px; padding: 7px 10px; color: #263445; background: #fff; color-scheme: light; }
+.p22-filters input::placeholder { color: #94a3b8; }
+.p22-filters input:focus-visible { border-color: #0284c7; outline: 2px solid #bae6fd; outline-offset: 1px; }
+.p22-filters input:disabled { color: #94a3b8; background: #f8fafc; cursor: not-allowed; }
+.p22-filters__actions { display: flex; gap: 8px; }
+.p22-filters__more { margin-top: 14px; border-color: #e2e8f0; }
+.p22-filters__more :deep(.el-collapse-item__header) { gap: 12px; color: #475569; font-size: 13px; }
+.p22-filters__more :deep(.el-collapse-item__content) { padding-bottom: 16px; }
+.p22-filters__count { color: #64748b; font-size: 12px; }
+.p22-filters__states { display: flex; flex-wrap: wrap; gap: 12px 24px; }
+.p22-filters__states input { width: 205px; }
+.p22-unavailable { color: #94a3b8; }
+.orders-table small { display: block; color: #8a96a5; font-size: 11px; margin-top: 7px; }
+.orders-table th { white-space: nowrap; }
+.orders-table td { min-width: 90px; overflow-wrap: anywhere; }
+.orders-table { min-width: 2300px; }
+.orders-identifier { min-width: 180px !important; }
+</style>
