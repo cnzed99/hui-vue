@@ -1,0 +1,11 @@
+{
+  "label": "ordinary-ui-batch1",
+  "startedUtc": "2026-10-30T02:29:09.391238+00:00",
+  "freeBeforeBytes": 45480529920,
+  "minimumFreeBytes": 10737418240,
+  "exitCode": 0,
+  "scratchBytesRemoved": 9488496,
+  "scratchRemoved": true,
+  "freeAfterBytes": 45479632896,
+  "aboveMinimum": true
+}

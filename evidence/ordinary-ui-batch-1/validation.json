@@ -1,0 +1,23 @@
+{
+  "validationId": "ordinary-ui-batch-1",
+  "validatedAt": "2026-10-30",
+  "result": "PASS_SOURCE_BUILD_ONLY",
+  "pages": ["P36", "P37", "P38", "P52", "P53"],
+  "boundFrontendHead": "76667ddfbce920f3913c7f526d52a46521ff66f5",
+  "canonicalSourceManifestSha256": "7f78139f7fc630ded6100740ecb0860d402bdd17d7a1cafb463e13f91201a955",
+  "checks": {
+    "statisticsContract": "PASS",
+    "advertisingContract": "PASS",
+    "diffCheck": "PASS",
+    "vite": "PASS_EXIT_0",
+    "solHighBatchReview": "PASS",
+    "astraHigh": "NOT_TRIGGERED"
+  },
+  "boundaries": {
+    "statisticsApiOrBusinessRulesChanged": false,
+    "advertisingBackendOrWriteGateChanged": false,
+    "realUploadEnableDeleteDistribution": false,
+    "deploymentPerformed": false
+  },
+  "notVerified": ["HTTP", "browser", "real persistence", "device", "deployment", "user acceptance"]
+}

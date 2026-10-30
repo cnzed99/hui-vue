@@ -1,0 +1,2 @@
+PASS four Vue SFC compilations, existing read-only API/scene/generation contracts
+PASS two Vue SFC/script/template/style compilations; P52/P53 specs; local-only preview, stale decode, reset/revoke, readonly/save locks; existing API/version/generation contract

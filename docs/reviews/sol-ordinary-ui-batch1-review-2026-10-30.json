@@ -1,0 +1,28 @@
+{
+  "reviewId": "sol-ordinary-ui-batch1-review-2026-10-30",
+  "reviewedAt": "2026-10-30",
+  "reviewerRole": "sol_reviewer",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "high",
+  "scope": ["P36", "P37", "P38", "P52", "P53"],
+  "boundFrontendHead": "76667ddfbce920f3913c7f526d52a46521ff66f5",
+  "canonicalSourceManifestSha256": "7f78139f7fc630ded6100740ecb0860d402bdd17d7a1cafb463e13f91201a955",
+  "conclusion": "PASS",
+  "blockingFindings": [],
+  "astraEscalation": "NOT_TRIGGERED",
+  "findings": {
+    "statisticsExistingApiAndFieldsPreserved": true,
+    "statisticsLoadingErrorEmptyReadonlyStates": true,
+    "advertisingLocalPreviewCannotBeSaved": true,
+    "advertisingObjectUrlsReleased": true,
+    "advertisingGenerationAndSaveLocksPreserved": true,
+    "uploadEnableDeleteDistributionImplemented": false
+  },
+  "evidence": {
+    "contractLogSha256": "6f701ac772e6881b87da9a9c660cf45a97bd685da8af54816d8d132f0afa4cf9",
+    "viteLogSha256": "2333e2e3bb31b60dc5f736dc428b8f07ae72486dafddeb3ec94b841398196bf5",
+    "diskRecordSha256": "edb681153c2c74553ca62f1e86e7d0728c1e44ffcdbcc086e8372fb773c4d061",
+    "vite": "PASS; 9408 modules; 1 minute 46 seconds; exit 0"
+  },
+  "notVerified": ["HTTP", "browser interaction", "real writes", "device effect", "deployment", "user acceptance"]
+}
