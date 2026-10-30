@@ -1,0 +1,31 @@
+{
+  "date": "2026-10-30",
+  "verdict": "PASS_SIMULATION_ONLY",
+  "astraIncrementalReview": "PASS",
+  "files": {
+    "common.sh": "61d17173fc7aa49dfb306713f746b5a32e851968fc6d0c012eeb72860705a57d",
+    "launch.sh": "837ee181281a518d555d18f703912cd08b887356bc2e539acded92cfc31baf67",
+    "controller.sh": "aa62f30f35c0ab3e5b9bd69fd93280c4835f06bdfae31e97a80c2b0041fe75a6",
+    "build-child.sh": "a0b8c12b4c8dfa77d4a04d5411da87bfa7660723b92e316315f0cac848e0a4ab",
+    "recover.sh": "13f35ed014ad1a63eccf173124d3f70d5b721c39f281bd15366f9b4d93be3a4b",
+    "self-test.sh": "e193e214b66cee996fcc866485f70dac6074660ac7c04c6db37de7fb83d81449",
+    "config-check.mjs": "5683638c7972cb6cb6945673ef40087d22d6446f30fb3465c42ec78d50106cb2",
+    "README.md": "e78bb22dc7120b39488bb94067f245505fd16299ef2ccbb39c2eaef2c86e27f7"
+  },
+  "tests": [
+    "probe-contracts",
+    "lock-reject",
+    "success",
+    "fail",
+    "timeout",
+    "recovery-deadline"
+  ],
+  "result": "ALL_PASS",
+  "noBusinessServiceActions": true,
+  "noViteBuild": true,
+  "boundaries": [
+    "Redis NOAUTH is accepted only as listener and authentication-gate readiness, not authenticated business access.",
+    "Backend code 401 proves route liveness only.",
+    "Simulation does not prove real automatic recovery or a successful full build."
+  ]
+}

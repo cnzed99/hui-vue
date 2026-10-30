@@ -1,0 +1,52 @@
+{
+  "runId": "20261030T041418Z-e3adae5662a66590",
+  "date": "2026-10-30",
+  "verdict": "FAIL",
+  "implementationModel": "gpt-6.1-sol high",
+  "reviewModel": "gpt-6-astra high",
+  "effectiveBuild": {
+    "mode": "cloud",
+    "sourcemap": false,
+    "compress": "none",
+    "minify": "oxc",
+    "nodeMaxOldSpaceMb": 2048,
+    "memoryHighMb": 2560,
+    "memoryMaxMb": 2816,
+    "memorySwapMaxMb": 512,
+    "runtimeMaxSeconds": 360
+  },
+  "buildResult": {
+    "unitResult": "timeout",
+    "execMainCode": 2,
+    "execMainStatus": 9,
+    "meaning": "systemd timeout followed by signal termination; 9 is not an application exit code",
+    "oom": 0,
+    "oomKill": 0,
+    "memoryHighEvents": 421073,
+    "completedFullTransform": false
+  },
+  "externalSshProbe": {
+    "summarySha256": "b90ef9cd62987d3343915b2b732b6a3f0ff06fc068368c3dfabc8928db5a9459",
+    "sampleCount": 74,
+    "failedSamples": 1,
+    "failedSequence": 36,
+    "failedRoundTripMilliseconds": 43228,
+    "gate": "FAIL"
+  },
+  "automaticRecovery": {
+    "recoveryExit": 1,
+    "childClear": true,
+    "scratchRemoved": true,
+    "deadlineExceeded": false,
+    "failure": "Redis NOAUTH was misclassified and nginx port 80 was probed instead of 18080, so print-backend was not automatically started."
+  },
+  "manualRecovery": {
+    "mysql": "active",
+    "redisServer": "active",
+    "nginx": "active",
+    "printBackend": "active",
+    "nginxLoginHttp": 200,
+    "backendPermissionInfoCode": 401
+  },
+  "astraConclusion": "Do not retry full builds on the 4GB business host by increasing heap, memory, swap, or timeout. Keep full application build separate from this host; continue ordinary development with explicit source or targeted-only evidence."
+}

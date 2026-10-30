@@ -1,0 +1,38 @@
+{
+  "reviewDate": "2026-10-30",
+  "role": "sol_reviewer",
+  "actualModel": "gpt-6.1-sol",
+  "reasoningEffort": "high",
+  "verdict": "PASS_SOURCE_TARGETED_CHECK_ONLY",
+  "reviewBinding": {
+    "baseHead": "dbeb9b9d71482effb994264ffecf8e5186a52c68",
+    "publishedCommit": "df46bdedcdd7d2527e756bd78d8dcd369054afad",
+    "branch": "print/phase1-admin",
+    "manifestSha256": "bbebd57d65cfa566671e2aa679dc1402b2f325d1a7315b32647ddf238ec4f62e"
+  },
+  "scope": [
+    "src/print-admin/advertising/AdvertisingPage.vue",
+    "src/print-admin/advertising/MultiImageDraftEditor.vue",
+    "src/print-admin/advertising/ui-contract-check.cjs"
+  ],
+  "pages": [
+    "P46",
+    "P47",
+    "P48",
+    "P49",
+    "P50",
+    "P51"
+  ],
+  "checks": {
+    "manifestVerifiedBeforeAndAfterReview": true,
+    "independentContractExitCode": 0,
+    "sfcCompilation": "PASS",
+    "localPreviewLifecycle": "PASS",
+    "saveAndVersionLocks": "PASS",
+    "specAndSlotMapping": "PASS",
+    "p52P53Regression": "NO_SOURCE_REGRESSION_FOUND",
+    "newUploadEnableDeleteDistribution": false
+  },
+  "fullBuild": "NOT_PASSED",
+  "evidenceBoundary": "This pass covers source and targeted checks only. It does not prove full application build, browser or HTTP behavior, real writes, deployment, device behavior, or user acceptance."
+}

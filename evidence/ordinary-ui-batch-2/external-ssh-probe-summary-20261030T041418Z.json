@@ -1,0 +1,40 @@
+{
+  "runId": "20261030T041418Z-e3adae5662a66590",
+  "probeKind": "off-host repeated SSH helper connections",
+  "localTimeBasis": "UTC",
+  "firstSequence": 0,
+  "lastSequence": 73,
+  "sampleCount": 74,
+  "successfulSamples": 73,
+  "failedSamples": 1,
+  "failedSample": {
+    "sequence": 36,
+    "localUtc": "2026-10-30T04:19:24.364Z",
+    "roundTripMilliseconds": 43228,
+    "exitCode": 1,
+    "error": "SSHException after four connection retries"
+  },
+  "notableSuccessfulDelays": [
+    {
+      "sequence": 32,
+      "roundTripMilliseconds": 18209
+    },
+    {
+      "sequence": 49,
+      "roundTripMilliseconds": 18346
+    }
+  ],
+  "observedControllerPhases": {
+    "inactiveBefore": "sequences 0-2",
+    "activeBuild": "sequences 3-46",
+    "recoveryStopPost": "sequences 48-59",
+    "inactiveAfter": "sequences 60-73"
+  },
+  "resourceObservations": {
+    "lowestReportedMemAvailableKiBDuringBuild": 558664,
+    "lowestReportedSwapFreeKiBDuringBuild": 1554688
+  },
+  "verdict": "FAIL",
+  "reason": "The required external SSH probe had one terminal failure and multiple severe delays; full-build SSH responsiveness gate was not met.",
+  "boundary": "This is a summary of the raw probe stream captured by the coordinating client. It does not convert the failed build or failed automatic recovery into a pass."
+}

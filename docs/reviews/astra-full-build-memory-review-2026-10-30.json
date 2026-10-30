@@ -1,0 +1,50 @@
+{
+  "reviewDate": "2026-10-30",
+  "role": "astra_reviewer",
+  "actualModel": "gpt-6-astra",
+  "reasoningEffort": "high",
+  "trigger": "同一 Vite 全量构建问题连续两轮修复未解决",
+  "verdict": "CHANGES_REQUIRED",
+  "boundVersions": {
+    "engineeringHead": "d3374df4088005a0c5a35daad9c4936028e89544",
+    "frontendHead": "dbeb9b9d71482effb994264ffecf8e5186a52c68",
+    "batchManifestSha256": "bbebd57d65cfa566671e2aa679dc1402b2f325d1a7315b32647ddf238ec4f62e"
+  },
+  "findings": [
+    "历史成功构建使用 mode cloud、9408 modules、1m46s；本批失败均使用 mode dev、9410 modules。",
+    ".env.dev 开启 VITE_SOURCEMAP=true，vite.config.ts 将其映射为 inline；.env.cloud 关闭 sourcemap 且不压缩资源。inline sourcemap 是当前最有证据的内存峰值根因假设。",
+    "现有 MemoryHigh/MemoryMax 过于接近主机总内存，MemorySwapMax 未限制，不能保证 SSH 余量。",
+    "root 恢复 bash 与构建处于同一 cgroup 且没有 ExecStopPost；timeout 正常退出恢复成功不能外推为 OOM 恢复保证。"
+  ],
+  "approvedImplementation": {
+    "mode": "cloud",
+    "node": "/home/ubuntu/print-system/runtime/node/node-v22.23.4-linux-x64/bin/node",
+    "nodeMaxOldSpaceMb": 2048,
+    "memoryHighMb": 2560,
+    "memoryMaxMb": 2816,
+    "memorySwapMaxMb": 512,
+    "cpuQuotaPercent": 100,
+    "nice": 10,
+    "runtimeMaxSeconds": 360,
+    "timeoutStopSeconds": 20,
+    "killMode": "control-group",
+    "oomPolicy": "stop",
+    "minimumFreeDiskBytes": 10737418240,
+    "minimumHostMemAvailableBytes": 268435456,
+    "minimumHostSwapFreeBytes": 536870912,
+    "serviceWindow": [
+      "mysql",
+      "redis-server",
+      "nginx",
+      "print-backend"
+    ]
+  },
+  "requiredControls": [
+    "构建 child 与 root controller 使用不同 systemd cgroup。",
+    "controller 通过 ExecStopPost 调用独立 recover 脚本，先终止 child，再恢复原先 active 的服务并清理唯一 scratch。",
+    "构建期间每 5 至 10 秒记录 cgroup memory/swap/events 和主机 MemAvailable/SwapFree；越过下限立即停止。",
+    "先模拟失败和超时路径且不触及四项服务，再对脚本增量进行 Astra High 复审。",
+    "真实构建必须同时满足退出 0、dist/index.html、无 OOM、SSH 可响应、服务与健康恢复、scratch 清理和磁盘余量。"
+  ],
+  "evidenceBoundary": "本审查只覆盖构建故障诊断和下一轮执行设计，不覆盖页面业务正确性、部署或用户验收。"
+}
