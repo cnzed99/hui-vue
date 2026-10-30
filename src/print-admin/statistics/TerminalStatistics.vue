@@ -28,6 +28,7 @@ watch([identity, allowed], () => {
   if (allowed.value && context.status === 'ready') void load()
 }, { immediate: true })
 onBeforeUnmount(() => { generation++ })
+const reset = () => { terminal.value = ''; scene.value = ''; dates.value = []; void load() }
 const width = (value: string | null, kind: 'orders' | 'amountSnapshot') => {
   const max = Math.max(0, ...(report.value?.list ?? []).map(row => Number(row[kind] ?? 0)))
   const n = Number(value ?? 0)
@@ -42,30 +43,40 @@ const exportData = () => {
 }
 </script>
 <template>
-  <section class="print-statistics">
-    <h2>按终端统计</h2>
-    <p v-if="!allowed" role="alert">当前账号没有查看统计的权限。</p>
-    <p v-else-if="context.status !== 'ready'" role="status">请先确认当前门店身份。</p>
+  <section class="print-statistics" :aria-busy="busy">
+    <header class="page-heading"><h2>按终端统计</h2><span class="page-kind">打印订单量统计</span></header>
+    <el-alert v-if="!allowed" title="当前账号没有查看统计的权限。" type="warning" :closable="false" show-icon />
+    <el-alert v-else-if="context.status !== 'ready'" title="请先确认当前门店身份。" type="info" :closable="false" show-icon />
     <template v-else>
-      <p class="notice">原页面说明：当天9点后可看前一天数据，仅供参考，实际以财务交易订单为准。</p>
-      <p class="notice">当前为本系统当前账号订单快照实时查询，按北京时间及订单创建日期分组。终端尚未关联；打印场景显示数据源原值。金额为订单金额快照，交易额口径待定，不能作为实收收入。</p>
-      <el-form inline @submit.prevent="load">
-        <el-form-item label="终端名称："><el-input v-model="terminal" maxlength="128" clearable placeholder="未关联终端" :disabled="busy" /></el-form-item>
-        <el-form-item label="打印场景："><el-select v-model="scene" clearable placeholder="全部场景" :disabled="busy" style="width:190px"><el-option v-for="s in scenes" :key="s" :label="s" :value="s" /></el-select></el-form-item>
-        <el-form-item label="交易时间："><el-date-picker v-model="dates" type="daterange" value-format="YYYY-MM-DD" start-placeholder="开始日期" end-placeholder="结束日期" :disabled="busy" /></el-form-item>
-        <el-form-item><el-button type="primary" :loading="busy" @click="load">查询</el-button><el-button :disabled="!report || busy" @click="exportData">导出当前查询</el-button></el-form-item>
-      </el-form>
-      <p v-if="error" role="alert">{{ error }}</p><p v-if="busy" role="status">正在加载统计…</p>
-      <template v-if="report">
-        <p v-if="!report.list.length" role="status">当前筛选暂无订单数据。</p>
-        <template v-else>
-          <div class="chart-grid">
-            <article><h3>订单数统计图</h3><div v-for="(r, i) in report.list" :key="i" class="chart-row"><span>{{ r.day }} · {{ r.scene }} · {{ r.currency }} · {{ r.simulation ? '模拟' : '非模拟' }}</span><div class="track"><i :style="{ width: width(r.orders, 'orders') }"></i></div><b>{{ r.orders }}</b></div></article>
-            <article><h3>交易额统计图（订单金额快照，口径待定）</h3><div v-for="(r, i) in report.list" :key="i" class="chart-row"><span>{{ r.day }} · {{ r.currency }} · {{ r.simulation ? '模拟' : '非模拟' }}</span><div class="track"><i :style="{ width: width(r.amountSnapshot, 'amountSnapshot') }"></i></div><b>{{ amountText(r.amountSnapshot) }}</b></div></article>
-          </div>
-          <el-table :data="report.list" border><el-table-column prop="day" label="日期" /><el-table-column prop="terminal" label="打印终端" /><el-table-column prop="scene" label="场景原值" /><el-table-column prop="currency" label="币种" /><el-table-column label="数据类型"><template #default="{row}">{{ row.simulation ? '模拟' : '非模拟' }}</template></el-table-column><el-table-column prop="orders" label="订单数" /><el-table-column label="订单金额快照"><template #default="{row}">{{ amountText(row.amountSnapshot) }}</template></el-table-column><el-table-column prop="invalidAmountCount" label="待核对金额数" /></el-table>
-        </template>
-      </template>
+      <div class="statistics-panel filter-panel">
+        <h3 class="panel-heading">统计条件</h3>
+        <p class="notice reference-notice">当天9点后可查看前一天的数据，该统计结果仅供参考，实际数据以财务交易订单为准。</p>
+        <el-form inline @submit.prevent="load">
+          <el-form-item label="终端名称："><el-input v-model="terminal" maxlength="128" clearable placeholder="请输入终端名称" :disabled="busy" /></el-form-item>
+          <el-form-item label="打印场景："><el-select v-model="scene" clearable placeholder="全部" :disabled="busy" class="filter-select"><el-option v-for="s in scenes" :key="s" :label="s" :value="s" /><template #empty><div class="select-empty">暂无场景选项，请先查询数据</div></template></el-select></el-form-item>
+          <el-form-item label="交易时间："><el-date-picker v-model="dates" type="daterange" value-format="YYYY-MM-DD" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :disabled="busy" /></el-form-item>
+          <el-form-item><el-button type="primary" :loading="busy" @click="load">查询</el-button><el-button :disabled="busy" @click="reset">重置</el-button><el-button :disabled="!report?.list.length || busy" @click="exportData">导出当前查询</el-button></el-form-item>
+        </el-form>
+      </div>
+      <el-alert class="source-note" title="当前为本系统当前账号订单快照，按北京时间及订单创建日期分组；终端尚未关联，场景显示数据源原值。金额为订单金额快照，交易额口径待定，不能作为实收收入。" type="info" :closable="false" show-icon />
+      <div v-if="error" class="error-state" role="alert"><span>{{ error }}</span><el-button type="primary" plain :disabled="busy" @click="load">重新加载</el-button></div>
+      <p v-if="busy" class="loading-state" role="status">正在加载统计，请稍候…</p>
+      <p v-if="report" class="result-caption">查询区间：{{ report.startDate }} 至 {{ report.endDate }} · 北京时间 · {{ report.list.length }} 条分组记录。修改条件后请点击查询。</p>
+      <div class="chart-grid">
+        <article class="statistics-panel"><h3 class="panel-heading">订单数统计</h3>
+          <div v-if="report?.list.length" class="chart-content"><div v-for="(r, i) in report.list" :key="i" class="chart-row"><span>{{ r.day }} · {{ r.terminal }} · {{ r.scene }} · {{ r.currency }} · {{ r.simulation ? '模拟' : '非模拟' }}</span><div class="track"><i :style="{ width: width(r.orders, 'orders') }"></i></div><b>{{ r.orders }} 单</b></div></div>
+          <el-empty v-else :image-size="64" :description="busy ? '正在加载订单统计' : error ? '统计加载失败，请重新加载' : '当前筛选暂无订单数据'" />
+        </article>
+        <article class="statistics-panel amount-chart"><h3 class="panel-heading">交易额统计 <small>订单金额快照，口径待定</small></h3>
+          <div v-if="report?.list.length" class="chart-content"><div v-for="(r, i) in report.list" :key="i" class="chart-row"><span>{{ r.day }} · {{ r.terminal }} · {{ r.scene }} · {{ r.currency }} · {{ r.simulation ? '模拟' : '非模拟' }}</span><div class="track"><i :style="{ width: width(r.amountSnapshot, 'amountSnapshot') }"></i></div><b>{{ amountText(r.amountSnapshot) }}</b></div></div>
+          <el-empty v-else :image-size="64" :description="busy ? '正在加载金额快照' : error ? '统计加载失败，请重新加载' : '当前筛选暂无金额快照'" />
+        </article>
+      </div>
+      <div class="statistics-panel table-panel"><h3 class="panel-heading">统计明细 <small>与当前查询及导出内容一致</small></h3>
+        <el-table :data="report?.list ?? []" border stripe :empty-text="busy ? '正在加载统计…' : error ? '数据加载失败' : '当前筛选暂无订单数据'">
+          <el-table-column prop="day" label="日期" min-width="115" /><el-table-column prop="terminal" label="打印终端" min-width="145" show-overflow-tooltip /><el-table-column prop="scene" label="场景原值" min-width="130" show-overflow-tooltip /><el-table-column prop="currency" label="币种" min-width="85" /><el-table-column label="数据类型" min-width="95"><template #default="{row}"><el-tag :type="row.simulation ? 'warning' : 'info'" effect="plain">{{ row.simulation ? '模拟' : '非模拟' }}</el-tag></template></el-table-column><el-table-column prop="orders" label="订单数" min-width="100" align="right" /><el-table-column label="订单金额快照" min-width="150" align="right"><template #default="{row}">{{ amountText(row.amountSnapshot) }}</template></el-table-column><el-table-column prop="invalidAmountCount" label="待核对金额数" min-width="130" align="right" />
+        </el-table>
+      </div>
     </template>
   </section>
 </template>

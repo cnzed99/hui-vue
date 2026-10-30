@@ -6,10 +6,12 @@ import { adFailure, getAdDraft, saveAdDraft } from './api'
 import type { AdDraft } from './api'
 import { findPosition, slotsFor, slotLabel } from './positions'
 import type { AdPosition } from './positions'
+import SingleImageDraftEditor from './SingleImageDraftEditor.vue'
 const props = defineProps<{ position: AdPosition }>()
 const user = useUserStore()
 const context = usePrintContextStore()
 const info = computed(() => findPosition(props.position)!)
+const singleImage = computed(() => props.position === 'COMPUTER_DESKTOP' || props.position === 'MINI_SHARE')
 const permitted = (code: string) => user.permissions.has('*:*:*') || user.permissions.has(code)
 const canQuery = computed(() => permitted('print:advertising:query'))
 const canSave = computed(() => permitted('print:advertising:update'))
@@ -54,7 +56,13 @@ const save = async () => {
 }
 </script>
 <template>
-  <section class="advertising-page">
+  <SingleImageDraftEditor
+    v-if="singleImage" :key="identity" v-model="urls[slots[0]]"
+    :position="props.position" :draft="draft" :busy="busy" :locked="locked"
+    :message="message" :can-query="canQuery" :can-save="canSave"
+    :context-ready="context.status === 'ready'" @reload="load" @save="save"
+  />
+  <section v-else class="advertising-page">
     <h2>{{ info.title }}</h2>
     <p class="observed">{{ props.position === 'ORDER_PAGE' ? info.size : `最多可上传${info.max}张图片，图片尺寸${info.size}` }}，分辨率96。</p>
     <p v-if="!canQuery" role="alert">当前账号没有查看广告的权限。</p>
