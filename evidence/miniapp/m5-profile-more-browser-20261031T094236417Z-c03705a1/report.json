@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "scope": "M5 profile and more-print ordinary-page browser batch",
+  "runId": "20261031T094236417Z-c03705a1",
+  "startedAt": "2026-10-31T09:42:36.417Z",
+  "checks": [
+    {
+      "name": "invoice_sources_render",
+      "passed": true
+    },
+    {
+      "name": "text_print_directory_render",
+      "passed": true
+    },
+    {
+      "name": "text_editor_local_count",
+      "passed": true
+    },
+    {
+      "name": "link_page_does_not_autofill_clipboard",
+      "passed": true
+    },
+    {
+      "name": "link_page_explicit_input_only",
+      "passed": true
+    },
+    {
+      "name": "member_card_safe_local_state",
+      "passed": true
+    },
+    {
+      "name": "voucher_tabs_switch",
+      "passed": true
+    },
+    {
+      "name": "my_library_tabs_switch",
+      "passed": true
+    },
+    {
+      "name": "service_center_safe_entries",
+      "passed": true
+    },
+    {
+      "name": "privacy_directory_and_cancellation_boundary",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "invoice-print",
+      "path": "evidence/miniapp/m5-profile-more-browser-20261031T094236417Z-c03705a1/invoice-print.png",
+      "sha256": "a15f99767bb1bc4910b912d6a269c63f2a0c5346ad5c1371e248605f62e358f6"
+    },
+    {
+      "name": "text-editor",
+      "path": "evidence/miniapp/m5-profile-more-browser-20261031T094236417Z-c03705a1/text-editor.png",
+      "sha256": "e41f0f2eaec06cf1415bbddc0bb941cfd49f8629a59c63877fafc7f5d224f9d7"
+    },
+    {
+      "name": "link-print",
+      "path": "evidence/miniapp/m5-profile-more-browser-20261031T094236417Z-c03705a1/link-print.png",
+      "sha256": "a3fc37f1ac9bb561b8b62bc5e606a7e83a32750fecd91c30d6a690cbc7626983"
+    },
+    {
+      "name": "profile-pages",
+      "path": "evidence/miniapp/m5-profile-more-browser-20261031T094236417Z-c03705a1/profile-pages.png",
+      "sha256": "c543ede2ec54df71936be63cb309605dad479bfb7752e2ea9abcfff8e8fa4e55"
+    }
+  ],
+  "boundaries": {
+    "originalSystemWrites": "NOT_RUN",
+    "wechatSelectors": "NOT_RUN",
+    "clipboardRead": "NOT_RUN",
+    "realIdentity": "NOT_RUN",
+    "realMembershipFunds": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "status": "FAIL",
+  "failure": {
+    "type": "TimeoutError",
+    "message": "locator.waitFor: Timeout 12000ms exceeded.\nCall log:\n  - waiting for getByText('云途智印', { exact: true }).first() to be visible\n",
+    "lastCheck": "privacy_directory_and_cancellation_boundary"
+  },
+  "finishedAt": "2026-10-31T09:42:49.892Z",
+  "passed": 10,
+  "failed": 0,
+  "forbiddenRequests": []
+}

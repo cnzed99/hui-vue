@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "scope": "M5 profile and more-print ordinary-page browser batch",
+  "runId": "20261031T094620872Z-4559d691",
+  "startedAt": "2026-10-31T09:46:20.872Z",
+  "checks": [
+    {
+      "name": "invoice_sources_render",
+      "passed": true
+    },
+    {
+      "name": "text_print_directory_render",
+      "passed": true
+    },
+    {
+      "name": "formatting_controls_explicitly_reserved",
+      "passed": true
+    },
+    {
+      "name": "text_editor_local_count",
+      "passed": true
+    },
+    {
+      "name": "link_page_does_not_autofill_clipboard",
+      "passed": true
+    },
+    {
+      "name": "link_page_explicit_input_only",
+      "passed": true
+    },
+    {
+      "name": "member_card_safe_local_state",
+      "passed": true
+    },
+    {
+      "name": "voucher_tabs_switch",
+      "passed": true
+    },
+    {
+      "name": "my_library_tabs_switch",
+      "passed": true
+    },
+    {
+      "name": "service_center_safe_entries",
+      "passed": true
+    },
+    {
+      "name": "privacy_directory_and_cancellation_boundary",
+      "passed": true
+    },
+    {
+      "name": "direct_home_child_return_fallback",
+      "passed": true
+    },
+    {
+      "name": "direct_profile_child_return_fallback",
+      "passed": true
+    },
+    {
+      "name": "no_forbidden_writes_or_original_calls",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "invoice-print",
+      "path": "evidence/miniapp/m5-profile-more-browser-20261031T094620872Z-4559d691/invoice-print.png",
+      "sha256": "a15f99767bb1bc4910b912d6a269c63f2a0c5346ad5c1371e248605f62e358f6"
+    },
+    {
+      "name": "text-editor",
+      "path": "evidence/miniapp/m5-profile-more-browser-20261031T094620872Z-4559d691/text-editor.png",
+      "sha256": "a1495dcbbc9a210bd42a74d41de46e8b6fe1a88bb65c925c3e98c974ba65e638"
+    },
+    {
+      "name": "link-print",
+      "path": "evidence/miniapp/m5-profile-more-browser-20261031T094620872Z-4559d691/link-print.png",
+      "sha256": "a3fc37f1ac9bb561b8b62bc5e606a7e83a32750fecd91c30d6a690cbc7626983"
+    },
+    {
+      "name": "profile-pages",
+      "path": "evidence/miniapp/m5-profile-more-browser-20261031T094620872Z-4559d691/profile-pages.png",
+      "sha256": "c543ede2ec54df71936be63cb309605dad479bfb7752e2ea9abcfff8e8fa4e55"
+    }
+  ],
+  "boundaries": {
+    "originalSystemWrites": "NOT_RUN",
+    "wechatSelectors": "NOT_RUN",
+    "clipboardRead": "NOT_RUN",
+    "realIdentity": "NOT_RUN",
+    "realMembershipFunds": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "status": "PASS",
+  "finishedAt": "2026-10-31T09:46:22.601Z",
+  "passed": 14,
+  "failed": 0,
+  "forbiddenRequests": []
+}

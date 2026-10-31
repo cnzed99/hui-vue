@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-31",
+  "role": "sol_reviewer",
+  "model": "GPT-6.1 Sol High",
+  "reasoningEffort": "high",
+  "scope": "M5 ordinary batch: invoice, text, link, member, voucher, library, service and privacy pages",
+  "baselineCommit": "ef36124cb572d97183361d2919207fe20f5d2a82",
+  "finalCommit": "827c61e750c2d977f6dc111bb614580f1b407c51",
+  "initialConclusion": "CHANGES_REQUIRED",
+  "initialFinding": {
+    "severity": "P2",
+    "location": "src/pages/text-editor/index.vue",
+    "problem": "14px/H1/H2/H3 controls changed only a highlight state and did not affect content or preview, which presented unavailable formatting as functional.",
+    "requiredChange": "Implement visible formatting or clearly mark and stop the controls as reserved."
+  },
+  "repair": "Removed the fake active style, made controls show a reserved-interface notice and added a persistent statement that formatting does not change text style.",
+  "incrementalConclusion": "PASS",
+  "remainingP1": 0,
+  "remainingP2": 0,
+  "astraEscalation": "NOT_REQUIRED_FOR_UI_REVIEW",
+  "reviewedDeployment": "miniapp-m5-profile-more-r2-20261031-174615",
+  "reviewEvidence": {
+    "textEditorSha256": "fab70b33624d1ed5c77832f2c0a4fd7f545c80ba13028a485b687aa39d7bf585",
+    "batchManifestSha256": "c825b8731422d529d9a59ab825a79776cca1135d39f14d9c274388f7e66b1445",
+    "browserReport": "evidence/miniapp/m5-profile-more-browser-20261031T094620872Z-4559d691/report.json",
+    "browserReportSha256": "c7b7b51e9dd03cc6206b47339fb77ffc758eff231482b0ece241cf1c94c7345c",
+    "browserResult": "14/14 PASS"
+  },
+  "boundaries": [
+    "Conclusion covers this ordinary UI development candidate only.",
+    "Text parsing/printing, membership entitlements, Wechat device testing and external acceptance remain incomplete or NOT_RUN."
+  ]
+}
