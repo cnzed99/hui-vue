@@ -7,6 +7,7 @@ export interface DemoSession {
 }
 
 let memorySession: DemoSession | null = null
+const storageKey = 'miniapp-demo-session-v1'
 
 function issueUrl(): string | null {
   const configured = import.meta.env.VITE_APP_API_BASE?.replace(/\/$/, '')
@@ -29,6 +30,11 @@ function parseSession(value: unknown): DemoSession | null {
 }
 
 export function ensureDemoSession(): Promise<DemoSession | null> {
+  if (!memorySession) {
+    const stored = parseSession({ code: 0, data: uni.getStorageSync(storageKey) })
+    if (stored) memorySession = stored
+    else uni.removeStorageSync(storageKey)
+  }
   if (memorySession && memorySession.expiresAtMs > Date.now() + 30_000) return Promise.resolve(memorySession)
   const url = issueUrl()
   if (!url) return Promise.resolve(null)
@@ -40,6 +46,7 @@ export function ensureDemoSession(): Promise<DemoSession | null> {
       success: response => {
         const session = response.statusCode === 200 ? parseSession(response.data) : null
         memorySession = session
+        if (session) uni.setStorageSync(storageKey, session)
         resolve(session)
       },
       fail: () => resolve(null)
