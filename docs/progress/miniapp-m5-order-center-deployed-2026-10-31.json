@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-31",
+  "status": "DEVELOPMENT_LOOPBACK_DEPLOYED",
+  "implementationModel": "GPT-6.1 Sol High",
+  "criticalReview": "GPT-6 Astra High PASS",
+  "release": {
+    "backend": "2254bd88d346f450",
+    "backendJarSha256": "2254bd88d346f45057d1be87d8616b6ecbc2952f8373eb7c5a9c369893619946",
+    "backendPrevious": "6233557ee80c494d",
+    "miniapp": "miniapp-m5-order-center-20261031-170129",
+    "miniappPrevious": "miniapp-m4-processing-20261031-163158",
+    "nginxSha256": "f1322156a56a709524ddef5a1785b087d036b1738db540a821fb3150fe3b1226"
+  },
+  "build": {
+    "backendPackage": "PASS",
+    "miniappTypeCheck": "PASS",
+    "miniappH5": "PASS",
+    "miniappWeixin": "PASS",
+    "scratchRemoved": true,
+    "freeBytesAfterBuild": 44015644672,
+    "servicesRestored": ["print-backend", "mysql", "redis-server", "nginx"]
+  },
+  "verification": {
+    "runtime": {
+      "path": "evidence/miniapp/m5-order-center-runtime-20261031T090441Z.json",
+      "sha256": "e9059776015a146d6e27e7bbbce888bddf5cb6807ffadb6915471fcb2bf34031",
+      "result": "9/9 PASS"
+    },
+    "browser": {
+      "path": "evidence/miniapp/m5-order-center-browser-20261031T090604388Z-382b7968/report.json",
+      "sha256": "78197fc04929a7c1593bc9c03afb7fa829d7cbc6b18a7fc4249c3fa658c3e65d",
+      "result": "7/7 PASS"
+    }
+  },
+  "boundaries": {
+    "originalSystemWrites": "NONE",
+    "databaseMigration": "NONE",
+    "wechatDevice": "NOT_RUN",
+    "realPaymentRefund": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "progress": {
+    "phaseOnePriorityScopePercent": 72,
+    "overallPrintSystemPercent": 58
+  }
+}

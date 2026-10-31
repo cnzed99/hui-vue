@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "scope": "M5 order center focused loopback runtime verification",
+  "startedAt": "2026-10-31T09:04:39.913230+00:00",
+  "checks": [
+    {
+      "name": "pdf_ready",
+      "passed": true
+    },
+    {
+      "name": "owner_scoped_total_and_has_more",
+      "passed": true
+    },
+    {
+      "name": "deterministic_distinct_pages",
+      "passed": true
+    },
+    {
+      "name": "no_store_response",
+      "passed": true
+    },
+    {
+      "name": "other_principal_empty_and_total_hidden",
+      "passed": true
+    },
+    {
+      "name": "cross_and_missing_detail_indistinguishable",
+      "passed": true
+    },
+    {
+      "name": "strict_query_validation",
+      "passed": true
+    },
+    {
+      "name": "edge_get_allowed",
+      "passed": true
+    },
+    {
+      "name": "edge_unapproved_method_blocked",
+      "passed": true
+    }
+  ],
+  "boundaries": {
+    "wechatDevice": "NOT_RUN",
+    "realPayment": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "status": "PASS",
+  "runId": "20261031T090439Z-7e28d2b2",
+  "fixture": {
+    "principalA": "d1b3bfc3-359c-4b72-9460-0c28c2f3119b",
+    "principalB": "5b2af1dc-7ef4-4de2-ac19-5854adc07291",
+    "orderIds": [
+      "548b2c6a-1be6-40fe-988e-d533e70fd9a2",
+      "f255a3e0-ac67-4831-97cb-a2624ba4f798"
+    ],
+    "retained": true
+  },
+  "finishedAt": "2026-10-31T09:04:41.966194+00:00",
+  "passed": 9,
+  "failed": 0
+}

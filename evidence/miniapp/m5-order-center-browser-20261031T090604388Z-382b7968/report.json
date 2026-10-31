@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "scope": "M5 loopback browser order center: profile entry, list, detail, return, empty state",
+  "runId": "20261031T090604388Z-382b7968",
+  "startedAt": "2026-10-31T09:06:04.389Z",
+  "checks": [
+    {
+      "name": "browser_fixture_ready",
+      "passed": true
+    },
+    {
+      "name": "browser_fixture_simulated_paid",
+      "passed": true
+    },
+    {
+      "name": "profile_entry_opens_nonempty_order_list",
+      "passed": true
+    },
+    {
+      "name": "order_detail_renders_authoritative_amount",
+      "passed": true
+    },
+    {
+      "name": "order_detail_keeps_simulation_boundaries",
+      "passed": true
+    },
+    {
+      "name": "return_refreshes_and_restores_scoped_list",
+      "passed": true
+    },
+    {
+      "name": "other_principal_sees_original_style_empty_state",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "orders-nonempty",
+      "path": "evidence/miniapp/m5-order-center-browser-20261031T090604388Z-382b7968/orders-nonempty.png",
+      "sha256": "c0aa974fa633a271201685033c1860b854058d537e834afceaf8db588d2d03c0"
+    },
+    {
+      "name": "order-detail",
+      "path": "evidence/miniapp/m5-order-center-browser-20261031T090604388Z-382b7968/order-detail.png",
+      "sha256": "58b533d1e47bf195f10f5a0ecfb2323d60c413f4d3bdede021020e09c28a7bb7"
+    },
+    {
+      "name": "orders-empty",
+      "path": "evidence/miniapp/m5-order-center-browser-20261031T090604388Z-382b7968/orders-empty.png",
+      "sha256": "5ec5e89bc812c6fbd57d1a06f06277b6f8d4930e8e9dca9a92d8ba758a61289a"
+    }
+  ],
+  "boundaries": {
+    "wechatDevice": "NOT_RUN",
+    "realPayment": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "status": "PASS",
+  "fixture": {
+    "principalId": "2e985100-8fea-4db0-94b7-49b91a4edcb0",
+    "orderId": "6c6be12e-b253-4d46-838d-507b8d58596c",
+    "retained": true
+  },
+  "finishedAt": "2026-10-31T09:06:08.352Z",
+  "passed": 7,
+  "failed": 0
+}

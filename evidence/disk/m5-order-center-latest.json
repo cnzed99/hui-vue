@@ -1,0 +1,11 @@
+{
+  "label": "m5-order-center",
+  "startedUtc": "2026-10-31T08:55:50.201465+00:00",
+  "freeBeforeBytes": 44016492544,
+  "minimumFreeBytes": 10737418240,
+  "exitCode": 0,
+  "scratchBytesRemoved": 896267,
+  "scratchRemoved": true,
+  "freeAfterBytes": 44015030272,
+  "aboveMinimum": true
+}

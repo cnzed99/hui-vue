@@ -1,0 +1,11 @@
+{
+  "label": "m5-miniapp-fix",
+  "startedUtc": "2026-10-31T08:59:35.674801+00:00",
+  "freeBeforeBytes": 44015706112,
+  "minimumFreeBytes": 10737418240,
+  "exitCode": 0,
+  "scratchBytesRemoved": 896211,
+  "scratchRemoved": true,
+  "freeAfterBytes": 44015644672,
+  "aboveMinimum": true
+}

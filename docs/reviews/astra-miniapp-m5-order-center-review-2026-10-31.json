@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-31",
+  "role": "astra_reviewer",
+  "actualModel": "GPT-6 Astra High",
+  "trigger": "new current-principal order query permission scope",
+  "scope": [
+    "miniapp order list and detail",
+    "tenant/store/principal read isolation",
+    "request generation and page lifecycle",
+    "exact Nginx GET/POST boundary"
+  ],
+  "design": {
+    "path": "docs/design/miniapp-m5-order-center-design.md",
+    "sha256": "8d2fce319c21d53f453fae492861853dd3a24e7285b1bfba38f719fcf24075ea",
+    "firstConclusion": "CHANGES_REQUIRED",
+    "finalConclusion": "PASS",
+    "closedFindings": [
+      "bind async responses to request generation and session/principal context",
+      "use one read-only REPEATABLE_READ snapshot for count/list/detail mapping",
+      "do not infer unpaid or no-task from independent query failure",
+      "publish GET and POST only on the exact orders edge path"
+    ]
+  },
+  "implementation": {
+    "firstConclusion": "CHANGES_REQUIRED",
+    "finalConclusion": "PASS",
+    "reviewedFileHashes": {
+      "src/miniapp/src/pages/orders/index.vue": "23ebe3e3ea6ac3606c5fd79efc1b854aa5cb3538cd7e05f860f098c85829b61f",
+      "src/miniapp/src/pages/order-detail/index.vue": "f5ba2a74c1f731702d6abb439c65d7431f0e5e9506f375e1418b5cddd3107562",
+      "ops/runtime/candidates/m5/nginx-print-system.conf": "f1322156a56a709524ddef5a1785b087d036b1738db540a821fb3150fe3b1226"
+    },
+    "closedFindings": [
+      "clear scoped data and invalidate requests on page hide",
+      "refresh on page show",
+      "discard old-generation callbacks",
+      "occupy pagination loading state before the first await"
+    ]
+  },
+  "finalConclusion": "PASS",
+  "authorization": "development loopback candidate only; no database migration",
+  "boundaries": {
+    "wechatDevice": "NOT_RUN",
+    "realPaymentRefund": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "productionRelease": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  }
+}
