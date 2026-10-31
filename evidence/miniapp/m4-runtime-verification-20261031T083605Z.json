@@ -1,0 +1,212 @@
+{
+  "status": "PASS",
+  "runId": "20261031T083605Z-50eee2c7",
+  "executedAt": "2026-10-31T08:37:12.473403+00:00",
+  "deployment": {
+    "backendRelease": "6233557ee80c494d",
+    "miniappRelease": "releases/miniapp-m4-processing-20261031-163158"
+  },
+  "fixture": {
+    "principalId": "10eaf0aa-7adb-4e7d-8f71-dacb28276459",
+    "otherPrincipalId": "798b225b-affc-4d40-a589-7f1442aa138f",
+    "fileId": "2a2ab549-b80f-477f-bae3-c85c1a4e8f5e",
+    "pdfSha256": "e086808d78a77e6cd65971019b923e05d6e85f11073cd4ff3b3c982e62dc552f",
+    "orderIds": [
+      "130b026b-50df-4b99-964e-e819ad3a9131",
+      "c6f22067-2808-4b4c-8589-01c4fb9ed80a",
+      "c70e96ef-d593-4907-ae90-2b41c29773cf"
+    ],
+    "taskIds": [
+      "6912c90c-18ee-456a-938b-c5dc0516efb6",
+      "f5588799-d8b8-4d9c-84ae-540a5703dfc1",
+      "018cfa44-2705-497b-a25a-d5495b51d645"
+    ],
+    "retained": true,
+    "reason": "M4 actions and receipts are immutable by design; records remain as isolated development evidence."
+  },
+  "checks": [
+    {
+      "name": "demo_session_issued",
+      "passed": true
+    },
+    {
+      "name": "demo_session_issued",
+      "passed": true
+    },
+    {
+      "name": "pdf_ready_with_authoritative_page_count",
+      "passed": true
+    },
+    {
+      "name": "quote_2_valid",
+      "passed": true
+    },
+    {
+      "name": "quote_3_valid",
+      "passed": true
+    },
+    {
+      "name": "quote_4_valid",
+      "passed": true
+    },
+    {
+      "name": "order_1_paid",
+      "passed": true
+    },
+    {
+      "name": "order_2_paid",
+      "passed": true
+    },
+    {
+      "name": "order_3_paid",
+      "passed": true
+    },
+    {
+      "name": "admin_login",
+      "passed": true
+    },
+    {
+      "name": "reader_login",
+      "passed": true
+    },
+    {
+      "name": "owner_result_before_task_is_explicit_null",
+      "passed": true
+    },
+    {
+      "name": "cross_principal_result_hidden",
+      "passed": true
+    },
+    {
+      "name": "query_only_role_can_list_orders",
+      "passed": true
+    },
+    {
+      "name": "query_only_role_cannot_process",
+      "passed": true
+    },
+    {
+      "name": "denied_create_wrote_no_task",
+      "passed": true
+    },
+    {
+      "name": "create_task_idempotent_replay",
+      "passed": true
+    },
+    {
+      "name": "create_key_cannot_cross_orders",
+      "passed": true
+    },
+    {
+      "name": "concurrent_create_converges_to_one_task",
+      "passed": true
+    },
+    {
+      "name": "database_has_one_task_per_order",
+      "passed": true
+    },
+    {
+      "name": "decimal_expected_version_rejected",
+      "passed": true
+    },
+    {
+      "name": "invalid_decimal_wrote_no_action",
+      "passed": true
+    },
+    {
+      "name": "main_task_claimed",
+      "passed": true
+    },
+    {
+      "name": "decimal_fence_rejected",
+      "passed": true
+    },
+    {
+      "name": "main_task_executing",
+      "passed": true
+    },
+    {
+      "name": "decimal_receipt_sequence_rejected",
+      "passed": true
+    },
+    {
+      "name": "main_task_succeeded_with_one_receipt",
+      "passed": true
+    },
+    {
+      "name": "concurrent_reads_never_observe_torn_receipt",
+      "passed": true
+    },
+    {
+      "name": "old_action_replay_preserves_original_result",
+      "passed": true
+    },
+    {
+      "name": "terminal_order_cannot_create_duplicate_task",
+      "passed": true
+    },
+    {
+      "name": "database_has_exactly_one_receipt",
+      "passed": true
+    },
+    {
+      "name": "database_rejected_immutable_mutation",
+      "passed": true
+    },
+    {
+      "name": "database_rejected_immutable_mutation",
+      "passed": true
+    },
+    {
+      "name": "receipt_remains_unchanged_after_rejected_update",
+      "passed": true
+    },
+    {
+      "name": "expired_claim_requeued_with_new_fence",
+      "passed": true
+    },
+    {
+      "name": "old_lease_rejected_after_reclaim",
+      "passed": true
+    },
+    {
+      "name": "accepted_timeout_becomes_result_unknown_without_receipt",
+      "passed": true
+    },
+    {
+      "name": "unknown_result_does_not_create_replacement_task",
+      "passed": true
+    },
+    {
+      "name": "edge_result_route_returns_terminal_receipt",
+      "passed": true
+    },
+    {
+      "name": "edge_result_route_is_get_only",
+      "passed": true
+    },
+    {
+      "name": "miniapp_reentry_shell_is_served",
+      "passed": true
+    },
+    {
+      "name": "admin_detail_exposes_same_terminal_task",
+      "passed": true
+    },
+    {
+      "name": "admin_logout",
+      "passed": true
+    },
+    {
+      "name": "reader_logout",
+      "passed": true
+    }
+  ],
+  "boundaries": {
+    "environment": "loopback development demonstration",
+    "realPayment": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "wechatDevice": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "scope": "M4 loopback browser closed loop: miniapp API, admin UI simulated processing, miniapp result recovery",
+  "runId": "20261031T083935694Z-d76a94d6",
+  "startedAt": "2026-10-31T08:39:35.699Z",
+  "checks": [
+    {
+      "name": "demo_session_issued",
+      "passed": true
+    },
+    {
+      "name": "browser_fixture_pdf_ready",
+      "passed": true
+    },
+    {
+      "name": "miniapp_order_paid_before_admin_ui",
+      "passed": true
+    },
+    {
+      "name": "admin_ui_rendered_miniapp_order_detail",
+      "passed": true
+    },
+    {
+      "name": "admin_ui_exposes_processing_boundary",
+      "passed": true
+    },
+    {
+      "name": "admin_ui_completed_simulated_print",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "admin-m4-success",
+      "path": "evidence/miniapp/m4-browser-closed-loop-20261031T083935694Z-d76a94d6/admin-m4-success.png",
+      "sha256": "584cd12712f5da1e5dc1098b7788dee548962109f7da61bf44929ca2438f0a5b"
+    }
+  ],
+  "boundaries": {
+    "realPayment": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "wechatDevice": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "browser": "156.0.8078.4",
+  "playwrightVersion": "1.64.1",
+  "status": "FAIL",
+  "failure": {
+    "type": "TimeoutError",
+    "stage": "admin_ui_completed_simulated_print"
+  },
+  "adminSessionLogout": "PASS",
+  "finishedAt": "2026-10-31T08:40:09.183Z",
+  "passed": 6,
+  "failed": 0
+}

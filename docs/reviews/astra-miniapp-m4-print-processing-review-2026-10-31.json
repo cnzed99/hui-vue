@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-10-31",
+  "reviewer": {
+    "role": "astra_reviewer",
+    "agent": "/root/m4_final_print_review",
+    "model": "GPT-6 Astra",
+    "effort": "high",
+    "mode": "read-only"
+  },
+  "trigger": [
+    "permission isolation",
+    "duplicate-print prevention",
+    "concurrent task state",
+    "lease and fencing",
+    "database protection constraints"
+  ],
+  "scope": "M4 development source, incremental migration plan, and loopback demonstration candidate",
+  "bindings": {
+    "backendCommit": "197d29c80fe430b2b0de3d0042c4b367d0367ae2",
+    "frontendCommit": "f71a5e50e2333ac3f246b1e7a3a482ce4373c106",
+    "miniappCommit": "dc0da4c171461d47636987fdb8a75dfc40b976ad",
+    "ddlSha256": "629b98757b51d77db3415e8201adcb7180bd1f421a04209ac46da35b655783b2",
+    "permissionMigrationSha256": "37eecac4b69c514d5ca25803fe5d7edd37a2bfcfa2c6de3071a146aee3623417",
+    "systemdCandidateSha256": "1e614ca66623c7e07b41289f9a43f5734e2184ab8498dac042c6020d5b966be2",
+    "nginxCandidateSha256": "a9a3e1698305216cddc1a745c9b9c40166e3455ab78e55400bc0416780dbd550",
+    "runtimeJarSha256": "6233557ee80c494dd3b4e23a955eb0be84d9c0d3e5852088df2695d5298e14f8"
+  },
+  "initialConclusion": "CHANGES_REQUIRED",
+  "initialFindings": [
+    "miniapp order parser did not accept the complete legal M4 state/version combinations",
+    "stale frontend detail or action responses could overwrite a newer route or access context",
+    "cross-principal result lookup could incorrectly return a successful null",
+    "task and receipt reads could observe a torn snapshot",
+    "DDL CHECK constraints allowed SQL NULL to bypass lease/reason requirements",
+    "decimal expectedVersion, fence, or receiptSeq values could be truncated"
+  ],
+  "repairsVerified": [
+    "parser accepts the legal v1/v2 and v3+ state combinations and rejects invalid combinations",
+    "detail and action responses are guarded by generation, order, and access context",
+    "order ownership is proven before result lookup and cross-principal access returns 404",
+    "admin and miniapp reads use a repeatable-read snapshot with task/receipt consistency checks",
+    "lease time and failure reason constraints explicitly reject NULL",
+    "expectedVersion, fence, and receiptSeq require integral JSON numbers within Long range"
+  ],
+  "finalConclusion": "PASS",
+  "authorizedNextSteps": [
+    "apply the reviewed incremental migration to the development print_demo database after verified backup",
+    "deploy the reviewed loopback demonstration candidate",
+    "execute runtime permission, concurrency, idempotency, lease, recovery, immutability, and re-entry checks"
+  ],
+  "postReviewExecution": {
+    "migration": "APPLIED_TO_DEVELOPMENT",
+    "deployment": "DEPLOYED_TO_LOOPBACK_DEMO",
+    "runtimeVerification": {
+      "report": "evidence/miniapp/m4-runtime-verification-20261031T083605Z.json",
+      "sha256": "b24445ffa5769806547c7f1a8e8cd9a6354bedc7997da089cd98285b77084f56",
+      "passed": 44,
+      "failed": 0
+    },
+    "browserClosedLoop": {
+      "report": "evidence/miniapp/m4-browser-closed-loop-20261031T084158083Z-6b5e450f/report.json",
+      "sha256": "88d9a2b9f72b78a93290e431a93badad171ff9240f4367f2ef2dbe1d3398b372",
+      "passed": 10,
+      "failed": 0
+    }
+  },
+  "knownLimitations": [
+    "admin full vue-tsc ran out of memory twice and is not PASS; changed-file ESLint and Vite build passed",
+    "review and tests do not constitute WeChat device acceptance",
+    "real payment, refund, object storage, and physical printing were not run",
+    "this review is not production-release approval or external user acceptance"
+  ]
+}

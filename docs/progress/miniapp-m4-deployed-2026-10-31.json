@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "milestone": "M4_MINIAPP_ADMIN_PRINT_RESULT_CLOSED_LOOP",
+  "status": "DEVELOPMENT_DEMO_DEPLOYED_AND_VERIFIED",
+  "date": "2026-10-31",
+  "actualModels": {
+    "implementationAndVerification": "GPT-6.1 Sol High",
+    "criticalReview": "GPT-6 Astra High"
+  },
+  "progressEstimate": {
+    "phase1PriorityMiniappAndCompanionBackendPercent": 68,
+    "overallPrintSystemPercent": 55,
+    "method": "verified business-loop estimate, not page-count completion"
+  },
+  "deployment": {
+    "backendRelease": "6233557ee80c494d",
+    "previousBackendRelease": "0d363ca23ee40b6f",
+    "miniappRelease": "miniapp-m4-processing-20261031-163158",
+    "previousMiniappRelease": "miniapp-m3-order-payment-20261031-154752",
+    "nginxCandidateSha256": "a9a3e1698305216cddc1a745c9b9c40166e3455ab78e55400bc0416780dbd550",
+    "systemdCandidateSha256": "1e614ca66623c7e07b41289f9a43f5734e2184ab8498dac042c6020d5b966be2",
+    "services": {
+      "print-backend": "active",
+      "mysql": "active",
+      "redis-server": "active",
+      "nginx": "active",
+      "healthHttp": 200
+    },
+    "disk": {
+      "usedPercent": 28,
+      "availableApproxGiB": 41
+    }
+  },
+  "database": {
+    "target": "development print_demo",
+    "migration": "APPLIED",
+    "permission": "print:order:process granted to tenant_admin and not granted to print_reader",
+    "preMigrationEncryptedBackup": "print-demo-20261031T082822Z-f7c19d69.sql.aesgcm",
+    "preMigrationEncryptedBackupSha256": "6c0775a41a029f6324a225b01bb72b0211485015aeb1fdf0fffd57834be1ee16",
+    "relatedPlaintextBackup": "runtime/backups/print-miniapp-m4-before-20261031T082835Z.sql",
+    "relatedPlaintextBackupSha256": "3ac81ce2a2ae2f12db6cf7240a64de6e6232bec44959ec76c81c754c9f4bff57",
+    "illegalNullChecks": "PASS",
+    "immutableActionAndReceiptTriggers": "PASS"
+  },
+  "builds": {
+    "backendMavenPackage": "PASS",
+    "adminChangedFileEslint": "PASS",
+    "adminViteBuild": "PASS",
+    "adminFullVueTsc": "RESOURCE_BLOCKED_OOM_NOT_PASS",
+    "miniappVueTsc": "PASS",
+    "miniappH5": "PASS",
+    "miniappMpWeixin": "PASS"
+  },
+  "verification": {
+    "runtime": {
+      "report": "evidence/miniapp/m4-runtime-verification-20261031T083605Z.json",
+      "sha256": "b24445ffa5769806547c7f1a8e8cd9a6354bedc7997da089cd98285b77084f56",
+      "passed": 44,
+      "failed": 0
+    },
+    "browser": {
+      "report": "evidence/miniapp/m4-browser-closed-loop-20261031T084158083Z-6b5e450f/report.json",
+      "sha256": "88d9a2b9f72b78a93290e431a93badad171ff9240f4367f2ef2dbe1d3398b372",
+      "passed": 10,
+      "failed": 0,
+      "priorFailuresRetained": 2,
+      "repairs": [
+        "use the uni-app H5 storage wrapper for injected temporary browser state",
+        "wait for the actual combined print-status text instead of a nonexistent standalone text node"
+      ]
+    }
+  },
+  "cleanup": {
+    "localScratchScriptsRemoved": true,
+    "obsoleteThirdMiniappReleaseRemoved": "miniapp-m3-quote-20261031-152839",
+    "obsoleteReleaseSize": "316K",
+    "temporaryProbeFileRemoved": "/tmp/m4-miniapp-body",
+    "rollbackVersionsRetained": true
+  },
+  "boundaries": {
+    "wechatDeveloperTool": "NOT_RUN",
+    "wechatDevice": "NOT_RUN",
+    "realPaymentRefund": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN",
+    "productionRelease": "NOT_AUTHORIZED"
+  },
+  "next": "M5: observe and implement the remaining miniapp functions in batches, adding only the companion backend and admin capabilities needed by those user flows"
+}
