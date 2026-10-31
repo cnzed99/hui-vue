@@ -11,6 +11,10 @@ function openPrintEntry(label: string) {
     uni.navigateTo({ url: '/pages/document-method/index' })
     return
   }
+  if (label === '图片打印') {
+    uni.navigateTo({ url: '/pages/image-method/index' })
+    return
+  }
   showReserved(label)
 }
 </script>
