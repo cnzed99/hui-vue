@@ -26,6 +26,7 @@ const payment = ref<DemoPayment | null>(null)
 const paymentState = ref<'idle' | 'creating' | 'ready' | 'failed'>('idle')
 const printTask = ref<DemoPrintTask | null>(null)
 const printResultState = ref<'idle' | 'loading' | 'ready' | 'failed'>('idle')
+const printResultIssue = ref<'none' | 'unavailable' | 'principal-changed'>('none')
 const pendingOrderQuoteId = ref('')
 const pendingOrderPrincipalId = ref('')
 const amountText = computed(() => order.value
@@ -39,9 +40,20 @@ const printStatusText = computed(() => {
     EXECUTING: '模拟执行中', SUCCEEDED: '模拟打印成功', FAILED: '模拟打印失败',
     RESULT_UNKNOWN: '结果待人工核实'
   }
-  return printTask.value ? labels[printTask.value.state] || printTask.value.state : '尚未创建打印任务'
+  if (printResultIssue.value === 'principal-changed') return '演示会话已变化，旧订单进度不可查询'
+  if (printResultIssue.value === 'unavailable') return printTask.value
+    ? `上次已知：${labels[printTask.value.state] || printTask.value.state}（最新进度暂不可确认）`
+    : '打印进度暂不可确认'
+  if (printTask.value) return labels[printTask.value.state] || printTask.value.state
+  if (printResultState.value === 'ready') return '尚未创建打印任务'
+  if (printResultState.value === 'loading') return '正在查询打印进度'
+  return '打印进度尚未查询'
 })
-const progressText = computed(() => printTask.value
+const progressText = computed(() => printResultIssue.value === 'principal-changed'
+  ? '演示会话已变化，不能用新主体推断旧订单是否已创建任务。'
+  : printResultIssue.value === 'unavailable'
+    ? '最新打印进度暂不可确认；保留上次已知结果，不推断为未创建任务。'
+  : printTask.value
   ? printTask.value.state === 'SUCCEEDED'
     ? '后台已写入模拟成功回执；这不代表真实打印机出纸。'
     : printTask.value.state === 'FAILED'
@@ -49,8 +61,10 @@ const progressText = computed(() => printTask.value
       : printTask.value.state === 'RESULT_UNKNOWN'
         ? '模拟处理结果待人工核实；系统不会自动重排或生成第二任务。'
         : `后台模拟处理进度：${printStatusText.value}。`
+  : payment.value && printResultState.value === 'ready'
+  ? '模拟支付收据已生成；服务端确认尚未创建打印任务，未发生真实扣款。'
   : payment.value
-  ? '模拟支付收据已生成；等待后台创建唯一模拟打印任务，未发生真实扣款。'
+    ? '模拟支付收据已生成；打印进度尚待查询，未发生真实扣款。'
   : order.value
     ? '模拟订单已创建并冻结服务端金额；等待你主动确认模拟支付。'
     : quoteState.value === 'ready'
@@ -136,22 +150,26 @@ function schedulePrintRefresh() {
 async function refreshPrintResult(showFailure = true) {
   if (!order.value || printResultState.value === 'loading') return
   printResultState.value = 'loading'
+  printResultIssue.value = 'none'
   const session = await ensureDemoSession()
   if (session && pendingOrderPrincipalId.value && pendingOrderPrincipalId.value !== session.principalId) {
     clearPrintTimer()
     printTask.value = null
     printResultState.value = 'failed'
+    printResultIssue.value = 'principal-changed'
     if (showFailure) uni.showToast({ title: '演示会话已变化，旧订单不可继续查询', icon: 'none' })
     return
   }
   const result = session ? await getDemoPrintResult(session, order.value.id) : { kind: 'unknown' as const }
   if (result.kind !== 'ok') {
     printResultState.value = 'failed'
+    printResultIssue.value = 'unavailable'
     if (showFailure) uni.showToast({ title: '打印进度暂未恢复，请稍后重试', icon: 'none' })
     return
   }
   printTask.value = result.task
   printResultState.value = 'ready'
+  printResultIssue.value = 'none'
   schedulePrintRefresh()
 }
 function scheduleExpiry(expiresAtMs: number) {
@@ -303,7 +321,8 @@ async function payOrder() {
       <view v-if="payment" class="receipt"><text>SIMULATED</text><text>模拟支付成功，不涉及真实资金</text><text>收据 {{ payment.id }}</text></view>
       <view v-if="printTask?.receipt" class="print-receipt"><text>{{ printTask.receipt.result === 'SIMULATED_SUCCESS' ? '模拟成功回执' : '模拟失败回执' }}</text><text>完成 {{ printTask.receipt.completedCopies }} 份 / {{ printTask.receipt.completedSheets }} 张</text><text v-if="printTask.receipt.reason">原因：{{ printTask.receipt.reason }}</text><text>仅为系统模拟，不代表真实出纸</text></view>
       <button v-if="order && paymentState !== 'ready'" :class="paymentState === 'creating' ? 'disabled' : 'retry'" @click="confirmPayment">{{ paymentState === 'creating' ? '正在恢复支付结果…' : paymentState === 'failed' && order.paymentState === 'SUCCEEDED' ? '重试恢复模拟收据' : paymentState === 'failed' ? '重试模拟支付' : '模拟支付（不扣真实资金）' }}</button>
-      <button v-else-if="order && paymentState === 'ready'" class="retry" @click="refreshPrintResult(true)">{{ printResultState === 'loading' ? '正在刷新模拟打印进度…' : '刷新模拟打印进度' }}</button>
+      <button v-else-if="order && paymentState === 'ready' && printResultIssue === 'principal-changed'" class="disabled">会话已变化 · 旧订单进度不可查询</button>
+      <button v-else-if="order && paymentState === 'ready'" class="retry" @click="refreshPrintResult(true)">{{ printResultState === 'loading' ? '正在刷新模拟打印进度…' : printResultIssue === 'unavailable' ? '重试查询模拟打印进度' : '刷新模拟打印进度' }}</button>
       <button v-else-if="pendingOrderQuoteId && orderState === 'creating'" class="disabled">正在恢复原模拟订单…</button>
       <button v-else-if="pendingOrderQuoteId" class="retry" @click="retryOrRenew">恢复原模拟订单</button>
       <button v-else-if="quoteState === 'failed' || quoteState === 'expired'" class="retry" @click="retryOrRenew">{{ quoteState === 'expired' ? '重新生成报价' : '重试同一次报价' }}</button>
