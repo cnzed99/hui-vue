@@ -7,7 +7,7 @@ const combos = [
   { label: '身份证 + 户口本', description: '组合复印，减少重复操作', icon: '证+户' },
   { label: '身份证 + 银行卡', description: '组合复合，排版更省心', icon: '证+卡' }
 ]
-function goBack() { uni.navigateBack() }
+function goBack() { if (getCurrentPages().length > 1) { uni.navigateBack(); return } uni.reLaunch({ url: '/pages/home/index' }) }
 function reserve(label: string) { uni.showToast({ title: `${label}选图接口待接入`, icon: 'none' }) }
 </script>
 

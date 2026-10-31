@@ -4,7 +4,7 @@ const sizes = [
   { name: '小1寸', mm: '22*32mm' }, { name: '大1寸', mm: '33*48mm' }, { name: '小2寸', mm: '35*45mm' },
   { name: '大2寸', mm: '35*53mm' }, { name: '4寸', mm: '76*102mm' }
 ]
-function goBack() { uni.navigateBack() }
+function goBack() { if (getCurrentPages().length > 1) { uni.navigateBack(); return } uni.reLaunch({ url: '/pages/home/index' }) }
 function chooseSize(name: string) { uni.showToast({ title: `${name}选图接口待接入`, icon: 'none' }) }
 </script>
 

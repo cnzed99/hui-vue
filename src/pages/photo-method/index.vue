@@ -7,7 +7,7 @@ const methods = [
   { id: 'photo-collage', label: '6寸照片拼版打印', description: '最多9张照片拼在一张6寸照片纸上打印', icon: '拼', tone: 'yellow' }
 ]
 
-function goBack() { uni.navigateBack() }
+function goBack() { if (getCurrentPages().length > 1) { uni.navigateBack(); return } uni.reLaunch({ url: '/pages/home/index' }) }
 function openMethod(id: string, label: string) {
   if (id === 'photo-3') {
     uni.navigateTo({ url: '/pages/photo-upload/index' })

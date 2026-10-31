@@ -20,7 +20,11 @@ const imageMethods: ImageMethod[] = [
 const sourceSheetVisible = ref(false)
 
 function goBack() {
-  uni.navigateBack()
+  if (getCurrentPages().length > 1) {
+    uni.navigateBack()
+    return
+  }
+  uni.reLaunch({ url: '/pages/home/index' })
 }
 
 function openMethod(method: ImageMethod) {

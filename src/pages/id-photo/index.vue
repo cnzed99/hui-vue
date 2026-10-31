@@ -5,7 +5,7 @@ const entries = [
   { id: 'marriage', label: '结婚证件照', note: '', description: '将婚姻的美好记录打印出来', icon: '囍', preview: false },
   { id: 'vehicle', label: '车辆行驶证', note: '', description: '为您的车辆制作证件照', icon: '车', preview: false }
 ]
-function goBack() { uni.navigateBack() }
+function goBack() { if (getCurrentPages().length > 1) { uni.navigateBack(); return } uni.reLaunch({ url: '/pages/home/index' }) }
 function openEntry(id: string, label: string) {
   if (id === 'normal') { uni.navigateTo({ url: '/pages/id-photo-sizes/index' }); return }
   uni.showToast({ title: `${label}待继续观察`, icon: 'none' })

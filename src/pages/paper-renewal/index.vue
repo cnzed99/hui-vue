@@ -1,5 +1,5 @@
 <script setup lang="ts">
-function goBack() { uni.navigateBack() }
+function goBack() { if (getCurrentPages().length > 1) { uni.navigateBack(); return } uni.reLaunch({ url: '/pages/home/index' }) }
 function addImage() { uni.showToast({ title: '图片选择接口待接入', icon: 'none' }) }
 function submit() { uni.showToast({ title: '请先添加图片', icon: 'none' }) }
 </script>
