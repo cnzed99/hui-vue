@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref, shallowRef, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
 import { RouterLink } from 'vue-router'
 import { isAxiosError } from 'axios'
 import { Echart } from '@/components/Echart'
@@ -8,6 +8,8 @@ import { usePrintContextStore } from './contextStore'
 import { getStoreProfile, profileFailureKind } from './store/profileApi'
 import { terminalReport, StatisticsError } from './statistics/api'
 import type { TerminalReport } from './statistics/api'
+import { getMiniappCatalogStatus } from './workbench/miniappCatalog'
+import type { MiniappCatalogStatus } from './workbench/miniappCatalog'
 import { metricCards, storeIncome, metricText, validateReport, rangeFromApiEnd, groupLabel, orderChart, BASIS } from './workbench/model'
 import type { Days } from './workbench/model'
 defineOptions({ name: 'PrintWorkbench' })
@@ -22,6 +24,8 @@ const accountName = computed(() => user.getUser.nickname || `员工 ${context.co
 const notice = ref<string | null>(null), noticeState = ref<LoadState>('idle')
 const report = shallowRef<TerminalReport | null>(null), statisticsState = ref<LoadState>('idle')
 const days = ref<Days>(30)
+const miniappCatalog = shallowRef<MiniappCatalogStatus | null>(null)
+const miniappState = ref<LoadState>('idle')
 const chart = computed(() => report.value ? orderChart(report.value) : {})
 const chartRange = computed(() => report.value ? `${report.value.startDate} — ${report.value.endDate} · ${report.value.timezone}` : '')
 const identity = computed(() => `${user.getUser.id}/${context.status}/${context.context?.tenantId}/${context.context?.storeId}`)
@@ -59,6 +63,13 @@ watch([identity, canProfile, canStatistics], () => {
 }, { immediate: true, flush: 'sync' })
 onBeforeUnmount(() => { noticeGeneration++; statisticsGeneration++ })
 const reloadContext = () => { void context.load(user.getUser.id) }
+const loadMiniappStatus = async () => {
+  if (miniappState.value === 'loading') return
+  miniappState.value = 'loading'; miniappCatalog.value = null
+  try { miniappCatalog.value = await getMiniappCatalogStatus(); miniappState.value = 'ready' }
+  catch { miniappState.value = 'error' }
+}
+onMounted(() => { void loadMiniappStatus() })
 </script>
 <template>
 <section class="workbench" data-testid="print-workbench">
@@ -80,7 +91,12 @@ const reloadContext = () => { void context.load(user.getUser.id) }
       <article class="workbench__panel workbench__chart" :data-status="storeIncome.status"><div class="workbench__heading"><h2>门店收入</h2><div class="workbench__range" aria-label="门店收入日期范围尚未接入"><button v-for="value in [7,30,90]" :key="value" disabled>最近{{ value }}天</button></div></div><div class="workbench__chart-empty workbench__income"><strong>{{ metricText(storeIncome.value) }}</strong><p>门店真实收入数据源和金额口径尚未接入。</p><p>当前账号订单金额快照不作为门店实收收入。</p></div></article>
     </div>
     <article v-if="report" class="workbench__panel workbench__snapshots"><h2>当前账号订单快照明细</h2><p class="workbench__muted">basis={{ BASIS }} · {{ report.timezone }} · 金额为订单快照，实收与交易额口径待确认；source 原值不映射电脑/微信/QQ/网页等经营渠道。</p><el-table :data="report.list" border empty-text="当前 API 日期范围内暂无快照" max-height="350"><el-table-column prop="day" label="API日期" width="115" /><el-table-column label="来源 / 币种 / simulation" min-width="260"><template #default="{row}">{{ groupLabel(row) }}</template></el-table-column><el-table-column prop="orders" label="订单数快照" min-width="120" /><el-table-column label="订单金额快照（非收入）" min-width="200"><template #default="{row}">{{ row.amountSnapshot === null ? '待核对' : row.amountSnapshot }} {{ row.currency }}</template></el-table-column><el-table-column prop="invalidAmountCount" label="待核对金额数" min-width="130" /></el-table></article>
-    <article class="workbench__panel workbench__extensions" data-testid="print-context-ready"><div class="workbench__heading"><h2>本系统演示扩展</h2><span data-testid="print-account-name">{{ accountName }} · 后台员工</span></div><p>以下为本系统开发演示入口；资金与打印设备保持模拟边界。</p><div v-if="canStartDemo" class="workbench__demo"><RouterLink to="/print/demo-workflow">后台演示流程</RouterLink><span>上传 PDF、服务端报价、创建订单及显式模拟收款</span></div><div v-if="canQueryOrders" class="workbench__demo"><RouterLink to="/print/demo-orders">演示订单</RouterLink><span>查看当前账号的后台演示订单</span></div></article>
+    <article class="workbench__panel workbench__miniapp" data-testid="miniapp-service-status"><div class="workbench__heading"><h2>小程序服务状态</h2><button :disabled="miniappState === 'loading'" @click="loadMiniappStatus">刷新状态</button></div>
+      <p v-if="miniappState === 'loading'" role="status">正在检查小程序公开目录…</p><p v-else-if="miniappState === 'error'" role="alert">小程序目录服务不可用；前端将显示本地目录，不会伪装为已连接。</p>
+      <div v-else-if="miniappCatalog" class="workbench__miniapp-grid"><div><span>目录版本</span><strong>{{ miniappCatalog.catalogVersion }}</strong></div><div><span>打印入口</span><strong>{{ miniappCatalog.methods.length }} 项</strong></div><div><span>上传能力</span><strong>{{ miniappCatalog.uploadEnabled ? '已开放' : '未开放' }}</strong></div><div><span>演示约束</span><strong>{{ Math.round(miniappCatalog.demoLimits.maxFileBytes / 1024 / 1024) }}MB / {{ miniappCatalog.demoLimits.maxPages }}页 / {{ miniappCatalog.demoLimits.retentionMinutes }}分钟</strong></div></div>
+      <p class="workbench__muted">当前仅验证匿名只读目录；AppID、微信登录、支付、对象存储和真实打印端均未接入。</p>
+    </article>
+    <article class="workbench__panel workbench__extensions" data-testid="print-context-ready"><div class="workbench__heading"><h2>本系统演示扩展</h2><span data-testid="print-account-name">{{ accountName }} · 后台员工</span></div><p>以下为既有开发演示入口；资金与打印设备保持模拟边界，不再新增同类演示页面。</p><div v-if="canStartDemo" class="workbench__demo"><RouterLink to="/print/demo-workflow">后台演示流程</RouterLink><span>上传 PDF、服务端报价、创建订单及显式模拟收款</span></div><div v-if="canQueryOrders" class="workbench__demo"><RouterLink to="/print/demo-orders">演示订单</RouterLink><span>查看当前账号的后台演示订单</span></div></article>
   </template>
 </section>
 </template>
