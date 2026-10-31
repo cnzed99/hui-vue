@@ -3,7 +3,7 @@ package cn.iocoder.yudao.server.print.controller.app;
 import cn.iocoder.yudao.framework.apilog.core.annotation.ApiAccessLog;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.tenant.core.aop.TenantIgnore;
-import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoPrincipal;
+import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoIdentity;
 import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoSessionException;
 import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoSessionService;
 import jakarta.annotation.security.PermitAll;
@@ -41,8 +41,8 @@ public class PrintMiniappDemoSessionController {
             @RequestHeader(value = "Origin", required = false) String origin,
             @RequestHeader(value = "Host", required = false) String host) {
         if (!query.isEmpty()) throw invalid();
-        MiniappDemoPrincipal principal = sessions.require(authorization, origin, host);
-        return noStore(CommonResult.success(new SessionView(principal.principalId(), principal.expiresAtMs(), "MINIAPP_DEMO")));
+        MiniappDemoIdentity identity = sessions.require(authorization, origin, host);
+        return noStore(CommonResult.success(new SessionView(identity.principalId(), identity.expiresAtMs(), "MINIAPP_DEMO")));
     }
 
     private static MiniappDemoSessionException invalid() {

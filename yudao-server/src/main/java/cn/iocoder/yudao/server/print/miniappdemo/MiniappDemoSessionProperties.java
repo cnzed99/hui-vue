@@ -49,6 +49,13 @@ public class MiniappDemoSessionProperties {
         }
     }
 
+    public void requireWriteRequest(String origin, String host) {
+        requireEnabled();
+        if (!allowedOrigin.equals(origin) || !edgeHost.equals(host)) {
+            throw new MiniappDemoSessionException(MiniappDemoSessionException.Reason.ISSUANCE_FORBIDDEN);
+        }
+    }
+
     public boolean isEnabled() { return enabled; }
     public void setEnabled(boolean value) { enabled = value; }
     public boolean isIssuanceEnabled() { return issuanceEnabled; }

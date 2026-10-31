@@ -53,8 +53,19 @@ public class MiniappDemoSessionService {
         });
     }
 
-    public MiniappDemoPrincipal require(String authorization, String origin, String host) {
+    public MiniappDemoIdentity require(String authorization, String origin, String host) {
         properties.requireSessionRequest(origin, host);
+        if (authorization == null || !authorization.matches("Bearer [A-Za-z0-9_-]{43}")) {
+            throw new MiniappDemoSessionException(SESSION_INVALID);
+        }
+        String token = authorization.substring(7);
+        long now = System.currentTimeMillis();
+        return repository.findActive(hash(token), properties.getTenantId(), properties.getStoreId(), now)
+                .orElseThrow(() -> new MiniappDemoSessionException(SESSION_INVALID));
+    }
+
+    public MiniappDemoIdentity requireForWrite(String authorization, String origin, String host) {
+        properties.requireWriteRequest(origin, host);
         if (authorization == null || !authorization.matches("Bearer [A-Za-z0-9_-]{43}")) {
             throw new MiniappDemoSessionException(SESSION_INVALID);
         }
