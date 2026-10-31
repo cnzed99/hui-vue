@@ -1,0 +1,31 @@
+{
+  "reviewDate": "2026-10-31",
+  "reviewer": "astra_reviewer",
+  "model": "GPT-6 Astra High",
+  "trigger": "anonymous permission boundary and candidate deployment",
+  "status": "PASS_DEVELOPMENT_CANDIDATE_ONLY",
+  "requiredFixesClosed": [
+    "Nginx proxy narrowed from app-api prefix to the exact catalog path",
+    "WeChat build uses local fallback until an approved absolute HTTPS API base exists",
+    "Catalog response validation covers consumed fields, enums and positive limits",
+    "TenantIgnore and PermitAll are attached only to the exact static catalog handler"
+  ],
+  "evidence": {
+    "backendRelease": "ee22cc0c2db89b27",
+    "backendJarSha256": "ee22cc0c2db89b27b17b910d7a4800e4dd4d18f8e4724461ec574413d0e895eb",
+    "nginxSha256": "e9574a93d313e4ba57bc039fee690fe7088ffbbb422d8322308db7b8d10f13ce",
+    "anonymousAndTenantBodiesEqual": true,
+    "writeMethodsRejected": true,
+    "adjacentAppPathsRejected": true,
+    "existingAdminEndpointStillUnauthorized": true,
+    "onlineFallbackRestoreBrowserSmoke": true
+  },
+  "notApproved": [
+    "formal production release",
+    "user acceptance",
+    "WeChat device integration",
+    "real file upload or parsing",
+    "login, payment, refund or printing",
+    "complete backend test suite"
+  ]
+}
