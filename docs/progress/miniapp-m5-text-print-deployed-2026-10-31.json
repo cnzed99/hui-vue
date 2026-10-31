@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "milestone": "M5_CUSTOM_TEXT_PRINT_LOOP",
+  "status": "DEVELOPMENT_CANDIDATE_PASS",
+  "deployedAt": "2026-10-31T18:35:42+08:00",
+  "backendRelease": "23d0c838f0205ff4",
+  "miniappRelease": "miniapp-m5-text-loop-20261031-1815",
+  "activeNginxSha256": "b46ff356f256d6669c09ec136fe17e550a2131495208b35b9e684643dc832c60",
+  "evidence": {
+    "runtime": {
+      "path": "evidence/miniapp/m5-text-runtime-20261031T103739Z.json",
+      "sha256": "413b9a34e638884a4eb8d2b0b04ad2bef656c2127317db30d3f22262d829ef2b",
+      "passed": 40,
+      "failed": 0
+    },
+    "restartDeterminism": {
+      "path": "evidence/miniapp/m5-text-restart-determinism-20261031T103645Z-6976b28c.json",
+      "sha256": "b77b4f156236c5116df1e76354d95e983c2d7625975572a35e8454d709078edf",
+      "passed": 7,
+      "failed": 0
+    },
+    "browserClosedLoop": {
+      "path": "evidence/miniapp/m5-text-browser-closed-loop-20261031T104234923Z-b7200728/report.json",
+      "sha256": "d7d8bcef2e19a5eeda3d43029830b16a9fa396ab30a075baa954bbf2f499f3d8",
+      "passed": 11,
+      "failed": 0
+    }
+  },
+  "review": {
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "role": "astra_reviewer",
+    "result": "PASS"
+  },
+  "boundaries": {
+    "realPayment": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "wechatDevice": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  }
+}

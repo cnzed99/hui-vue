@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "scope": "M5 browser closed loop: miniapp text UI to admin simulated processing and miniapp result",
+  "runId": "20261031T104234923Z-b7200728",
+  "startedAt": "2026-10-31T10:42:34.924Z",
+  "checks": [
+    {
+      "name": "miniapp_text_editor_accepts_input",
+      "passed": true
+    },
+    {
+      "name": "miniapp_text_generated_ready_pdf",
+      "passed": true
+    },
+    {
+      "name": "miniapp_settings_shows_server_parse",
+      "passed": true
+    },
+    {
+      "name": "miniapp_received_authoritative_quote",
+      "passed": true
+    },
+    {
+      "name": "miniapp_created_simulated_order",
+      "passed": true
+    },
+    {
+      "name": "miniapp_completed_simulated_payment",
+      "passed": true
+    },
+    {
+      "name": "admin_ui_loaded_text_order",
+      "passed": true
+    },
+    {
+      "name": "admin_ui_preserves_real_printer_boundary",
+      "passed": true
+    },
+    {
+      "name": "admin_ui_completed_simulated_print",
+      "passed": true
+    },
+    {
+      "name": "miniapp_ui_received_simulated_receipt",
+      "passed": true
+    },
+    {
+      "name": "miniapp_ui_preserves_physical_print_boundary",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "miniapp-text-settings",
+      "path": "evidence/miniapp/m5-text-browser-closed-loop-20261031T104234923Z-b7200728/miniapp-text-settings.png",
+      "sha256": "47233cf1c10f2aea5392efe8d2797fa054e9358144e28e52bf96bab02606a3e1"
+    },
+    {
+      "name": "miniapp-text-paid",
+      "path": "evidence/miniapp/m5-text-browser-closed-loop-20261031T104234923Z-b7200728/miniapp-text-paid.png",
+      "sha256": "143912d74aa209a9b1ff50babe6b3557a0daaea568fa655343eba502c8d9eed2"
+    },
+    {
+      "name": "admin-text-success",
+      "path": "evidence/miniapp/m5-text-browser-closed-loop-20261031T104234923Z-b7200728/admin-text-success.png",
+      "sha256": "ac5d210f9b5ddaa03b902f5c7f7544c7efbacb28ab42042a2093ebde38b87c25"
+    },
+    {
+      "name": "miniapp-text-result",
+      "path": "evidence/miniapp/m5-text-browser-closed-loop-20261031T104234923Z-b7200728/miniapp-text-result.png",
+      "sha256": "5acaa4a751af3a27d23cd62ef8000594b39704b30a7b50c23440a97435d2264d"
+    }
+  ],
+  "boundaries": {
+    "realPayment": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "wechatDevice": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "browser": "156.0.8078.4",
+  "playwrightVersion": "1.64.1",
+  "status": "PASS",
+  "fixture": {
+    "principalId": "5b638c16-101d-4995-b48f-1ce7363826c9",
+    "fileId": "5535abdf-0d77-45c7-b45d-4350ade7ae38",
+    "orderId": "6a41efa9-f33d-44ec-b481-708a282cd736",
+    "taskId": "485018c7-a9fa-4617-86ed-97a08a37571f",
+    "inputSha256": "547b31b87521d725c9d7c0265d9c4225ff99e87040852ac8106a663d0cf6ec01",
+    "retained": true,
+    "reason": "Immutable simulated browser-loop task and receipt retained as isolated development evidence."
+  },
+  "adminSessionLogout": "PASS",
+  "finishedAt": "2026-10-31T10:42:44.109Z",
+  "passed": 11,
+  "failed": 0
+}

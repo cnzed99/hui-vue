@@ -1,0 +1,197 @@
+{
+  "status": "PASS",
+  "runId": "20261031T103739Z-6f1b6e9d",
+  "executedAt": "2026-10-31T10:37:56.173872+00:00",
+  "deployment": {
+    "backendRelease": "23d0c838f0205ff4",
+    "miniappRelease": "releases/miniapp-m5-text-loop-20261031-1815"
+  },
+  "fixture": {
+    "principalId": "fb6849a9-1bd4-4f62-9a87-ccbbf998a7ea",
+    "fileId": "67958e53-f639-4e92-ae9d-de9ca7be9314",
+    "orderId": "0ec9e635-6648-4a9b-9c8b-1acf345cf795",
+    "taskId": "20a5e555-33c8-4782-8499-bfc6e8a5c93b",
+    "protectedValueSha256": [
+      "991f0e62ca4395b0f3c70f8d709a88bb8606679b009e975a507309f23fad1db7",
+      "e151b703fa323344e14a99e27d1fbed538008a1ee96828e7a01d52b8a3fa2f4b",
+      "f0967b27f66276f169732ed79f3db113bbf455acbcc8255aedcb9c0a24513fe8",
+      "475214fa0fc15c2bed2f288fbd9d303499456aa9247b6c76b956fc5ffaa25604",
+      "6c8310a54887744de812d307d2c99d1fee72ba1b8c378ca8a461ff99d151b77f",
+      "0a3b85a60729c01679bbaff5a3e33a72e2bafd759afa203bee1ee879c3ebdade"
+    ],
+    "retained": true,
+    "reason": "Immutable simulated task and receipt retained as isolated development evidence."
+  },
+  "checks": [
+    {
+      "name": "demo_sessions_issued",
+      "passed": true
+    },
+    {
+      "name": "text_pdf_ready",
+      "passed": true
+    },
+    {
+      "name": "same_key_same_text_replays",
+      "passed": true
+    },
+    {
+      "name": "same_key_different_text_conflicts",
+      "passed": true
+    },
+    {
+      "name": "concurrent_requests_are_success_or_render_busy",
+      "passed": true
+    },
+    {
+      "name": "concurrent_same_key_converges",
+      "passed": true
+    },
+    {
+      "name": "concurrent_file_ready",
+      "passed": true
+    },
+    {
+      "name": "concurrent_key_replay_returns_same_file",
+      "passed": true
+    },
+    {
+      "name": "concurrent_key_has_one_database_row",
+      "passed": true
+    },
+    {
+      "name": "third_active_file_ready",
+      "passed": true
+    },
+    {
+      "name": "cross_principal_file_hidden",
+      "passed": true
+    },
+    {
+      "name": "malformed_json_fixed_error",
+      "passed": true
+    },
+    {
+      "name": "jsonx_fixed_error",
+      "passed": true
+    },
+    {
+      "name": "unsupported_media_fixed_error",
+      "passed": true
+    },
+    {
+      "name": "unsupported_glyph_fixed_error",
+      "passed": true
+    },
+    {
+      "name": "file_stage_limit_fixed_error",
+      "passed": true
+    },
+    {
+      "name": "edge_rejects_non_post",
+      "passed": true
+    },
+    {
+      "name": "edge_rate_limiter_is_active",
+      "passed": true
+    },
+    {
+      "name": "authoritative_quote_valid",
+      "passed": true
+    },
+    {
+      "name": "simulated_payment_succeeded",
+      "passed": true
+    },
+    {
+      "name": "admin_unique_task_has_simulated_receipt",
+      "passed": true
+    },
+    {
+      "name": "print_result_get_requires_session",
+      "passed": true
+    },
+    {
+      "name": "print_result_get_rejects_wrong_session",
+      "passed": true
+    },
+    {
+      "name": "print_result_rejects_wrong_origin",
+      "passed": true
+    },
+    {
+      "name": "print_result_rejects_head_without_session",
+      "passed": true
+    },
+    {
+      "name": "print_result_rejects_head_with_session",
+      "passed": true
+    },
+    {
+      "name": "print_result_rejects_post",
+      "passed": true
+    },
+    {
+      "name": "print_result_rejects_options",
+      "passed": true
+    },
+    {
+      "name": "print_result_rejections_are_no_store",
+      "passed": true
+    },
+    {
+      "name": "print_result_adjacent_path_is_closed",
+      "passed": true
+    },
+    {
+      "name": "miniapp_result_http_success",
+      "passed": true,
+      "detail": {
+        "status": 200,
+        "code": 0
+      }
+    },
+    {
+      "name": "miniapp_result_is_no_store",
+      "passed": true
+    },
+    {
+      "name": "miniapp_result_returns_receipt",
+      "passed": true
+    },
+    {
+      "name": "cross_principal_result_hidden",
+      "passed": true
+    },
+    {
+      "name": "admin_session_logged_out",
+      "passed": true
+    },
+    {
+      "name": "responses_do_not_echo_text",
+      "passed": true
+    },
+    {
+      "name": "journal_does_not_persist_text",
+      "passed": true
+    },
+    {
+      "name": "nginx_logs_do_not_persist_text",
+      "passed": true
+    },
+    {
+      "name": "api_access_log_does_not_persist_text",
+      "passed": true
+    },
+    {
+      "name": "api_error_log_does_not_persist_text",
+      "passed": true
+    }
+  ],
+  "boundaries": {
+    "realPayment": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "wechatDevice": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  }
+}

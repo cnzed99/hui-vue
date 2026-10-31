@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "executedAt": "2026-10-31T10:37:16.632304+00:00",
+  "backendRelease": "23d0c838f0205ff4",
+  "fixture": {
+    "principalId": "39600c99-d089-4dee-b3d0-7af01b723441",
+    "firstFileId": "084b8c5d-996d-4061-adac-94bb09e3dbe1",
+    "secondFileId": "3c2b9849-6f57-4832-95c1-073512ad115d",
+    "contentSha256": "1a84789011f4f4585c0fa4a2cfe7bd2cf1fd442c03cd14e8bf2af985e365df4c",
+    "pdfSha256": "c6d5d85b0a8b8d9a6f7122c72701ffa26bc514dc536018c4fce2e721517f010e"
+  },
+  "checks": [
+    {
+      "name": "first_render_ready",
+      "passed": true
+    },
+    {
+      "name": "backend_restart_healthy",
+      "passed": true
+    },
+    {
+      "name": "pre_restart_key_replays_same_file",
+      "passed": true
+    },
+    {
+      "name": "second_render_ready",
+      "passed": true
+    },
+    {
+      "name": "cross_restart_pdf_sha256_identical",
+      "passed": true
+    },
+    {
+      "name": "cross_restart_page_count_identical",
+      "passed": true
+    },
+    {
+      "name": "cross_restart_size_identical",
+      "passed": true
+    }
+  ],
+  "boundaries": {
+    "realPrinter": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  }
+}
