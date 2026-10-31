@@ -70,6 +70,25 @@ public class MiniappDemoPrintTaskRepository {
                 scope.tenantId(), scope.storeId(), id).stream().findFirst();
     }
 
+    Optional<Order> order(PrintScope scope, String id) {
+        return jdbc.query("SELECT id,principal_id,currency,total_amount,order_state,payment_state,refund_state,"
+                        + "print_state,version FROM print_miniapp_demo_order WHERE tenant_id=? AND store_id=? AND id=?",
+                (rs, n) -> new Order(rs.getString("id"), rs.getString("principal_id"), rs.getString("currency"),
+                        rs.getString("total_amount"), rs.getString("order_state"), rs.getString("payment_state"),
+                        rs.getString("refund_state"), rs.getString("print_state"), rs.getLong("version")),
+                scope.tenantId(), scope.storeId(), id).stream().findFirst();
+    }
+
+    Optional<Order> orderForOwner(long tenantId, long storeId, String principalId, String id) {
+        return jdbc.query("SELECT id,principal_id,currency,total_amount,order_state,payment_state,refund_state,"
+                        + "print_state,version FROM print_miniapp_demo_order WHERE tenant_id=? AND store_id=? "
+                        + "AND principal_id=? AND id=?",
+                (rs, n) -> new Order(rs.getString("id"), rs.getString("principal_id"), rs.getString("currency"),
+                        rs.getString("total_amount"), rs.getString("order_state"), rs.getString("payment_state"),
+                        rs.getString("refund_state"), rs.getString("print_state"), rs.getLong("version")),
+                tenantId, storeId, principalId, id).stream().findFirst();
+    }
+
     Optional<Item> itemForUpdate(PrintScope scope, Order order) {
         return jdbc.query("SELECT id,file_id,file_content_sha256,quote_snapshot_json,amount "
                         + "FROM print_miniapp_demo_order_item WHERE tenant_id=? AND store_id=? AND principal_id=? "
@@ -113,6 +132,12 @@ public class MiniappDemoPrintTaskRepository {
     Optional<Task> taskForUpdate(PrintScope scope, String taskId) {
         return jdbc.query("SELECT " + TASK_FIELDS + " FROM print_miniapp_demo_print_task WHERE tenant_id=? "
                         + "AND store_id=? AND id=? FOR UPDATE", TASK_MAPPER,
+                scope.tenantId(), scope.storeId(), taskId).stream().findFirst();
+    }
+
+    Optional<Task> task(PrintScope scope, String taskId) {
+        return jdbc.query("SELECT " + TASK_FIELDS + " FROM print_miniapp_demo_print_task WHERE tenant_id=? "
+                        + "AND store_id=? AND id=?", TASK_MAPPER,
                 scope.tenantId(), scope.storeId(), taskId).stream().findFirst();
     }
 

@@ -9,6 +9,9 @@ import cn.iocoder.yudao.server.print.scope.PrintScopeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.List;
 
@@ -20,28 +23,39 @@ public class MiniappDemoAdminOrderService {
     private final MiniappDemoPrintTaskService tasks;
     private final PrintScopeService scopes;
     private final ObjectMapper mapper;
+    private final TransactionTemplate readTransaction;
 
     public MiniappDemoAdminOrderService(MiniappDemoAdminOrderRepository repository,
-            MiniappDemoPrintTaskService tasks, PrintScopeService scopes, ObjectMapper mapper) {
+            MiniappDemoPrintTaskService tasks, PrintScopeService scopes, ObjectMapper mapper,
+            PlatformTransactionManager manager) {
         this.repository = repository;
         this.tasks = tasks;
         this.scopes = scopes;
         this.mapper = mapper;
+        this.readTransaction = new TransactionTemplate(manager);
+        this.readTransaction.setIsolationLevel(TransactionDefinition.ISOLATION_REPEATABLE_READ);
+        this.readTransaction.setReadOnly(true);
     }
 
     public MiniappDemoAdminOrderPage<MiniappDemoAdminOrderSummary> list(int pageNo, int pageSize) {
         if (pageNo < 1 || pageNo > 1_000_000 || pageSize < 1 || pageSize > 100) throw failure(INVALID_INPUT);
         PrintScope scope = scopes.requireCurrent();
-        long total = repository.count(scope);
-        long offset = Math.multiplyExact((long) pageNo - 1L, pageSize);
-        List<MiniappDemoAdminOrderSummary> values = repository.list(scope, pageSize, offset).stream()
-                .map(MiniappDemoAdminOrderService::summary).toList();
-        return new MiniappDemoAdminOrderPage<>(values, total, pageNo, pageSize);
+        return readTransaction.execute(status -> {
+            long total = repository.count(scope);
+            long offset = Math.multiplyExact((long) pageNo - 1L, pageSize);
+            List<MiniappDemoAdminOrderSummary> values = repository.list(scope, pageSize, offset).stream()
+                    .map(MiniappDemoAdminOrderService::summary).toList();
+            return new MiniappDemoAdminOrderPage<>(values, total, pageNo, pageSize);
+        });
     }
 
     public MiniappDemoAdminOrderView get(String id) {
         if (!uuid(id)) throw failure(INVALID_INPUT);
         PrintScope scope = scopes.requireCurrent();
+        return readTransaction.execute(status -> get(scope, id));
+    }
+
+    private MiniappDemoAdminOrderView get(PrintScope scope, String id) {
         var order = repository.order(scope, id).orElseThrow(() -> failure(ORDER_NOT_FOUND));
         requireOrder(order);
         var item = repository.item(scope, order).orElseThrow(() -> failure(STORAGE_UNAVAILABLE));
@@ -59,7 +73,7 @@ public class MiniappDemoAdminOrderService {
         var events = repository.events(scope, order).stream().map(row -> new MiniappDemoAdminOrderView.Event(
                 row.id(), row.type(), row.actorType(), row.actorId(), row.simulation(),
                 row.aggregateVersion(), row.createdAtMs())).toList();
-        var printTask = tasks.getAdminByOrder(id);
+        var printTask = tasks.getAdminByOrder(scope, id);
         if (("NOT_CREATED".equals(order.printState())) != (printTask == null)
                 || printTask != null && (!order.id().equals(printTask.orderId())
                 || !order.printState().equals(printTask.state()))) throw failure(STORAGE_UNAVAILABLE);

@@ -31,6 +31,7 @@ public class MiniappDemoPrintTaskService {
     private final PrintScopeService scopes;
     private final ObjectMapper mapper;
     private final TransactionTemplate transaction;
+    private final TransactionTemplate readTransaction;
 
     public MiniappDemoPrintTaskService(MiniappDemoPrintTaskProperties properties,
             MiniappDemoPrintTaskRepository repository, PrintScopeService scopes, ObjectMapper mapper,
@@ -41,6 +42,9 @@ public class MiniappDemoPrintTaskService {
         this.mapper = mapper;
         this.transaction = new TransactionTemplate(manager);
         this.transaction.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);
+        this.readTransaction = new TransactionTemplate(manager);
+        this.readTransaction.setIsolationLevel(TransactionDefinition.ISOLATION_REPEATABLE_READ);
+        this.readTransaction.setReadOnly(true);
     }
 
     public MiniappDemoPrintTaskView create(String orderId, JsonNode body, String idempotencyKey) {
@@ -57,10 +61,14 @@ public class MiniappDemoPrintTaskService {
             var idempotent = repository.createIdempotentForUpdate(scope, order.principalId(), keyHash);
             if (idempotent.isPresent()) {
                 if (!inputHash.equals(idempotent.get().createInputHash())) throw failure(IDEMPOTENCY_CONFLICT);
+                requireTaskOrder(order, idempotent.get());
                 return view(scope, idempotent.get());
             }
             var existingTask = repository.taskByOrderForUpdate(scope, order);
-            if (existingTask.isPresent()) return view(scope, existingTask.get());
+            if (existingTask.isPresent()) {
+                requireTaskOrder(order, existingTask.get());
+                return view(scope, existingTask.get());
+            }
             requirePaidNotCreated(order);
             var item = repository.itemForUpdate(scope, order).orElseThrow(() -> failure(STORAGE_UNAVAILABLE));
             var evidence = evidence(item);
@@ -112,25 +120,42 @@ public class MiniappDemoPrintTaskService {
         properties.requireEnabled();
         if (!uuid(taskId)) throw failure(INVALID_INPUT);
         PrintScope scope = scopes.requireCurrent();
-        String orderId = repository.taskOrderId(scope, taskId).orElseThrow(() -> failure(TASK_NOT_FOUND));
-        var order = repository.orderForUpdate(scope, orderId).orElseThrow(() -> failure(TASK_NOT_FOUND));
-        var task = repository.taskForUpdate(scope, taskId).orElseThrow(() -> failure(TASK_NOT_FOUND));
-        requireTaskOrder(order, task);
-        return view(scope, task);
+        return readTransaction.execute(status -> {
+            String orderId = repository.taskOrderId(scope, taskId).orElseThrow(() -> failure(TASK_NOT_FOUND));
+            var order = repository.order(scope, orderId).orElseThrow(() -> failure(TASK_NOT_FOUND));
+            var task = repository.task(scope, taskId).orElseThrow(() -> failure(TASK_NOT_FOUND));
+            requireTaskOrder(order, task);
+            return view(scope, task);
+        });
     }
 
     public MiniappDemoPrintTaskView getAdminByOrder(String orderId) {
         properties.requireEnabled();
         if (!uuid(orderId)) throw failure(INVALID_INPUT);
-        PrintScope scope = scopes.requireCurrent();
-        return repository.taskByOrder(scope, orderId).map(task -> view(scope, task)).orElse(null);
+        return getAdminByOrder(scopes.requireCurrent(), orderId);
+    }
+
+    public MiniappDemoPrintTaskView getAdminByOrder(PrintScope scope, String orderId) {
+        properties.requireEnabled();
+        if (scope == null || !uuid(orderId)) throw failure(INVALID_INPUT);
+        return readTransaction.execute(status -> repository.taskByOrder(scope, orderId)
+                .map(task -> view(scope, task)).orElse(null));
     }
 
     public MiniappDemoPrintTaskView getForOwner(MiniappDemoIdentity identity, String orderId) {
         properties.requireEnabled();
         if (identity == null || !uuid(orderId)) throw failure(INVALID_INPUT);
-        return repository.taskForOwner(identity.tenantId(), identity.storeId(), identity.principalId(), orderId)
-                .map(task -> view(identity, task)).orElse(null);
+        return readTransaction.execute(status -> {
+            var order = repository.orderForOwner(identity.tenantId(), identity.storeId(), identity.principalId(), orderId)
+                    .orElseThrow(() -> failure(ORDER_NOT_FOUND));
+            var task = repository.taskForOwner(identity.tenantId(), identity.storeId(), identity.principalId(), orderId);
+            if (task.isEmpty()) {
+                if (!"NOT_CREATED".equals(order.printState()) || order.version() > 2) throw failure(STORAGE_UNAVAILABLE);
+                return null;
+            }
+            requireTaskOrder(order, task.get());
+            return view(identity, task.get());
+        });
     }
 
     private Transition transition(PrintScope scope, MiniappDemoPrintTaskRepository.Order order,
@@ -241,6 +266,10 @@ public class MiniappDemoPrintTaskService {
     }
     private static MiniappDemoPrintTaskView view(MiniappDemoPrintTaskRepository.Task task,
                                                   MiniappDemoPrintTaskView.Receipt receipt) {
+        boolean completed = "SUCCEEDED".equals(task.state()) || "FAILED".equals(task.state());
+        if (completed != (receipt != null)
+                || receipt != null && ("SUCCEEDED".equals(task.state())
+                != "SIMULATED_SUCCESS".equals(receipt.result()))) throw failure(STORAGE_UNAVAILABLE);
         return new MiniappDemoPrintTaskView(task.id(), task.jobId(), task.orderId(), task.orderItemId(), task.state(),
                 task.version(), task.fence(), task.leaseId(), task.leaseUntilMs(), task.plannedCopies(),
                 task.plannedSheets(), task.fileId(), task.fileSha256(), task.eventSeq(),
@@ -256,7 +285,8 @@ public class MiniappDemoPrintTaskService {
         if (!uuid(taskId) || body == null || !body.isObject() || !key(idempotencyKey)
                 || !body.has("action") || !body.get("action").isTextual()
                 || !ACTIONS.contains(body.get("action").textValue())
-                || !body.has("expectedVersion") || !body.get("expectedVersion").canConvertToLong()) {
+                || !body.has("expectedVersion") || !body.get("expectedVersion").isIntegralNumber()
+                || !body.get("expectedVersion").canConvertToLong()) {
             throw failure(INVALID_INPUT);
         }
         String action = body.get("action").textValue();
@@ -268,9 +298,11 @@ public class MiniappDemoPrintTaskService {
         if (body.size() != expectedSize) throw failure(INVALID_INPUT);
         String leaseId = leaseAction && body.has("leaseId") && body.get("leaseId").isTextual()
                 ? body.get("leaseId").textValue() : null;
-        Long fence = leaseAction && body.has("fence") && body.get("fence").canConvertToLong()
+        Long fence = leaseAction && body.has("fence") && body.get("fence").isIntegralNumber()
+                && body.get("fence").canConvertToLong()
                 ? body.get("fence").longValue() : null;
-        Long receiptSeq = receiptAction && body.has("receiptSeq") && body.get("receiptSeq").canConvertToLong()
+        Long receiptSeq = receiptAction && body.has("receiptSeq") && body.get("receiptSeq").isIntegralNumber()
+                && body.get("receiptSeq").canConvertToLong()
                 ? body.get("receiptSeq").longValue() : null;
         if (leaseAction && (!uuid(leaseId) || fence == null || fence < 1)
                 || receiptAction && (receiptSeq == null || receiptSeq != 1)) throw failure(INVALID_INPUT);
