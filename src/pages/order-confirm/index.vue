@@ -8,6 +8,8 @@ import { createDemoOrder } from '@/api/demoOrders'
 import type { DemoOrder } from '@/api/demoOrders'
 import { createDemoPayment, getDemoPayment } from '@/api/demoPayments'
 import type { DemoPayment } from '@/api/demoPayments'
+import { getDemoPrintResult } from '@/api/demoPrintResult'
+import type { DemoPrintTask } from '@/api/demoPrintResult'
 import { loadDraft } from '@/domain/printDraft'
 import type { PrintDraft } from '@/domain/printDraft'
 
@@ -22,6 +24,8 @@ const order = ref<DemoOrder | null>(null)
 const orderState = ref<'idle' | 'creating' | 'ready' | 'failed'>('idle')
 const payment = ref<DemoPayment | null>(null)
 const paymentState = ref<'idle' | 'creating' | 'ready' | 'failed'>('idle')
+const printTask = ref<DemoPrintTask | null>(null)
+const printResultState = ref<'idle' | 'loading' | 'ready' | 'failed'>('idle')
 const pendingOrderQuoteId = ref('')
 const pendingOrderPrincipalId = ref('')
 const amountText = computed(() => order.value
@@ -29,8 +33,24 @@ const amountText = computed(() => order.value
   : quoteState.value === 'ready' && quote.value
   ? `¥${quote.value.snapshot.totalAmount}`
   : quoteState.value === 'expired' ? '报价已过期' : '待服务端报价')
-const progressText = computed(() => payment.value
-  ? '模拟支付收据已生成；尚未创建打印任务，未发生真实扣款。'
+const printStatusText = computed(() => {
+  const labels: Record<string, string> = {
+    QUEUED: '等待后台模拟处理', CLAIMED: '模拟终端已领取', ACCEPTED: '模拟终端已受理',
+    EXECUTING: '模拟执行中', SUCCEEDED: '模拟打印成功', FAILED: '模拟打印失败',
+    RESULT_UNKNOWN: '结果待人工核实'
+  }
+  return printTask.value ? labels[printTask.value.state] || printTask.value.state : '尚未创建打印任务'
+})
+const progressText = computed(() => printTask.value
+  ? printTask.value.state === 'SUCCEEDED'
+    ? '后台已写入模拟成功回执；这不代表真实打印机出纸。'
+    : printTask.value.state === 'FAILED'
+      ? '后台已写入模拟失败回执；不会自动重打或退款。'
+      : printTask.value.state === 'RESULT_UNKNOWN'
+        ? '模拟处理结果待人工核实；系统不会自动重排或生成第二任务。'
+        : `后台模拟处理进度：${printStatusText.value}。`
+  : payment.value
+  ? '模拟支付收据已生成；等待后台创建唯一模拟打印任务，未发生真实扣款。'
   : order.value
     ? '模拟订单已创建并冻结服务端金额；等待你主动确认模拟支付。'
     : quoteState.value === 'ready'
@@ -41,6 +61,7 @@ const progressText = computed(() => payment.value
           ? '文件已解析，正在等待服务端报价；订单仍未创建、未支付。'
           : '固定演示文件未上传，不能生成真实报价。')
 let expiryTimer: ReturnType<typeof setTimeout> | null = null
+let printTimer: ReturnType<typeof setInterval> | null = null
 
 onLoad(async () => {
   draft.value = loadDraft()
@@ -64,7 +85,7 @@ onLoad(async () => {
     await requestQuote()
   }
 })
-onUnload(() => clearExpiryTimer())
+onUnload(() => { clearExpiryTimer(); clearPrintTimer() })
 
 function goBack() { uni.navigateBack() }
 function roundStorageKey(value: PrintDraft) {
@@ -101,6 +122,30 @@ function saveQuoteRound(value: PrintDraft) { uni.setStorageSync(roundStorageKey(
 function clearExpiryTimer() {
   if (expiryTimer !== null) clearTimeout(expiryTimer)
   expiryTimer = null
+}
+function clearPrintTimer() {
+  if (printTimer !== null) clearInterval(printTimer)
+  printTimer = null
+}
+function schedulePrintRefresh() {
+  clearPrintTimer()
+  if (!printTask.value || !['SUCCEEDED', 'FAILED', 'RESULT_UNKNOWN'].includes(printTask.value.state)) {
+    printTimer = setInterval(() => { void refreshPrintResult(false) }, 5000)
+  }
+}
+async function refreshPrintResult(showFailure = true) {
+  if (!order.value || printResultState.value === 'loading') return
+  printResultState.value = 'loading'
+  const session = await ensureDemoSession()
+  const result = session ? await getDemoPrintResult(session, order.value.id) : { kind: 'unknown' as const }
+  if (result.kind !== 'ok') {
+    printResultState.value = 'failed'
+    if (showFailure) uni.showToast({ title: '打印进度暂未恢复，请稍后重试', icon: 'none' })
+    return
+  }
+  printTask.value = result.task
+  printResultState.value = 'ready'
+  schedulePrintRefresh()
 }
 function scheduleExpiry(expiresAtMs: number) {
   clearExpiryTimer()
@@ -193,6 +238,7 @@ async function recoverOrder(quoteId: string): Promise<'ok' | 'rejected' | 'unkno
       payment.value = receipt
       paymentState.value = 'ready'
     } else paymentState.value = 'failed'
+    await refreshPrintResult(false)
   }
   return 'ok'
 }
@@ -221,6 +267,7 @@ async function recoverPaymentReceipt() {
   }
   payment.value = receipt
   paymentState.value = 'ready'
+  await refreshPrintResult(false)
 }
 async function payOrder() {
   if (!order.value) return
@@ -234,6 +281,7 @@ async function payOrder() {
   }
   payment.value = receipt
   paymentState.value = 'ready'
+  await refreshPrintResult(false)
 }
 </script>
 
@@ -244,10 +292,11 @@ async function payOrder() {
       <view class="card file-card"><view class="file-icon">PDF</view><view class="file-copy"><text>{{ draft.fileName }}</text><text>{{ draft.pages }} 页 · {{ colorText }} · {{ sideText }} · {{ draft.copies }} 份</text></view></view>
       <view class="card rows"><view><text>纸张规格</text><text>A4 · 黑白</text></view><view><text>计价范围</text><text>本文件单独计算</text></view><view><text>份数</text><text>{{ draft.copies }}</text></view><view><text>金额</text><text class="pending">{{ quoteState === 'loading' ? '服务端计算中…' : amountText }}</text></view></view>
       <view class="notice"><text>当前进度</text><text>{{ progressText }}</text></view>
-      <view v-if="order" class="card result-card"><text>模拟订单</text><text>{{ order.orderNo }}</text><text>金额 ¥{{ order.totalAmount }} · {{ payment ? '模拟支付成功' : order.paymentState === 'SUCCEEDED' ? '已模拟支付，收据待恢复' : '未支付' }}</text><text>打印状态：未创建打印任务</text></view>
+      <view v-if="order" class="card result-card"><text>模拟订单</text><text>{{ order.orderNo }}</text><text>金额 ¥{{ order.totalAmount }} · {{ payment ? '模拟支付成功' : order.paymentState === 'SUCCEEDED' ? '已模拟支付，收据待恢复' : '未支付' }}</text><text>打印状态：{{ printStatusText }}</text><text v-if="printTask">Job {{ printTask.jobId }}</text></view>
       <view v-if="payment" class="receipt"><text>SIMULATED</text><text>模拟支付成功，不涉及真实资金</text><text>收据 {{ payment.id }}</text></view>
+      <view v-if="printTask?.receipt" class="print-receipt"><text>{{ printTask.receipt.result === 'SIMULATED_SUCCESS' ? '模拟成功回执' : '模拟失败回执' }}</text><text>完成 {{ printTask.receipt.completedCopies }} 份 / {{ printTask.receipt.completedSheets }} 张</text><text v-if="printTask.receipt.reason">原因：{{ printTask.receipt.reason }}</text><text>仅为系统模拟，不代表真实出纸</text></view>
       <button v-if="order && paymentState !== 'ready'" :class="paymentState === 'creating' ? 'disabled' : 'retry'" @click="confirmPayment">{{ paymentState === 'creating' ? '正在恢复支付结果…' : paymentState === 'failed' && order.paymentState === 'SUCCEEDED' ? '重试恢复模拟收据' : paymentState === 'failed' ? '重试模拟支付' : '模拟支付（不扣真实资金）' }}</button>
-      <button v-else-if="order && paymentState === 'ready'" class="disabled">模拟支付成功 · 等待后台生成打印任务</button>
+      <button v-else-if="order && paymentState === 'ready'" class="retry" @click="refreshPrintResult(true)">{{ printResultState === 'loading' ? '正在刷新模拟打印进度…' : '刷新模拟打印进度' }}</button>
       <button v-else-if="pendingOrderQuoteId && orderState === 'creating'" class="disabled">正在恢复原模拟订单…</button>
       <button v-else-if="pendingOrderQuoteId" class="retry" @click="retryOrRenew">恢复原模拟订单</button>
       <button v-else-if="quoteState === 'failed' || quoteState === 'expired'" class="retry" @click="retryOrRenew">{{ quoteState === 'expired' ? '重新生成报价' : '重试同一次报价' }}</button>
@@ -261,4 +310,5 @@ async function payOrder() {
 .confirm-page{min-height:100vh;background:#f6f6f6}.header{color:#fff;background:linear-gradient(135deg,#ff9634,#ffad48)}.status-space{height:var(--status-bar-height);min-height:36rpx}.title-row{display:flex;align-items:center;justify-content:space-between;height:86rpx;padding:0 26rpx;font-size:34rpx;font-weight:600}.back,.spacer{width:56rpx}.back{font-size:56rpx;line-height:56rpx}.body{padding:24rpx}.card{margin-bottom:22rpx;padding:26rpx;background:#fff;border-radius:16rpx}.file-card{display:flex;align-items:center}.file-icon{display:flex;align-items:center;justify-content:center;width:72rpx;height:72rpx;color:#fff;background:#ef6e5f;border-radius:10rpx;font-size:20rpx;font-weight:700}.file-copy{display:flex;min-width:0;flex:1;flex-direction:column;margin-left:18rpx}.file-copy text:first-child{overflow:hidden;font-size:27rpx;font-weight:600;text-overflow:ellipsis;white-space:nowrap}.file-copy text:last-child{margin-top:10rpx;color:#999;font-size:22rpx}.rows view{display:flex;justify-content:space-between;padding:22rpx 0;border-bottom:1rpx solid #eee;font-size:25rpx}.rows view:last-child{border-bottom:0}.rows view text:last-child{font-weight:600}.rows .pending{color:#ee8528}.notice{display:flex;flex-direction:column;padding:22rpx;color:#8d6d43;background:#fff7e9;border-radius:12rpx;font-size:22rpx;line-height:36rpx}.notice text:first-child{font-weight:700}.disabled{height:86rpx;margin-top:28rpx;color:#888;background:#e7e9eb;border-radius:44rpx;font-size:28rpx;line-height:86rpx}
 .retry{height:86rpx;margin-top:28rpx;color:#fff;background:linear-gradient(90deg,#ff9736,#ffad45);border-radius:44rpx;font-size:28rpx;line-height:86rpx}
 .result-card{display:flex;flex-direction:column;margin-top:22rpx;gap:10rpx;color:#555;font-size:23rpx;line-height:34rpx}.result-card text:first-child{color:#222;font-size:27rpx;font-weight:700}.result-card text:nth-child(2){word-break:break-all}.receipt{display:flex;flex-direction:column;margin-top:20rpx;padding:22rpx;color:#287d51;background:#eaf8f0;border-radius:12rpx;font-size:22rpx;line-height:34rpx}.receipt text:first-child{font-weight:800}.receipt text:last-child{word-break:break-all}
+.print-receipt{display:flex;flex-direction:column;margin-top:20rpx;padding:22rpx;color:#7b4c00;background:#fff4dd;border-radius:12rpx;font-size:22rpx;line-height:34rpx}.print-receipt text:first-child{font-weight:800}
 </style>
