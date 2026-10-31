@@ -19,6 +19,20 @@
       }
     },
     {
+      "path": "pages/orders/index",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true,
+        "backgroundTextStyle": "dark"
+      }
+    },
+    {
+      "path": "pages/order-detail/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/document-method/index",
       "style": {
         "navigationStyle": "custom"

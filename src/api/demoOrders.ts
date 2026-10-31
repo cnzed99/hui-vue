@@ -31,6 +31,16 @@ export type DemoOrderCreateResult =
   | { kind: 'rejected' }
   | { kind: 'unknown' }
 
+export interface DemoOrderPage {
+  list: DemoOrder[]
+  pageNo: number
+  pageSize: number
+  total: number
+  hasMore: boolean
+}
+
+export type DemoOrderPageResult = { kind: 'ok'; page: DemoOrderPage } | { kind: 'unknown' }
+
 function apiUrl(path: 'orders' | 'order'): string | null {
   const configured = import.meta.env.VITE_APP_API_BASE?.replace(/\/$/, '')
   if (configured?.startsWith('https://')) return `${configured}/print/miniapp/demo/${path}`
@@ -98,6 +108,40 @@ export function getDemoOrder(session: DemoSession, id: string): Promise<DemoOrde
       header: { Authorization: `Bearer ${session.accessToken}` },
       success: response => resolve(response.statusCode === 200 ? parseDemoOrderEnvelope(response.data) : null),
       fail: () => resolve(null)
+    })
+  })
+}
+
+function parseDemoOrderPageEnvelope(value: unknown): DemoOrderPage | null {
+  const envelope = value as { code?: number; data?: Partial<DemoOrderPage> }
+  const page = envelope?.data
+  if (envelope?.code !== 0 || !page || !Array.isArray(page.list)
+    || !Number.isSafeInteger(page.pageNo) || Number(page.pageNo) < 1
+    || !Number.isSafeInteger(page.pageSize) || Number(page.pageSize) < 1 || Number(page.pageSize) > 20
+    || !Number.isSafeInteger(page.total) || Number(page.total) < 0
+    || typeof page.hasMore !== 'boolean' || page.list.length > Number(page.pageSize)) return null
+  const list = page.list.map(item => parseDemoOrderEnvelope({ code: 0, data: item }))
+  if (list.some(item => item === null)) return null
+  return { ...page, list: list as DemoOrder[] } as DemoOrderPage
+}
+
+export function listDemoOrders(session: DemoSession, pageNo: number, pageSize = 20): Promise<DemoOrderPageResult> {
+  const base = apiUrl('orders')
+  if (!base || !Number.isSafeInteger(pageNo) || pageNo < 1 || pageNo > 10_000
+    || !Number.isSafeInteger(pageSize) || pageSize < 1 || pageSize > 20) return Promise.resolve({ kind: 'unknown' })
+  return new Promise(resolve => {
+    uni.request({
+      url: `${base}?pageNo=${pageNo}&pageSize=${pageSize}`,
+      method: 'GET',
+      timeout: 2500,
+      header: { Authorization: `Bearer ${session.accessToken}` },
+      success: response => {
+        const page = response.statusCode === 200 ? parseDemoOrderPageEnvelope(response.data) : null
+        resolve(page && page.pageNo === pageNo && page.pageSize === pageSize
+          ? { kind: 'ok', page }
+          : { kind: 'unknown' })
+      },
+      fail: () => resolve({ kind: 'unknown' })
     })
   })
 }

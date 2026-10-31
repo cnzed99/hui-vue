@@ -5,6 +5,14 @@ import { profileMenus } from '@/data/fixtures'
 function showReserved(label: string) {
   uni.showToast({ title: `${label}接口待接入`, icon: 'none' })
 }
+
+function openMenu(label: string) {
+  if (label === '我的订单') {
+    uni.navigateTo({ url: '/pages/orders/index' })
+    return
+  }
+  showReserved(label)
+}
 </script>
 
 <template>
@@ -25,7 +33,7 @@ function showReserved(label: string) {
     </view>
 
     <view class="menu-list">
-      <view v-for="item in profileMenus" :key="item.label" class="menu-item" @click="showReserved(item.label)">
+      <view v-for="item in profileMenus" :key="item.label" class="menu-item" @click="openMenu(item.label)">
         <view class="menu-icon" :class="`tone-${item.tone}`">{{ item.icon }}</view>
         <text class="menu-label">{{ item.label }}</text>
         <text v-if="item.note" class="menu-note">{{ item.note }}</text>
