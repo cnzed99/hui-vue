@@ -38,7 +38,7 @@ function navigate(key: NavKey, url: string) {
   left: 0;
   z-index: 50;
   display: flex;
-  height: 110rpx;
+  height: calc(110rpx + env(safe-area-inset-bottom));
   padding-bottom: env(safe-area-inset-bottom);
   background: rgba(255, 255, 255, 0.98);
   border-top: 1rpx solid #eeeeee;
