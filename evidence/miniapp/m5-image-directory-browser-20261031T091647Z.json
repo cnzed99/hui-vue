@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-31T09:16:47Z",
+  "scope": "miniapp image-print directory and safe source-picker shell",
+  "release": "miniapp-m5-image-directory-20261031-171647",
+  "baseUrl": "http://127.0.0.1:18080/miniapp/",
+  "implementationModel": "gpt-6.1-sol",
+  "reasoningEffort": "high",
+  "review": {
+    "level": "deferred ordinary-page batch review",
+    "astraHighTriggered": false,
+    "reason": "one ordinary UI page; no pricing, payment/refund, permission-isolation, print-deduplication, destructive migration, or production-release rule changed"
+  },
+  "checks": [
+    { "name": "home_image_entry", "result": "PASS" },
+    { "name": "image_directory_four_cards", "result": "PASS" },
+    { "name": "image_source_sheet", "result": "PASS" },
+    { "name": "cancel_source_sheet", "result": "PASS" },
+    { "name": "collage_source_sheet", "result": "PASS" },
+    { "name": "reserved_source_has_no_file_input", "result": "PASS" }
+  ],
+  "summary": { "passed": 6, "failed": 0 },
+  "boundaries": [
+    "No original-system write was performed.",
+    "No camera, album, WeChat image, file chooser, or upload API was invoked.",
+    "AI enhancement, crop, black-and-white conversion, collage parameters, storage, parsing, and authoritative pricing remain NOT_RUN.",
+    "WeChat DevTools and real-device acceptance remain NOT_RUN."
+  ]
+}
