@@ -38,6 +38,16 @@ function openPrintEntry(label: string) {
 }
 
 function openMoreEntry(label: string) {
+  const routeByLabel: Record<string, string> = {
+    '发票打印': '/pages/invoice-print/index',
+    '文字速印': '/pages/text-print/index',
+    '链接打印': '/pages/link-print/index'
+  }
+  const route = routeByLabel[label]
+  if (route) {
+    uni.navigateTo({ url: route })
+    return
+  }
   if (label === '试卷翻新') {
     uni.navigateTo({ url: '/pages/paper-renewal/index' })
     return

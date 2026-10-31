@@ -11,6 +11,18 @@ function openMenu(label: string) {
     uni.navigateTo({ url: '/pages/orders/index' })
     return
   }
+  const routeByLabel: Record<string, string> = {
+    '会员卡': '/pages/member-card/index',
+    '代金红包': '/pages/vouchers/index',
+    '我的文库': '/pages/my-library/index',
+    '服务中心': '/pages/service-center/index',
+    '隐私协议': '/pages/privacy/index'
+  }
+  const route = routeByLabel[label]
+  if (route) {
+    uni.navigateTo({ url: route })
+    return
+  }
   showReserved(label)
 }
 </script>
@@ -27,7 +39,7 @@ function openMenu(label: string) {
       </view>
     </view>
 
-    <view class="member-card" @click="showReserved('会员详情')">
+    <view class="member-card" @click="openMenu('会员卡')">
       <view><text class="member-mark">V</text><text> 普通会员 @ 微晓—板栗打印工作室</text></view>
       <view class="member-action">查看详情 ›</view>
     </view>
