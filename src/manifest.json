@@ -1,0 +1,27 @@
+{
+  "name": "云途智印复刻版",
+  "appid": "",
+  "description": "打印系统一期微信小程序",
+  "versionName": "0.1.0",
+  "versionCode": "10",
+  "transformPx": false,
+  "mp-weixin": {
+    "appid": "",
+    "setting": {
+      "urlCheck": false,
+      "es6": true,
+      "minified": true
+    },
+    "usingComponents": true
+  },
+  "h5": {
+    "router": {
+      "base": "/miniapp/",
+      "mode": "hash"
+    }
+  },
+  "uniStatistics": {
+    "enable": false
+  },
+  "vueVersion": "3"
+}
