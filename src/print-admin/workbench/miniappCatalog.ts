@@ -19,12 +19,19 @@ function parseCatalog(value: unknown): MiniappCatalogStatus {
 
 /** Public capability probe: intentionally sends no login, tenant or store credentials. */
 export async function getMiniappCatalogStatus(): Promise<MiniappCatalogStatus> {
-  const response = await fetch('/app-api/print/miniapp/catalog', {
-    method: 'GET',
-    credentials: 'omit',
-    headers: { Accept: 'application/json' },
-    cache: 'no-store'
-  })
-  if (!response.ok) throw new Error('miniapp_catalog_unavailable')
-  return parseCatalog(await response.json())
+  const controller = new AbortController()
+  const timeout = window.setTimeout(() => controller.abort(), 5000)
+  try {
+    const response = await fetch('/app-api/print/miniapp/catalog', {
+      method: 'GET',
+      credentials: 'omit',
+      headers: { Accept: 'application/json' },
+      cache: 'no-store',
+      signal: controller.signal
+    })
+    if (!response.ok) throw new Error('miniapp_catalog_unavailable')
+    return parseCatalog(await response.json())
+  } finally {
+    window.clearTimeout(timeout)
+  }
 }

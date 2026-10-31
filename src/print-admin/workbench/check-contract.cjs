@@ -40,6 +40,7 @@ assert.ok(component.includes("flush: 'sync'") && component.includes('ticket !== 
 assert.ok(component.includes('本系统演示扩展') && component.includes('未提供发布日期'))
 assert.ok(component.includes('小程序服务状态') && component.includes('不会伪装为已连接'))
 assert.ok(miniappApi.includes("fetch('/app-api/print/miniapp/catalog'") && miniappApi.includes("credentials: 'omit'") && miniappApi.includes("cache: 'no-store'"))
+assert.ok(miniappApi.includes('new AbortController()') && miniappApi.includes('signal: controller.signal') && miniappApi.includes('window.clearTimeout(timeout)'))
 assert.ok(!/method:\s*['\"](?:POST|PUT|DELETE|PATCH)/.test(miniappApi))
 assert.ok(!/Date[.]now|new Date\(\)|v-html|putStoreProfile|request[.](post|put|delete)/.test(component + source))
 console.log(JSON.stringify({ status: 'PASS_ONE_PURE_FRONTEND_CONTRACT_GROUP', groups: 1, metrics: '12_NULL_NOT_CONNECTED', ranges: 'API_END_BOUNDARY_ONLY', series: 'SOURCE_CURRENCY_SIMULATION_SEPARATE', precision: 'RAW_AMOUNT_PRESERVED_UNSAFE_COUNT_NULL', identity: 'SYNC_CLEAR_GENERATION_GUARDS_STATIC', runtime: 'NOT_RUN' }))
