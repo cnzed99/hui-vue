@@ -34,7 +34,7 @@ function continueToConfirm() {
   <view class="settings-page">
     <view class="header"><view class="status-space" /><view class="title-row"><text class="back" @click="goBack">‹</text><text>打印设置</text><text class="spacer" /></view></view>
     <view v-if="draft" class="body">
-      <view class="file-card"><view class="file-icon">PDF</view><view class="file-copy"><text>{{ draft.fileName }}</text><text>{{ sizeText }} · {{ draft.pages }} 页</text></view><text class="ready">演示解析完成</text></view>
+      <view class="file-card"><view class="file-icon">PDF</view><view class="file-copy"><text>{{ draft.fileName }}</text><text>{{ sizeText }} · {{ draft.pages }} 页</text></view><text class="ready">{{ draft.source === 'SERVER_UPLOAD' ? '服务端解析完成' : '演示解析完成' }}</text></view>
       <view class="section"><text class="section-title">纸张规格</text><view class="choice-grid single"><view class="choice active"><text>A4</text><text>普通打印纸</text></view></view></view>
       <view class="section"><text class="section-title">打印颜色</text><view class="choice-grid"><view class="choice" :class="{ active: color === 'BLACK_WHITE' }" @click="color='BLACK_WHITE'"><text>黑白</text><text>经济清晰</text></view><view class="choice" :class="{ active: color === 'COLOR' }" @click="color='COLOR'"><text>彩色</text><text>保留原色</text></view></view></view>
       <view class="section"><text class="section-title">单双面</text><view class="choice-grid"><view class="choice" :class="{ active: side === 'SIMPLEX' }" @click="side='SIMPLEX'"><text>单面打印</text><text>每张纸打印 1 页</text></view><view class="choice" :class="{ active: side === 'DUPLEX' }" @click="side='DUPLEX'"><text>双面打印</text><text>每张纸最多 2 页</text></view></view></view>

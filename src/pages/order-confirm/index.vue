@@ -7,6 +7,7 @@ import type { PrintDraft } from '@/domain/printDraft'
 const draft = ref<PrintDraft | null>(null)
 const sideText = computed(() => draft.value?.side === 'DUPLEX' ? '双面' : '单面')
 const colorText = computed(() => draft.value?.color === 'COLOR' ? '彩色' : '黑白')
+const uploaded = computed(() => draft.value?.source === 'SERVER_UPLOAD')
 
 onLoad(() => {
   draft.value = loadDraft()
@@ -25,7 +26,7 @@ function explainBoundary() {
     <view v-if="draft" class="body">
       <view class="card file-card"><view class="file-icon">PDF</view><view class="file-copy"><text>{{ draft.fileName }}</text><text>{{ draft.pages }} 页 · {{ colorText }} · {{ sideText }} · {{ draft.copies }} 份</text></view></view>
       <view class="card rows"><view><text>纸张规格</text><text>A4</text></view><view><text>计价范围</text><text>本文件单独计算</text></view><view><text>份数</text><text>{{ draft.copies }}</text></view><view><text>金额</text><text class="pending">待服务端报价</text></view></view>
-      <view class="notice"><text>当前进度</text><text>页面参数闭环已完成；文件仍未上传，订单仍未创建，支付仍未发生。</text></view>
+      <view class="notice"><text>当前进度</text><text>{{ uploaded ? '文件已上传并由服务端解析；订单仍未创建，支付仍未发生。' : '固定演示文件未上传；订单仍未创建，支付仍未发生。' }}</text></view>
       <button class="disabled" @click="explainBoundary">等待安全服务端接口开放</button>
     </view>
   </view>

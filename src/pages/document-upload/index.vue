@@ -2,15 +2,20 @@
 import { computed, onMounted, ref } from 'vue'
 import { localCatalog } from '@/api/catalog'
 import { ensureDemoSession } from '@/api/demoSession'
+import { uploadDemoPdf, waitForDemoFile } from '@/api/demoFiles'
 import { createDraft, saveDraft } from '@/domain/printDraft'
 
-type FileState = 'empty' | 'selected' | 'demo-ready'
+type FileState = 'empty' | 'selected' | 'uploading' | 'ready' | 'failed' | 'demo-ready'
 const state = ref<FileState>('empty')
 const fileName = ref('')
 const fileSize = ref(0)
 const supported = localCatalog.supportedExtensions
 const sizeText = computed(() => fileSize.value ? `${(fileSize.value / 1024).toFixed(1)} KB` : '')
 const sessionState = ref<'checking' | 'ready' | 'unavailable'>('checking')
+const tempPath = ref('')
+const serverFileId = ref('')
+const parsedPages = ref(0)
+const failureText = ref('')
 
 onMounted(async () => {
   sessionState.value = await ensureDemoSession() ? 'ready' : 'unavailable'
@@ -18,11 +23,18 @@ onMounted(async () => {
 
 function acceptSelection(value: unknown) {
   const tempFiles = Array.isArray(value) ? value : [value]
-  const file = tempFiles[0] as { name?: string; size?: number } | undefined
+  const file = tempFiles[0] as { name?: string; size?: number; path?: string } | undefined
   if (!file) return
   fileName.value = file.name || '未命名文件'
   fileSize.value = file.size || 0
+  tempPath.value = file.path || ''
+  serverFileId.value = ''
+  parsedPages.value = 0
+  failureText.value = ''
   state.value = 'selected'
+  if (!fileName.value.toLowerCase().endsWith('.pdf')) failureText.value = 'M3a 当前仅开放 PDF；其它格式仍为预留能力。'
+  else if (fileSize.value > localCatalog.demoLimits.maxFileBytes) failureText.value = '文件超过 2MB 演示限制。'
+  else if (!tempPath.value) failureText.value = '当前设备未返回可上传的临时文件路径。'
 }
 
 function goBack() {
@@ -44,12 +56,35 @@ function useDemoFile() {
   state.value = 'demo-ready'
 }
 
-function continueToSettings() {
-  if (state.value !== 'demo-ready') {
-    uni.showToast({ title: '真实上传接口尚未开放', icon: 'none' })
+async function uploadSelected() {
+  if (state.value !== 'selected' || failureText.value) return
+  const session = await ensureDemoSession()
+  if (!session) {
+    sessionState.value = 'unavailable'
+    failureText.value = '安全演示会话不可用，请稍后重试。'
     return
   }
-  saveDraft(createDraft('FIXTURE', fileName.value, fileSize.value, 3))
+  state.value = 'uploading'
+  const uploaded = await uploadDemoPdf(session, tempPath.value)
+  const result = uploaded ? await waitForDemoFile(session, uploaded) : null
+  if (!result || result.status !== 'READY' || !result.pageCount) {
+    state.value = 'failed'
+    failureText.value = result?.failureCode ? `服务端解析失败：${result.failureCode}` : '上传或解析超时，请重新选择文件。'
+    return
+  }
+  serverFileId.value = result.id
+  parsedPages.value = result.pageCount
+  state.value = 'ready'
+}
+
+function continueToSettings() {
+  if (state.value !== 'demo-ready' && state.value !== 'ready') {
+    uni.showToast({ title: '请先完成文件解析', icon: 'none' })
+    return
+  }
+  saveDraft(state.value === 'ready'
+    ? createDraft('SERVER_UPLOAD', fileName.value, fileSize.value, parsedPages.value, serverFileId.value)
+    : createDraft('FIXTURE', fileName.value, fileSize.value, 3))
   uni.navigateTo({ url: '/pages/document-settings/index' })
 }
 </script>
@@ -62,17 +97,23 @@ function continueToSettings() {
         {{ sessionState === 'checking' ? '正在建立安全演示会话…' : sessionState === 'ready' ? '安全演示会话已建立' : '演示会话接口待开启；仍可查看本地页面流程' }}
       </view>
       <view class="illustration"><view class="paper back-paper" /><view class="paper front-paper"><text>W</text><text class="paper-lines">≡</text></view><view class="upload-mark">↑</view></view>
-      <text class="support-title">支持上传 Word、PPT、PDF、Excel、图片格式文件</text>
-      <text class="boundary">当前仅在设备本地读取文件名和大小，不向服务器传输。</text>
+      <text class="support-title">M3a 当前开放 PDF 安全演示上传</text>
+      <text class="boundary">Word、PPT、Excel 和图片仍为预留能力；文件只进入新系统私有开发存储，1 小时内清理。</text>
       <button class="choose-button" @click="chooseFile">选择本地文件打印</button>
       <button class="demo-button" @click="useDemoFile">使用演示文件查看解析状态</button>
       <view v-if="state !== 'empty'" class="result-card" :class="state">
         <view class="result-head"><view class="file-icon">PDF</view><view class="file-copy"><text>{{ fileName }}</text><text>{{ sizeText }}</text></view></view>
-        <view v-if="state === 'selected'" class="status warning"><text>已在本地选择</text><text>上传与服务端解析尚未开放，未发送文件。</text></view>
+        <view v-if="state === 'selected'" class="status warning"><text>已在本地选择</text><text>{{ failureText || '尚未上传；点击下方按钮后才会发送到新系统。' }}</text></view>
+        <view v-else-if="state === 'uploading'" class="status warning"><text>正在安全上传并解析</text><text>请保持页面打开，通常数秒内完成。</text></view>
+        <view v-else-if="state === 'ready'" class="status success"><text>服务端解析完成</text><text>PDF · {{ parsedPages }} 页 · 文件将在 1 小时内清理。</text></view>
+        <view v-else-if="state === 'failed'" class="status warning"><text>未完成解析</text><text>{{ failureText }}</text></view>
         <view v-else class="status success"><text>演示解析完成</text><text>PDF · 3 页 · A4；这是固定演示结果，不代表真实文件已解析。</text></view>
       </view>
-      <button v-if="state !== 'empty'" class="continue-button" :class="{ disabled: state !== 'demo-ready' }" @click="continueToSettings">
-        {{ state === 'demo-ready' ? '继续设置打印参数' : '等待安全上传接口开放' }}
+      <button v-if="state === 'selected'" class="continue-button" :class="{ disabled: !!failureText || sessionState !== 'ready' }" @click="uploadSelected">
+        {{ failureText ? '请重新选择 PDF' : sessionState === 'ready' ? '上传并安全解析' : '等待安全会话' }}
+      </button>
+      <button v-else-if="state !== 'empty'" class="continue-button" :class="{ disabled: !['ready','demo-ready'].includes(state) }" @click="continueToSettings">
+        {{ state === 'uploading' ? '正在解析…' : state === 'failed' ? '请重新选择文件' : '继续设置打印参数' }}
       </button>
       <view class="limits"><text>演示限制</text><text>≤ 2MB · ≤ 20 页 · 暂存 1 小时</text></view>
     </view>
