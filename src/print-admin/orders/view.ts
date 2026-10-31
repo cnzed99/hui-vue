@@ -17,8 +17,18 @@ const statusLabels: Record<string, string> = {
 export const statusLabel = (value: string): string => statusLabels[value] || `未知状态（${value}）`
 // Keep payment, printing and event dictionaries separate: SUCCEEDED is not a universal result.
 const paymentLabels: Record<string, string> = { UNPAID: '未支付', SUCCEEDED: '模拟收款成功' }
-const printLabels: Record<string, string> = { NOT_CREATED: '未创建打印任务', QUEUED: '等待打印（排队中）' }
-const eventLabels: Record<string, string> = { ORDER_CREATED: '订单已创建', PAYMENT_SIMULATED: '模拟收款已记录' }
+const printLabels: Record<string, string> = {
+  NOT_CREATED: '未创建打印任务', QUEUED: '等待打印（排队中）', CLAIMED: '模拟终端已领取',
+  ACCEPTED: '模拟终端已受理', EXECUTING: '模拟执行中', SUCCEEDED: '模拟打印成功',
+  FAILED: '模拟打印失败', RESULT_UNKNOWN: '结果待人工核实'
+}
+const eventLabels: Record<string, string> = {
+  ORDER_CREATED: '订单已创建', PAYMENT_SIMULATED: '模拟收款已记录',
+  PRINT_TASK_CREATED: '模拟打印任务已创建', PRINT_TASK_CLAIMED: '模拟终端已领取',
+  PRINT_TASK_REQUEUED: '过期领取已重新排队', PRINT_TASK_ACCEPTED: '模拟终端已受理',
+  PRINT_TASK_EXECUTING: '开始模拟执行', PRINT_TASK_SUCCEEDED: '模拟成功回执已记录',
+  PRINT_TASK_FAILED: '模拟失败回执已记录', PRINT_TASK_RESULT_UNKNOWN: '结果待人工核实'
+}
 export const paymentStatusLabel = (value: string): string => paymentLabels[value] || `未知支付状态（${value}）`
 export const printStatusLabel = (value: string): string => printLabels[value] || `未知打印状态（${value}）`
 export const eventTypeLabel = (value: string): string => eventLabels[value] || `未知事件（${value}）`

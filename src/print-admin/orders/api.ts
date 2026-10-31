@@ -63,6 +63,64 @@ export interface OrderEvent {
   createdAtMs: number
 }
 export interface OrderPage<T> { list: T[]; total: number; pageNo: number; pageSize: number }
+export interface MiniappOrderSummary {
+  id: string
+  orderNo: string
+  source: 'MINIAPP_DEMO'
+  simulation: true
+  currency: 'CNY'
+  totalAmount: string
+  orderState: string
+  paymentState: string
+  refundState: string
+  printState: string
+  version: number
+  principalId: string
+  createdAtMs: number
+  updatedAtMs: number
+}
+export interface MiniappPayment {
+  id: string; provider: 'SIMULATED'; mode: 'DEMO'; state: 'SUCCEEDED'; simulation: true
+  currency: 'CNY'; amount: string; createdAtMs: number
+}
+export interface MiniappOrderEvent {
+  id: string; type: string; actorType: 'MINIAPP_DEMO' | 'STAFF_SIMULATOR'; actorId: string
+  simulation: true; aggregateVersion: number; createdAtMs: number
+}
+export interface MiniappPrintReceipt {
+  id: string; receiptSeq: 1; result: 'SIMULATED_SUCCESS' | 'SIMULATED_FAILED'; reason: string | null
+  plannedCopies: string; plannedSheets: string; completedCopies: string; completedSheets: string
+  simulation: true; createdAtMs: number
+}
+export type MiniappPrintState = 'QUEUED' | 'CLAIMED' | 'ACCEPTED' | 'EXECUTING' |
+  'SUCCEEDED' | 'FAILED' | 'RESULT_UNKNOWN'
+export interface MiniappPrintTask {
+  id: string; jobId: string; orderId: string; orderItemId: string; state: MiniappPrintState
+  version: number; fence: number; leaseId: string | null; leaseUntilMs: number | null
+  plannedCopies: string; plannedSheets: string; fileId: string; fileSha256: string
+  eventSeq: number; createdAtMs: number; updatedAtMs: number; receipt: MiniappPrintReceipt | null
+}
+export interface MiniappOrderDetail extends MiniappOrderSummary {
+  item: OrderItem
+  payment: MiniappPayment | null
+  printTask: MiniappPrintTask | null
+  events: MiniappOrderEvent[]
+}
+export interface MiniappPrintActionInput {
+  action: 'CLAIM' | 'REQUEUE_EXPIRED_CLAIM' | 'ACCEPT' | 'START' | 'SUCCEED' |
+    'FAIL' | 'LOSE_RECEIPT' | 'MARK_TIMEOUT_UNKNOWN' | 'ABORT_FILE_UNAVAILABLE'
+  expectedVersion: number
+  leaseId?: string
+  fence?: number
+  receiptSeq?: 1
+}
+export interface MiniappPrintActionResponse {
+  originalActionResult: {
+    action: string; beforeState: string; afterState: string; taskVersionAfter: number
+    orderVersionAfter: number; eventSeq: number; receiptSeq: number | null; createdAtMs: number
+  }
+  currentTask: MiniappPrintTask
+}
 export type OrderFailureKind = 'disabled' | 'forbidden' | 'not-found' | 'invalid-input' |
   'session' | 'network' | 'service' | 'invalid-response'
 export interface OrderFailure { kind: string; title: string; message: string }
@@ -86,13 +144,18 @@ const businessKind = (code: number): OrderFailureKind => {
   if (code === 1510030000) return 'disabled'
   if (code === 1510030001) return 'invalid-input'
   if (code === 1510030009) return 'not-found'
+  if (code === 1_931_001) return 'disabled'
+  if (code === 1_931_002) return 'invalid-input'
+  if (code === 1_931_004 || code === 1_931_006) return 'not-found'
   return 'service'
 }
 const object = (value: unknown): value is Record<string, unknown> => !!value && typeof value === 'object' && !Array.isArray(value)
 const text = (value: unknown): value is string => typeof value === 'string' && value.length > 0
 const money = (value: unknown): value is string => typeof value === 'string' && /^\d+(?:\.\d+)?$/.test(value)
 const count = (value: unknown): value is string => typeof value === 'string' && /^[1-9]\d*$/.test(value)
+const nonNegativeCount = (value: unknown): value is string => typeof value === 'string' && /^(0|[1-9]\d*)$/.test(value)
 const positive = (value: unknown): value is number => typeof value === 'number' && Number.isSafeInteger(value) && value > 0
+const nonNegative = (value: unknown): value is number => typeof value === 'number' && Number.isSafeInteger(value) && value >= 0
 const timestamp = (value: unknown): value is number => positive(value) && value <= 8640000000000000
 export const validOrderId = (value: unknown): value is string => typeof value === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value)
 const invalid = (): never => { throw new OrderApiError('invalid-response') }
@@ -161,6 +224,85 @@ export const getOrderEvents = async (id: string, pageNo: number, pageSize: numbe
   const data = page(await request.get<unknown>({ url: `/print/orders/${encodeURIComponent(id)}/events`, params: { pageNo, pageSize }, transformResponse: [readResponse] }), event, pageNo, pageSize)
   if (data.list.some(item => item.orderId !== id)) return invalid()
   return data
+}
+const miniSummary = (data: unknown): MiniappOrderSummary => {
+  if (!object(data) || !validOrderId(data.id) || !text(data.orderNo) || data.source !== 'MINIAPP_DEMO' ||
+      data.simulation !== true || data.currency !== 'CNY' || !money(data.totalAmount) || !validOrderId(data.principalId) ||
+      !['orderState', 'paymentState', 'refundState', 'printState'].every(k => text(data[k])) ||
+      !positive(data.version) || !timestamp(data.createdAtMs) || !timestamp(data.updatedAtMs)) return invalid()
+  return data as unknown as MiniappOrderSummary
+}
+const miniReceipt = (data: unknown): MiniappPrintReceipt | null => {
+  if (data == null) return null
+  if (!object(data) || !validOrderId(data.id) || data.receiptSeq !== 1 ||
+      !['SIMULATED_SUCCESS', 'SIMULATED_FAILED'].includes(String(data.result)) ||
+      !(data.reason == null || text(data.reason)) || !count(data.plannedCopies) || !count(data.plannedSheets) ||
+      !nonNegativeCount(data.completedCopies) || !nonNegativeCount(data.completedSheets) ||
+      data.simulation !== true || !timestamp(data.createdAtMs)) return invalid()
+  return data as unknown as MiniappPrintReceipt
+}
+const miniTask = (data: unknown): MiniappPrintTask => {
+  if (!object(data) || !validOrderId(data.id) || !/^PJ[0-9A-F]{32}$/.test(String(data.jobId)) ||
+      !validOrderId(data.orderId) || !validOrderId(data.orderItemId) ||
+      !['QUEUED', 'CLAIMED', 'ACCEPTED', 'EXECUTING', 'SUCCEEDED', 'FAILED', 'RESULT_UNKNOWN'].includes(String(data.state)) ||
+      !positive(data.version) || !nonNegative(data.fence) || !(data.leaseId == null || validOrderId(data.leaseId)) ||
+      !(data.leaseUntilMs == null || timestamp(data.leaseUntilMs)) || !count(data.plannedCopies) ||
+      !count(data.plannedSheets) || !validOrderId(data.fileId) || !/^[0-9a-f]{64}$/.test(String(data.fileSha256)) ||
+      !positive(data.eventSeq) || !timestamp(data.createdAtMs) || !timestamp(data.updatedAtMs)) return invalid()
+  return { ...data, receipt: miniReceipt(data.receipt) } as unknown as MiniappPrintTask
+}
+const miniPayment = (data: unknown): MiniappPayment | null => {
+  if (data == null) return null
+  if (!object(data) || !validOrderId(data.id) || data.provider !== 'SIMULATED' || data.mode !== 'DEMO' ||
+      data.state !== 'SUCCEEDED' || data.simulation !== true || data.currency !== 'CNY' ||
+      !money(data.amount) || !timestamp(data.createdAtMs)) return invalid()
+  return data as unknown as MiniappPayment
+}
+const miniEvent = (data: unknown): MiniappOrderEvent => {
+  if (!object(data) || !validOrderId(data.id) || !text(data.type) ||
+      !['MINIAPP_DEMO', 'STAFF_SIMULATOR'].includes(String(data.actorType)) || !text(data.actorId) ||
+      data.simulation !== true || !positive(data.aggregateVersion) || !timestamp(data.createdAtMs)) return invalid()
+  return data as unknown as MiniappOrderEvent
+}
+const miniDetail = (data: unknown): MiniappOrderDetail => {
+  const base = miniSummary(data)
+  if (!object(data) || !object(data.item) || !validOrderId(data.item.id) || !validOrderId(data.item.quoteId) ||
+      !validOrderId(data.item.fileId) || !/^[0-9a-f]{64}$/.test(String(data.item.fileSha256)) ||
+      !money(data.item.amount) || !Array.isArray(data.events)) return invalid()
+  const item = { ...data.item, quoteSnapshot: snapshot(data.item.quoteSnapshot) } as unknown as OrderItem
+  const task = data.printTask == null ? null : miniTask(data.printTask)
+  if (task && task.orderId !== base.id) return invalid()
+  return { ...base, item, payment: miniPayment(data.payment), printTask: task,
+    events: data.events.map(miniEvent) }
+}
+export const getMiniappOrders = async (pageNo: number, pageSize: number): Promise<OrderPage<MiniappOrderSummary>> =>
+  page(await request.get<unknown>({ url: '/print/miniapp-demo/orders', params: { pageNo, pageSize },
+    transformResponse: [readResponse] }), miniSummary, pageNo, pageSize)
+export const getMiniappOrder = async (id: string): Promise<MiniappOrderDetail> => {
+  if (!validOrderId(id)) throw new OrderApiError('invalid-input')
+  const data = miniDetail(await request.get<unknown>({ url: `/print/miniapp-demo/orders/${encodeURIComponent(id)}`,
+    transformResponse: [readResponse] }))
+  if (data.id !== id) return invalid()
+  return data
+}
+export const createMiniappPrintTask = async (orderId: string): Promise<MiniappPrintTask> => {
+  if (!validOrderId(orderId)) throw new OrderApiError('invalid-input')
+  return miniTask(await request.post<unknown>({ url: `/print/miniapp-demo/orders/${encodeURIComponent(orderId)}/print-task`,
+    data: {}, headers: { 'Idempotency-Key': `admin-print-task-v1-${orderId}` }, transformResponse: [readResponse] }))
+}
+export const actMiniappPrintTask = async (task: MiniappPrintTask,
+    input: MiniappPrintActionInput): Promise<MiniappPrintActionResponse> => {
+  if (!validOrderId(task.id) || input.expectedVersion !== task.version) throw new OrderApiError('invalid-input')
+  const data = await request.post<unknown>({ url: `/print/miniapp-demo/print-tasks/${encodeURIComponent(task.id)}/actions`,
+    data: input, headers: { 'Idempotency-Key': `admin-print-action-v1-${task.id}-${input.action}-${task.version}` },
+    transformResponse: [readResponse] })
+  if (!object(data) || !object(data.originalActionResult)) return invalid()
+  const original = data.originalActionResult
+  if (!text(original.action) || !text(original.beforeState) || !text(original.afterState) ||
+      !positive(original.taskVersionAfter) || !positive(original.orderVersionAfter) || !positive(original.eventSeq) ||
+      !(original.receiptSeq == null || original.receiptSeq === 1) || !timestamp(original.createdAtMs)) return invalid()
+  return { originalActionResult: original as MiniappPrintActionResponse['originalActionResult'],
+    currentTask: miniTask(data.currentTask) }
 }
 export const classifyOrderError = (error: unknown): OrderFailure => {
   if (error instanceof OrderApiError) return orderFailure(error.kind)
