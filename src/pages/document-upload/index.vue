@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { localCatalog } from '@/api/catalog'
+import { ensureDemoSession } from '@/api/demoSession'
+import { createDraft, saveDraft } from '@/domain/printDraft'
 
 type FileState = 'empty' | 'selected' | 'demo-ready'
 const state = ref<FileState>('empty')
@@ -8,6 +10,11 @@ const fileName = ref('')
 const fileSize = ref(0)
 const supported = localCatalog.supportedExtensions
 const sizeText = computed(() => fileSize.value ? `${(fileSize.value / 1024).toFixed(1)} KB` : '')
+const sessionState = ref<'checking' | 'ready' | 'unavailable'>('checking')
+
+onMounted(async () => {
+  sessionState.value = await ensureDemoSession() ? 'ready' : 'unavailable'
+})
 
 function acceptSelection(value: unknown) {
   const tempFiles = Array.isArray(value) ? value : [value]
@@ -36,12 +43,24 @@ function useDemoFile() {
   fileSize.value = 184320
   state.value = 'demo-ready'
 }
+
+function continueToSettings() {
+  if (state.value !== 'demo-ready') {
+    uni.showToast({ title: '真实上传接口尚未开放', icon: 'none' })
+    return
+  }
+  saveDraft(createDraft('FIXTURE', fileName.value, fileSize.value, 3))
+  uni.navigateTo({ url: '/pages/document-settings/index' })
+}
 </script>
 
 <template>
   <view class="upload-page">
     <view class="header"><view class="status-space" /><view class="title-row"><text class="back" @click="goBack">‹</text><text>上传本地文件</text><text class="spacer" /></view></view>
     <view class="body">
+      <view class="session-state" :class="sessionState">
+        {{ sessionState === 'checking' ? '正在建立安全演示会话…' : sessionState === 'ready' ? '安全演示会话已建立' : '演示会话接口待开启；仍可查看本地页面流程' }}
+      </view>
       <view class="illustration"><view class="paper back-paper" /><view class="paper front-paper"><text>W</text><text class="paper-lines">≡</text></view><view class="upload-mark">↑</view></view>
       <text class="support-title">支持上传 Word、PPT、PDF、Excel、图片格式文件</text>
       <text class="boundary">当前仅在设备本地读取文件名和大小，不向服务器传输。</text>
@@ -52,11 +71,15 @@ function useDemoFile() {
         <view v-if="state === 'selected'" class="status warning"><text>已在本地选择</text><text>上传与服务端解析尚未开放，未发送文件。</text></view>
         <view v-else class="status success"><text>演示解析完成</text><text>PDF · 3 页 · A4；这是固定演示结果，不代表真实文件已解析。</text></view>
       </view>
+      <button v-if="state !== 'empty'" class="continue-button" :class="{ disabled: state !== 'demo-ready' }" @click="continueToSettings">
+        {{ state === 'demo-ready' ? '继续设置打印参数' : '等待安全上传接口开放' }}
+      </button>
       <view class="limits"><text>演示限制</text><text>≤ 2MB · ≤ 20 页 · 暂存 1 小时</text></view>
     </view>
   </view>
 </template>
 
 <style scoped lang="scss">
-.upload-page{min-height:100vh;background:#fff}.header{color:#fff;background:linear-gradient(135deg,#ff9634,#ffad48)}.status-space{height:var(--status-bar-height);min-height:36rpx}.title-row{display:flex;align-items:center;justify-content:space-between;height:86rpx;padding:0 26rpx;font-size:34rpx;font-weight:600}.back,.spacer{width:56rpx}.back{font-size:56rpx;line-height:56rpx}.body{display:flex;align-items:center;flex-direction:column;padding:86rpx 44rpx}.illustration{position:relative;width:240rpx;height:210rpx}.paper{position:absolute;width:130rpx;height:160rpx;border-radius:10rpx;box-shadow:0 8rpx 20rpx rgba(48,128,178,.16)}.back-paper{left:40rpx;top:18rpx;transform:rotate(-12deg);background:#dff2ff}.front-paper{left:72rpx;top:4rpx;display:flex;align-items:center;flex-direction:column;padding-top:26rpx;color:#4ca5de;background:#fff;font-size:54rpx;font-weight:700}.paper-lines{margin-top:8rpx;color:#a6d7f1;font-size:58rpx}.upload-mark{position:absolute;right:18rpx;bottom:12rpx;display:flex;align-items:center;justify-content:center;width:78rpx;height:78rpx;color:#fff;background:#ff9a37;border:8rpx solid #fff;border-radius:50%;font-size:46rpx}.support-title{margin-top:28rpx;text-align:center;font-size:28rpx;line-height:44rpx}.boundary{margin-top:14rpx;color:#999;text-align:center;font-size:22rpx;line-height:34rpx}.choose-button,.demo-button{width:100%;height:86rpx;margin-top:50rpx;color:#fff;background:linear-gradient(90deg,#ff9736,#ffad45);border:0;border-radius:44rpx;font-size:30rpx;line-height:86rpx}.demo-button{margin-top:18rpx;color:#dc7e27;background:#fff7ed;border:1rpx solid #ffd4a8}.result-card{width:100%;margin-top:34rpx;padding:24rpx;background:#f8fafc;border:1rpx solid #edf0f3;border-radius:14rpx}.result-head{display:flex;align-items:center}.file-icon{display:flex;align-items:center;justify-content:center;width:72rpx;height:72rpx;color:#fff;background:#f06b5d;border-radius:10rpx;font-size:20rpx;font-weight:700}.file-copy{display:flex;min-width:0;flex:1;flex-direction:column;margin-left:18rpx}.file-copy text:first-child{overflow:hidden;font-size:27rpx;font-weight:600;text-overflow:ellipsis;white-space:nowrap}.file-copy text:last-child{margin-top:8rpx;color:#999;font-size:21rpx}.status{display:flex;flex-direction:column;margin-top:22rpx;padding:18rpx;border-radius:10rpx;font-size:23rpx;line-height:36rpx}.status text:first-child{font-weight:700}.warning{color:#986719;background:#fff6df}.success{color:#237a5a;background:#eaf9f3}.limits{display:flex;justify-content:space-between;width:100%;margin-top:28rpx;color:#999;font-size:22rpx}
+.upload-page{min-height:100vh;background:#fff}.header{color:#fff;background:linear-gradient(135deg,#ff9634,#ffad48)}.status-space{height:var(--status-bar-height);min-height:36rpx}.title-row{display:flex;align-items:center;justify-content:space-between;height:86rpx;padding:0 26rpx;font-size:34rpx;font-weight:600}.back,.spacer{width:56rpx}.back{font-size:56rpx;line-height:56rpx}.body{display:flex;align-items:center;flex-direction:column;padding:30rpx 44rpx 86rpx}.session-state{width:100%;margin-bottom:54rpx;padding:16rpx 20rpx;color:#8c6a3d;background:#fff7e9;border-radius:10rpx;text-align:center;font-size:21rpx}.session-state.ready{color:#26765c;background:#eaf9f3}.illustration{position:relative;width:240rpx;height:210rpx}.paper{position:absolute;width:130rpx;height:160rpx;border-radius:10rpx;box-shadow:0 8rpx 20rpx rgba(48,128,178,.16)}.back-paper{left:40rpx;top:18rpx;transform:rotate(-12deg);background:#dff2ff}.front-paper{left:72rpx;top:4rpx;display:flex;align-items:center;flex-direction:column;padding-top:26rpx;color:#4ca5de;background:#fff;font-size:54rpx;font-weight:700}.paper-lines{margin-top:8rpx;color:#a6d7f1;font-size:58rpx}.upload-mark{position:absolute;right:18rpx;bottom:12rpx;display:flex;align-items:center;justify-content:center;width:78rpx;height:78rpx;color:#fff;background:#ff9a37;border:8rpx solid #fff;border-radius:50%;font-size:46rpx}.support-title{margin-top:28rpx;text-align:center;font-size:28rpx;line-height:44rpx}.boundary{margin-top:14rpx;color:#999;text-align:center;font-size:22rpx;line-height:34rpx}.choose-button,.demo-button{width:100%;height:86rpx;margin-top:50rpx;color:#fff;background:linear-gradient(90deg,#ff9736,#ffad45);border:0;border-radius:44rpx;font-size:30rpx;line-height:86rpx}.demo-button{margin-top:18rpx;color:#dc7e27;background:#fff7ed;border:1rpx solid #ffd4a8}.result-card{width:100%;margin-top:34rpx;padding:24rpx;background:#f8fafc;border:1rpx solid #edf0f3;border-radius:14rpx}.result-head{display:flex;align-items:center}.file-icon{display:flex;align-items:center;justify-content:center;width:72rpx;height:72rpx;color:#fff;background:#f06b5d;border-radius:10rpx;font-size:20rpx;font-weight:700}.file-copy{display:flex;min-width:0;flex:1;flex-direction:column;margin-left:18rpx}.file-copy text:first-child{overflow:hidden;font-size:27rpx;font-weight:600;text-overflow:ellipsis;white-space:nowrap}.file-copy text:last-child{margin-top:8rpx;color:#999;font-size:21rpx}.status{display:flex;flex-direction:column;margin-top:22rpx;padding:18rpx;border-radius:10rpx;font-size:23rpx;line-height:36rpx}.status text:first-child{font-weight:700}.warning{color:#986719;background:#fff6df}.success{color:#237a5a;background:#eaf9f3}.limits{display:flex;justify-content:space-between;width:100%;margin-top:28rpx;color:#999;font-size:22rpx}
+.continue-button{width:100%;height:82rpx;margin-top:20rpx;color:#fff;background:#2ba97f;border-radius:42rpx;font-size:28rpx;line-height:82rpx}.continue-button.disabled{color:#999;background:#eceff1}.limits{margin-bottom:40rpx}
 </style>
