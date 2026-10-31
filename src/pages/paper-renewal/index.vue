@@ -1,0 +1,11 @@
+<script setup lang="ts">
+function goBack() { uni.navigateBack() }
+function addImage() { uni.showToast({ title: '图片选择接口待接入', icon: 'none' }) }
+function submit() { uni.showToast({ title: '请先添加图片', icon: 'none' }) }
+</script>
+
+<template><view class="page"><view class="header"><view class="status-space" /><view class="title-row"><text class="back" @click="goBack">‹</text><text>试卷去手写</text><text class="spacer" /></view></view><view class="tip">请上传原图，点击图片编辑支持擦除手写</view><view class="canvas"><view class="upload-card" @click="addImage"><view class="plus">＋</view><text>上传图片</text></view></view><view class="boundary">当前只复刻空态；未接入图像擦除、编辑、上传或权威计价。</view><view class="footer"><view class="add" @click="addImage">添加图片</view><view class="submit" @click="submit">提交打印</view></view></view></template>
+
+<style scoped lang="scss">
+.page{min-height:100vh;background:#f6f6f6}.header{color:#fff;background:#ff9f3d}.status-space{height:var(--status-bar-height);min-height:36rpx}.title-row{display:flex;align-items:center;justify-content:space-between;height:86rpx;padding:0 26rpx;font-size:34rpx;font-weight:600}.back,.spacer{width:56rpx}.back{font-size:56rpx;line-height:56rpx}.tip{margin:12rpx 28rpx;padding:12rpx 18rpx;color:#ff8d31;background:#fff7ec;border-radius:28rpx;text-align:center;font-size:23rpx;font-weight:600}.canvas{padding:28rpx}.upload-card{display:flex;align-items:center;flex-direction:column;justify-content:center;width:340rpx;height:520rpx;color:#999;background:#fff;border-radius:18rpx;font-size:28rpx}.plus{display:flex;align-items:center;justify-content:center;width:66rpx;height:66rpx;margin-bottom:30rpx;color:#f3b96e;border:4rpx solid #f3b96e;border-radius:50%;font-size:40rpx;line-height:66rpx}.boundary{margin:0 38rpx 145rpx;color:#aaa;font-size:22rpx;line-height:36rpx}.footer{position:fixed;right:0;bottom:0;left:0;display:grid;grid-template-columns:1fr 1fr;gap:20rpx;padding:14rpx 22rpx calc(14rpx + env(safe-area-inset-bottom));background:#fff;border-top:1rpx solid #eee}.add,.submit{height:88rpx;border-radius:9rpx;text-align:center;font-size:29rpx;line-height:88rpx}.add{color:#ff9634;border:2rpx solid #ff9634}.submit{color:#fff;background:#ff9634}
+</style>

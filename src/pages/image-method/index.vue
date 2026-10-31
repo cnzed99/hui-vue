@@ -7,14 +7,14 @@ interface ImageMethod {
   description: string
   icon: string
   tone: string
-  sourcePickerObserved: boolean
+  action: 'source' | 'scan-copy' | 'paper-renewal'
 }
 
 const imageMethods: ImageMethod[] = [
-  { id: 'image-print', label: '图片打印', description: 'AI智能高清、黑白、裁切等', icon: '▧', tone: 'pink', sourcePickerObserved: true },
-  { id: 'document-copy', label: '证件复印', description: '身份证、户口本、银行卡等证件复印', icon: '证', tone: 'blue', sourcePickerObserved: false },
-  { id: 'image-collage', label: '图片拼版打印', description: '最多将9张图片拼在一张纸上打印', icon: '拼', tone: 'orange', sourcePickerObserved: true },
-  { id: 'paper-renewal', label: '试卷翻新', description: '智能擦除手写字迹，还原空白卷', icon: '卷', tone: 'green', sourcePickerObserved: false }
+  { id: 'image-print', label: '图片打印', description: 'AI智能高清、黑白、裁切等', icon: '▧', tone: 'pink', action: 'source' },
+  { id: 'document-copy', label: '证件复印', description: '身份证、户口本、银行卡等证件复印', icon: '证', tone: 'blue', action: 'scan-copy' },
+  { id: 'image-collage', label: '图片拼版打印', description: '最多将9张图片拼在一张纸上打印', icon: '拼', tone: 'orange', action: 'source' },
+  { id: 'paper-renewal', label: '试卷翻新', description: '智能擦除手写字迹，还原空白卷', icon: '卷', tone: 'green', action: 'paper-renewal' }
 ]
 
 const sourceSheetVisible = ref(false)
@@ -24,8 +24,12 @@ function goBack() {
 }
 
 function openMethod(method: ImageMethod) {
-  if (!method.sourcePickerObserved) {
-    uni.showToast({ title: `${method.label}待继续观察`, icon: 'none' })
+  if (method.action === 'scan-copy') {
+    uni.navigateTo({ url: '/pages/scan-copy/index' })
+    return
+  }
+  if (method.action === 'paper-renewal') {
+    uni.navigateTo({ url: '/pages/paper-renewal/index' })
     return
   }
   sourceSheetVisible.value = true
@@ -59,7 +63,7 @@ function chooseSource(label: string) {
       </view>
     </view>
 
-    <view class="boundary-note">本批只复刻已只读观察的目录和来源选择层；不会读取相册、拍照或上传文件。</view>
+    <view class="boundary-note">已确认的目录与跳转均可查看；来源按钮不会读取相册、拍照或上传文件。</view>
 
     <view v-if="sourceSheetVisible" class="sheet-mask" @click="closeSourceSheet">
       <view class="source-sheet" @click.stop>
