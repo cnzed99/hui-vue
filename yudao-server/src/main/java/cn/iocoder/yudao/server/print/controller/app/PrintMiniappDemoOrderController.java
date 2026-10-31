@@ -7,6 +7,7 @@ import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoIdentity;
 import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoSessionException;
 import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoSessionService;
 import cn.iocoder.yudao.server.print.miniappdemo.order.MiniappDemoOrderException;
+import cn.iocoder.yudao.server.print.miniappdemo.order.MiniappDemoOrderPage;
 import cn.iocoder.yudao.server.print.miniappdemo.order.MiniappDemoOrderService;
 import cn.iocoder.yudao.server.print.miniappdemo.order.MiniappDemoOrderView;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -49,6 +50,23 @@ public class PrintMiniappDemoOrderController {
         return noStore(CommonResult.success(orders.create(identity, body, key)));
     }
 
+    @GetMapping("/orders")
+    @PermitAll
+    @ApiAccessLog(requestEnable = false, responseEnable = false,
+            operateModule = "print-miniapp-demo-orders", operateName = "page")
+    public ResponseEntity<CommonResult<MiniappDemoOrderPage>> page(
+            @RequestHeader(value = "Authorization", required = false) String authorization,
+            @RequestHeader(value = "Origin", required = false) String origin,
+            @RequestHeader(value = "Host", required = false) String host,
+            @RequestParam MultiValueMap<String, String> query) {
+        if (query.size() != 2 || query.get("pageNo") == null || query.get("pageNo").size() != 1
+                || query.get("pageSize") == null || query.get("pageSize").size() != 1) throw invalid();
+        int pageNo = pageValue(query.getFirst("pageNo"), 10_000);
+        int pageSize = pageValue(query.getFirst("pageSize"), 20);
+        MiniappDemoIdentity identity = sessions.require(authorization, origin, host);
+        return noStore(CommonResult.success(orders.page(identity, pageNo, pageSize)));
+    }
+
     @GetMapping("/order")
     @PermitAll
     @ApiAccessLog(requestEnable = false, responseEnable = false,
@@ -65,6 +83,17 @@ public class PrintMiniappDemoOrderController {
 
     private static MiniappDemoOrderException invalid() {
         return new MiniappDemoOrderException(MiniappDemoOrderException.Reason.INVALID_INPUT);
+    }
+
+    private static int pageValue(String value, int maximum) {
+        if (value == null || !value.matches("[1-9][0-9]{0,4}")) throw invalid();
+        try {
+            int parsed = Integer.parseInt(value);
+            if (parsed > maximum) throw invalid();
+            return parsed;
+        } catch (NumberFormatException ignored) {
+            throw invalid();
+        }
     }
 
     @ExceptionHandler(MiniappDemoOrderException.class)

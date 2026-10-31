@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -73,10 +74,17 @@ public class MiniappDemoOrderRepository {
         return count != null && count > 0;
     }
 
-    int count(MiniappDemoIdentity identity) {
-        Integer count = jdbc.queryForObject("SELECT COUNT(*) FROM print_miniapp_demo_order WHERE " + OWNER,
-                Integer.class, identity.tenantId(), identity.storeId(), identity.principalId());
-        return count == null ? 0 : count;
+    long count(MiniappDemoIdentity identity) {
+        Long count = jdbc.queryForObject("SELECT COUNT(*) FROM print_miniapp_demo_order WHERE " + OWNER,
+                Long.class, identity.tenantId(), identity.storeId(), identity.principalId());
+        return count == null ? 0L : count;
+    }
+
+    List<Order> page(MiniappDemoIdentity identity, int pageNo, int pageSize) {
+        long offset = (long) (pageNo - 1) * pageSize;
+        return jdbc.query("SELECT " + ORDER_FIELDS + " FROM print_miniapp_demo_order WHERE " + OWNER
+                        + " ORDER BY created_at_ms DESC,id DESC LIMIT ? OFFSET ?", ORDER_MAPPER,
+                identity.tenantId(), identity.storeId(), identity.principalId(), pageSize, offset);
     }
 
     void insert(MiniappDemoIdentity identity, String orderId, String orderNo, Quote quote, File file,

@@ -17,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -29,6 +30,7 @@ public class MiniappDemoOrderService {
     private final MiniappDemoSessionRepository sessions;
     private final ObjectMapper mapper;
     private final TransactionTemplate transaction;
+    private final TransactionTemplate readTransaction;
 
     public MiniappDemoOrderService(MiniappDemoOrderProperties properties, MiniappDemoOrderRepository repository,
             MiniappDemoSessionRepository sessions, ObjectMapper mapper, PlatformTransactionManager manager) {
@@ -38,6 +40,9 @@ public class MiniappDemoOrderService {
         this.mapper = mapper;
         this.transaction = new TransactionTemplate(manager);
         this.transaction.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);
+        this.readTransaction = new TransactionTemplate(manager);
+        this.readTransaction.setReadOnly(true);
+        this.readTransaction.setIsolationLevel(TransactionDefinition.ISOLATION_REPEATABLE_READ);
     }
 
     public MiniappDemoOrderView create(MiniappDemoIdentity identity, JsonNode body, String idempotencyKey) {
@@ -82,7 +87,22 @@ public class MiniappDemoOrderService {
     public MiniappDemoOrderView get(MiniappDemoIdentity identity, String id) {
         properties.requireEnabled();
         if (identity == null || !uuid(id)) throw failure(INVALID_INPUT);
-        return detail(identity, repository.owned(identity, id).orElseThrow(() -> failure(ORDER_NOT_FOUND)));
+        return readTransaction.execute(status ->
+                detail(identity, repository.owned(identity, id).orElseThrow(() -> failure(ORDER_NOT_FOUND))));
+    }
+
+    public MiniappDemoOrderPage page(MiniappDemoIdentity identity, int pageNo, int pageSize) {
+        properties.requireEnabled();
+        if (identity == null || pageNo < 1 || pageNo > 10_000 || pageSize < 1 || pageSize > 20) {
+            throw failure(INVALID_INPUT);
+        }
+        return readTransaction.execute(status -> {
+            long total = repository.count(identity);
+            List<MiniappDemoOrderView> list = repository.page(identity, pageNo, pageSize).stream()
+                    .map(order -> detail(identity, order)).toList();
+            boolean hasMore = (long) pageNo * pageSize < total;
+            return new MiniappDemoOrderPage(list, pageNo, pageSize, total, hasMore);
+        });
     }
 
     private MiniappDemoOrderView detail(MiniappDemoIdentity identity, MiniappDemoOrderRepository.Order order) {
