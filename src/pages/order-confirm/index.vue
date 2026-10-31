@@ -137,6 +137,13 @@ async function refreshPrintResult(showFailure = true) {
   if (!order.value || printResultState.value === 'loading') return
   printResultState.value = 'loading'
   const session = await ensureDemoSession()
+  if (session && pendingOrderPrincipalId.value && pendingOrderPrincipalId.value !== session.principalId) {
+    clearPrintTimer()
+    printTask.value = null
+    printResultState.value = 'failed'
+    if (showFailure) uni.showToast({ title: '演示会话已变化，旧订单不可继续查询', icon: 'none' })
+    return
+  }
   const result = session ? await getDemoPrintResult(session, order.value.id) : { kind: 'unknown' as const }
   if (result.kind !== 'ok') {
     printResultState.value = 'failed'
