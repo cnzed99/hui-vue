@@ -5,6 +5,14 @@ import { commonPrintEntries, morePrintEntries } from '@/data/fixtures'
 function showReserved(label: string) {
   uni.showToast({ title: `${label}接口待接入`, icon: 'none' })
 }
+
+function openPrintEntry(label: string) {
+  if (label === '文档打印') {
+    uni.navigateTo({ url: '/pages/document-method/index' })
+    return
+  }
+  showReserved(label)
+}
 </script>
 
 <template>
@@ -24,7 +32,7 @@ function showReserved(label: string) {
     <view class="content">
       <view class="section-title"><text class="title-mark" />常见打印</view>
       <view class="common-grid">
-        <view v-for="item in commonPrintEntries" :key="item.label" class="print-card" @click="showReserved(item.label)">
+        <view v-for="item in commonPrintEntries" :key="item.label" class="print-card" @click="openPrintEntry(item.label)">
           <view class="card-copy">
             <text class="card-title">{{ item.label }}</text>
             <text class="card-description">{{ item.description }}</text>
