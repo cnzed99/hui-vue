@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-31T09:30:09Z",
+  "scope": "M5 ordinary miniapp pages: photo, ID photo, scan/copy, paper renewal, archive boundary",
+  "release": "miniapp-m5-ordinary-batch-20261031-172921",
+  "baseUrl": "http://127.0.0.1:18080/miniapp/",
+  "implementationModel": "gpt-6.1-sol",
+  "reasoningEffort": "high",
+  "checks": [
+    { "name": "home_entries", "result": "PASS" },
+    { "name": "photo_catalog", "result": "PASS" },
+    { "name": "photo_empty", "result": "PASS" },
+    { "name": "photo_no_file_picker", "result": "PASS" },
+    { "name": "normal_back", "result": "PASS" },
+    { "name": "id_photo_catalog", "result": "PASS" },
+    { "name": "id_photo_sizes", "result": "PASS" },
+    { "name": "scan_copy_catalog", "result": "PASS" },
+    { "name": "scan_no_file_picker", "result": "PASS" },
+    { "name": "paper_renewal_empty", "result": "PASS" },
+    { "name": "paper_no_file_picker", "result": "PASS" },
+    { "name": "archive_boundary", "result": "PASS" },
+    { "name": "direct_refresh_back_photo_method", "result": "PASS" },
+    { "name": "direct_refresh_back_photo_upload", "result": "PASS" },
+    { "name": "direct_refresh_back_id_photo", "result": "PASS" },
+    { "name": "direct_refresh_back_id_photo_sizes", "result": "PASS" },
+    { "name": "direct_refresh_back_scan_copy", "result": "PASS" },
+    { "name": "direct_refresh_back_paper_renewal", "result": "PASS" },
+    { "name": "console_errors", "result": "PASS", "count": 0 }
+  ],
+  "summary": { "passed": 19, "failed": 0 },
+  "boundaries": [
+    "The original miniapp was observed read-only; the WeChat archive chooser was cancelled without selecting a chat or file.",
+    "No camera, album, WeChat chat file, file chooser, upload, order, payment, or print action was invoked by the new pages.",
+    "Post-selection parameters, image processing, archive extraction, storage, and authoritative pricing remain NOT_RUN.",
+    "WeChat DevTools, real device, real payment/refund, and real printer acceptance remain NOT_RUN."
+  ]
+}
