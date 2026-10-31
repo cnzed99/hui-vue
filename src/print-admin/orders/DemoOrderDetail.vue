@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
+import { hasPermission } from '@/directives/permission/hasPermi'
 import { actMiniappPrintTask, classifyOrderError, createMiniappPrintTask, getMiniappOrder,
   getOrder, getOrderEvents, orderFailure, validOrderId } from './api'
 import type { MiniappOrderDetail, MiniappPrintActionInput, OrderDetail, OrderEvent,
@@ -14,6 +15,7 @@ defineOptions({ name: 'PrintDemoOrderDetail' })
 const route = useRoute()
 const access = useOrderAccess()
 const miniappMode = computed(() => route.query.source === 'miniapp')
+const processPermitted = computed(() => hasPermission(['print:order:process']))
 const orderId = computed(() => typeof route.params.id === 'string' ? route.params.id : '')
 const backLink = computed(() => ({ path: DEMO_ORDERS, query: {
   pageNo: String(parsePage(route.query.pageNo, 1, 1000000) || 1),
@@ -58,7 +60,11 @@ const load = async () => {
   if (!validOrderId(orderId.value)) { failure.value = orderFailure('invalid-input'); return }
   loading.value = true
   try {
-    if (miniappMode.value) miniappData.value = await getMiniappOrder(orderId.value)
+    if (miniappMode.value) {
+      const result = await getMiniappOrder(orderId.value)
+      if (current !== generation) return
+      miniappData.value = result
+    }
     else {
       const result = await getOrder(orderId.value)
       if (current !== generation) return
@@ -82,15 +88,28 @@ const actionLabels: Record<MiniappPrintActionInput['action'], string> = {
   ABORT_FILE_UNAVAILABLE: '文件不可用时终止'
 }
 const createTask = async () => {
-  if (!miniappData.value || processing.value || !window.confirm('仅创建模拟打印任务，不会传输文件或驱动真实打印机。是否继续？')) return
+  if (!processPermitted.value || !miniappData.value || processing.value || !window.confirm('仅创建模拟打印任务，不会传输文件或驱动真实打印机。是否继续？')) return
+  const requestGeneration = generation
+  const requestOrderId = orderId.value
+  const requestAccessKey = access.key.value
   processing.value = true; failure.value = null
-  try { await createMiniappPrintTask(miniappData.value.id); await load() }
-  catch (error) { failure.value = classifyOrderError(error) }
+  try {
+    await createMiniappPrintTask(miniappData.value.id)
+    if (requestGeneration !== generation || requestOrderId !== orderId.value || requestAccessKey !== access.key.value) return
+    await load()
+  } catch (error) {
+    if (requestGeneration === generation && requestOrderId === orderId.value && requestAccessKey === access.key.value) {
+      failure.value = classifyOrderError(error)
+    }
+  }
   finally { processing.value = false }
 }
 const runAction = async (action: MiniappPrintActionInput['action']) => {
   const current = task.value
-  if (!current || processing.value || !window.confirm(`${actionLabels[action]}：本操作只推进模拟状态，不代表真实出纸。是否继续？`)) return
+  if (!processPermitted.value || !current || processing.value || !window.confirm(`${actionLabels[action]}：本操作只推进模拟状态，不代表真实出纸。是否继续？`)) return
+  const requestGeneration = generation
+  const requestOrderId = orderId.value
+  const requestAccessKey = access.key.value
   const input: MiniappPrintActionInput = { action, expectedVersion: current.version }
   if (['ACCEPT', 'START', 'SUCCEED', 'FAIL', 'LOSE_RECEIPT'].includes(action)) {
     if (!current.leaseId || current.fence < 1) return
@@ -98,8 +117,15 @@ const runAction = async (action: MiniappPrintActionInput['action']) => {
   }
   if (['SUCCEED', 'FAIL', 'ABORT_FILE_UNAVAILABLE'].includes(action)) input.receiptSeq = 1
   processing.value = true; failure.value = null
-  try { await actMiniappPrintTask(current, input); await load() }
-  catch (error) { failure.value = classifyOrderError(error); await load() }
+  try {
+    await actMiniappPrintTask(current, input)
+    if (requestGeneration !== generation || requestOrderId !== orderId.value || requestAccessKey !== access.key.value) return
+    await load()
+  } catch (error) {
+    if (requestGeneration !== generation || requestOrderId !== orderId.value || requestAccessKey !== access.key.value) return
+    failure.value = classifyOrderError(error)
+    await load()
+  }
   finally { processing.value = false }
 }
 </script>
@@ -166,6 +192,7 @@ const runAction = async (action: MiniappPrintActionInput['action']) => {
     <div v-if="miniappData && !visibleFailure && access.ready.value" class="orders-card orders-process">
       <div class="orders-toolbar"><h2>模拟打印处理</h2><span class="orders-badge">不会驱动真实打印机</span></div>
       <p v-if="miniappData.paymentState !== 'SUCCEEDED'">订单尚未模拟支付，不能创建打印任务。</p>
+      <p v-else-if="!processPermitted">当前账号只有查看权限，不能推进模拟打印任务。</p>
       <template v-else-if="!task">
         <p>尚未创建打印任务。创建时会再次检查文件是否有效，任务全局唯一。</p>
         <button type="button" :disabled="processing" @click="createTask">创建唯一模拟打印任务</button>
