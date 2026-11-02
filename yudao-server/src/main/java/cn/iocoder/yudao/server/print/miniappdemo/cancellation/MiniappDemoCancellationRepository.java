@@ -108,9 +108,12 @@ public class MiniappDemoCancellationRepository {
                 e.taskStateAfter(),e.taskVersionBefore(),e.taskVersionAfter(),e.taskEventSeqBefore(),e.taskEventSeqAfter(),e.taskFenceBefore(),e.taskFenceAfter(),e.createdAtMs());
     }
     void insertRefund(MiniappDemoIdentity owner, Entry e, Payment p, Order order) {
+        if (!"CANCELLED_REFUNDED".equals(e.outcome())) {
+            throw new MiniappDemoCancellationException(MiniappDemoCancellationException.Reason.STORAGE_UNAVAILABLE);
+        }
         String id=UUID.randomUUID().toString();
         jdbc.update("INSERT INTO print_miniapp_demo_refund_receipt(id,cancellation_id,payment_receipt_id,order_id,tenant_id,store_id,principal_id,"
-                        + "provider,mode,state,simulation,currency,amount,created_at_ms) VALUES(?,?,?,?,?,?,?,'SIMULATED','DEMO','SUCCEEDED',1,?,?,?)",
+                        + "cancellation_outcome,provider,mode,state,simulation,currency,amount,created_at_ms) VALUES(?,?,?,?,?,?,?,'CANCELLED_REFUNDED','SIMULATED','DEMO','SUCCEEDED',1,?,?,?)",
                 id,e.id(),p.id(),order.id(),owner.tenantId(),owner.storeId(),owner.principalId(),order.currency(),order.amount(),e.createdAtMs());
         for (String side : List.of("DEBIT","CREDIT")) {
             jdbc.update("INSERT INTO print_miniapp_demo_refund_journal(id,refund_receipt_id,order_id,tenant_id,store_id,principal_id,side,account,currency,amount,created_at_ms) "

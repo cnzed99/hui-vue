@@ -105,7 +105,10 @@ public class MiniappDemoCancellationService {
             repository.insertEntry(owner,entry);
             if (!manual) {
                 if (task!=null && !repository.cancelTask(owner,id,task,now)) throw failure(STORAGE_UNAVAILABLE);
-                if (payment!=null) repository.insertRefund(owner,entry,payment,order);
+                if ("CANCELLED_REFUNDED".equals(outcome)) {
+                    if (payment==null) throw failure(STORAGE_UNAVAILABLE);
+                    repository.insertRefund(owner,entry,payment,order);
+                }
                 if (!repository.cancelOrder(owner,order,entry)) throw failure(STORAGE_UNAVAILABLE);
                 repository.event(owner,entry);
             }
