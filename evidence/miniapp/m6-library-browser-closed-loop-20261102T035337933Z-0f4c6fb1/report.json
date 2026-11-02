@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "scope": "M6 browser closed loop: miniapp library detail to admin simulated processing and miniapp result",
+  "runId": "20261102T035337933Z-0f4c6fb1",
+  "startedAt": "2026-11-02T03:53:37.933Z",
+  "checks": [
+    {
+      "name": "miniapp_library_lists_original_entries",
+      "passed": true
+    },
+    {
+      "name": "miniapp_library_search_response_is_exact",
+      "passed": true
+    },
+    {
+      "name": "miniapp_library_server_search_filters_list",
+      "passed": true
+    },
+    {
+      "name": "miniapp_library_detail_response_is_exact",
+      "passed": true
+    },
+    {
+      "name": "miniapp_library_detail_has_three_preview_pages",
+      "passed": true
+    },
+    {
+      "name": "miniapp_library_detail_shows_page_badges",
+      "passed": true
+    },
+    {
+      "name": "miniapp_library_reserved_actions_are_explicit",
+      "passed": true
+    },
+    {
+      "name": "miniapp_library_generated_ready_pdf",
+      "passed": true
+    },
+    {
+      "name": "miniapp_settings_shows_server_parse",
+      "passed": true
+    },
+    {
+      "name": "miniapp_received_authoritative_quote",
+      "passed": true
+    },
+    {
+      "name": "miniapp_created_simulated_order",
+      "passed": true
+    },
+    {
+      "name": "miniapp_completed_simulated_payment",
+      "passed": true
+    },
+    {
+      "name": "admin_ui_loaded_library_order",
+      "passed": true
+    },
+    {
+      "name": "admin_ui_preserves_real_printer_boundary",
+      "passed": true
+    },
+    {
+      "name": "admin_ui_completed_simulated_print",
+      "passed": true
+    },
+    {
+      "name": "miniapp_ui_received_simulated_receipt",
+      "passed": true
+    },
+    {
+      "name": "miniapp_ui_preserves_physical_print_boundary",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "miniapp-library-preview",
+      "path": "evidence/miniapp/m6-library-browser-closed-loop-20261102T035337933Z-0f4c6fb1/miniapp-library-preview.png",
+      "sha256": "e8ac6df7828bd820c10d4c57b822e45978ac03271506f2241f0a23fef291e8c0"
+    },
+    {
+      "name": "miniapp-library-settings",
+      "path": "evidence/miniapp/m6-library-browser-closed-loop-20261102T035337933Z-0f4c6fb1/miniapp-library-settings.png",
+      "sha256": "ca7dd1fdc051e31512993432e98c3dc5c02fc730b9ba62e2ee815f6e9c4a8892"
+    },
+    {
+      "name": "miniapp-library-paid",
+      "path": "evidence/miniapp/m6-library-browser-closed-loop-20261102T035337933Z-0f4c6fb1/miniapp-library-paid.png",
+      "sha256": "d137f43feb19eacfee54db67986adf853d6f60ad3ff7ee2b6af844248b571c2b"
+    },
+    {
+      "name": "admin-library-success",
+      "path": "evidence/miniapp/m6-library-browser-closed-loop-20261102T035337933Z-0f4c6fb1/admin-library-success.png",
+      "sha256": "0d27f4d024839bf9386dff2e4da0078eba00ea864e08a1253232fece79b4f54d"
+    },
+    {
+      "name": "miniapp-library-result",
+      "path": "evidence/miniapp/m6-library-browser-closed-loop-20261102T035337933Z-0f4c6fb1/miniapp-library-result.png",
+      "sha256": "5cef284461457b3ef11a4b512540252931d383842ebd4e3a1126ea0910f5560d"
+    }
+  ],
+  "boundaries": {
+    "realPayment": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "wechatDevice": "NOT_RUN",
+    "favorite": "NOT_RUN",
+    "realShare": "NOT_RUN",
+    "storeScopeFilter": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "browser": "156.0.8078.4",
+  "playwrightVersion": "1.64.1",
+  "detailDiagnostics": {
+    "httpStatus": 200,
+    "businessCode": 0,
+    "entryId": "demo-weekly-plan",
+    "contentVersion": "v1",
+    "entryPages": 3,
+    "previewPageCount": 3,
+    "previewPageNumbers": [
+      1,
+      2,
+      3
+    ],
+    "paperCount": 3
+  },
+  "status": "PASS",
+  "fixture": {
+    "principalId": "3c547e58-78dd-4075-8e6d-6ed99570d5f2",
+    "fileId": "f1f6e166-80ae-4960-bb48-1b196a93fa28",
+    "orderId": "46794038-a4c5-47a2-a87c-2a2aeb42e1a2",
+    "taskId": "885726b6-503a-4ae2-aeee-852bdd24efd0",
+    "entryId": "demo-weekly-plan",
+    "contentVersion": "v1",
+    "retained": true,
+    "reason": "Immutable simulated browser-loop task and receipt retained as isolated development evidence."
+  },
+  "adminSessionLogout": "PASS",
+  "finishedAt": "2026-11-02T03:53:46.824Z",
+  "passed": 17,
+  "failed": 0
+}

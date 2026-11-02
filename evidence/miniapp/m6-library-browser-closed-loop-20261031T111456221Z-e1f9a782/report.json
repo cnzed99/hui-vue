@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "scope": "M6 browser closed loop: miniapp library detail to admin simulated processing and miniapp result",
+  "runId": "20261031T111456221Z-e1f9a782",
+  "startedAt": "2026-10-31T11:14:56.222Z",
+  "checks": [],
+  "screenshots": [],
+  "boundaries": {
+    "realPayment": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "wechatDevice": "NOT_RUN",
+    "favorite": "NOT_RUN",
+    "realShare": "NOT_RUN",
+    "storeScopeFilter": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "browser": "156.0.8078.4",
+  "playwrightVersion": "1.64.1",
+  "status": "FAIL",
+  "failure": {
+    "type": "Error",
+    "stage": "initialization"
+  },
+  "finishedAt": "2026-10-31T11:14:57.069Z",
+  "passed": 0,
+  "failed": 0
+}

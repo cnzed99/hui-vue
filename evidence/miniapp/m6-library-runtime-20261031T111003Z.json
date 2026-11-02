@@ -1,0 +1,58 @@
+{
+  "status": "FAIL",
+  "executedAt": "2026-10-31T11:10:03.801600+00:00",
+  "errorType": "VerificationFailure",
+  "failedCheck": "adjacent_library_path_is_closed",
+  "checks": [
+    {
+      "name": "public_catalog_lists_three_original_entries",
+      "passed": true
+    },
+    {
+      "name": "public_catalog_is_no_store",
+      "passed": true
+    },
+    {
+      "name": "catalog_has_expected_page_counts",
+      "passed": true
+    },
+    {
+      "name": "detail_pages_match_demo-print-guide",
+      "passed": true
+    },
+    {
+      "name": "detail_pages_match_demo-practice-notes",
+      "passed": true
+    },
+    {
+      "name": "detail_pages_match_demo-weekly-plan",
+      "passed": true
+    },
+    {
+      "name": "unknown_catalog_query_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "library_head_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "library_post_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "library_files_get_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "adjacent_library_path_is_closed",
+      "passed": true
+    }
+  ],
+  "boundaries": {
+    "realPayment": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "wechatDevice": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  }
+}

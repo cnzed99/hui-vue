@@ -1,0 +1,131 @@
+{
+  "status": "PASS",
+  "runId": "20261031T111307Z-454f3a54",
+  "executedAt": "2026-10-31T11:13:49.644294+00:00",
+  "deployment": {
+    "backendRelease": "64a42b0369bfd2bc",
+    "miniappRelease": "miniapp-m6-library-20261031T110723Z"
+  },
+  "fixture": {
+    "principalId": "5848eaf7-7cdb-412f-83f6-dbfeffba73ba",
+    "fileId": "0c828b8f-c5a2-4aef-a4e7-647331e8d733",
+    "orderId": "d1327961-7cdc-4eee-a656-6de03408c55c",
+    "taskId": "686ac844-a329-4146-84f9-f76658657599",
+    "retained": true
+  },
+  "checks": [
+    {
+      "name": "public_catalog_lists_three_original_entries",
+      "passed": true
+    },
+    {
+      "name": "public_catalog_is_no_store",
+      "passed": true
+    },
+    {
+      "name": "catalog_has_expected_page_counts",
+      "passed": true
+    },
+    {
+      "name": "detail_pages_match_demo-print-guide",
+      "passed": true
+    },
+    {
+      "name": "detail_pages_match_demo-practice-notes",
+      "passed": true
+    },
+    {
+      "name": "detail_pages_match_demo-weekly-plan",
+      "passed": true
+    },
+    {
+      "name": "unknown_catalog_query_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "library_head_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "library_post_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "library_files_get_is_rejected",
+      "passed": true
+    },
+    {
+      "name": "adjacent_library_path_is_closed",
+      "passed": true
+    },
+    {
+      "name": "library_file_reaches_ready_with_expected_pages",
+      "passed": true
+    },
+    {
+      "name": "same_key_same_entry_replays",
+      "passed": true
+    },
+    {
+      "name": "same_key_different_entry_conflicts",
+      "passed": true
+    },
+    {
+      "name": "cross_principal_library_file_is_hidden",
+      "passed": true
+    },
+    {
+      "name": "library_and_text_share_active_file_budget",
+      "passed": true
+    },
+    {
+      "name": "shared_active_file_limit_is_enforced",
+      "passed": true
+    },
+    {
+      "name": "backend_restart_health_recovers",
+      "passed": true
+    },
+    {
+      "name": "library_pdf_is_deterministic_across_restart",
+      "passed": true
+    },
+    {
+      "name": "library_file_uses_authoritative_quote",
+      "passed": true
+    },
+    {
+      "name": "library_order_simulated_payment_succeeds",
+      "passed": true
+    },
+    {
+      "name": "library_order_has_one_stable_print_task",
+      "passed": true
+    },
+    {
+      "name": "library_task_has_one_simulated_receipt",
+      "passed": true
+    },
+    {
+      "name": "miniapp_recovers_library_print_result",
+      "passed": true
+    },
+    {
+      "name": "cross_principal_library_result_is_hidden",
+      "passed": true
+    },
+    {
+      "name": "admin_session_is_logged_out",
+      "passed": true
+    }
+  ],
+  "boundaries": {
+    "realPayment": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "wechatDevice": "NOT_RUN",
+    "favorite": "NOT_RUN",
+    "realShare": "NOT_RUN",
+    "storeScopeFilter": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  }
+}
