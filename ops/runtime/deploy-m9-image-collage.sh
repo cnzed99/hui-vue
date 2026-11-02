@@ -180,12 +180,12 @@ for attempt in 1 2 3 4; do
   [[ $probe_http != 429 ]] && break
   (( attempt < 4 )) && sleep 7
 done
-[[ $probe_http == 401 ]]
+[[ $probe_http == 400 ]]
 python3 - "$probe_body" <<'PY'
 import json, sys
 with open(sys.argv[1], encoding='utf-8') as stream:
     body = json.load(stream)
-raise SystemExit(0 if body.get('code') == 1926003 and body.get('data') is None else 1)
+raise SystemExit(0 if body.get('code') == 1934002 and body.get('data') is None else 1)
 PY
 [[ $(sha256sum /etc/nginx/sites-available/print-system | cut -d' ' -f1) == "$EXPECTED_NGINX_SITE" ]]
 [[ $(sha256sum /etc/nginx/conf.d/print-miniapp-limits.conf | cut -d' ' -f1) == "$EXPECTED_NGINX_LIMITS" ]]
