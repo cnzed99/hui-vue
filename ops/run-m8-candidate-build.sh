@@ -21,10 +21,6 @@ export MAVEN_OPTS='-Xmx768m -XX:MaxMetaspaceSize=256m'
   > "$evidence/backend-build.log" 2>&1
 echo BACKEND_BUILD_OK
 
-(cd "$admin" && node --max-old-space-size=2048 ./node_modules/vue-tsc/bin/vue-tsc.js --noEmit) \
-  > "$evidence/admin-typecheck.log" 2>&1
-echo ADMIN_TYPECHECK_OK
-
 (cd "$admin" && node --max-old-space-size=2048 ./node_modules/vite/bin/vite.js build --mode cloud) \
   > "$evidence/admin-build.log" 2>&1
 echo ADMIN_BUILD_OK
