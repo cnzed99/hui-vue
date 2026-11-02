@@ -11,13 +11,15 @@
   },
   "scopeAuthority": "RULES overrides stale local taskbook phase sequencing; no scope deleted",
   "progressEstimate": {
-    "phase1PriorityPercent": 94,
-    "overallSystemPercent": 80,
-    "method": "EXISTING_VERIFIED_BUSINESS_SCOPE_ESTIMATE_UNCHANGED; NOT_RECALCULATED; NOT_PAGE_COUNT; NOT_FORMAL_ACCEPTANCE",
-    "authority": [
+    "currentQuantitativeAssessment": "NOT_ASSESSED",
+    "historicalReportedPhase1PriorityPercent": 94,
+    "historicalReportedOverallSystemPercent": 80,
+    "method": "HISTORICAL_REPORTED_ESTIMATES_ONLY; NO_AUDITABLE_DENOMINATOR_OR_WEIGHTING; NOT_RECALCULATED; NOT_CURRENTLY_VERIFIED; NOT_FORMAL_ACCEPTANCE",
+    "historicalSources": [
       "ROADMAP",
       "STAGED_DEPLOY"
-    ]
+    ],
+    "currentProgressBasis": "PARTIAL_STATUS; FIVE_VERIFIED_DEVELOPMENT_CHAINS; R01_R14_REMAINING_GATES"
   },
   "localRequirementSource": {
     "path": "D:/work/后台/打印后台/打印系统研发任务书.md",
