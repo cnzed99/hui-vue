@@ -16,34 +16,48 @@ H5=staged.APP+"/image-collages"
 PART=staged.STAGED+"/11111111-1111-1111-1111-111111111111/parts/0"
 
 
-def request(source,method,path,*,token=None,body=b"",content_type=None,key=None):
+def bound_connection(source):
+    connection=http.client.HTTPConnection(HOST,PORT,timeout=30,source_address=(source,0))
+    try:
+        connection.connect()
+        if connection.sock.getsockname()[0]!=source: raise RuntimeError("source_address_not_bound")
+        return connection
+    except BaseException:
+        connection.close();raise
+
+
+def request(source,method,path,*,token=None,body=b"",content_type=None,key=None,connection=None):
     headers={"Host":HOST,"Origin":"http://127.0.0.1:18080","Accept":"application/json"}
     if token: headers["Authorization"]="Bearer "+token
     if content_type: headers["Content-Type"]=content_type
     if key: headers["Idempotency-Key"]=key
-    connection=http.client.HTTPConnection(HOST,PORT,timeout=30,source_address=(source,0))
+    owned=connection is None
+    if owned: connection=bound_connection(source)
     try:
         connection.request(method,path,body=body,headers=headers)
         response=connection.getresponse();raw=response.read()
         try: payload=json.loads(raw)
         except (ValueError,UnicodeError): payload=None
         return response.status,payload
-    finally: connection.close()
+    finally:
+        if owned: connection.close()
 
 
 def nine_image_burst():
     # A dedicated source IP ensures historical smoke traffic cannot spend this rate budget.
     source="127.0.0.5"
-    token=staged.h.successful(request(source,"POST",staged.APP+"/sessions"))["accessToken"]
+    connection=bound_connection(source)
     images=[staged.m9.png(32+i,40+i,(20*i,100,220-i)) for i in range(9)]
     key="m9-nine-burst-"+secrets.token_hex(12)
     upload=None;statuses=[];started=time.monotonic()
     def send(method,path,**kwargs):
-        response=request(source,method,path,token=token,**kwargs)
+        response=request(source,method,path,token=token,connection=connection,**kwargs)
         statuses.append(response[0])
         # No retry is allowed in the 11-request burst. HTTP or envelope failure is fatal.
         return staged.h.successful(response)
     try:
+        # One serial keepalive connection avoids racing the previous TCP connection's edge cleanup.
+        token=staged.h.successful(request(source,"POST",staged.APP+"/sessions",connection=connection))["accessToken"]
         view=send("POST",staged.STAGED,body=json.dumps(staged.manifest(images)).encode(),
             content_type="application/json",key=key)
         upload=view["uploadId"]
@@ -56,12 +70,14 @@ def nine_image_burst():
         if len(statuses)!=11 or statuses!=[200]*11: raise RuntimeError("eleven_request_burst_failed")
         elapsed=round(time.monotonic()-started,3)
         pre.ready(token,view["result"])
-        return {"requests":11,"httpStatuses":statuses,"retryCount":0,"pageCount":1,"status":"READY","elapsedSeconds":elapsed}
+        return {"requests":11,"httpStatuses":statuses,"retryCount":0,"pageCount":1,"status":"READY","elapsedSeconds":elapsed,"sourceAddress":source,"singleSerialConnection":True}
     finally:
-        if upload is not None:
-            # Cleanup is outside the measured burst and never replaces the final key.
-            response=request(source,"DELETE",staged.STAGED+"/"+upload,token=token)
-            if response[0] not in (200,404): raise RuntimeError("nine_session_cleanup_failed")
+        try:
+            if upload is not None:
+                # Cleanup is outside the measured burst and never replaces the final key.
+                response=request(source,"DELETE",staged.STAGED+"/"+upload,token=token,connection=connection)
+                if response[0] not in (200,404): raise RuntimeError("nine_session_cleanup_failed")
+        finally: connection.close()
 
 
 def hold(source,path):

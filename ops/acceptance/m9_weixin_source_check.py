@@ -67,9 +67,12 @@ def main():
     gate='python3 "$ENGINEERING/ops/acceptance/m9_weixin_edge_admission_smoke.py"'
     assert deploy.index('install -o root -g root -m 0644 "$DROPIN_ENABLED"') < deploy.index(gate) < deploy.index("SUCCESS=1")
     assert "|| true" not in deploy[deploy.index(gate):deploy.index(gate)+260]
+    assert deploy.index(gate) < deploy.index('python3 "$ENGINEERING/ops/acceptance/m9_weixin_runtime_smoke.py"')
     edge=(ROOT/"ops/acceptance/m9_weixin_edge_admission_smoke.py").read_text()
     for marker in ['source_address=(source,0)', 'len(statuses)!=11', 'statuses!=[200]*11', 'range(9)',
         'hold("127.0.0.2",H5)', 'hold("127.0.0.3",PART)', 'request("127.0.0.4"', 'finally:', 'connection.close()']:
+        assert marker in edge
+    for marker in ['source="127.0.0.5"','connection=bound_connection(source)','connection=connection', 'connection.sock.getsockname()[0]!=source', 'singleSerialConnection']:
         assert marker in edge
     cleanup=ROOT/"ops/runtime/m9_weixin_cleanup_upload_scratch.py"
     ast.parse(cleanup.read_text(),filename=str(cleanup))

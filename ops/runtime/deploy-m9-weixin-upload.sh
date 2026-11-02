@@ -189,8 +189,8 @@ sudo -n systemctl daemon-reload
 sudo -n systemctl restart print-backend.service
 wait_backend
 
-python3 "$ENGINEERING/ops/acceptance/m9_weixin_runtime_smoke.py" --evidence "$BACKUP/runtime-smoke.json" >"$BACKUP/runtime-smoke.log" 2>&1
 python3 "$ENGINEERING/ops/acceptance/m9_weixin_edge_admission_smoke.py" --evidence "$BACKUP/edge-admission-smoke.json" >"$BACKUP/edge-admission-smoke.log" 2>&1
+python3 "$ENGINEERING/ops/acceptance/m9_weixin_runtime_smoke.py" --evidence "$BACKUP/runtime-smoke.json" >"$BACKUP/runtime-smoke.log" 2>&1
 [[ $(sha256sum /etc/nginx/sites-available/print-system | cut -d' ' -f1) == "$EXPECTED_NGINX_SITE" ]]
 [[ $(sha256sum /etc/nginx/conf.d/print-miniapp-limits.conf | cut -d' ' -f1) == "$EXPECTED_NGINX_LIMITS" ]]
 [[ $(sha256sum /etc/systemd/system/print-backend.service.d/60-m9-weixin-upload.conf | cut -d' ' -f1) == "$EXPECTED_DROPIN" ]]
