@@ -28,6 +28,7 @@ function fixture(options = {}) {
       let session = sessions.get(opts.header['Idempotency-Key'])
       if (opts.method === 'DELETE') { if (session) session.deleted = true; send(opts.success, { statusCode: 200, data: { code: 0 } }); return {} }
       if (opts.data) {
+        if (options.createFailure) { send(opts.fail, {}); return { abort() {} } }
         const manifest = JSON.stringify(opts.data)
         if (session && session.manifest !== manifest) {
           send(opts.success, { statusCode: 409, data: { code: 1935004 } }); return {}
@@ -110,6 +111,29 @@ async function main() {
     f.sessions.get('original-key').expired = true
     assert.equal((await f.start().promise).id, uuid)
     assert.deepEqual(f.calls.filter(x => x.kind === 'upload').map(x => x.filePath), ['a', 'a', 'b'])
+  })
+  await check('page invalidation cancels old uploadId when retry create loses its response', async () => {
+    const page = fs.readFileSync('src/pages/image-collage/index.vue', 'utf8')
+    assert.match(page, /uploadHandles\.add\(handle\)/)
+    assert.match(page, /function invalidateSubmission\(\)[\s\S]*?cancelUploads\(\)/)
+    assert.match(page, /function disposePage\(\)[\s\S]*?cancelUploads\(\)/)
+    assert.match(page, /function resetForSessionChange[^]*?invalidateSubmission\(\)/)
+    const cleanup = page.match(/function cancelUploads\(\) \{[\s\S]*?\n\}/)?.[0]
+    assert.ok(cleanup)
+    const registry = {}
+    vm.runInNewContext('const uploadHandles = new Set();' + cleanup
+      + ';exports.add = handle => uploadHandles.add(handle); exports.cancel = cancelUploads; exports.size = () => uploadHandles.size;',
+      { Set, exports: registry })
+    const opts = { losePart: true }; const f = fixture(opts)
+    const first = f.start(); registry.add(first); assert.equal(await first.promise, null)
+    assert.equal(f.sessions.get('original-key').deleted, undefined)
+    opts.createFailure = true
+    const retry = f.start(); registry.add(retry); assert.equal(await retry.promise, null)
+    assert.equal(f.calls.filter(x => x.method === 'DELETE').length, 0)
+    registry.cancel(); await tick()
+    assert.equal(f.sessions.get('original-key').deleted, true)
+    assert.ok(f.calls.some(x => x.method === 'DELETE' && x.url.endsWith(uuid)))
+    assert.equal(registry.size(), 0)
   })
   await check('abort during upload deletes session, resolves null, discards late response', async () => {
     const f = fixture({ delayedPart: true }); const handle = f.start(); await tick()

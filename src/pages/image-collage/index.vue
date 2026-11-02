@@ -27,7 +27,7 @@ const idempotencyKey = ref('')
 const generation = ref(0)
 const mounted = ref(true)
 const continuing = ref(false)
-let uploadHandle: CollageUploadHandle | null = null
+const uploadHandles = new Set<CollageUploadHandle>()
 let pickerRequest = 0
 
 const totalBytes = computed(() => images.value.reduce((sum, image) => sum + image.size, 0))
@@ -132,7 +132,7 @@ function removeImage(index: number) {
 
 function invalidateSubmission() {
   generation.value += 1
-  uploadHandle?.abort(); uploadHandle = null
+  cancelUploads()
   continuing.value = false
   idempotencyKey.value = ''
   generatedFile.value = null
@@ -166,10 +166,10 @@ async function generateCollage() {
   submittedToken.value = currentToken
   const handle = uploadDemoImageCollage(session, selection.map(image => image.path), idempotencyKey.value,
     value => { if (isCurrent(currentGeneration, currentToken)) progress.value = value })
-  uploadHandle = handle
+  uploadHandles.add(handle)
   const uploaded = await handle.promise
-  // Keep the handle after failure or success so a changed selection/leaving the page
-  // can cancel its temporary native session. Explicit retries keep the original key.
+  // Keep every attempt: a retry may fail before learning the existing uploadId.
+  // Selection/session changes or leaving the page cancel all known sessions.
   if (!isCurrent(currentGeneration, currentToken)) return
   if (!await confirmSession(currentGeneration, currentToken)) return
   if (!uploaded) {
@@ -239,13 +239,21 @@ function resetForSessionChange(currentToken = '') {
   failureText.value = '会话已变化，请重新选择图片。'
 }
 
+function cancelUploads() {
+  for (const handle of uploadHandles) {
+    try { handle.abort() }
+    catch { /* Continue cancelling the other attempts; server TTL covers network failure. */ }
+  }
+  uploadHandles.clear()
+}
+
 function disposePage() {
   if (!mounted.value) return
   mounted.value = false
   generation.value += 1
   pickerRequest += 1
   continuing.value = false
-  uploadHandle?.abort(); uploadHandle = null
+  cancelUploads()
   // uni tempFilePath is platform-owned; this page creates no browser object URL.
   images.value = []
 }
