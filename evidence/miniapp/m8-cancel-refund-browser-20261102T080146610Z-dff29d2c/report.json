@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "scope": "M8 deployed browser verification: cancelled/refunded order in miniapp and admin",
+  "runId": "20261102T080146610Z-dff29d2c",
+  "startedAt": "2026-11-02T08:01:46.610Z",
+  "checks": [
+    {
+      "name": "session_issued",
+      "passed": true
+    },
+    {
+      "name": "fixture_file_ready",
+      "passed": true
+    },
+    {
+      "name": "fixture_simulated_paid",
+      "passed": true
+    },
+    {
+      "name": "fixture_cancelled_and_refunded",
+      "passed": true
+    },
+    {
+      "name": "miniapp_list_shows_refund",
+      "passed": true
+    },
+    {
+      "name": "miniapp_detail_shows_cancelled_state",
+      "passed": true
+    },
+    {
+      "name": "miniapp_panel_shows_simulated_refund_boundary",
+      "passed": true
+    },
+    {
+      "name": "credential_file_private",
+      "passed": true
+    },
+    {
+      "name": "admin_detail_renders_cancel_record",
+      "passed": true
+    },
+    {
+      "name": "admin_detail_renders_refund_receipt",
+      "passed": true
+    },
+    {
+      "name": "admin_prevents_cancelled_print_task",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "miniapp-cancel-refund",
+      "path": "evidence/miniapp/m8-cancel-refund-browser-20261102T080146610Z-dff29d2c/miniapp-cancel-refund.png",
+      "sha256": "e6e838a6d8dceaff8d0471234f7b488d647fca00ec58e92152d19033a1ddb3e9"
+    },
+    {
+      "name": "admin-cancel-refund",
+      "path": "evidence/miniapp/m8-cancel-refund-browser-20261102T080146610Z-dff29d2c/admin-cancel-refund.png",
+      "sha256": "b9cb6e989f88813405fc83a6557126f17d4eace6616602434da03bed55030205"
+    }
+  ],
+  "boundaries": {
+    "realPayment": "NOT_RUN",
+    "realRefund": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "wechatDevice": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "browser": "156.0.8078.4",
+  "playwrightVersion": "1.64.1",
+  "status": "PASS",
+  "fixture": {
+    "orderId": "160586e1-f085-4810-a625-235176706813",
+    "retained": true,
+    "reason": "Immutable M8 cancellation and refund records are retained as development evidence."
+  },
+  "adminSessionLogout": "PASS",
+  "finishedAt": "2026-11-02T08:01:53.577Z",
+  "passed": 11,
+  "failed": 0
+}

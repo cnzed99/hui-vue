@@ -1,0 +1,205 @@
+{
+  "schemaVersion": 1,
+  "runId": "20261102T074733Z-f4f527f1",
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "session_issued",
+      "passed": true
+    },
+    {
+      "name": "file_created",
+      "passed": true
+    },
+    {
+      "name": "file_polled",
+      "passed": true
+    },
+    {
+      "name": "file_polled",
+      "passed": true
+    },
+    {
+      "name": "file_polled",
+      "passed": true
+    },
+    {
+      "name": "file_polled",
+      "passed": true
+    },
+    {
+      "name": "file_polled",
+      "passed": true
+    },
+    {
+      "name": "file_polled",
+      "passed": true
+    },
+    {
+      "name": "file_polled",
+      "passed": true
+    },
+    {
+      "name": "file_polled",
+      "passed": true
+    },
+    {
+      "name": "file_ready",
+      "passed": true
+    },
+    {
+      "name": "quote_1",
+      "passed": true
+    },
+    {
+      "name": "order_1",
+      "passed": true
+    },
+    {
+      "name": "cancel_unpaid",
+      "passed": true
+    },
+    {
+      "name": "unpaid_cancelled",
+      "passed": true
+    },
+    {
+      "name": "cancel_get",
+      "passed": true
+    },
+    {
+      "name": "unpaid_readable",
+      "passed": true
+    },
+    {
+      "name": "quote_2",
+      "passed": true
+    },
+    {
+      "name": "order_2",
+      "passed": true
+    },
+    {
+      "name": "pay_paid",
+      "passed": true
+    },
+    {
+      "name": "order_get",
+      "passed": true
+    },
+    {
+      "name": "cancel_paid",
+      "passed": true
+    },
+    {
+      "name": "paid_refunded",
+      "passed": true
+    },
+    {
+      "name": "paid_reverse_entries",
+      "passed": true
+    },
+    {
+      "name": "admin_login",
+      "passed": true
+    },
+    {
+      "name": "quote_3",
+      "passed": true
+    },
+    {
+      "name": "order_3",
+      "passed": true
+    },
+    {
+      "name": "pay_queued",
+      "passed": true
+    },
+    {
+      "name": "order_get",
+      "passed": true
+    },
+    {
+      "name": "task_queued",
+      "passed": true
+    },
+    {
+      "name": "order_get",
+      "passed": true
+    },
+    {
+      "name": "cancel_queued",
+      "passed": true
+    },
+    {
+      "name": "queued_refunded",
+      "passed": true
+    },
+    {
+      "name": "queued_result",
+      "passed": true
+    },
+    {
+      "name": "queued_no_receipt",
+      "passed": true
+    },
+    {
+      "name": "quote_4",
+      "passed": true
+    },
+    {
+      "name": "order_4",
+      "passed": true
+    },
+    {
+      "name": "pay_manual",
+      "passed": true
+    },
+    {
+      "name": "order_get",
+      "passed": true
+    },
+    {
+      "name": "task_manual",
+      "passed": true
+    },
+    {
+      "name": "action_manual_CLAIM",
+      "passed": true
+    },
+    {
+      "name": "order_get",
+      "passed": true
+    },
+    {
+      "name": "cancel_manual",
+      "passed": true
+    },
+    {
+      "name": "manual_review",
+      "passed": true
+    },
+    {
+      "name": "action_manual_ACCEPT",
+      "passed": true
+    },
+    {
+      "name": "cancel_get",
+      "passed": true
+    },
+    {
+      "name": "manual_task_progresses",
+      "passed": true
+    }
+  ],
+  "passed": 47,
+  "failed": 0,
+  "edgeRatePacingSeconds": 2.2,
+  "boundaries": {
+    "realPayment": "NOT_RUN",
+    "realRefund": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "wechatDevice": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  }
+}

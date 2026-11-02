@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "archiveDate": "2026-11-02",
+  "status": "PASS_ARCHIVE_ONLY",
+  "classification": "BYTE_IDENTICAL_EXISTING_DEVELOPMENT_EVIDENCE_ARCHIVE",
+  "baselineEngineeringCommit": "361103669070383671d7b7a207b9a18e53044f64",
+  "sourceRoot": "/home/ubuntu/print-system",
+  "purpose": "Make the five LIVE_SERVER_ONLY references identified by the phase-one completion audit portable, together with their five directly referenced screenshots and log companions.",
+  "inspection": {
+    "jsonAndTextContentsRead": true,
+    "credentialPatternMatches": 0,
+    "credentialFieldValuesPresent": false,
+    "realUserDataObserved": false,
+    "browserScreenshotsVisuallyInspected": true,
+    "browserScreenshotState": "Existing opaque redaction bars retained; development simulated order only.",
+    "retainedDevelopmentIdentifier": "The browser report contains a development fixture order UUID; it is not an authentication credential or a real user identifier.",
+    "logContent": "Three short JSON result records; no request headers, credentials, or payload bodies."
+  },
+  "files": [
+    {
+      "id": "CANCEL_RUNTIME",
+      "path": "evidence/testing/m8-runtime-deploy-20261102T074733Z-f4f527f1.json",
+      "bytes": 3328,
+      "sha256": "7a8959ef6e690be61f653f0e4577a9d31638c502ceee0ae6584504484e4031a4"
+    },
+    {
+      "id": "CANCEL_BROWSER",
+      "path": "evidence/miniapp/m8-cancel-refund-browser-20261102T080146610Z-dff29d2c/report.json",
+      "bytes": 2193,
+      "sha256": "38660cf4b42efc6090277a0d0132ff7507cd959c958a6e2482d21ced90bee80b"
+    },
+    {
+      "id": "CANCEL_BROWSER_MINIAPP_SCREENSHOT",
+      "path": "evidence/miniapp/m8-cancel-refund-browser-20261102T080146610Z-dff29d2c/miniapp-cancel-refund.png",
+      "bytes": 63002,
+      "sha256": "e6e838a6d8dceaff8d0471234f7b488d647fca00ec58e92152d19033a1ddb3e9"
+    },
+    {
+      "id": "CANCEL_BROWSER_ADMIN_SCREENSHOT",
+      "path": "evidence/miniapp/m8-cancel-refund-browser-20261102T080146610Z-dff29d2c/admin-cancel-refund.png",
+      "bytes": 117037,
+      "sha256": "b9cb6e989f88813405fc83a6557126f17d4eace6616602434da03bed55030205"
+    },
+    {
+      "id": "STAGED_RUNTIME",
+      "path": "evidence/deploy/m9-weixin-20261102T142140Z-1bdbec28/runtime-smoke.json",
+      "bytes": 544,
+      "sha256": "68705b6149ec01c28f57ee10532fc968384d42b656419228370da168cc4e0f7e"
+    },
+    {
+      "id": "STAGED_EDGE",
+      "path": "evidence/deploy/m9-weixin-20261102T142140Z-1bdbec28/edge-admission-smoke.json",
+      "bytes": 729,
+      "sha256": "085c7dd00a3983aba918b387981007cbbb0600e1fe498648512cd607299f668d"
+    },
+    {
+      "id": "STAGED_SUMS",
+      "path": "evidence/deploy/m9-weixin-20261102T142140Z-1bdbec28/SHA256SUMS",
+      "bytes": 521,
+      "sha256": "0bcb358434e4557c311e04a734e957e931f7e758bef389344fb216e3087ba3ff"
+    },
+    {
+      "id": "STAGED_PRE_ENABLE_LOG",
+      "path": "evidence/deploy/m9-weixin-20261102T142140Z-1bdbec28/pre-enable-regression.log",
+      "bytes": 125,
+      "sha256": "0a1f0585f6a86c6e2be6deb8a8d7c5f26e5b6940213fcfe65028c691fc1cd7bb"
+    },
+    {
+      "id": "STAGED_EDGE_LOG",
+      "path": "evidence/deploy/m9-weixin-20261102T142140Z-1bdbec28/edge-admission-smoke.log",
+      "bytes": 567,
+      "sha256": "1d9a4b0623b86604e810cb98b39cbfe34a13c62cb00797b17af03e94119948b9"
+    },
+    {
+      "id": "STAGED_RUNTIME_LOG",
+      "path": "evidence/deploy/m9-weixin-20261102T142140Z-1bdbec28/runtime-smoke.log",
+      "bytes": 492,
+      "sha256": "82ec1f2187678fb9887f038c64bd6e8feac0f99903dd8391ce0d260bbeed9d06"
+    }
+  ],
+  "historicalManifestCaveat": {
+    "path": "evidence/deploy/m9-weixin-20261102T142140Z-1bdbec28/SHA256SUMS",
+    "preservedUnchanged": true,
+    "nonSelfEntries": 5,
+    "nonSelfEntriesMatch": true,
+    "selfEntryMatches": false,
+    "explanation": "The historical manifest records the empty-file SHA for its own filename. A full sha256sum -c is expected to fail that self entry. Its actual byte hash is independently captured above; no self-verification claim is made."
+  },
+  "rejectedFiles": [],
+  "scopeBoundary": "Archival and parse/hash/link verification only. No business tests rerun, no source-system actions, no business state change, no deployment, no service restart, no production approval. M8/M9 original NOT_RUN boundaries remain unchanged."
+}

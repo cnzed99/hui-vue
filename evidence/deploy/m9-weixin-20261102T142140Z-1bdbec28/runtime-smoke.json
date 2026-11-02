@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "h5ExistingLoop": "PASS",
+  "createReplay": true,
+  "partReplay": true,
+  "manifestOrderConflict": true,
+  "crossPrincipalHidden": true,
+  "incompleteRejected": true,
+  "completeReplay": true,
+  "sameKeyCrossTransportSameFile": true,
+  "databaseReplaySameFile": true,
+  "differentOrderDatabaseConflict": true,
+  "nativeDisabled": true,
+  "boundaries": {
+    "wechatDevtools": "NOT_RUN",
+    "wechatDevice": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN",
+    "realPayment": "NOT_RUN",
+    "realPrinter": "NOT_RUN"
+  }
+}
