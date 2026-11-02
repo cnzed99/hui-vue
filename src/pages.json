@@ -111,6 +111,12 @@
       }
     },
     {
+      "path": "pages/image-collage/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/photo-method/index",
       "style": {
         "navigationStyle": "custom"

@@ -66,8 +66,12 @@ function acceptImageSelection(value: unknown) {
 
 function chooseSource(label: '拍照' | '手机相册' | '微信图片') {
   closeSourceSheet()
+  if (selectedMethod.value === 'image-collage') {
+    uni.navigateTo({ url: `/pages/image-collage/index?source=${encodeURIComponent(label)}` })
+    return
+  }
   if (selectedMethod.value !== 'image-print') {
-    uni.showToast({ title: '图片拼版将在后续批次单独开放', icon: 'none' })
+    uni.showToast({ title: '该功能暂未开放', icon: 'none' })
     return
   }
   // #ifdef MP-WEIXIN
@@ -101,7 +105,7 @@ function chooseSource(label: '拍照' | '手机相册' | '微信图片') {
       </view>
     </view>
 
-    <view class="boundary-note">普通图片打印已开放单张 JPG/PNG 安全演示上传；拼版、AI高清、裁切和真实彩色打印仍待后续批次。</view>
+    <view class="boundary-note">普通图片打印和最多 9 张固定网格拼版已开放安全演示；AI高清、裁切、调色和真实彩色打印仍待后续批次。</view>
 
     <view v-if="sourceSheetVisible" class="sheet-mask" @click="closeSourceSheet">
       <view class="source-sheet" @click.stop>
