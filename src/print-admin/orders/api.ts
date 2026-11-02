@@ -78,6 +78,7 @@ export interface MiniappOrderSummary {
   principalId: string
   createdAtMs: number
   updatedAtMs: number
+  cancellationOutcome: MiniappCancellationOutcome | null
 }
 export interface MiniappPayment {
   id: string; provider: 'SIMULATED'; mode: 'DEMO'; state: 'SUCCEEDED'; simulation: true
@@ -93,7 +94,7 @@ export interface MiniappPrintReceipt {
   simulation: true; createdAtMs: number
 }
 export type MiniappPrintState = 'QUEUED' | 'CLAIMED' | 'ACCEPTED' | 'EXECUTING' |
-  'SUCCEEDED' | 'FAILED' | 'RESULT_UNKNOWN'
+  'SUCCEEDED' | 'FAILED' | 'RESULT_UNKNOWN' | 'CANCELLED'
 export interface MiniappPrintTask {
   id: string; jobId: string; orderId: string; orderItemId: string; state: MiniappPrintState
   version: number; fence: number; leaseId: string | null; leaseUntilMs: number | null
@@ -105,6 +106,31 @@ export interface MiniappOrderDetail extends MiniappOrderSummary {
   payment: MiniappPayment | null
   printTask: MiniappPrintTask | null
   events: MiniappOrderEvent[]
+  cancellation: MiniappCancellation | null
+}
+export type MiniappCancellationOutcome = 'CANCELLED_UNPAID' | 'CANCELLED_REFUNDED' | 'MANUAL_REVIEW_REQUIRED'
+export interface MiniappRefundReceipt {
+  id: string; cancellationId: string; paymentReceiptId: string; orderId: string
+  provider: 'SIMULATED'; mode: 'DEMO'; state: 'SUCCEEDED'; simulation: true
+  currency: 'CNY'; amount: string; createdAtMs: number
+  debit: { side: 'DEBIT'; account: 'DEMO_STORE'; currency: 'CNY'; amount: string }
+  credit: { side: 'CREDIT'; account: 'DEMO_CUSTOMER'; currency: 'CNY'; amount: string }
+}
+export interface MiniappCancellation {
+  originalResult: {
+    id: string; orderId: string; outcome: MiniappCancellationOutcome; reason: string
+    orderVersionBefore: number; orderVersionAfter: number; taskId: string | null
+    taskStateBefore: MiniappPrintState | null; taskStateAfter: MiniappPrintState | null
+    taskVersionBefore: number | null; taskVersionAfter: number | null
+    taskFenceBefore: number | null; taskFenceAfter: number | null
+    createdAtMs: number; simulation: true
+  }
+  currentOrder: { id: string; orderState: string; paymentState: string; refundState: string; printState: string; version: number }
+  refundReceipt: MiniappRefundReceipt | null
+  reviewSummary: null | {
+    cancellationId: string; status: 'PENDING'; taskId: string; taskStateAtRequest: MiniappPrintState
+    taskVersionAtRequest: number; fenceAtRequest: number; createdAtMs: number
+  }
 }
 export interface MiniappPrintActionInput {
   action: 'CLAIM' | 'REQUEUE_EXPIRED_CLAIM' | 'ACCEPT' | 'START' | 'SUCCEED' |
@@ -230,7 +256,24 @@ const miniSummary = (data: unknown): MiniappOrderSummary => {
       data.simulation !== true || data.currency !== 'CNY' || !money(data.totalAmount) || !validOrderId(data.principalId) ||
       !['orderState', 'paymentState', 'refundState', 'printState'].every(k => text(data[k])) ||
       !positive(data.version) || !timestamp(data.createdAtMs) || !timestamp(data.updatedAtMs)) return invalid()
-  return data as unknown as MiniappOrderSummary
+  if (!validMiniappOrderState(data) || !(data.cancellationOutcome == null || cancellationOutcomes.includes(String(data.cancellationOutcome)))) return invalid()
+  if (data.cancellationOutcome != null && (
+    data.orderState === 'OPEN' && data.cancellationOutcome !== 'MANUAL_REVIEW_REQUIRED' ||
+    data.orderState === 'CANCELLED' && data.cancellationOutcome !== (data.paymentState === 'UNPAID' ? 'CANCELLED_UNPAID' : 'CANCELLED_REFUNDED'))) return invalid()
+  return { ...data, cancellationOutcome: data.cancellationOutcome ?? null } as unknown as MiniappOrderSummary
+}
+const cancellationOutcomes = ['CANCELLED_UNPAID', 'CANCELLED_REFUNDED', 'MANUAL_REVIEW_REQUIRED']
+const taskStates = ['QUEUED', 'CLAIMED', 'ACCEPTED', 'EXECUTING', 'SUCCEEDED', 'FAILED', 'RESULT_UNKNOWN', 'CANCELLED']
+const validMiniappOrderState = (data: Record<string, unknown>): boolean => {
+  if (data.orderState === 'OPEN' && data.refundState === 'NONE') {
+    return data.paymentState === 'UNPAID' && data.printState === 'NOT_CREATED' && data.version === 1 ||
+      data.paymentState === 'SUCCEEDED' && (data.printState === 'NOT_CREATED' && data.version === 2 ||
+        taskStates.filter(state => state !== 'CANCELLED').includes(String(data.printState)) && positive(data.version) && data.version >= 3)
+  }
+  return data.orderState === 'CANCELLED' && (
+    data.paymentState === 'UNPAID' && data.refundState === 'NONE' && data.printState === 'NOT_CREATED' && data.version === 2 ||
+    data.paymentState === 'SUCCEEDED' && data.refundState === 'SUCCEEDED' && (
+      data.printState === 'NOT_CREATED' && data.version === 3 || data.printState === 'CANCELLED' && data.version === 4))
 }
 const miniReceipt = (data: unknown): MiniappPrintReceipt | null => {
   if (data == null) return null
@@ -244,12 +287,17 @@ const miniReceipt = (data: unknown): MiniappPrintReceipt | null => {
 const miniTask = (data: unknown): MiniappPrintTask => {
   if (!object(data) || !validOrderId(data.id) || !/^PJ[0-9A-F]{32}$/.test(String(data.jobId)) ||
       !validOrderId(data.orderId) || !validOrderId(data.orderItemId) ||
-      !['QUEUED', 'CLAIMED', 'ACCEPTED', 'EXECUTING', 'SUCCEEDED', 'FAILED', 'RESULT_UNKNOWN'].includes(String(data.state)) ||
+      !taskStates.includes(String(data.state)) ||
       !positive(data.version) || !nonNegative(data.fence) || !(data.leaseId == null || validOrderId(data.leaseId)) ||
       !(data.leaseUntilMs == null || timestamp(data.leaseUntilMs)) || !count(data.plannedCopies) ||
       !count(data.plannedSheets) || !validOrderId(data.fileId) || !/^[0-9a-f]{64}$/.test(String(data.fileSha256)) ||
       !positive(data.eventSeq) || !timestamp(data.createdAtMs) || !timestamp(data.updatedAtMs)) return invalid()
-  return { ...data, receipt: miniReceipt(data.receipt) } as unknown as MiniappPrintTask
+  const receipt = miniReceipt(data.receipt)
+  if (['SUCCEEDED', 'FAILED'].includes(String(data.state)) !== (receipt !== null) ||
+      data.state === 'SUCCEEDED' && receipt?.result !== 'SIMULATED_SUCCESS' ||
+      data.state === 'FAILED' && receipt?.result !== 'SIMULATED_FAILED' ||
+      data.state === 'CANCELLED' && (data.fence !== 0 || data.version !== 2 || data.eventSeq !== 2 || data.leaseId != null || data.leaseUntilMs != null)) return invalid()
+  return { ...data, receipt } as unknown as MiniappPrintTask
 }
 const miniPayment = (data: unknown): MiniappPayment | null => {
   if (data == null) return null
@@ -264,6 +312,58 @@ const miniEvent = (data: unknown): MiniappOrderEvent => {
       data.simulation !== true || !positive(data.aggregateVersion) || !timestamp(data.createdAtMs)) return invalid()
   return data as unknown as MiniappOrderEvent
 }
+const miniCancellation = (data: unknown, order: MiniappOrderSummary, payment: MiniappPayment | null): MiniappCancellation | null => {
+  if (data == null) {
+    if (order.orderState === 'CANCELLED' || order.cancellationOutcome !== null) return invalid()
+    return null
+  }
+  if (!object(data) || !object(data.originalResult) || !object(data.currentOrder)) return invalid()
+  const original = data.originalResult
+  const current = data.currentOrder
+  if (!validOrderId(original.id) || original.orderId !== order.id || !cancellationOutcomes.includes(String(original.outcome)) ||
+      !text(original.reason) || !positive(original.orderVersionBefore) || !positive(original.orderVersionAfter) ||
+      !timestamp(original.createdAtMs) || original.simulation !== true ||
+      current.id !== order.id || !(['orderState', 'paymentState', 'refundState', 'printState', 'version'] as const).every(key => current[key] === order[key]) ||
+      !(order.cancellationOutcome == null || order.cancellationOutcome === original.outcome)) return invalid()
+  const taskFields = ['taskStateBefore', 'taskStateAfter', 'taskVersionBefore', 'taskVersionAfter', 'taskFenceBefore', 'taskFenceAfter']
+  if (original.taskId == null) {
+    if (!taskFields.every(key => original[key] == null)) return invalid()
+  } else if (!validOrderId(original.taskId) || !taskStates.includes(String(original.taskStateBefore)) ||
+      !taskStates.includes(String(original.taskStateAfter)) || !positive(original.taskVersionBefore) || !positive(original.taskVersionAfter) ||
+      !nonNegative(original.taskFenceBefore) || !nonNegative(original.taskFenceAfter)) return invalid()
+  if (original.outcome === 'MANUAL_REVIEW_REQUIRED') {
+    if (order.orderState !== 'OPEN' || data.refundReceipt != null || !object(data.reviewSummary) ||
+        original.taskId == null || original.orderVersionBefore !== original.orderVersionAfter ||
+        original.taskStateBefore !== original.taskStateAfter || original.taskVersionBefore !== original.taskVersionAfter ||
+        original.taskFenceBefore !== original.taskFenceAfter) return invalid()
+    const review = data.reviewSummary
+    if (review.cancellationId !== original.id || review.status !== 'PENDING' || review.taskId !== original.taskId ||
+        review.taskStateAtRequest !== original.taskStateBefore || review.taskVersionAtRequest !== original.taskVersionBefore ||
+        review.fenceAtRequest !== original.taskFenceBefore || review.createdAtMs !== original.createdAtMs) return invalid()
+    // The request snapshot is historical. The live task may have legitimately advanced since it was recorded.
+  } else {
+    if (order.orderState !== 'CANCELLED' || data.reviewSummary != null || original.orderVersionAfter !== order.version) return invalid()
+    if (original.outcome === 'CANCELLED_UNPAID') {
+      if (payment !== null || data.refundReceipt != null || original.taskId != null || original.orderVersionBefore !== 1 || original.orderVersionAfter !== 2) return invalid()
+    } else {
+      if (!payment || !object(data.refundReceipt)) return invalid()
+      const refund = data.refundReceipt
+      if (!validOrderId(refund.id) || refund.cancellationId !== original.id || refund.paymentReceiptId !== payment.id || refund.orderId !== order.id ||
+          refund.provider !== 'SIMULATED' || refund.mode !== 'DEMO' || refund.state !== 'SUCCEEDED' || refund.simulation !== true ||
+          refund.currency !== order.currency || refund.amount !== order.totalAmount || refund.amount !== payment.amount || !timestamp(refund.createdAtMs)) return invalid()
+      for (const [key, side, account] of [['debit', 'DEBIT', 'DEMO_STORE'], ['credit', 'CREDIT', 'DEMO_CUSTOMER']]) {
+        const entry = refund[key]
+        if (!object(entry) || entry.side !== side || entry.account !== account || entry.currency !== refund.currency || entry.amount !== refund.amount) return invalid()
+      }
+      if (original.taskId == null) {
+        if (original.orderVersionBefore !== 2 || original.orderVersionAfter !== 3) return invalid()
+      } else if (original.orderVersionBefore !== 3 || original.orderVersionAfter !== 4 || original.taskStateBefore !== 'QUEUED' ||
+          original.taskStateAfter !== 'CANCELLED' || original.taskVersionBefore !== 1 || original.taskVersionAfter !== 2 ||
+          original.taskFenceBefore !== 0 || original.taskFenceAfter !== 0) return invalid()
+    }
+  }
+  return data as unknown as MiniappCancellation
+}
 const miniDetail = (data: unknown): MiniappOrderDetail => {
   const base = miniSummary(data)
   if (!object(data) || !object(data.item) || !validOrderId(data.item.id) || !validOrderId(data.item.quoteId) ||
@@ -272,8 +372,14 @@ const miniDetail = (data: unknown): MiniappOrderDetail => {
   const item = { ...data.item, quoteSnapshot: snapshot(data.item.quoteSnapshot) } as unknown as OrderItem
   const task = data.printTask == null ? null : miniTask(data.printTask)
   if (task && task.orderId !== base.id) return invalid()
-  return { ...base, item, payment: miniPayment(data.payment), printTask: task,
-    events: data.events.map(miniEvent) }
+  const payment = miniPayment(data.payment)
+  const cancellation = miniCancellation(data.cancellation, base, payment)
+  if (base.printState === 'CANCELLED' && task?.state !== 'CANCELLED' ||
+      task?.state === 'CANCELLED' && base.printState !== 'CANCELLED' ||
+      cancellation?.originalResult.taskId != null && cancellation.originalResult.taskId !== task?.id ||
+      cancellation && cancellation.originalResult.orderVersionAfter > base.version) return invalid()
+  return { ...base, cancellationOutcome: cancellation?.originalResult.outcome ?? base.cancellationOutcome,
+    item, payment, printTask: task, cancellation, events: data.events.map(miniEvent) }
 }
 export const getMiniappOrders = async (pageNo: number, pageSize: number): Promise<OrderPage<MiniappOrderSummary>> =>
   page(await request.get<unknown>({ url: '/print/miniapp-demo/orders', params: { pageNo, pageSize },

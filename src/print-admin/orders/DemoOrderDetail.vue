@@ -6,8 +6,8 @@ import { actMiniappPrintTask, classifyOrderError, createMiniappPrintTask, getMin
   getOrder, getOrderEvents, orderFailure, validOrderId } from './api'
 import type { MiniappOrderDetail, MiniappPrintActionInput, OrderDetail, OrderEvent,
   OrderFailure, OrderPage } from './api'
-import { DEMO_ORDERS, displayTime, eventTypeLabel, parsePage, paymentStatusLabel,
-  printStatusLabel, statusLabel, useOrderAccess } from './view'
+import { DEMO_ORDERS, cancellationOutcomeLabel, displayTime, eventTypeLabel, parsePage, paymentStatusLabel,
+  printStatusLabel, refundStatusLabel, statusLabel, useOrderAccess } from './view'
 import OrderState from './OrderState.vue'
 import './orders.css'
 
@@ -33,6 +33,12 @@ const processing = ref(false)
 const eventPageNo = ref(1)
 const visibleFailure = computed(() => access.failure.value || failure.value)
 const task = computed(() => miniappData.value?.printTask || null)
+const cancellation = computed(() => miniappData.value?.cancellation || null)
+const refundReceipt = computed(() => cancellation.value?.refundReceipt || null)
+const reviewSummary = computed(() => cancellation.value?.reviewSummary || null)
+const printableOrder = computed(() => miniappData.value?.orderState === 'OPEN' &&
+  miniappData.value.paymentState === 'SUCCEEDED' && miniappData.value.refundState === 'NONE')
+const canCreateTask = computed(() => printableOrder.value && !task.value && miniappData.value?.printState === 'NOT_CREATED')
 const leaseExpired = computed(() => !!task.value?.leaseUntilMs && Date.now() >= task.value.leaseUntilMs)
 let generation = 0
 let eventGeneration = 0
@@ -88,7 +94,7 @@ const actionLabels: Record<MiniappPrintActionInput['action'], string> = {
   ABORT_FILE_UNAVAILABLE: '文件不可用时终止'
 }
 const createTask = async () => {
-  if (!processPermitted.value || !miniappData.value || processing.value || !window.confirm('仅创建模拟打印任务，不会传输文件或驱动真实打印机。是否继续？')) return
+  if (!processPermitted.value || !canCreateTask.value || !miniappData.value || processing.value || !window.confirm('仅创建模拟打印任务，不会传输文件或驱动真实打印机。是否继续？')) return
   const requestGeneration = generation
   const requestOrderId = orderId.value
   const requestAccessKey = access.key.value
@@ -106,7 +112,7 @@ const createTask = async () => {
 }
 const runAction = async (action: MiniappPrintActionInput['action']) => {
   const current = task.value
-  if (!processPermitted.value || !current || processing.value || !window.confirm(`${actionLabels[action]}：本操作只推进模拟状态，不代表真实出纸。是否继续？`)) return
+  if (!processPermitted.value || !printableOrder.value || !current || current.state === 'CANCELLED' || processing.value || !window.confirm(`${actionLabels[action]}：本操作只推进模拟状态，不代表真实出纸。是否继续？`)) return
   const requestGeneration = generation
   const requestOrderId = orderId.value
   const requestAccessKey = access.key.value
@@ -143,7 +149,8 @@ const runAction = async (action: MiniappPrintActionInput['action']) => {
           <div><dt>订单状态</dt><dd>{{ statusLabel(miniappData.orderState) }}</dd></div>
           <div><dt>支付状态</dt><dd>{{ paymentStatusLabel(miniappData.paymentState) }}</dd></div>
           <div><dt>打印状态</dt><dd>{{ printStatusLabel(miniappData.printState) }}</dd></div>
-          <div><dt>退款状态</dt><dd>{{ statusLabel(miniappData.refundState) }}</dd></div>
+          <div><dt>退款状态</dt><dd>{{ refundStatusLabel(miniappData.refundState) }}</dd></div>
+          <div><dt>取消 / 人工核实</dt><dd>{{ cancellationOutcomeLabel(miniappData.cancellationOutcome) }}</dd></div>
           <div><dt>版本</dt><dd>{{ miniappData.version }}</dd></div>
           <div class="orders-wide"><dt>小程序主体</dt><dd>{{ miniappData.principalId }}</dd></div>
           <div><dt>创建时间</dt><dd>{{ displayTime(miniappData.createdAtMs) }}（北京时间）</dd></div>
@@ -189,15 +196,49 @@ const runAction = async (action: MiniappPrintActionInput['action']) => {
       </template>
     </div>
 
+    <div v-if="miniappData && cancellation && !visibleFailure && access.ready.value" class="orders-card" data-testid="miniapp-cancellation">
+      <div class="orders-toolbar"><h2>取消与人工核实记录</h2><span class="orders-badge">只读记录</span></div>
+      <dl class="orders-facts">
+        <div><dt>申请结果</dt><dd>{{ cancellationOutcomeLabel(cancellation.originalResult.outcome) }}</dd></div>
+        <div><dt>登记时间</dt><dd>{{ displayTime(cancellation.originalResult.createdAtMs) }}（北京时间）</dd></div>
+        <div><dt>登记时订单版本</dt><dd>{{ cancellation.originalResult.orderVersionBefore }} → {{ cancellation.originalResult.orderVersionAfter }}</dd></div>
+        <div><dt>当前订单版本</dt><dd>{{ miniappData.version }}</dd></div>
+      </dl>
+      <template v-if="reviewSummary">
+        <p class="orders-warning">申请已登记，原任务尚未被停止，当前未退款。</p>
+        <h3>申请时冻结快照</h3>
+        <dl class="orders-facts">
+          <div><dt>任务状态</dt><dd>{{ printStatusLabel(reviewSummary.taskStateAtRequest) }}</dd></div>
+          <div><dt>任务版本 / fence</dt><dd>{{ reviewSummary.taskVersionAtRequest }} / {{ reviewSummary.fenceAtRequest }}</dd></div>
+          <div><dt>核实状态</dt><dd>待人工核实</dd></div>
+        </dl>
+        <p>当前任务信息显示在下方。任务后续推进不会改变这份申请时快照；本页不提供退款、重打或核实结论操作。</p>
+      </template>
+      <p v-else-if="cancellation.originalResult.outcome === 'CANCELLED_UNPAID'">未付款订单已取消，没有发生模拟退款。</p>
+      <template v-if="refundReceipt">
+        <h3>全额模拟退款收据</h3>
+        <dl class="orders-facts">
+          <div class="orders-wide"><dt>退款收据号</dt><dd>{{ refundReceipt.id }}</dd></div>
+          <div class="orders-wide"><dt>原模拟付款收据</dt><dd>{{ refundReceipt.paymentReceiptId }}</dd></div>
+          <div><dt>模拟退款金额</dt><dd class="orders-money">{{ refundReceipt.amount }} 元</dd></div>
+          <div><dt>模拟退款时间</dt><dd>{{ displayTime(refundReceipt.createdAtMs) }}（北京时间）</dd></div>
+          <div><dt>反向借方</dt><dd>模拟门店 {{ refundReceipt.debit.amount }} {{ refundReceipt.debit.currency }}</dd></div>
+          <div><dt>反向贷方</dt><dd>模拟用户 {{ refundReceipt.credit.amount }} {{ refundReceipt.credit.currency }}</dd></div>
+        </dl>
+        <p class="orders-warning">模拟退款已记录，不涉及真实资金，不代表微信退款到账。</p>
+      </template>
+    </div>
+
     <div v-if="miniappData && !visibleFailure && access.ready.value" class="orders-card orders-process">
       <div class="orders-toolbar"><h2>模拟打印处理</h2><span class="orders-badge">不会驱动真实打印机</span></div>
-      <p v-if="miniappData.paymentState !== 'SUCCEEDED'">订单尚未模拟支付，不能创建打印任务。</p>
-      <p v-else-if="!processPermitted">当前账号只有查看权限，不能推进模拟打印任务。</p>
-      <template v-else-if="!task">
+      <p v-if="miniappData.orderState === 'CANCELLED'">订单已取消，不能创建或推进打印任务。</p>
+      <p v-else-if="miniappData.paymentState !== 'SUCCEEDED'">订单尚未模拟支付，不能创建打印任务。</p>
+      <p v-if="!processPermitted">当前账号只有查看权限，不能推进模拟打印任务。</p>
+      <template v-if="!task && canCreateTask && processPermitted">
         <p>尚未创建打印任务。创建时会再次检查文件是否有效，任务全局唯一。</p>
         <button type="button" :disabled="processing" @click="createTask">创建唯一模拟打印任务</button>
       </template>
-      <template v-else>
+      <template v-if="task">
         <dl class="orders-facts">
           <div><dt>任务状态</dt><dd>{{ printStatusLabel(task.state) }}</dd></div>
           <div><dt>任务版本 / fence</dt><dd>{{ task.version }} / {{ task.fence }}</dd></div>
@@ -205,7 +246,7 @@ const runAction = async (action: MiniappPrintActionInput['action']) => {
           <div><dt>计划份数 / 纸张</dt><dd>{{ task.plannedCopies }} / {{ task.plannedSheets }}</dd></div>
           <div><dt>租约</dt><dd>{{ task.leaseUntilMs ? `${displayTime(task.leaseUntilMs)}${leaseExpired ? '（已过期）' : ''}` : '无' }}</dd></div>
         </dl>
-        <div class="orders-actions">
+        <div v-if="processPermitted && printableOrder && task.state !== 'CANCELLED'" class="orders-actions">
           <button v-if="task.state === 'QUEUED'" type="button" :disabled="processing" @click="runAction('CLAIM')">模拟终端领取</button>
           <button v-if="task.state === 'QUEUED' || task.state === 'CLAIMED'" type="button" class="secondary" :disabled="processing" @click="runAction('ABORT_FILE_UNAVAILABLE')">文件不可用时终止</button>
           <button v-if="task.state === 'CLAIMED' && !leaseExpired" type="button" :disabled="processing" @click="runAction('ACCEPT')">模拟终端受理</button>
@@ -220,6 +261,7 @@ const runAction = async (action: MiniappPrintActionInput['action']) => {
           <span>完成 {{ task.receipt.completedCopies }} 份 / {{ task.receipt.completedSheets }} 张</span>
           <span v-if="task.receipt.reason">原因：{{ task.receipt.reason }}</span><span>该回执不代表真实出纸。</span></div>
         <p v-else-if="task.state === 'RESULT_UNKNOWN'" class="orders-warning">结果待人工核实：系统不会自动重排、重打或生成第二任务。</p>
+        <p v-else-if="task.state === 'CANCELLED'">任务在首次领取前已取消，没有生成打印回执。</p>
       </template>
     </div>
 

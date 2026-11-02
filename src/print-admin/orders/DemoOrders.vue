@@ -3,7 +3,7 @@ import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { classifyOrderError, getMiniappOrders, getOrders, orderFailure } from './api'
 import type { MiniappOrderSummary, OrderFailure, OrderPage, OrderSummary } from './api'
-import { DEMO_ORDERS, displayTime, parsePage, statusLabel, paymentStatusLabel, printStatusLabel, useOrderAccess } from './view'
+import { DEMO_ORDERS, cancellationOutcomeLabel, displayTime, parsePage, statusLabel, paymentStatusLabel, printStatusLabel, refundStatusLabel, useOrderAccess } from './view'
 import OrderState from './OrderState.vue'
 import './orders.css'
 
@@ -71,11 +71,13 @@ const switchMode = (miniapp: boolean) => {
       <template v-if="data && !visibleFailure && access.ready.value">
         <p v-if="data.list.length === 0" class="orders-empty" data-testid="orders-empty" role="status">{{ data.total === 0 ? '当前账号暂无演示订单' : '当前页暂无订单，请返回前一页或第一页。' }}</p>
         <div v-else class="orders-table-wrap"><table class="orders-table">
-          <thead><tr><th>订单号</th><th>来源</th><th>金额（元）</th><th>订单状态</th><th>支付状态</th><th>打印状态</th><th>创建时间（北京时间）</th><th>操作</th></tr></thead>
+          <thead><tr><th>订单号</th><th>来源</th><th>金额（元）</th><th>订单状态</th><th>支付状态</th><th>打印状态</th><th v-if="miniappMode">取消 / 人工核实</th><th v-if="miniappMode">退款状态</th><th>创建时间（北京时间）</th><th>操作</th></tr></thead>
           <tbody><tr v-for="order in data.list" :key="order.id">
             <td class="orders-identifier">{{ order.orderNo }}</td><td>{{ order.source === 'MINIAPP_DEMO' ? '小程序' : '后台演示' }} <span v-if="order.simulation" class="orders-badge">模拟</span></td>
             <td class="orders-money">{{ order.totalAmount }}</td><td>{{ statusLabel(order.orderState) }}</td>
             <td>{{ paymentStatusLabel(order.paymentState) }}</td><td>{{ printStatusLabel(order.printState) }}</td>
+            <td v-if="miniappMode"><span :class="{ 'orders-badge': order.source === 'MINIAPP_DEMO' && order.cancellationOutcome !== null }">{{ order.source === 'MINIAPP_DEMO' ? cancellationOutcomeLabel(order.cancellationOutcome) : '不适用' }}</span></td>
+            <td v-if="miniappMode">{{ refundStatusLabel(order.refundState) }}</td>
             <td>{{ displayTime(order.createdAtMs) }}</td><td><RouterLink :to="detailLink(order.id)">查看</RouterLink></td>
           </tr></tbody>
         </table></div>
