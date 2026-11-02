@@ -1,0 +1,17 @@
+{
+  "status": "CANDIDATE_NOT_DEPLOYED",
+  "backendCommit": "4a34109859f3eddcc53ce5e8d9978f020cd98299",
+  "miniappCommit": "b44e5fa2ab6a404519654f595342cb958981ea40",
+  "backendSha256": "8eea9fca50dc5ce61c8cd2a0accbb03b1b2efa6e95fbb450058dc1284302b73f",
+  "h5IndexSha256": "d37af00986584012604c688f432d1b23795f90c115d021f80f16169de49e5391",
+  "mpAppJsonSha256": "66b242fc66720268706fce190b3fa06a6c652f7babf914d7e98a0c8776ba84b8",
+  "nativeEnabled": false,
+  "buildEvidence": "/home/ubuntu/print-system/evidence/build/m9-weixin-full",
+  "boundaries": {
+    "wechatDevice": "NOT_RUN",
+    "wechatDevtools": "NOT_RUN",
+    "realPayment": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  }
+}
