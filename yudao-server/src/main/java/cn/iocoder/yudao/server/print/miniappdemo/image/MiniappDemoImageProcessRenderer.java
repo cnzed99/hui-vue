@@ -25,7 +25,7 @@ import static cn.iocoder.yudao.server.print.miniappdemo.image.MiniappDemoImageEx
 
 @Component
 public class MiniappDemoImageProcessRenderer {
-    private static final Pattern OK = Pattern.compile("^OK:(JPEG|PNG):[1-9][0-9]*x[1-9][0-9]*:[0-9a-f]{64}$");
+    private static final Pattern OK = Pattern.compile("(?m)^OK:(JPEG|PNG):[1-9][0-9]*x[1-9][0-9]*:[0-9a-f]{64}$");
     private final MiniappDemoImageProperties properties;
     private final MiniappDemoFileProperties fileProperties;
     private Semaphore slots;
@@ -86,7 +86,9 @@ public class MiniappDemoImageProcessRenderer {
             join(collectorThread, process.getInputStream());
             if (collector.failed || collector.overflowed) throw failure(RENDER_UNAVAILABLE);
             String result = collector.result().strip();
-            if (process.exitValue() == 0 && OK.matcher(result).matches()
+            var success = OK.matcher(result);
+            boolean exactlyOneSuccess = success.find() && !success.find();
+            if (process.exitValue() == 0 && exactlyOneSuccess
                     && Files.isRegularFile(output) && !Files.isSymbolicLink(output)) {
                 byte[] pdf = Files.readAllBytes(output);
                 if (pdf.length < 1 || pdf.length > properties.getMaxPdfBytes()) throw failure(PDF_TOO_LARGE);
