@@ -1,0 +1,52 @@
+{
+  "milestone": "M9_WEIXIN_STAGED_UPLOAD",
+  "status": "DEPLOYED_DEVELOPMENT_CANDIDATE",
+  "runId": "20261102T142140Z-1bdbec28",
+  "backendCommit": "71e22c43606a620bc8ab9f1d100ff3630013e6ad",
+  "miniappCommit": "b44e5fa2ab6a404519654f595342cb958981ea40",
+  "deployedEngineeringCommit": "09de3d2fa6f67f0d1e052cc70e5c472a60348847",
+  "backendJarSha256": "204c17310c99f2e2fa6dde8b0127d76ef5e9073028d1718760cdbb6987780ffc",
+  "astraHighFinalReview": {
+    "result": "PASS",
+    "engineeringCommit": "e4f9fec2258d4ff9f8a8d48f074becb7f33ac850",
+    "record": "docs/reviews/m9-weixin-staged-upload-final-astra-review.md"
+  },
+  "deploymentResult": "PASS",
+  "stagedEnabled": true,
+  "wechatNativeEnabled": false,
+  "servicesHealthy": true,
+  "runtimeEvidence": "evidence/deploy/m9-weixin-20261102T142140Z-1bdbec28/",
+  "runtimeSmoke": "PASS",
+  "edgeAdmissionSmoke": "PASS",
+  "nineImageGate": {
+    "connection": "SINGLE_HTTP_1_1_KEEPALIVE",
+    "requestCount": 11,
+    "retryCount": 0,
+    "allHttp200": true,
+    "elapsedSeconds": 4.184,
+    "result": "READY",
+    "pageCount": 1
+  },
+  "mixedAdmissionGate": {
+    "perIp": 1,
+    "global": 2,
+    "thirdH5Http": 429,
+    "thirdPartHttp": 429,
+    "capacityReleased": true
+  },
+  "progressEstimate": {
+    "overallPercent": 80,
+    "phaseOnePriorityPercent": 94,
+    "method": "EXISTING_VERIFIED_SCOPE_ESTIMATE_UNCHANGED"
+  },
+  "boundaries": {
+    "wechatDevtools": "NOT_RUN",
+    "wechatDevice": "NOT_RUN",
+    "appidIntegration": "NOT_RUN",
+    "formalDomain": "NOT_RUN",
+    "realPaymentRefund": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "platformCaveat": "Server keepalive fixture does not establish uni.uploadFile connection reuse or Wechat platform acceptance"
+}

@@ -119,4 +119,14 @@
 - Nginx 精确路由限制 13MiB 请求体、上传连接数、速率和私有 body-temp；Servlet multipart 目录、M9 scratch 和文件存储均使用独立私有目录。部署前后核对完整静态资源集合与 SHA256，拒绝额外、缺失或符号链接资源。
 - 部署先以 M9 disabled 启动新后端并回归既有 PDF/单图，再启用并等待健康。失败路径两次均自动恢复 M8；第三次部署成功后 HTTP 闭环和 H5 浏览器 6/6 通过。
 - 空文件 400/1934002 只证明启用后的控制器路由可达；合法非空匿名请求的 401/1926003、有效会话完整闭环和浏览器流程分别验证，不互相替代。
-- 原版选图后布局、微信多文件适配、微信真机、正式对象存储、真实支付退款、真实打印端和外部验收继续为 `NOT_RUN`。
+- 原版选图后布局、微信平台实际上传、微信真机、正式对象存储、真实支付退款、真实打印端和外部验收继续为 `NOT_RUN`。
+
+## M9 微信逐张协议与当前部署
+
+- H5 保留 `/image-collages` 多 `files` part；MP-WEIXIN 候选按有序 SHA256 manifest 创建临时会话，串行上传单个 `file` part，再 complete。最终渲染、文件幂等、READY、服务端报价、订单和模拟打印链沿用 M9，不新增数据库表。
+- `/image-collage-upload-sessions` 的原图私有暂存 TTL=15 分钟，成功即清理；part 与 H5 共享 Nginx global=2/per-IP=1，staged 独立 60r/m、burst=12；H5 13MiB、part 3MiB、控制请求 16KiB 分别保留。
+- 微信原生通道独立默认关闭。未来启用需要部署环境真实 AppID、精确 Host、无 Origin 和平台自动 Referer 校验；主体始终由有效演示 bearer 得出。当前只启 staged，native=false，无 AppID 或密钥提交。
+- 开发部署 `20261102T142140Z-1bdbec28` PASS，绑定后端 `71e22c43606a620bc8ab9f1d100ff3630013e6ad`、小程序 `b44e5fa2ab6a404519654f595342cb958981ea40`、工程 `09de3d2fa6f67f0d1e052cc70e5c472a60348847`，四服务 active。Astra High 最终关键差异 PASS 绑定工程 e4f9fec，部署验收脚本版本单列，不混绑审查。
+- `evidence/deploy/m9-weixin-20261102T142140Z-1bdbec28/` 证明旧链路回归、staged/数据库幂等与隔离、模拟打印链 PASS；9 图经 `.5` 单条 keepalive 连接完成 11 次200、无重试、READY。混合 `.2/.3/.4` H5/part 验证共享准入及关闭后槽释放 PASS。
+- keepalive 门禁不证明 `uni.uploadFile` 实际复用连接。微信开发者工具、真机、AppID、正式域名、真实支付退款、真实打印与外部验收均 NOT_RUN；整体约80%、一期优先约94%的既有估算不变。
+- 回滚先停止后端，确认状态/PID/cgroup，并持有与 Java FileLock 兼容的 POSIX 存储锁，只清理固定 staged scratch。路径、权限或删除异常使回滚失败；不清理 objects/incoming/parser scratch。

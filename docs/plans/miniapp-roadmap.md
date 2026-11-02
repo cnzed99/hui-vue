@@ -17,7 +17,7 @@
 | M6 | 原创演示文库详情与去打印 | 详情预览、生成文件、既有打印闭环和浏览器恢复通过 | 已完成并部署，Astra High PASS |
 | M7 | 单图片打印闭环 | JPG/PNG 受限处理、A4 PDF、既有打印闭环和浏览器验证通过 | 已完成并部署 |
 | M8 | 取消、模拟退款与人工核实 | 未付款取消；未领取全额模拟退款；已领取转人工核实；三端运行验证通过 | 已完成并部署，Astra High PASS |
-| M9 | 多图片拼版打印闭环 | 1–9 张有序 JPG/PNG 生成单页 A4 PDF；复用既有打印闭环；HTTP 与 H5 浏览器验证通过 | 已完成并部署，Astra High PASS |
+| M9 | 多图片拼版打印闭环 | 1–9 张有序 JPG/PNG 生成单页 A4 PDF；复用既有打印闭环；HTTP 与 H5 浏览器验证通过 | 开发候选已部署，Astra High PASS；逐张 HTTP 门禁通过，微信原生通道关闭 |
 | 外部接入 | 微信登录/支付/退款/订阅/存储/正式打印端 | 外部资质与密钥就绪；真实联调和上线审查 | 待申请 |
 
 ## M1 验收清单
@@ -166,7 +166,17 @@
 - 当前发布绑定后端 release `60d33a42e8a75e2f`、小程序 release `miniapp-m9-image-collage-20261102T111157Z-05fc74dd`；四项服务 active，后端、Nginx、systemd drop-in 与 73 项小程序资源清单哈希均匹配。
 - HTTP 闭环 `evidence/miniapp/m9-image-collage-runtime-20261102T112128Z.json` PASS，覆盖两图有序拼版、同键重放、顺序冲突、跨主体拒绝、报价、订单、模拟支付、后台任务和模拟回执。
 - H5 浏览器 `evidence/miniapp/m9-image-collage-browser-20261102T112230056Z-ee38fdcc/report.json` 为 6/6 PASS，覆盖两图预览、固定网格边界、真实拼版入口、单页 READY、进入共享打印设置和无原站/意外写请求。
-- 原小程序选图后的精确拼版布局尚未观察；微信多文件上传、微信开发者工具/真机、真实支付退款、真实打印设备和外部用户验收继续为 `NOT_RUN`。
+- 原小程序选图后的精确拼版布局尚未观察；微信开发者工具/真机、真实支付退款、真实打印设备和外部用户验收继续为 `NOT_RUN`；后续逐张协议的实现及 HTTP 开发验证见下节。
+
+## M9 微信逐张上传适配部署记录
+
+- 受控部署 `20261102T142140Z-1bdbec28` 为 PASS，`staged=true/native=false`；后端、MySQL、Redis、Nginx 四服务 active。先关闭新开关完成 PDF、单图、H5 拼版 READY 回归，再仅启 staged。
+- 部署绑定后端 `71e22c43606a620bc8ab9f1d100ff3630013e6ad`、小程序 `b44e5fa2ab6a404519654f595342cb958981ea40`、工程 `09de3d2fa6f67f0d1e052cc70e5c472a60348847`；JAR SHA256 `204c17310c99f2e2fa6dde8b0127d76ef5e9073028d1718760cdbb6987780ffc`。文档收口不改变部署版本。
+- Astra High 设计及关键差异增量复审 PASS，准确版本和边界见 `docs/reviews/m9-weixin-staged-upload-final-astra-review.md`。Astra 最终 PASS 绑定工程 e4f9fec；09de3d2 的验收脚本窄修另行检查，不能表述为 Astra 审过该提交。
+- 固化证据 `evidence/deploy/m9-weixin-20261102T142140Z-1bdbec28/`：`runtime-smoke.json` PASS，覆盖 H5 既有模拟打印闭环、staged 创建/part/complete 重放、manifest 冲突、缺 part、跨主体隐藏、同键跨协议同文件、数据库重放/异序冲突与 native disabled。
+- `edge-admission-smoke.json` PASS：`.5` 源的一条 HTTP/1.1 keepalive 连接串行 create＋9 part＋complete，11 次均 200、0 重试、4.184 秒，最终 READY、1 页；`.2/.3/.4` 混合 H5/part 慢请求证明同 IP 上限 1、跨 IP共享 global=2、第三 H5/part 均 429，关闭后容量恢复。
+- 首次适配部署因 `.5` 第二张 part 的连接准入 429 自动回滚；验收脚本改用单连接串行后本次通过。该门禁只验证服务端 keepalive 串行条件，不能推断 `uni.uploadFile` 的连接复用，不能冒充微信平台验收。
+- 微信开发者工具、真机、AppID 接入、正式合法域名、真实支付退款、真实打印和外部用户验收均 NOT_RUN。保留既有完成度口径：一期优先约 94%、系统整体约 80%。
 
 ## 当前完成度口径
 
