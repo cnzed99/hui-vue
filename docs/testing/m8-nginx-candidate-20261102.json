@@ -1,0 +1,145 @@
+{
+  "candidateSha256": "bb16af7b9c477372e13ee681d72d16362a5be72cf947d270febc5e5b350a2488",
+  "scope": "isolated loopback proxy + mock upstream",
+  "before": {
+    "services": [
+      "active",
+      "active"
+    ],
+    "nginxConfigSha256": "42e2d578b5c00696833b96e590ad9bd177ceed43588af3f6fb9b6acf22698ab6"
+  },
+  "rateStatuses": [
+    200,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429,
+    429
+  ],
+  "status": "PASS_PROXY_CANDIDATE_ONLY",
+  "after": {
+    "services": [
+      "active",
+      "active"
+    ],
+    "nginxConfigSha256": "42e2d578b5c00696833b96e590ad9bd177ceed43588af3f6fb9b6acf22698ab6"
+  },
+  "runningConfigAndServicesUnchanged": true,
+  "checks": [
+    {
+      "name": "exact GET route",
+      "pass": true
+    },
+    {
+      "name": "exact POST route",
+      "pass": true
+    },
+    {
+      "name": "fallback preserved",
+      "pass": true
+    },
+    {
+      "name": "nginx -t",
+      "pass": true
+    },
+    {
+      "name": "GET forwards query",
+      "pass": true
+    },
+    {
+      "name": "GET Cache-Control",
+      "pass": true
+    },
+    {
+      "name": "GET Pragma",
+      "pass": true
+    },
+    {
+      "name": "GET X-Content-Type-Options",
+      "pass": true
+    },
+    {
+      "name": "HEAD denied for /app-api/print/miniapp/demo/cancellation",
+      "pass": true
+    },
+    {
+      "name": "POST denied for /app-api/print/miniapp/demo/cancellation",
+      "pass": true
+    },
+    {
+      "name": "PUT denied for /app-api/print/miniapp/demo/cancellation",
+      "pass": true
+    },
+    {
+      "name": "GET denied for /app-api/print/miniapp/demo/cancellations",
+      "pass": true
+    },
+    {
+      "name": "HEAD denied for /app-api/print/miniapp/demo/cancellations",
+      "pass": true
+    },
+    {
+      "name": "PUT denied for /app-api/print/miniapp/demo/cancellations",
+      "pass": true
+    },
+    {
+      "name": "OPTIONS denied for /app-api/print/miniapp/demo/cancellations",
+      "pass": true
+    },
+    {
+      "name": "adjacent 404 /app-api/print/miniapp/demo/cancellations/",
+      "pass": true
+    },
+    {
+      "name": "adjacent 404 /app-api/print/miniapp/demo/cancellations-other",
+      "pass": true
+    },
+    {
+      "name": "adjacent 404 /app-api/print/miniapp/demo/cancellation-other",
+      "pass": true
+    },
+    {
+      "name": "POST 1024 bytes accepted",
+      "pass": true
+    },
+    {
+      "name": "forwarded Authorization",
+      "pass": true
+    },
+    {
+      "name": "forwarded Origin",
+      "pass": true
+    },
+    {
+      "name": "forwarded Host",
+      "pass": true
+    },
+    {
+      "name": "POST no-store",
+      "pass": true
+    },
+    {
+      "name": "POST 1025 bytes rejected before upstream",
+      "pass": true
+    },
+    {
+      "name": "POST low-frequency rate limit",
+      "pass": true
+    },
+    {
+      "name": "running config/services unchanged",
+      "pass": true
+    }
+  ],
+  "passed": 26,
+  "total": 26,
+  "durationSeconds": 0.59,
+  "upstreamRequestCount": 3,
+  "scratchRemoved": true
+}
