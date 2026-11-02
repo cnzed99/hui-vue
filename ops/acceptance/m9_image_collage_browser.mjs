@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import crypto from 'node:crypto'
+import zlib from 'node:zlib'
 import { createRequire } from 'node:module'
 
 const base = '/home/ubuntu/print-system'
@@ -13,6 +14,30 @@ const requests = []
 const forbidden = []
 let browser
 let context
+
+function crc32(buffer) {
+  let value = 0xffffffff
+  for (const byte of buffer) {
+    value ^= byte
+    for (let bit = 0; bit < 8; bit++) value = (value >>> 1) ^ ((value & 1) ? 0xedb88320 : 0)
+  }
+  return (value ^ 0xffffffff) >>> 0
+}
+
+function png(rgb) {
+  const chunk = (type, data) => {
+    const name = Buffer.from(type, 'ascii')
+    const length = Buffer.alloc(4); length.writeUInt32BE(data.length)
+    const checksum = Buffer.alloc(4); checksum.writeUInt32BE(crc32(Buffer.concat([name, data])))
+    return Buffer.concat([length, name, data, checksum])
+  }
+  const header = Buffer.alloc(13)
+  header.writeUInt32BE(2, 0); header.writeUInt32BE(2, 4)
+  header.set([8, 2, 0, 0, 0], 8)
+  const row = Buffer.from([0, ...rgb, ...rgb])
+  return Buffer.concat([Buffer.from('89504e470d0a1a0a', 'hex'), chunk('IHDR', header),
+    chunk('IDAT', zlib.deflateSync(Buffer.concat([row, row]))), chunk('IEND', Buffer.alloc(0))])
+}
 
 function check(name, condition, detail = undefined) {
   const item = { name, passed: Boolean(condition) }
@@ -63,8 +88,8 @@ try {
       && !url.startsWith(`${origin}/app-api/print/miniapp/demo/image-collages`)) forbidden.push({ method, url })
   })
   const page = await context.newPage()
-  const png1 = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAAFElEQVR42mP4z8DAwMDAxMDAwMAAAAwBAf8B9pQAAAAASUVORK5CYII=', 'base64')
-  const png2 = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAAD91JpzAAAAFElEQVR42mNgYPjPwMDAwMTAwMAAAAwBAf8B3c4AAAAASUVORK5CYII=', 'base64')
+  const png1 = png([247, 145, 48])
+  const png2 = png([33, 118, 255])
   const chooserPromise = page.waitForEvent('filechooser')
   await page.goto(`${origin}/miniapp/#/pages/image-collage/index?source=${encodeURIComponent('手机相册')}`,
     { waitUntil: 'domcontentloaded' })

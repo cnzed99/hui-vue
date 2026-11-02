@@ -8,12 +8,16 @@ MINIAPP_DIST=$ROOT/runtime/worktrees/m9-image-collage-miniapp-20261102/dist/buil
 CANDIDATE=$ENGINEERING/ops/runtime/candidates/m9
 NGINX_SITE=$CANDIDATE/nginx-print-system.conf
 NGINX_LIMITS=$CANDIDATE/print-miniapp-limits.conf
-DROPIN=$CANDIDATE/50-m9-image-collage.conf
+DROPIN_ENABLED=$CANDIDATE/50-m9-image-collage.conf
+DROPIN_DISABLED=$CANDIDATE/50-m9-image-collage-disabled.conf
+MINIAPP_MANIFEST=$CANDIDATE/miniapp-SHA256SUMS
 EXPECTED_BACKEND=1884012860d0de3ae8bad21461843bac5e3c77dc9c35690614ab7584f0e65e6b
 EXPECTED_MINIAPP_INDEX=ca4d334162e3ce2c135465919fcfc46fdb14beb115e976ca5f1790e303cf3bbc
 EXPECTED_NGINX_SITE=16120f633299d048c4fc0a7ab93f2e87f639bb3c13c04ccb5736830fa46872e5
 EXPECTED_NGINX_LIMITS=34f58a6be63394f578449d1657692e673b9bced3f3176a74a104cac97d1634b9
 EXPECTED_DROPIN=5fb33764ced7f379596e641d993bf45f6641ca55c23fe8d6c229f4cd83f70aa6
+EXPECTED_DROPIN_DISABLED=d26016694e4ea84ebf61a1d991294c1dc0cbe71a73c90e9dcdefd1f1083097b1
+EXPECTED_MINIAPP_MANIFEST=337168d69274b81aed56d7170e2d1b7eb197f716c821e77db96569cae85bac0f
 RUN_ID=$(date -u +%Y%m%dT%H%M%SZ)-$(od -An -N4 -tx1 /dev/urandom | tr -d ' \n')
 BACKUP=$ROOT/runtime/backups/m9-image-collage-$RUN_ID
 MINIAPP_TARGET=/var/www/print-system/releases/miniapp-m9-image-collage-$RUN_ID
@@ -25,7 +29,10 @@ flock -n 9 || { echo 'M9_DEPLOY_LOCKED' >&2; exit 75; }
 [[ $(sha256sum "$MINIAPP_DIST/index.html" | cut -d' ' -f1) == "$EXPECTED_MINIAPP_INDEX" ]]
 [[ $(sha256sum "$NGINX_SITE" | cut -d' ' -f1) == "$EXPECTED_NGINX_SITE" ]]
 [[ $(sha256sum "$NGINX_LIMITS" | cut -d' ' -f1) == "$EXPECTED_NGINX_LIMITS" ]]
-[[ $(sha256sum "$DROPIN" | cut -d' ' -f1) == "$EXPECTED_DROPIN" ]]
+[[ $(sha256sum "$DROPIN_ENABLED" | cut -d' ' -f1) == "$EXPECTED_DROPIN" ]]
+[[ $(sha256sum "$DROPIN_DISABLED" | cut -d' ' -f1) == "$EXPECTED_DROPIN_DISABLED" ]]
+[[ $(sha256sum "$MINIAPP_MANIFEST" | cut -d' ' -f1) == "$EXPECTED_MINIAPP_MANIFEST" ]]
+(cd "$MINIAPP_DIST" && sha256sum -c "$MINIAPP_MANIFEST") >/dev/null
 [[ $(df -PB1 "$ROOT" | awk 'NR==2 {print $4}') -ge 10737418240 ]]
 [[ $(stat -c '%a:%U:%G' "$ROOT/runtime/miniapp-demo-multipart") == 700:ubuntu:ubuntu ]]
 [[ $(stat -c '%a:%U:%G' /var/lib/nginx/print-miniapp-collage-body) == 700:www-data:www-data ]]
@@ -77,6 +84,10 @@ rollback() {
   if (( SUCCESS == 0 )); then
     (( rc != 0 )) || rc=1
     set +e
+    sudo -n rm -f -- /etc/nginx/sites-available/print-system.next \
+      /etc/nginx/sites-enabled/print-system.next \
+      /etc/nginx/conf.d/print-miniapp-limits.conf.next \
+      /etc/systemd/system/print-backend.service.d/50-m9-image-collage.conf.next || failed=1
     sudo -n install -o root -g root -m 0644 "$BACKUP/nginx.site" /etc/nginx/sites-available/print-system || failed=1
     sudo -n install -o root -g root -m 0644 "$BACKUP/nginx.site" /etc/nginx/sites-enabled/print-system || failed=1
     sudo -n install -o root -g root -m 0644 "$BACKUP/nginx.limits" /etc/nginx/conf.d/print-miniapp-limits.conf || failed=1
@@ -107,14 +118,14 @@ rollback() {
 }
 trap rollback EXIT
 
-sudo -n install -o root -g root -m 0644 "$NGINX_SITE" /etc/nginx/sites-available/print-system.next
-sudo -n install -o root -g root -m 0644 "$NGINX_SITE" /etc/nginx/sites-enabled/print-system.next
-sudo -n install -o root -g root -m 0644 "$NGINX_LIMITS" /etc/nginx/conf.d/print-miniapp-limits.conf.next
-sudo -n install -o root -g root -m 0644 "$DROPIN" /etc/systemd/system/print-backend.service.d/50-m9-image-collage.conf.next
-sudo -n mv -f /etc/nginx/sites-available/print-system.next /etc/nginx/sites-available/print-system
-sudo -n mv -f /etc/nginx/sites-enabled/print-system.next /etc/nginx/sites-enabled/print-system
-sudo -n mv -f /etc/nginx/conf.d/print-miniapp-limits.conf.next /etc/nginx/conf.d/print-miniapp-limits.conf
-sudo -n mv -f /etc/systemd/system/print-backend.service.d/50-m9-image-collage.conf.next \
+sudo -n rm -f -- /etc/nginx/sites-available/print-system.next \
+  /etc/nginx/sites-enabled/print-system.next \
+  /etc/nginx/conf.d/print-miniapp-limits.conf.next \
+  /etc/systemd/system/print-backend.service.d/50-m9-image-collage.conf.next
+sudo -n install -o root -g root -m 0644 "$NGINX_SITE" /etc/nginx/sites-available/print-system
+sudo -n install -o root -g root -m 0644 "$NGINX_SITE" /etc/nginx/sites-enabled/print-system
+sudo -n install -o root -g root -m 0644 "$NGINX_LIMITS" /etc/nginx/conf.d/print-miniapp-limits.conf
+sudo -n install -o root -g root -m 0644 "$DROPIN_DISABLED" \
   /etc/systemd/system/print-backend.service.d/50-m9-image-collage.conf
 sudo -n systemctl daemon-reload
 sudo -n nginx -t
@@ -129,18 +140,32 @@ python3 "$ROOT/ops/runtime/publish-backend.py"
 sudo -n install -d -o ubuntu -g ubuntu -m 0755 -- "$MINIAPP_TARGET"
 cp -a "$MINIAPP_DIST/." "$MINIAPP_TARGET/"
 [[ $(sha256sum "$MINIAPP_TARGET/index.html" | cut -d' ' -f1) == "$EXPECTED_MINIAPP_INDEX" ]]
-find "$MINIAPP_TARGET" -type f -print0 | sort -z | xargs -0 sha256sum >"$MINIAPP_TARGET/SHA256SUMS"
+(cd "$MINIAPP_TARGET" && sha256sum -c "$MINIAPP_MANIFEST") >/dev/null
+install -m 0644 "$MINIAPP_MANIFEST" "$MINIAPP_TARGET/SHA256SUMS"
 atomic_miniapp_link "$MINIAPP_TARGET"
 
 sudo -n systemctl reload nginx
 curl --fail --silent --max-time 10 http://127.0.0.1:18080/miniapp/ >/dev/null
+python3 "$ENGINEERING/ops/acceptance/m9_pre_enable_regression.py" >"$BACKUP/pre-enable-regression.log" 2>&1
+
+sudo -n install -o root -g root -m 0644 "$DROPIN_ENABLED" \
+  /etc/systemd/system/print-backend.service.d/50-m9-image-collage.conf
+sudo -n systemctl daemon-reload
+sudo -n systemctl restart print-backend.service
+wait_backend
+
 probe_headers=$BACKUP/route-probe.headers
 probe_body=$BACKUP/route-probe.json
-probe_http=$(curl --silent --show-error --max-time 10 -D "$probe_headers" -o "$probe_body" -w '%{http_code}' \
-  -H 'Origin: http://127.0.0.1:18080' \
-  -H 'Idempotency-Key: m9-route-probe' \
-  -F 'files=@/dev/null;filename=probe.png;type=image/png' \
-  http://127.0.0.1:18080/app-api/print/miniapp/demo/image-collages)
+probe_http=429
+for attempt in 1 2 3 4; do
+  probe_http=$(curl --silent --show-error --max-time 10 -D "$probe_headers" -o "$probe_body" -w '%{http_code}' \
+    -H 'Origin: http://127.0.0.1:18080' \
+    -H 'Idempotency-Key: m9-route-probe' \
+    -F 'files=@/dev/null;filename=probe.png;type=image/png' \
+    http://127.0.0.1:18080/app-api/print/miniapp/demo/image-collages)
+  [[ $probe_http != 429 ]] && break
+  (( attempt < 4 )) && sleep 7
+done
 [[ $probe_http == 401 ]]
 python3 - "$probe_body" <<'PY'
 import json, sys

@@ -16,7 +16,7 @@ from datetime import datetime, timezone
 from urllib.parse import quote
 
 BASE = pathlib.Path("/home/ubuntu/print-system")
-HELPER_PATH = BASE / "ops/acceptance/m7_image_runtime_smoke.py"
+HELPER_PATH = pathlib.Path(__file__).resolve().with_name("m7_image_runtime_smoke.py")
 APP_BASE = "/app-api/print/miniapp/demo"
 ADMIN_BASE = "/admin-api/print/miniapp-demo"
 
@@ -53,6 +53,18 @@ def expect_error(response: tuple[int, object], status: int, code: int) -> None:
         raise helper.VerificationFailure(f"expected_error_{status}_{code}_got_{actual_status}")
 
 
+def upload_request(*args, **kwargs) -> tuple[int, object]:
+    """Retry only edge throttling; every retry preserves the caller's idempotency key and bytes."""
+    response: tuple[int, object] = (429, {})
+    for attempt in range(4):
+        response = helper.request(*args, **kwargs)
+        if response[0] != 429:
+            return response
+        if attempt < 3:
+            time.sleep(7)
+    return response
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--evidence", type=pathlib.Path, required=True)
@@ -63,18 +75,18 @@ def main() -> int:
     body, content_type = multipart([first, second])
     key = "m9-runtime-" + run_id
 
-    expect_error(helper.request("POST", APP_BASE + "/image-collages", body=body,
+    expect_error(upload_request("POST", APP_BASE + "/image-collages", body=body,
                                 content_type=content_type, headers={"Idempotency-Key": key}), 401, 1_926_003)
     session = helper.successful(helper.request("POST", APP_BASE + "/sessions"))
     token = session["accessToken"]
-    created = helper.successful(helper.request("POST", APP_BASE + "/image-collages", token=token,
+    created = helper.successful(upload_request("POST", APP_BASE + "/image-collages", token=token,
                                 body=body, content_type=content_type, headers={"Idempotency-Key": key}))
-    replay = helper.successful(helper.request("POST", APP_BASE + "/image-collages", token=token,
+    replay = helper.successful(upload_request("POST", APP_BASE + "/image-collages", token=token,
                                body=body, content_type=content_type, headers={"Idempotency-Key": key}))
     if created.get("id") != replay.get("id"):
         raise helper.VerificationFailure("idempotent_replay_changed_file")
     reversed_body, reversed_type = multipart([second, first])
-    expect_error(helper.request("POST", APP_BASE + "/image-collages", token=token,
+    expect_error(upload_request("POST", APP_BASE + "/image-collages", token=token,
                                 body=reversed_body, content_type=reversed_type,
                                 headers={"Idempotency-Key": key}), 409, 1_927_007)
 
