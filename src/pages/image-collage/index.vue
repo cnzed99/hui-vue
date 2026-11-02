@@ -21,6 +21,8 @@ const failureText = ref('')
 const sessionState = ref<'checking' | 'ready' | 'unavailable'>('checking')
 const generatedFile = ref<DemoFileMetadata | null>(null)
 const submittedToken = ref('')
+const activeSessionToken = ref('')
+const selectionSessionToken = ref('')
 const idempotencyKey = ref('')
 const generation = ref(0)
 const mounted = ref(true)
@@ -42,15 +44,19 @@ onUnload(disposePage)
 onUnmounted(disposePage)
 
 async function initialize() {
-  sessionState.value = await ensureDemoSession() ? 'ready' : 'unavailable'
+  const session = await ensureDemoSession()
+  if (!mounted.value) return
+  activeSessionToken.value = session?.accessToken || ''
+  sessionState.value = session ? 'ready' : 'unavailable'
   await nextTick()
-  if (mounted.value && images.value.length === 0) chooseImages()
+  if (mounted.value && session && images.value.length === 0) chooseImages()
 }
 
 function goBack() { uni.navigateBack() }
 
 function chooseImages() {
-  if (state.value === 'uploading' || state.value === 'processing' || images.value.length >= MAX_COUNT) return
+  if (sessionState.value !== 'ready' || !activeSessionToken.value
+    || state.value === 'uploading' || state.value === 'processing' || images.value.length >= MAX_COUNT) return
   const count = MAX_COUNT - images.value.length
   const accept = (value: unknown) => acceptSelection(value)
   // #ifdef MP-WEIXIN
@@ -95,7 +101,12 @@ function acceptSelection(value: unknown) {
     uni.showToast({ title: '所选图片合计不能超过 12MB', icon: 'none' }); return
   }
   if (accepted.length > 0) {
+    if (!activeSessionToken.value
+      || (selectionSessionToken.value && selectionSessionToken.value !== activeSessionToken.value)) {
+      resetForSessionChange(activeSessionToken.value); return
+    }
     invalidateSubmission()
+    if (!selectionSessionToken.value) selectionSessionToken.value = activeSessionToken.value
     images.value.push(...accepted)
     state.value = 'ready'
   }
@@ -105,6 +116,7 @@ function removeImage(index: number) {
   if (index < 0 || index >= images.value.length) return
   invalidateSubmission()
   images.value.splice(index, 1)
+  if (images.value.length === 0) selectionSessionToken.value = ''
   state.value = images.value.length ? 'ready' : 'selecting'
 }
 
@@ -133,8 +145,10 @@ async function generateCollage() {
     sessionState.value = 'unavailable'; state.value = 'failed'
     failureText.value = '安全演示会话不可用，请稍后重试。'; return
   }
-  if (retrying && (!retryToken || session.accessToken !== retryToken)) {
-    resetForSessionChange(); return
+  activeSessionToken.value = session.accessToken
+  if (!selectionSessionToken.value || session.accessToken !== selectionSessionToken.value
+    || (retrying && (!retryToken || session.accessToken !== retryToken))) {
+    resetForSessionChange(session.accessToken); return
   }
   sessionState.value = 'ready'
   if (!idempotencyKey.value) idempotencyKey.value = newCollageIdempotencyKey()
@@ -174,7 +188,7 @@ async function continueToSettings() {
   if (!mounted.value || generation.value !== currentGeneration
     || state.value !== 'complete' || generatedFile.value?.id !== currentFileId) return
   if (!session || session.accessToken !== currentToken || submittedToken.value !== currentToken) {
-    resetForSessionChange(); return
+    resetForSessionChange(session?.accessToken || ''); return
   }
   continuing.value = false
   saveDraft(createDraft('SERVER_UPLOAD', '图片拼版.pdf', file.sizeBytes, 1, file.id))
@@ -193,7 +207,7 @@ async function confirmSession(value: number, token: string) {
   const confirmed = await ensureDemoSession()
   if (!isCurrent(value, token)) return false
   if (!confirmed || confirmed.accessToken !== token) {
-    resetForSessionChange(); return false
+    resetForSessionChange(confirmed?.accessToken || ''); return false
   }
   return true
 }
@@ -202,10 +216,13 @@ function selectionFingerprint(value: SelectedImage[]) {
   return JSON.stringify(value.map(image => [image.path, image.name, image.size]))
 }
 
-function resetForSessionChange() {
+function resetForSessionChange(currentToken = '') {
   invalidateSubmission()
   continuing.value = false
   images.value = []
+  activeSessionToken.value = currentToken
+  selectionSessionToken.value = ''
+  sessionState.value = currentToken ? 'ready' : 'unavailable'
   state.value = 'failed'
   failureText.value = '会话已变化，请重新选择图片。'
 }
