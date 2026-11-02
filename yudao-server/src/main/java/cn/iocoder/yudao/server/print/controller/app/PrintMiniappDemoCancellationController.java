@@ -55,7 +55,11 @@ public class PrintMiniappDemoCancellationController {
         return noStore(CommonResult.success(cancellations.create(sessions.requireForWrite(authorization,origin,host),body,key)));
     }
     @ExceptionHandler(MiniappDemoCancellationException.class)
-    public ResponseEntity<CommonResult<Object>> error(MiniappDemoCancellationException failure) { return error(failure.status().value(),failure.code(),failure.getMessage()); }
+    public ResponseEntity<CommonResult<Object>> error(MiniappDemoCancellationException failure) {
+        CommonResult<Object> body=CommonResult.error(failure.code(),failure.getMessage());
+        body.setData(failure.data());
+        return ResponseEntity.status(failure.status()).cacheControl(CacheControl.noStore()).header(HttpHeaders.PRAGMA,"no-cache").body(body);
+    }
     @ExceptionHandler(MiniappDemoSessionException.class)
     public ResponseEntity<CommonResult<Object>> sessionError(MiniappDemoSessionException failure) { return error(failure.status().value(),failure.code(),failure.getMessage()); }
     @ExceptionHandler({DataAccessException.class,TransactionException.class})

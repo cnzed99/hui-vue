@@ -17,7 +17,14 @@ public class MiniappDemoCancellationException extends RuntimeException {
         Reason(int code, HttpStatus status, String message) { this.code = code; this.status = status; this.message = message; }
     }
     private final Reason reason;
-    public MiniappDemoCancellationException(Reason reason) { super(reason.message); this.reason = reason; }
+    private final AlreadyRecorded data;
+    public record AlreadyRecorded(String cancellationId, String outcome) {}
+    public MiniappDemoCancellationException(Reason reason) { this(reason, null); }
+    private MiniappDemoCancellationException(Reason reason, AlreadyRecorded data) { super(reason.message); this.reason = reason; this.data=data; }
+    public static MiniappDemoCancellationException alreadyRecorded(String id, String outcome) {
+        return new MiniappDemoCancellationException(Reason.CANCELLATION_ALREADY_RECORDED, new AlreadyRecorded(id, outcome));
+    }
+    public AlreadyRecorded data() { return data; }
     public int code() { return reason.code; }
     public HttpStatus status() { return reason.status; }
 }

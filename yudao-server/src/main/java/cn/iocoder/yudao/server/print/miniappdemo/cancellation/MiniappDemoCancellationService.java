@@ -79,7 +79,8 @@ public class MiniappDemoCancellationService {
                 if (!locked.activeAt(System.currentTimeMillis())) throw sessionInvalid();
                 return actionView(owner,order,sameKey.get());
             }
-            if (repository.byOrder(owner,id,true).isPresent()) throw failure(CANCELLATION_ALREADY_RECORDED);
+            var recorded=repository.byOrder(owner,id,true);
+            if (recorded.isPresent()) throw MiniappDemoCancellationException.alreadyRecorded(recorded.get().id(),recorded.get().outcome());
             if (expected!=order.version()) throw failure(STALE_VERSION);
             var task=repository.task(owner,id,true).orElse(null);
             var capability=capability(order,task);
