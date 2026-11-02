@@ -49,6 +49,16 @@ rollback() {
   if (( SUCCESS == 0 )); then
     true
     set +e
+    # Stop the new worker before restoring links. Cleanup holds the Java-compatible storage lock.
+    if sudo -n systemctl stop print-backend.service; then
+      if ! python3 "$ROOT/runtime/worktrees/m9-image-collage-engineering-20261102/ops/runtime/m9_weixin_cleanup_upload_scratch.py"; then
+        failed=1
+        printf 'M9_WEIXIN_ROLLBACK_SCRATCH_CLEANUP_FAILED\n' >&2
+      fi
+    else
+      failed=1
+      printf 'M9_WEIXIN_ROLLBACK_BACKEND_STOP_FAILED\n' >&2
+    fi
     sudo -n rm -f -- /etc/nginx/sites-available/print-system.next \
       /etc/nginx/sites-enabled/print-system.next \
       /etc/nginx/conf.d/print-miniapp-limits.conf.next \

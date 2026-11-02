@@ -57,6 +57,15 @@ def main():
     assert 'STAGED_UPLOAD_ENABLED=false' in (CANDIDATE/"60-m9-weixin-upload-disabled.conf").read_text()
     for name in ["deploy-m9-weixin-upload.sh","rollback-m9-weixin-upload.sh"]:
         subprocess.run(["bash","-n",str(ROOT/"ops/runtime"/name)],check=True)
+    for name in ["deploy-m9-weixin-upload.sh", "rollback-m9-weixin-upload.sh"]:
+        source=(ROOT/"ops/runtime"/name).read_text()
+        rollback=source[source.index("rollback() {"):]
+        assert rollback.index("systemctl stop print-backend.service") < rollback.index("m9_weixin_cleanup_upload_scratch.py") < rollback.index('atomic_backend_link "$PREVIOUS_BACKEND"') < rollback.index("systemctl restart print-backend.service")
+        assert 'if ! python3' in rollback and 'M9_WEIXIN_ROLLBACK_SCRATCH_CLEANUP_FAILED' in rollback
+        assert 'failed=1' in rollback and 'rc=70' in rollback
+    cleanup=ROOT/"ops/runtime/m9_weixin_cleanup_upload_scratch.py"
+    ast.parse(cleanup.read_text(),filename=str(cleanup))
+    assert 'fcntl.lockf(descriptor,fcntl.LOCK_EX|fcntl.LOCK_NB)' in cleanup.read_text()
     for path in pathlib.Path(__file__).parent.glob("m9_weixin_*.py"): ast.parse(path.read_text(),filename=str(path))
     print(json.dumps({"status":"PASS_SOURCE_ONLY","artifacts":"EXACT_HASH_MATCH","h5AndMpTrees":"EXACT_MANIFEST_MATCH",
         "nginxBoundaries":"SOURCE_CHECKED","shellSyntax":"PASS","pythonSyntax":"PASS","runtime":"NOT_RUN"}))
