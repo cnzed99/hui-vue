@@ -39,12 +39,16 @@ public final class MiniappDemoImageCollageUploadAdmissionFilter extends OncePerR
     }
 
     @PostConstruct
-    public void initialize() throws IOException {
+    public void initialize() {
         properties.validateEnabled();
         targetRequestPath = normalizePrefix(webProperties.getAppApi().getPrefix())
                 + "/print/miniapp/demo/image-collages";
         if (!properties.isEnabled()) return;
-        multipartRoot = privateDirectory(properties.getMultipartRoot().normalize());
+        try {
+            multipartRoot = privateDirectory(properties.getMultipartRoot().normalize());
+        } catch (IOException failure) {
+            throw new IllegalStateException("Unable to initialize the private collage multipart directory", failure);
+        }
         uploads = new Semaphore(properties.getMaxConcurrentUploads(), true);
     }
 

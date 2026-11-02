@@ -51,6 +51,9 @@ public final class MiniappDemoImageCollageRendererChecks {
             WebProperties webProperties = new WebProperties();
             MiniappDemoImageCollageUploadAdmissionFilter filter =
                     new MiniappDemoImageCollageUploadAdmissionFilter(admissionProperties, webProperties);
+            check("filter_post_construct_has_no_checked_exception",
+                    MiniappDemoImageCollageUploadAdmissionFilter.class.getDeclaredMethod("initialize")
+                            .getExceptionTypes().length == 0);
             filter.initialize();
             check("app_api_route_matched", filter.matchesTargetRequest("", "/app-api/print/miniapp/demo/image-collages"));
             check("context_app_api_route_matched", filter.matchesTargetRequest("/ctx", "/ctx/app-api/print/miniapp/demo/image-collages"));
