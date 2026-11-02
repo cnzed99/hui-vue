@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "scope": "M9 H5 two-image collage to shared print settings",
+  "runId": "20261102T112230056Z-ee38fdcc",
+  "startedAt": "2026-11-02T11:22:30.057Z",
+  "checks": [
+    {
+      "name": "two_images_selected_in_order",
+      "passed": true
+    },
+    {
+      "name": "fixed_grid_boundary_visible",
+      "passed": true
+    },
+    {
+      "name": "collage_upload_endpoint_used",
+      "passed": true
+    },
+    {
+      "name": "single_page_ready_visible",
+      "passed": true
+    },
+    {
+      "name": "collage_enters_shared_settings",
+      "passed": true
+    },
+    {
+      "name": "no_original_or_unexpected_writes",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "two-images-selected",
+      "path": "evidence/miniapp/m9-image-collage-browser-20261102T112230056Z-ee38fdcc/two-images-selected.png",
+      "sha256": "a4943185faaec2937cc10462981c5c2adae1df784eeaa2675e6cab63aa27b92d"
+    },
+    {
+      "name": "collage-ready",
+      "path": "evidence/miniapp/m9-image-collage-browser-20261102T112230056Z-ee38fdcc/collage-ready.png",
+      "sha256": "a0ae5271f8c72ce292756abe7decf81c69a59f5df1dd6734bad947d8ad969cca"
+    },
+    {
+      "name": "shared-settings",
+      "path": "evidence/miniapp/m9-image-collage-browser-20261102T112230056Z-ee38fdcc/shared-settings.png",
+      "sha256": "eb1817c19a8dc0b7973b525c8c03250d73a5bd1858a0b6072ea0bca17fbc5577"
+    }
+  ],
+  "boundaries": {
+    "originalSystemWrites": "NOT_RUN",
+    "realPayment": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "wechatDevice": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "status": "PASS",
+  "finishedAt": "2026-11-02T11:22:35.577Z",
+  "passed": 6,
+  "failed": 0,
+  "forbiddenRequests": []
+}

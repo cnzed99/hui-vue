@@ -1,0 +1,27 @@
+{
+  "boundaries": {
+    "externalAcceptance": "NOT_RUN",
+    "originalSystemWrites": "NOT_RUN",
+    "realPayment": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "wechatDevice": "NOT_RUN"
+  },
+  "crossPrincipalReadRejected": true,
+  "fileId": "5745d9dd-1fc0-4266-bf71-9d654f96be04",
+  "idempotentReplaySameFile": true,
+  "inputCount": 2,
+  "orderId": "fae47f40-f727-4155-9a09-911c6ec79bb7",
+  "orderedConflictRejected": true,
+  "orderedInputSha256": [
+    "f7558097ce7b4067a81d67a192df85ce617b1b7505be0b8febeda34680686962",
+    "3b31bb6ba4120e62964fa9e237e4728685a9b498a328b28b994b557307cf8e3c"
+  ],
+  "pageCount": 1,
+  "paymentState": "SUCCEEDED",
+  "quoteId": "f13b1f2d-7630-4673-aa77-167bb7a50166",
+  "result": "PASS",
+  "runId": "20261102T112128Z-7878a73a",
+  "simulatedReceipt": true,
+  "status": "READY",
+  "taskState": "SUCCEEDED"
+}

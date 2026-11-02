@@ -90,10 +90,13 @@ try {
   const page = await context.newPage()
   const png1 = png([247, 145, 48])
   const png2 = png([33, 118, 255])
-  const chooserPromise = page.waitForEvent('filechooser')
   await page.goto(`${origin}/miniapp/#/pages/image-collage/index?source=${encodeURIComponent('手机相册')}`,
     { waitUntil: 'domcontentloaded' })
-  const chooser = await chooserPromise
+  await page.getByText('安全演示会话已建立', { exact: true }).waitFor({ state: 'visible' })
+  const [chooser] = await Promise.all([
+    page.waitForEvent('filechooser'),
+    page.getByText('选择 1–9 张图片', { exact: true }).click()
+  ])
   await chooser.setFiles([
     { name: 'm9-orange.png', mimeType: 'image/png', buffer: png1 },
     { name: 'm9-blue.png', mimeType: 'image/png', buffer: png2 }

@@ -1,0 +1,23 @@
+{
+  "milestone": "M9_IMAGE_COLLAGE",
+  "status": "DEPLOYED_DEVELOPMENT_CANDIDATE",
+  "deployedAtUtc": "2026-11-02T11:11:57Z",
+  "backendCommit": "14604813b6baeee914b35110f1a5358859bfd0b7",
+  "engineeringCommit": "5a53cbf0029cd5db8e9f2d5643e99a8fee5364f7",
+  "backendJarSha256": "60d33a42e8a75e2f2fbdef70570b5efacd0953acbb75c8b0831d2ce5ce795af1",
+  "backendRelease": "60d33a42e8a75e2f",
+  "miniappRelease": "miniapp-m9-image-collage-20261102T111157Z-05fc74dd",
+  "runtimeEvidence": "evidence/miniapp/m9-image-collage-runtime-20261102T112128Z.json",
+  "browserEvidence": "evidence/miniapp/m9-image-collage-browser-20261102T112230056Z-ee38fdcc/report.json",
+  "runtimeResult": "PASS",
+  "browserChecksPassed": 6,
+  "servicesHealthy": true,
+  "diskFreeApproxGiB": 40,
+  "boundaries": {
+    "externalAcceptance": "NOT_RUN",
+    "originalSystemWrites": "NOT_RUN",
+    "realPayment": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "wechatDevice": "NOT_RUN"
+  }
+}
