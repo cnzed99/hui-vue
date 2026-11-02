@@ -1,6 +1,6 @@
 # M9 微信小程序逐张上传适配设计
 
-状态：`REVISED_FOR_ASTRA_HIGH_REVIEW_R2`
+状态：`ASTRA_HIGH_DESIGN_PASS`
 
 范围：只补齐 M9 图片拼版在微信小程序端的上传适配；保留已经部署的 H5 重复 `files` multipart 接口，不修改计价、订单、支付退款、打印任务、防重复或回执规则。
 
