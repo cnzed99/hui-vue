@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "backendCommit": "f9d6d912993643b69462e5c091aecbabf02bb2f2",
+  "runtimeJarSha256": "e16da5d2da357ba36020e7ef79376f1b61003d75dd0974f7525887b1f0eb0c67",
+  "fontSha256": "79c18ebe7b811951e8311bad7103ebeae8c337ed9988ea69e8a78a66cfe029b9",
+  "classPrefix": "cn.iocoder.yudao.server.print.",
+  "checks": [
+    {"id":"catalog","class":"catalog.MiniappCatalogCapabilityChecks","group":"core","args":"none","success":"PASS PDF-only public catalog","timeoutSeconds":60},
+    {"id":"directory","class":"directory.PrintDirectoryChecks","group":"core","args":"none","success":"PASS_ONE_QUERY_EMPTY_GROUP","timeoutSeconds":60},
+    {"id":"email","class":"email.PrintEmailSettingsChecks","group":"core","args":"none","success":"P35_JAVA_RECORDING_PORTS","timeoutSeconds":60},
+    {"id":"library-category","class":"library.category.PrintLibraryCategoryChecks","group":"core","args":"none","success":"P15_COMMAND_CHECKS_PASS checks=6","timeoutSeconds":60},
+    {"id":"library-settings","class":"library.settings.PrintLibrarySettingsChecks","group":"core","args":"none","success":"P14_JAVA_SOURCE_MEMORY_MODEL","timeoutSeconds":60},
+    {"id":"order-query","class":"order.PrintOrderQueryFocusedCheck","group":"core","args":"none","success":"P22_QUERY_FOCUSED_CHECK_PASS","timeoutSeconds":60},
+    {"id":"pricing","class":"pricing.PaperQuoteCalculatorChecks","group":"core","args":"none","success":"pricing_unit_checks_passed=23","timeoutSeconds":60},
+    {"id":"reservation","class":"reservation.PrintReservationSettingsChecks","group":"core","args":"none","success":"P06_JAVA_RECORDING_PORTS","timeoutSeconds":60},
+    {"id":"store-profile","class":"store.profile.PrintStoreProfileChecks","group":"core","args":"none","success":"P02_SOURCE_AND_IN_MEMORY_MODEL","timeoutSeconds":60},
+    {"id":"pdf-inspection","class":"file.PdfInspectionChecks","group":"filesystem","args":"existingEmptyRoot","success":"pdf_parser_checks_passed=8","timeoutSeconds":60},
+    {"id":"staged-upload","class":"miniappdemo.imagecollage.MiniappDemoCollageUploadChecks","group":"filesystem","args":"none","success":"STAGED_UPLOAD_CHECKS_PASS 56","timeoutSeconds":90},
+    {"id":"real-os-lock","class":"miniappdemo.imagecollage.MiniappDemoCollageRealLockChecks","group":"filesystem","args":"nonexistentLockRoot","success":"REAL_OS_LOCK_CHECKS_PASS","timeoutSeconds":60},
+    {"id":"image-renderer","class":"miniappdemo.image.MiniappDemoImageRendererChecks","group":"render","args":"runtimeJar","success":"\"status\":\"PASS\",\"passed\":7","timeoutSeconds":90},
+    {"id":"collage-renderer","class":"miniappdemo.imagecollage.MiniappDemoImageCollageRendererChecks","group":"render","args":"runtimeJar","success":"\"status\":\"PASS\",\"passed\":34","timeoutSeconds":120},
+    {"id":"text-renderer","class":"miniappdemo.text.MiniappDemoTextRendererChecks","group":"render","args":"font","success":"\"status\":\"PASS\",\"passed\":17","timeoutSeconds":90},
+    {"id":"demo-library","class":"miniappdemo.library.MiniappDemoLibraryChecks","group":"render","args":"font","success":"PASS catalog, strict query, 3 preview/PDF page counts, determinism, identity/version fingerprints","timeoutSeconds":90}
+  ],
+  "nonExecutableSources": [
+    {"source":"cn/iocoder/yudao/server/print/miniappdemo/file/CollageRealLockFixture.java","status":"HELPER_NOT_EXECUTABLE","reason":"No main; called only by real OS-lock check"},
+    {"source":"cn/iocoder/yudao/ProjectReactor.java","status":"SKIP_WITH_REASON","reason":"PROJECT_REWRITE_SCAFFOLD"}
+  ],
+  "boundary":"Existing synthetic main checks only; no application startup, business SQL, Redis, SMTP, HTTP, real funds or printer acceptance. No JUnit test exists in this server test source set."
+}

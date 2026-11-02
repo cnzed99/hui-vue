@@ -1,0 +1,11 @@
+{
+  "label": "r11-backend-checks-all-r2",
+  "finishedUtc": "2026-11-02T16:35:34.325232+00:00",
+  "freeBeforeBytes": 40900603904,
+  "freeAfterBytes": 40900071424,
+  "minimumFreeBytes": 10737418240,
+  "buildExitCode": 0,
+  "recoveryExitCode": 0,
+  "backendHttpHealthy": true,
+  "scratchRemoved": true
+}

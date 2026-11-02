@@ -1,0 +1,14 @@
+PASS second_jvm_production_os_lock_denied
+PASS second_stage_start_refused
+PASS second_instance_part_refused
+PASS second_instance_complete_refused
+PASS live_owner_blocks_second_jvm
+PASS second_instance_did_not_clean_owner
+00:32:43.731 [main] WARN cn.iocoder.yudao.server.print.miniappdemo.file.MiniappDemoFileService -- miniapp_demo_storage_lock_retained_until_process_exit
+PASS production_file_service_retained_lock_after_undrained_stage
+PASS second_jvm_production_os_lock_denied
+PASS second_stage_start_refused
+PASS second_instance_part_refused
+PASS second_instance_complete_refused
+PASS retained_lock_blocks_second_jvm
+REAL_OS_LOCK_CHECKS_PASS

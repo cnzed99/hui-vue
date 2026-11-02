@@ -1,0 +1,4 @@
+demo-print-guide pages=1 bytes=18753 sha256=d3671c1235a1c46a8f2514e5957011fc910f6913f62a85a7698b373f6c1daed3
+demo-practice-notes pages=2 bytes=11219 sha256=31b366da7b2667510fee1241884d426b7db2280357a077ecfffab82d5cde99f5
+demo-weekly-plan pages=3 bytes=11439 sha256=0f72fe7ef3304cdd4e1a8a895788bcda8875f5908a62d0a88a26e6905537fe03
+PASS catalog, strict query, 3 preview/PDF page counts, determinism, identity/version fingerprints
