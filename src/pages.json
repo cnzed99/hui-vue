@@ -105,6 +105,12 @@
       }
     },
     {
+      "path": "pages/image-upload/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/photo-method/index",
       "style": {
         "navigationStyle": "custom"

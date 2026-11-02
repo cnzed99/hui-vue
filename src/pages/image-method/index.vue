@@ -18,6 +18,8 @@ const imageMethods: ImageMethod[] = [
 ]
 
 const sourceSheetVisible = ref(false)
+const selectedMethod = ref<ImageMethod['id'] | null>(null)
+const IMAGE_SELECTION_KEY = 'miniapp-image-selection-v1'
 
 function goBack() {
   if (getCurrentPages().length > 1) {
@@ -36,6 +38,7 @@ function openMethod(method: ImageMethod) {
     uni.navigateTo({ url: '/pages/paper-renewal/index' })
     return
   }
+  selectedMethod.value = method.id
   sourceSheetVisible.value = true
 }
 
@@ -43,9 +46,40 @@ function closeSourceSheet() {
   sourceSheetVisible.value = false
 }
 
-function chooseSource(label: string) {
+function acceptImageSelection(value: unknown) {
+  const result = value as { tempFiles?: Array<{ path?: string; size?: number; name?: string }>; tempFilePaths?: string[] }
+  const file = result.tempFiles?.[0]
+  const path = file?.path || result.tempFilePaths?.[0] || ''
+  if (!path) {
+    uni.showToast({ title: '没有取得可上传的图片', icon: 'none' })
+    return
+  }
+  const inferredName = decodeURIComponent(path.split('/').pop()?.split('?')[0] || 'image.jpg')
+  uni.setStorageSync(IMAGE_SELECTION_KEY, {
+    schemaVersion: 1,
+    path,
+    name: file?.name || inferredName,
+    size: Number(file?.size || 0)
+  })
+  uni.navigateTo({ url: '/pages/image-upload/index' })
+}
+
+function chooseSource(label: '拍照' | '手机相册' | '微信图片') {
   closeSourceSheet()
-  uni.showToast({ title: `${label}暂未接入，不会上传`, icon: 'none' })
+  if (selectedMethod.value !== 'image-print') {
+    uni.showToast({ title: '图片拼版将在后续批次单独开放', icon: 'none' })
+    return
+  }
+  // #ifdef MP-WEIXIN
+  if (label === '微信图片') {
+    uni.chooseMessageFile({ count: 1, type: 'image', extension: ['jpg', 'jpeg', 'png'], success: acceptImageSelection })
+    return
+  }
+  uni.chooseImage({ count: 1, sourceType: [label === '拍照' ? 'camera' : 'album'], success: acceptImageSelection })
+  // #endif
+  // #ifdef H5
+  uni.chooseFile({ count: 1, type: 'image', extension: ['jpg', 'jpeg', 'png'], success: acceptImageSelection })
+  // #endif
 }
 </script>
 
@@ -67,7 +101,7 @@ function chooseSource(label: string) {
       </view>
     </view>
 
-    <view class="boundary-note">已确认的目录与跳转均可查看；来源按钮不会读取相册、拍照或上传文件。</view>
+    <view class="boundary-note">普通图片打印已开放单张 JPG/PNG 安全演示上传；拼版、AI高清、裁切和真实彩色打印仍待后续批次。</view>
 
     <view v-if="sourceSheetVisible" class="sheet-mask" @click="closeSourceSheet">
       <view class="source-sheet" @click.stop>

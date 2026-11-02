@@ -12,7 +12,7 @@ export interface DemoFileMetadata {
   ready: boolean
 }
 
-function apiUrl(path: 'files' | 'file'): string | null {
+function apiUrl(path: 'files' | 'image-files' | 'file'): string | null {
   const configured = import.meta.env.VITE_APP_API_BASE?.replace(/\/$/, '')
   if (configured?.startsWith('https://')) return `${configured}/print/miniapp/demo/${path}`
   // #ifdef H5
@@ -34,10 +34,10 @@ function parseEnvelope(value: unknown): DemoFileMetadata | null {
   return item as DemoFileMetadata
 }
 
-export function uploadDemoPdf(session: DemoSession, filePath: string): Promise<DemoFileMetadata | null> {
-  const url = apiUrl('files')
+function uploadDemoFile(session: DemoSession, filePath: string, endpoint: 'files' | 'image-files', keyPrefix: string): Promise<DemoFileMetadata | null> {
+  const url = apiUrl(endpoint)
   if (!url || !filePath) return Promise.resolve(null)
-  const idempotencyKey = `miniapp-upload-${Date.now()}-${Math.random().toString(36).slice(2, 14)}`
+  const idempotencyKey = `${keyPrefix}-${Date.now()}-${Math.random().toString(36).slice(2, 14)}`
   return new Promise(resolve => {
     uni.uploadFile({
       url,
@@ -55,6 +55,14 @@ export function uploadDemoPdf(session: DemoSession, filePath: string): Promise<D
       fail: () => resolve(null)
     })
   })
+}
+
+export function uploadDemoPdf(session: DemoSession, filePath: string): Promise<DemoFileMetadata | null> {
+  return uploadDemoFile(session, filePath, 'files', 'miniapp-upload')
+}
+
+export function uploadDemoImage(session: DemoSession, filePath: string): Promise<DemoFileMetadata | null> {
+  return uploadDemoFile(session, filePath, 'image-files', 'miniapp-image')
 }
 
 export function getDemoFile(session: DemoSession, id: string): Promise<DemoFileMetadata | null> {

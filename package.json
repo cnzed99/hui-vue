@@ -1,6 +1,7 @@
 {
   "name": "print-miniapp",
   "version": "0.1.0",
+  "packageManager": "pnpm@12.16.1",
   "private": true,
   "description": "云途智印复刻项目的用户端微信小程序",
   "scripts": {
