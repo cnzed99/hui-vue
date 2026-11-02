@@ -1,0 +1,1 @@
+../../build-tmp/r11-admin-typecheck-third-round-dHFXVX7O/admin-typecheck/global-conflict/b.ts(1,48): error TS2717: Subsequent property declarations must have the same type.  Property 'r11Value' must be of type 'string', but here has type 'number'.

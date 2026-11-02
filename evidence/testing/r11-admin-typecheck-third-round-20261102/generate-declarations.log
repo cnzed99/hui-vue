@@ -1,0 +1,79 @@
+NODE_ENV=production is not supported in the .env file. Only NODE_ENV=development is supported to create a development build of your project. If you need to set process.env.NODE_ENV, you can set it in the Vite config instead.
+Browserslist: browsers data (caniuse-lite) is 7 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/@microsoft+fetch-event-source@2.0.1/node_modules/@microsoft/fetch-event-source/lib/esm/index.js" points to missing source files
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/@microsoft+fetch-event-source@2.0.1/node_modules/@microsoft/fetch-event-source/lib/esm/fetch.js" points to missing source files
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/@microsoft+fetch-event-source@2.0.1/node_modules/@microsoft/fetch-event-source/lib/esm/parse.js" points to missing source files
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/entities@4.5.0/node_modules/entities/lib/esm/index.js" points to a source file outside its package: "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/index.ts"
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/entities@4.5.0/node_modules/entities/lib/esm/escape.js" points to a source file outside its package: "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/escape.ts"
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/entities@4.5.0/node_modules/entities/lib/esm/decode.js" points to a source file outside its package: "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/decode.ts"
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/entities@4.5.0/node_modules/entities/lib/esm/encode.js" points to a source file outside its package: "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/encode.ts"
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/entities@4.5.0/node_modules/entities/lib/esm/generated/decode-data-html.js" points to a source file outside its package: "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/generated/decode-data-html.ts"
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/entities@4.5.0/node_modules/entities/lib/esm/generated/decode-data-xml.js" points to a source file outside its package: "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/generated/decode-data-xml.ts"
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/entities@4.5.0/node_modules/entities/lib/esm/decode_codepoint.js" points to a source file outside its package: "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/decode_codepoint.ts"
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/entities@4.5.0/node_modules/entities/lib/esm/generated/encode-html.js" points to a source file outside its package: "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/generated/encode-html.ts"
+12:01:10 AM [vite] (client) Failed to load source map for /home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/src/components/Tinyflow/ui/index.js.
+Error: An error occurred while trying to read the map file at index.js.map
+Error: ENOENT: no such file or directory, open '/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/src/components/Tinyflow/ui/index.js.map'
+    at Object.readFileSync (node:fs:440:20)
+    at file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:19109:13
+    at readFromFileMap (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:18809:13)
+    at exports.fromMapFileComment (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:18903:12)
+    at exports.fromMapFileSource (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:18914:22)
+    at extractSourcemapFromFile (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:19095:87)
+    at loadAndTransform (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:20064:22)
+12:01:10 AM [vite] (client) Failed to load source map for /home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/src/components/Tinyflow/ui/index.umd.js.
+Error: An error occurred while trying to read the map file at index.umd.js.map
+Error: ENOENT: no such file or directory, open '/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/src/components/Tinyflow/ui/index.umd.js.map'
+    at Object.readFileSync (node:fs:440:20)
+    at file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:19109:13
+    at readFromFileMap (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:18809:13)
+    at exports.fromMapFileComment (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:18903:12)
+    at exports.fromMapFileSource (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:18914:22)
+    at extractSourcemapFromFile (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:19095:87)
+    at loadAndTransform (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:20064:22)
+file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:30366
+		const err = typeof e === "string" ? new Error(e) : e;
+		                                    ^
+
+Error: Failed to resolve import "inherits" from "src/components/bpmnProcessDesigner/src/modules/rules/CustomRules.js". Does the file exist?
+    at TransformPluginContext._formatLog (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:30366:39)
+    at TransformPluginContext.error (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:30363:14)
+    at normalizeUrl (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:27393:18)
+    at async file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:27456:30
+    at async Promise.all (index 1)
+    at async TransformPluginContext.transform (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:27424:4)
+    at async EnvironmentPluginContainer.transform (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:30151:14)
+    at async loadAndTransform (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:20098:26) {
+  plugin: 'vite:import-analysis',
+  id: '/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/src/components/bpmnProcessDesigner/src/modules/rules/CustomRules.js',
+  pluginCode: "import BpmnRules from 'bpmn-js/lib/features/rules/BpmnRules'\n" +
+    "import inherits from 'inherits'\n" +
+    '\n' +
+    'export default function CustomRules(eventBus) {\n' +
+    '  BpmnRules.call(this, eventBus)\n' +
+    '}\n' +
+    '\n' +
+    'inherits(CustomRules, BpmnRules)\n' +
+    '\n' +
+    'CustomRules.prototype.canDrop = function () {\n' +
+    '  return false\n' +
+    '}\n' +
+    '\n' +
+    'CustomRules.prototype.canMove = function () {\n' +
+    '  return false\n' +
+    '}\n',
+  loc: {
+    file: '/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/src/components/bpmnProcessDesigner/src/modules/rules/CustomRules.js',
+    line: 2,
+    column: 22
+  },
+  frame: "1  |  import BpmnRules from 'bpmn-js/lib/features/rules/BpmnRules'\n" +
+    "2  |  import inherits from 'inherits'\n" +
+    '   |                        ^\n' +
+    '3  |  \n' +
+    '4  |  export default function CustomRules(eventBus) {'
+}
+
+Node.js v22.23.4
