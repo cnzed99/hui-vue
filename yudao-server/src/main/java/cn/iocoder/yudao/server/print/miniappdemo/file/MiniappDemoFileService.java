@@ -131,6 +131,17 @@ public class MiniappDemoFileService {
         }
     }
 
+    /**
+     * Explicit lifecycle barrier for other components that read or clean the shared storage root.
+     * The check must happen before touching scratch so a second JVM cannot delete active work before
+     * this service has acquired the single-instance OS lock.
+     */
+    public void requireStorageLockHeld() {
+        if (!properties.isEnabled() || workerLock == null || !workerLock.isValid()) {
+            throw new IllegalStateException("Miniapp demo storage lock is not held");
+        }
+    }
+
     private MiniappDemoFileMetadata uploadSerialized(MiniappDemoIdentity identity, MultipartFile file, String idempotencyKey) {
         String keyDigest = digest(idempotencyKey.getBytes(StandardCharsets.UTF_8));
         Path temporary = null;

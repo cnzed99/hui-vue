@@ -2,7 +2,9 @@ package cn.iocoder.yudao.server.print.miniappdemo.imagecollage;
 
 import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoProcessAdmission;
 import cn.iocoder.yudao.server.print.miniappdemo.file.MiniappDemoFileProperties;
+import cn.iocoder.yudao.server.print.miniappdemo.file.MiniappDemoFileService;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,12 +43,24 @@ public final class MiniappDemoImageCollageProcessRenderer {
     private final MiniappDemoImageCollageProperties properties;
     private final MiniappDemoFileProperties fileProperties;
     private final MiniappDemoProcessAdmission processAdmission;
+    private final Runnable storageLockCheck;
     private Path runtimeJar;
     private Path scratch;
 
+    @Autowired
     public MiniappDemoImageCollageProcessRenderer(MiniappDemoImageCollageProperties properties,
-            MiniappDemoFileProperties fileProperties, MiniappDemoProcessAdmission processAdmission) {
-        this.properties = properties; this.fileProperties = fileProperties; this.processAdmission = processAdmission;
+            MiniappDemoFileProperties fileProperties, MiniappDemoProcessAdmission processAdmission,
+            MiniappDemoFileService fileService) {
+        this(properties, fileProperties, processAdmission, fileService::requireStorageLockHeld);
+    }
+
+    MiniappDemoImageCollageProcessRenderer(MiniappDemoImageCollageProperties properties,
+            MiniappDemoFileProperties fileProperties, MiniappDemoProcessAdmission processAdmission,
+            Runnable storageLockCheck) {
+        this.properties = properties;
+        this.fileProperties = fileProperties;
+        this.processAdmission = processAdmission;
+        this.storageLockCheck = storageLockCheck;
     }
 
     @PostConstruct
@@ -56,6 +70,7 @@ public final class MiniappDemoImageCollageProcessRenderer {
         if (!fileProperties.isEnabled() || properties.getMaxPdfBytes() > fileProperties.getMaxBytes()) {
             throw new IOException("Image collage limits must fit the miniapp demo file limits");
         }
+        storageLockCheck.run();
         runtimeJar = fileProperties.getRuntimeJar().toRealPath();
         if (!Files.isRegularFile(runtimeJar) || !runtimeJar.getFileName().toString().endsWith(".jar")) {
             throw new IOException("Image collage renderer requires an immutable executable jar");
@@ -66,6 +81,7 @@ public final class MiniappDemoImageCollageProcessRenderer {
 
     public byte[] render(List<MultipartFile> images) {
         requireEnabled();
+        storageLockCheck.run();
         if (images == null || images.isEmpty() || images.size() > 9 || images.stream().anyMatch(image -> image == null || image.isEmpty())) {
             throw failure(INVALID_INPUT);
         }

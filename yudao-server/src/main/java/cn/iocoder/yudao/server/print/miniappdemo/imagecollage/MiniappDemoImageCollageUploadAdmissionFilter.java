@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.server.print.miniappdemo.imagecollage;
 
+import cn.iocoder.yudao.framework.web.config.WebProperties;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -26,16 +27,22 @@ public final class MiniappDemoImageCollageUploadAdmissionFilter extends OncePerR
     private static final Set<PosixFilePermission> PRIVATE_DIRECTORY = Set.of(
             PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE, PosixFilePermission.OWNER_EXECUTE);
     private final MiniappDemoImageCollageProperties properties;
+    private final WebProperties webProperties;
     private Semaphore uploads;
     private Path multipartRoot;
+    private String targetRequestPath;
 
-    public MiniappDemoImageCollageUploadAdmissionFilter(MiniappDemoImageCollageProperties properties) {
+    public MiniappDemoImageCollageUploadAdmissionFilter(MiniappDemoImageCollageProperties properties,
+            WebProperties webProperties) {
         this.properties = properties;
+        this.webProperties = webProperties;
     }
 
     @PostConstruct
     public void initialize() throws IOException {
         properties.validateEnabled();
+        targetRequestPath = normalizePrefix(webProperties.getAppApi().getPrefix())
+                + "/print/miniapp/demo/image-collages";
         if (!properties.isEnabled()) return;
         multipartRoot = privateDirectory(properties.getMultipartRoot().normalize());
         uploads = new Semaphore(properties.getMaxConcurrentUploads(), true);
@@ -43,7 +50,26 @@ public final class MiniappDemoImageCollageUploadAdmissionFilter extends OncePerR
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        return !(request.getContextPath() + "/print/miniapp/demo/image-collages").equals(request.getRequestURI());
+        return !matchesTargetRequest(request.getContextPath(), request.getRequestURI());
+    }
+
+    boolean matchesTargetRequest(String contextPath, String requestUri) {
+        return (normalizeContextPath(contextPath) + targetRequestPath).equals(requestUri);
+    }
+
+    private static String normalizePrefix(String prefix) {
+        String value = prefix == null ? "" : prefix.strip();
+        if (value.isEmpty() || "/".equals(value)) return "";
+        if (!value.startsWith("/")) value = "/" + value;
+        while (value.endsWith("/")) value = value.substring(0, value.length() - 1);
+        return value;
+    }
+
+    private static String normalizeContextPath(String contextPath) {
+        if (contextPath == null || contextPath.isBlank() || "/".equals(contextPath)) return "";
+        String value = contextPath.startsWith("/") ? contextPath : "/" + contextPath;
+        while (value.endsWith("/")) value = value.substring(0, value.length() - 1);
+        return value;
     }
 
     @Override
