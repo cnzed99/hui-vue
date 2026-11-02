@@ -58,6 +58,7 @@ public class MiniappDemoPrintTaskService {
         return transaction.execute(status -> {
             requireScope(scope);
             var order = repository.orderForUpdate(scope, orderId).orElseThrow(() -> failure(ORDER_NOT_FOUND));
+            if ("CANCELLED".equals(order.orderState())) throw failure(ORDER_NOT_PAYABLE);
             var idempotent = repository.createIdempotentForUpdate(scope, order.principalId(), keyHash);
             if (idempotent.isPresent()) {
                 if (!inputHash.equals(idempotent.get().createInputHash())) throw failure(IDEMPOTENCY_CONFLICT);
@@ -150,7 +151,13 @@ public class MiniappDemoPrintTaskService {
                     .orElseThrow(() -> failure(ORDER_NOT_FOUND));
             var task = repository.taskForOwner(identity.tenantId(), identity.storeId(), identity.principalId(), orderId);
             if (task.isEmpty()) {
-                if (!"NOT_CREATED".equals(order.printState()) || order.version() > 2) throw failure(STORAGE_UNAVAILABLE);
+                boolean ordinary = "OPEN".equals(order.orderState()) && "NONE".equals(order.refundState())
+                        && (("UNPAID".equals(order.paymentState()) && order.version() == 1)
+                        || ("SUCCEEDED".equals(order.paymentState()) && order.version() == 2));
+                boolean cancelled = "CANCELLED".equals(order.orderState())
+                        && (("UNPAID".equals(order.paymentState()) && "NONE".equals(order.refundState()) && order.version() == 2)
+                        || ("SUCCEEDED".equals(order.paymentState()) && "SUCCEEDED".equals(order.refundState()) && order.version() == 3));
+                if (!"NOT_CREATED".equals(order.printState()) || !(ordinary || cancelled)) throw failure(STORAGE_UNAVAILABLE);
                 return null;
             }
             requireTaskOrder(order, task.get());
@@ -316,6 +323,14 @@ public class MiniappDemoPrintTaskService {
     }
     private static void requireTaskOrder(MiniappDemoPrintTaskRepository.Order order,
                                          MiniappDemoPrintTaskRepository.Task task) {
+        if ("CANCELLED".equals(task.state())) {
+            if (!task.orderId().equals(order.id()) || !task.principalId().equals(order.principalId())
+                    || !"CANCELLED".equals(order.printState()) || !"CANCELLED".equals(order.orderState())
+                    || !"SUCCEEDED".equals(order.paymentState()) || !"SUCCEEDED".equals(order.refundState())
+                    || order.version() != 4 || task.version() != 2 || task.eventSeq() != 2 || task.fence() != 0
+                    || task.leaseId() != null || task.leaseUntilMs() != null) throw failure(STORAGE_UNAVAILABLE);
+            return;
+        }
         if (!task.orderId().equals(order.id()) || !task.principalId().equals(order.principalId())
                 || !task.state().equals(order.printState()) || order.version() < 3
                 || !"OPEN".equals(order.orderState()) || !"SUCCEEDED".equals(order.paymentState())

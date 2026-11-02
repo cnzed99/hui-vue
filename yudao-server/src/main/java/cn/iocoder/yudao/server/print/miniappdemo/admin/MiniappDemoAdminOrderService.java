@@ -1,6 +1,8 @@
 package cn.iocoder.yudao.server.print.miniappdemo.admin;
 
 import cn.iocoder.yudao.server.print.miniappdemo.printtask.MiniappDemoPrintTaskException;
+import cn.iocoder.yudao.server.print.miniappdemo.cancellation.MiniappDemoCancellationService;
+import cn.iocoder.yudao.server.print.miniappdemo.cancellation.MiniappDemoCancellationRepository;
 import cn.iocoder.yudao.server.print.miniappdemo.printtask.MiniappDemoPrintTaskService;
 import cn.iocoder.yudao.server.print.miniappdemo.quote.MiniappDemoQuoteSnapshot;
 import cn.iocoder.yudao.server.print.miniappdemo.quote.MiniappDemoQuoteVerifier;
@@ -21,15 +23,20 @@ import static cn.iocoder.yudao.server.print.miniappdemo.printtask.MiniappDemoPri
 public class MiniappDemoAdminOrderService {
     private final MiniappDemoAdminOrderRepository repository;
     private final MiniappDemoPrintTaskService tasks;
+    private final MiniappDemoCancellationService cancellations;
+    private final MiniappDemoCancellationRepository cancellationRepository;
     private final PrintScopeService scopes;
     private final ObjectMapper mapper;
     private final TransactionTemplate readTransaction;
 
     public MiniappDemoAdminOrderService(MiniappDemoAdminOrderRepository repository,
-            MiniappDemoPrintTaskService tasks, PrintScopeService scopes, ObjectMapper mapper,
+            MiniappDemoPrintTaskService tasks, MiniappDemoCancellationService cancellations,
+            MiniappDemoCancellationRepository cancellationRepository, PrintScopeService scopes, ObjectMapper mapper,
             PlatformTransactionManager manager) {
         this.repository = repository;
         this.tasks = tasks;
+        this.cancellations = cancellations;
+        this.cancellationRepository = cancellationRepository;
         this.scopes = scopes;
         this.mapper = mapper;
         this.readTransaction = new TransactionTemplate(manager);
@@ -44,7 +51,7 @@ public class MiniappDemoAdminOrderService {
             long total = repository.count(scope);
             long offset = Math.multiplyExact((long) pageNo - 1L, pageSize);
             List<MiniappDemoAdminOrderSummary> values = repository.list(scope, pageSize, offset).stream()
-                    .map(MiniappDemoAdminOrderService::summary).toList();
+                    .map(row -> summary(scope, row)).toList();
             return new MiniappDemoAdminOrderPage<>(values, total, pageNo, pageSize);
         });
     }
@@ -82,18 +89,19 @@ public class MiniappDemoAdminOrderService {
                 order.currency(), order.totalAmount(), order.orderState(), order.paymentState(), order.refundState(),
                 order.printState(), order.version(), order.principalId(), order.createdAtMs(), order.updatedAtMs(),
                 new MiniappDemoAdminOrderView.Item(item.id(), item.quoteId(), item.fileId(), item.fileSha256(),
-                        item.amount(), snapshot), payment, printTask, events);
+                        item.amount(), snapshot), payment, printTask, events, cancellations.getAdmin(id).cancellation());
     }
 
     private MiniappDemoQuoteSnapshot read(String json) {
         try { return mapper.readValue(json, MiniappDemoQuoteSnapshot.class); }
         catch (JsonProcessingException ex) { throw failure(SNAPSHOT_INVALID); }
     }
-    private static MiniappDemoAdminOrderSummary summary(MiniappDemoAdminOrderRepository.Order row) {
+    private MiniappDemoAdminOrderSummary summary(PrintScope scope, MiniappDemoAdminOrderRepository.Order row) {
         requireOrder(row);
         return new MiniappDemoAdminOrderSummary(row.id(), row.orderNo(), row.source(), row.simulation(), row.currency(),
                 row.totalAmount(), row.orderState(), row.paymentState(), row.refundState(), row.printState(),
-                row.version(), row.principalId(), row.createdAtMs(), row.updatedAtMs());
+                row.version(), row.principalId(), row.createdAtMs(), row.updatedAtMs(),
+                cancellationRepository.outcomeAdmin(scope, row.principalId(), row.id()));
     }
     private static void requireOrder(MiniappDemoAdminOrderRepository.Order row) {
         if (!"MINIAPP_DEMO".equals(row.source()) || !row.simulation() || !"CNY".equals(row.currency())) {

@@ -3,6 +3,7 @@ package cn.iocoder.yudao.server.print.miniappdemo.order;
 import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoIdentity;
 import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoSessionException;
 import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoSessionRepository;
+import cn.iocoder.yudao.server.print.miniappdemo.cancellation.MiniappDemoCancellationRepository;
 import cn.iocoder.yudao.server.print.miniappdemo.quote.MiniappDemoQuoteSnapshot;
 import cn.iocoder.yudao.server.print.miniappdemo.quote.MiniappDemoQuoteVerifier;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,15 +29,18 @@ public class MiniappDemoOrderService {
     private final MiniappDemoOrderProperties properties;
     private final MiniappDemoOrderRepository repository;
     private final MiniappDemoSessionRepository sessions;
+    private final MiniappDemoCancellationRepository cancellations;
     private final ObjectMapper mapper;
     private final TransactionTemplate transaction;
     private final TransactionTemplate readTransaction;
 
     public MiniappDemoOrderService(MiniappDemoOrderProperties properties, MiniappDemoOrderRepository repository,
-            MiniappDemoSessionRepository sessions, ObjectMapper mapper, PlatformTransactionManager manager) {
+            MiniappDemoSessionRepository sessions, MiniappDemoCancellationRepository cancellations,
+            ObjectMapper mapper, PlatformTransactionManager manager) {
         this.properties = properties;
         this.repository = repository;
         this.sessions = sessions;
+        this.cancellations = cancellations;
         this.mapper = mapper;
         this.transaction = new TransactionTemplate(manager);
         this.transaction.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);
@@ -119,7 +123,7 @@ public class MiniappDemoOrderService {
                 order.currency(), order.totalAmount(), order.orderState(), order.paymentState(), order.refundState(),
                 order.printState(), order.version(), order.createdAtMs(), order.updatedAtMs(),
                 new MiniappDemoOrderView.Item(item.id(), item.quoteId(), item.fileId(), item.fileSha256(),
-                        item.amount(), snapshot));
+                        item.amount(), snapshot), cancellations.outcome(identity, order.id()));
     }
 
     private MiniappDemoQuoteSnapshot readSnapshot(String json) {

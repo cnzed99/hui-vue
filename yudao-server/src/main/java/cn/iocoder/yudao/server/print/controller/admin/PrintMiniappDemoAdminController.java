@@ -6,6 +6,9 @@ import cn.iocoder.yudao.server.print.miniappdemo.admin.MiniappDemoAdminOrderPage
 import cn.iocoder.yudao.server.print.miniappdemo.admin.MiniappDemoAdminOrderService;
 import cn.iocoder.yudao.server.print.miniappdemo.admin.MiniappDemoAdminOrderSummary;
 import cn.iocoder.yudao.server.print.miniappdemo.admin.MiniappDemoAdminOrderView;
+import cn.iocoder.yudao.server.print.miniappdemo.cancellation.MiniappDemoCancellationException;
+import cn.iocoder.yudao.server.print.miniappdemo.cancellation.MiniappDemoCancellationService;
+import cn.iocoder.yudao.server.print.miniappdemo.cancellation.MiniappDemoCancellationView;
 import cn.iocoder.yudao.server.print.miniappdemo.printtask.MiniappDemoPrintActionView;
 import cn.iocoder.yudao.server.print.miniappdemo.printtask.MiniappDemoPrintTaskException;
 import cn.iocoder.yudao.server.print.miniappdemo.printtask.MiniappDemoPrintTaskService;
@@ -27,11 +30,13 @@ import java.util.Set;
 public class PrintMiniappDemoAdminController {
     private final MiniappDemoAdminOrderService orders;
     private final MiniappDemoPrintTaskService tasks;
+    private final MiniappDemoCancellationService cancellations;
 
     public PrintMiniappDemoAdminController(MiniappDemoAdminOrderService orders,
-            MiniappDemoPrintTaskService tasks) {
+            MiniappDemoPrintTaskService tasks, MiniappDemoCancellationService cancellations) {
         this.orders = orders;
         this.tasks = tasks;
+        this.cancellations = cancellations;
     }
 
     @GetMapping("/orders")
@@ -53,6 +58,15 @@ public class PrintMiniappDemoAdminController {
             @RequestParam MultiValueMap<String, String> query) {
         requireEmpty(query);
         return CommonResult.success(orders.get(id));
+    }
+
+    @GetMapping("/orders/{id}/cancellation")
+    @PreAuthorize("@ss.hasPermission('print:order:query')")
+    @ApiAccessLog(requestEnable = false, responseEnable = false, operateModule = "print-miniapp-demo-cancellation", operateName = "get")
+    public CommonResult<MiniappDemoCancellationView> getCancellation(@PathVariable String id,
+            @RequestParam MultiValueMap<String, String> query) {
+        requireEmpty(query);
+        return CommonResult.success(cancellations.getAdmin(id));
     }
 
     @PostMapping(value = "/orders/{id}/print-task", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -95,6 +109,10 @@ public class PrintMiniappDemoAdminController {
     @ExceptionHandler(MiniappDemoPrintTaskException.class)
     public ResponseEntity<CommonResult<Object>> taskError(MiniappDemoPrintTaskException failure) {
         return ResponseEntity.status(failure.status()).body(CommonResult.error(failure.code(), failure.getMessage()));
+    }
+    @ExceptionHandler(MiniappDemoCancellationException.class)
+    public ResponseEntity<CommonResult<Object>> cancellationError(MiniappDemoCancellationException failure) {
+        return ResponseEntity.status(failure.status()).header("Cache-Control", "no-store").body(CommonResult.error(failure.code(), failure.getMessage()));
     }
     @ExceptionHandler({DataAccessException.class, TransactionException.class})
     public ResponseEntity<CommonResult<Object>> storageError(RuntimeException ignored) {

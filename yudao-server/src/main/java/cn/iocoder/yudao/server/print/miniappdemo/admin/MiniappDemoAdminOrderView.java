@@ -1,13 +1,15 @@
 package cn.iocoder.yudao.server.print.miniappdemo.admin;
 
 import cn.iocoder.yudao.server.print.miniappdemo.printtask.MiniappDemoPrintTaskView;
+import cn.iocoder.yudao.server.print.miniappdemo.cancellation.MiniappDemoCancellationView;
 import cn.iocoder.yudao.server.print.miniappdemo.quote.MiniappDemoQuoteSnapshot;
 import java.util.List;
 
 public record MiniappDemoAdminOrderView(String id, String orderNo, String source, boolean simulation,
         String currency, String totalAmount, String orderState, String paymentState, String refundState,
         String printState, long version, String principalId, long createdAtMs, long updatedAtMs,
-        Item item, Payment payment, MiniappDemoPrintTaskView printTask, List<Event> events) {
+        Item item, Payment payment, MiniappDemoPrintTaskView printTask, List<Event> events,
+        MiniappDemoCancellationView.ActionView cancellation) {
     public record Item(String id, String quoteId, String fileId, String fileSha256,
                        String amount, MiniappDemoQuoteSnapshot quoteSnapshot) {}
     public record Payment(String id, String provider, String mode, String state, boolean simulation,
