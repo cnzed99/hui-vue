@@ -38,7 +38,7 @@
 - 单图最大 2MiB；请求内原图总字节最大 12MiB；单图最大 600 万像素、单边最大 8192；全部图片总像素最大 3000 万；输出 PDF 最大 2MiB。
 - 外网只经 Nginx 到已核验绑定 `127.0.0.1:48080` 的后端：精确路由先用 13MiB `client_max_body_size` 拒绝超限；在 `http` 级预定义 M9 全局连接区和每 IP 连接区，精确路由分别限制为全局最多 2 个正在接收的请求、每 IP 最多 1 个，并设保守写入速率。请求体缓冲到 M9 专用 Nginx body-temp 目录（`0700`、`www-data`、只清理该命名空间），避免进入主 JVM 堆；部署前检查系统盘至少 10GiB 可用。
 - Spring 当前外层上限已核验为单 part 16MiB、请求 32MiB；实现时新增显式 `file-size-threshold: 0`、项目私有 multipart 临时目录（`0700`、服务用户 `ubuntu`），并配置容器解析阶段全局 `max-part-count=10`、`max-part-header-size=1KiB`，同时保留 systemd `PrivateTmp=yes`。精确路径前置 `OncePerRequestFilter` 在 `DispatcherServlet` 解析 multipart 前取得容量 2 的上传准入，检查 `Content-Length`（存在时）及文件系统至少 10GiB 加本请求上限的余量；失败即在解析前拒绝，成功则在完整请求结束释放。Controller 解析后再次核对 1–9 个 part、名称、声明长度和总长度，拒绝任何额外 part；服务层以 64KiB 流式复制并再次执行真实字节上限，不能依赖声明长度。因为后端仅回环监听，外部请求不能绕过 Nginx 的 13MiB 与连接限制。新增容器全局 part 限制后必须回归现有 PDF/单图上传接口。
-- 渲染版本固定 `IMAGE_COLLAGE_A4_PORTRAIT_GRID_V1`；父进程只接受子进程唯一成功协议行，超时 15 秒。新增一个服务进程内共享的 `MiniappDemoProcessAdmission`，容量 1、等待队列 0，由既有 M7 单图渲染、M9 拼版渲染和 PDF inspector 三者共同占用；任一子进程运行时其余立即返回/延后为各自既有繁忙语义，禁止三个模块各持独立额度。所有 part 完成受限落盘和有序摘要后才尝试占用该共享槽，避免占槽期间读取网络。
+- 渲染版本固定 `IMAGE_COLLAGE_A4_PORTRAIT_GRID_V1`；父进程只接受子进程唯一成功协议行，超时 15 秒。新增一个服务进程内共享的 `MiniappDemoProcessAdmission`，容量 1、等待队列 0，由既有 M7 单图渲染、M9 拼版渲染和 PDF inspector 三者共同占用，禁止三个模块各持独立额度。M7/M9 请求未取得槽时返回各自固定繁忙错误；PDF worker 必须在 `claimNext`/递增 `processing_attempts` 之前非阻塞取得共享槽，未取得则本次 maintenance tick 直接延后，不改文件状态、不计 attempt、不 purge。取得后由 worker 把同一 permit 传给 inspector 或在调用期间持有，inspector 不重复取得；成功、失败、中断和关闭出口都释放一次。所有图片 part 完成受限落盘和有序摘要后才尝试占用共享槽，避免占槽期间读取网络。
 - M9 子进程固定 `-Xms32m -Xmx320m -XX:MaxMetaspaceSize=96m -XX:+UseSerialGC`。现有服务 `MemoryMax=1536MiB`、主 JVM最大堆 768MiB；共享准入确保 M7/M9/PDF inspector 任一时刻最多一个子进程。子进程先读取每张图的头部尺寸/帧数并累计限制，再逐张解码、方向纠正、缩放并绘入唯一输出画布，不同时保留全部原始位图。超时、中断或协议异常时父进程先终止、最多等待 1 秒后强杀并等待退出，再清理任务目录；以 9 张上限 fixture 记录 `MemoryCurrent/peak`，触及 systemd OOM 或没有足够余量即不启用功能。
 - 输入先进入本批私有 `image-collage-scratch/task-*`，根目录和任务目录 `0700`、文件 `0600`；父进程启动时持有与既有文件存储相同的单实例 OS 锁语义，并在接收请求前删除遗留 `task-*`。任何成功、失败、超时或正常进程退出路径都精确清理本批任务目录；主机强杀/重启遗留由下次启动回收。不得把原图、文件名、token、摘要或正文写入访问/API 日志。
 - 实际 JPEG/PNG 解码、像素限制、方向和透明度由服务端验证；扩展名与 MIME 仅作早期拒绝，不能替代真实格式验证。
@@ -71,7 +71,7 @@
 ## 最少充分验证
 
 - 渲染：1、2、3、4、5、6、7、8、9 图网格；EXIF 1–8；透明 PNG；混合纵横图；固定顺序和不裁切；输出单页及确定性哈希；交换两张图必须改变摘要/PDF；同输入同版本跨进程重启哈希相同。
-- 拒绝：0/10 图、未知/文本/空 part、单图/总字节、单图/总像素、维度、APNG/多帧、伪格式、损坏图、输出超限、超时、繁忙；容器在 multipart 解析阶段限制 part 数和 part header，业务总字节超限必须在解码前拒绝。并发覆盖 M7 渲染、M9 渲染与 PDF inspector 共享槽的成功、失败和中断释放，执行一次三入口竞争，证明不会同时启动两个受限子进程、没有死锁。
+- 拒绝：0/10 图、未知/文本/空 part、单图/总字节、单图/总像素、维度、APNG/多帧、伪格式、损坏图、输出超限、超时、繁忙；容器在 multipart 解析阶段限制 part 数和 part header，业务总字节超限必须在解码前拒绝。并发覆盖 M7 渲染、M9 渲染与 PDF inspector 共享槽的成功、失败和中断释放，执行一次三入口竞争，证明不会同时启动两个受限子进程、没有死锁；图像占槽时已上传 PDF 必须保持 `UPLOADED` 且 `processing_attempts` 不变，槽释放后正常进入 `READY`。
 - HTTP：会话/Origin/Host、提交后幂等重放与冲突、并发繁忙后原键重试、跨主体隐藏、会话变化、提交中断重启、到期同键返回 `DELETED`、Nginx 方法/邻接/大小/限流。
 - 清理：成功、格式失败、超限、超时、繁忙、强杀子进程和服务重启后均无子进程及 `task-*` 残留；只清理本批命名空间。验证 Nginx body-temp、Servlet multipart-temp、M9 scratch 三层均无本批残留，并记录 9 图 fixture 下 systemd 内存峰值和磁盘余量。
 - 页面：删除/替换/离页释放自建 URL；离页或会话切换后迟到成功响应不写草稿；失败时原键显式重试，刷新后要求重选。
