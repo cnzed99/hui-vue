@@ -1,60 +1,97 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
+import { onHide, onShow, onUnload } from '@dcloudio/uni-app'
 import BottomNav from '@/components/BottomNav.vue'
-import { libraryDocuments } from '@/data/fixtures'
+import { getDemoLibrary } from '@/api/demoLibrary'
+import type { LibraryEntry, LibrarySort } from '@/api/demoLibrary'
 
 const keyword = ref('')
 const submittedKeyword = ref('')
+const category = ref('全部')
+const categories = ref(['全部', '使用指南', '练习资料', '生活文档'])
+const sort = ref<LibrarySort>('DEFAULT')
+const documents = ref<LibraryEntry[]>([])
+const state = ref<'loading' | 'ready' | 'failed'>('loading')
+const failure = ref('')
+const sortLabels = { DEFAULT: '排序', TITLE_ASC: '名称排序', PAGES_ASC: '页数排序' }
+let alive = false
+let generation = 0
 
-const visibleDocuments = computed(() => {
-  const value = submittedKeyword.value.trim().toLowerCase()
-  if (!value) return libraryDocuments
-  return libraryDocuments.filter((item) => item.title.toLowerCase().includes(value))
-})
+onShow(() => { alive = true; load() })
+onHide(() => { alive = false; generation += 1 })
+onUnload(() => { alive = false; generation += 1 })
 
-function search() {
-  submittedKeyword.value = keyword.value
+async function load() {
+  const request = ++generation
+  state.value = 'loading'
+  failure.value = ''
+  const result = await getDemoLibrary({ keyword: submittedKeyword.value, category: category.value, sort: sort.value })
+  if (!alive || generation !== request) return
+  if (result.kind !== 'ok') {
+    documents.value = []
+    state.value = 'failed'
+    failure.value = result.reason === 'network' ? '网络未连接，请重试。' : '文库服务暂时不可用，请稍后重试。'
+    return
+  }
+  documents.value = result.data.items
+  categories.value = result.data.categories
+  state.value = 'ready'
 }
-
-function showFilter(label: string) {
-  uni.showToast({ title: `${label}筛选待接入`, icon: 'none' })
+function search() { submittedKeyword.value = keyword.value.trim(); load() }
+function chooseCategory() {
+  uni.showActionSheet({ itemList: categories.value, success: result => {
+    if (!alive || !categories.value[result.tapIndex]) return
+    category.value = categories.value[result.tapIndex]
+    load()
+  } })
 }
+function chooseSort() {
+  const choices: LibrarySort[] = ['DEFAULT', 'TITLE_ASC', 'PAGES_ASC']
+  uni.showActionSheet({ itemList: ['默认排序', '按名称排序', '按页数排序'], success: result => {
+    if (!alive || !choices[result.tapIndex]) return
+    sort.value = choices[result.tapIndex]
+    load()
+  } })
+}
+function showScopeBoundary() { uni.showToast({ title: '原门店筛选规则待确认，当前为原创演示文库', icon: 'none', duration: 2500 }) }
+function open(document: LibraryEntry) { uni.navigateTo({ url: `/pages/library-detail/index?id=${encodeURIComponent(document.id)}` }) }
 </script>
 
 <template>
   <view class="page-shell">
     <view class="topbar"><view class="status-space" /><view class="bar-title">文库</view></view>
     <view class="search-row">
-      <input v-model="keyword" class="search-input" placeholder="输入文件名" confirm-type="search" @confirm="search" />
+      <input v-model="keyword" class="search-input" placeholder="输入文件名" :maxlength="80" confirm-type="search" @confirm="search" />
       <button class="search-button" @click="search">搜索</button>
     </view>
     <view class="filters">
-      <view v-for="filter in ['分类', '本店', '不限', '排序']" :key="filter" class="filter" @click="showFilter(filter)">{{ filter }} <text>⌄</text></view>
+      <view class="filter" @click="chooseCategory">{{ category === '全部' ? '分类' : category }} <text>⌄</text></view>
+      <view class="filter reserved" @click="showScopeBoundary">本店 <text>⌄</text></view>
+      <view class="filter reserved" @click="showScopeBoundary">不限 <text>⌄</text></view>
+      <view class="filter" @click="chooseSort">{{ sortLabels[sort] }} <text>⌄</text></view>
     </view>
-
+    <view class="demo-notice">原创演示文库 · 浏览与打印统计为0 · 门店筛选待确认</view>
     <scroll-view class="library-list" scroll-y>
-      <view v-for="document in visibleDocuments" :key="document.id" class="document-card">
-        <view class="preview"><view class="preview-line wide" /><view class="preview-line" /><view class="preview-line" /><view class="preview-line short" /><text>PDF</text></view>
-        <view class="document-main">
-          <text class="document-title">{{ document.title }}</text>
-          <text class="document-badge">{{ document.category }} @ {{ document.source }}</text>
-          <view class="document-stats"><text>◉ {{ document.views }}</text><text>▣ {{ document.prints }}</text><text>共 {{ document.pages }} 页</text></view>
+      <view v-if="state === 'loading'" class="empty-state">正在加载文库…</view>
+      <view v-else-if="state === 'failed'" class="empty-state"><text>{{ failure }}</text><button class="retry" @click="load">重新加载</button></view>
+      <template v-else>
+        <view v-for="document in documents" :key="document.id" class="document-card" @click="open(document)">
+          <view class="preview"><view class="preview-line wide" /><view class="preview-line" /><view class="preview-line" /><view class="preview-line short" /><text>PDF</text></view>
+          <view class="document-main">
+            <text class="document-title">{{ document.title }}</text>
+            <text class="document-badge">{{ document.category }} @ {{ document.source }}</text>
+            <view class="document-stats"><text>◉ {{ document.views }}</text><text>▣ {{ document.prints }}</text><text>共 {{ document.pages }} 页</text></view>
+          </view>
+          <text class="card-arrow">›</text>
         </view>
-      </view>
-      <view v-if="visibleDocuments.length === 0" class="empty-state">没有匹配的文档</view>
+        <view v-if="documents.length === 0" class="empty-state">没有匹配的文档</view>
+      </template>
       <view class="list-spacer" />
     </scroll-view>
-
     <BottomNav active="library" />
   </view>
 </template>
 
 <style scoped lang="scss">
-.page-shell { min-height: 100vh; padding-bottom: 120rpx; background: #f6f6f6; }
-.topbar { color: #fff; background: #ff9f3d; }.status-space { height: var(--status-bar-height); min-height: 36rpx; }.bar-title { height: 74rpx; line-height: 74rpx; text-align: center; font-size: 30rpx; }
-.search-row { display: flex; align-items: center; gap: 14rpx; padding: 20rpx 26rpx; background: #fff; }.search-input { flex: 1; height: 62rpx; padding: 0 22rpx; color: #555; background: #f1f1f1; border-radius: 34rpx; font-size: 25rpx; }.search-button { width: 112rpx; height: 62rpx; margin: 0; padding: 0; color: #222; background: #fff; border-radius: 32rpx; box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06); font-size: 27rpx; line-height: 62rpx; }
-.filters { display: grid; grid-template-columns: repeat(4, 1fr); height: 84rpx; background: #fff; border-top: 1rpx solid #f3f3f3; border-bottom: 1rpx solid #eee; }.filter { display: flex; align-items: center; justify-content: center; gap: 8rpx; color: #3e3e3e; border-right: 1rpx solid #eeeeee; font-size: 25rpx; }.filter:last-child { border-right: 0; }.filter text { color: #999; font-size: 20rpx; }
-.library-list { height: calc(100vh - var(--status-bar-height) - 240rpx); padding: 18rpx 18rpx 0; box-sizing: border-box; }.document-card { display: flex; min-height: 166rpx; margin-bottom: 14rpx; padding: 14rpx; background: #fff; border-radius: 12rpx; box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.03); }
-.preview { position: relative; display: flex; flex: 0 0 104rpx; align-items: center; flex-direction: column; gap: 8rpx; min-height: 138rpx; padding: 24rpx 12rpx 8rpx; background: linear-gradient(#fff, #f5f5f5); border: 1rpx solid #e6e6e6; border-radius: 4rpx; box-shadow: 0 2rpx 7rpx rgba(0, 0, 0, 0.08); }.preview-line { width: 68rpx; height: 3rpx; background: #cfcfcf; }.preview-line.wide { width: 78rpx; background: #999; }.preview-line.short { width: 42rpx; }.preview text { position: absolute; right: 8rpx; bottom: 7rpx; color: #df6b57; font-size: 14rpx; }
-.document-main { display: flex; min-width: 0; flex: 1; padding: 8rpx 0 2rpx 20rpx; flex-direction: column; }.document-title { overflow: hidden; color: #454545; font-size: 26rpx; line-height: 36rpx; text-overflow: ellipsis; white-space: nowrap; }.document-badge { align-self: flex-start; margin-top: 13rpx; padding: 4rpx 10rpx; color: #e8a03d; border: 1rpx solid #f0bd70; border-radius: 18rpx; font-size: 20rpx; }.document-stats { display: flex; gap: 24rpx; margin-top: auto; color: #9a9a9a; font-size: 20rpx; }.empty-state { padding: 100rpx 0; color: #999; text-align: center; font-size: 26rpx; }.list-spacer { height: 110rpx; }
+.page-shell{min-height:100vh;padding-bottom:120rpx;background:#f6f6f6}.topbar{color:#fff;background:#ff9f3d}.status-space{height:var(--status-bar-height);min-height:36rpx}.bar-title{height:74rpx;line-height:74rpx;text-align:center;font-size:30rpx}.search-row{display:flex;align-items:center;gap:14rpx;padding:20rpx 26rpx;background:#fff}.search-input{flex:1;height:62rpx;padding:0 22rpx;color:#555;background:#f1f1f1;border-radius:34rpx;font-size:25rpx}.search-button{width:112rpx;height:62rpx;margin:0;padding:0;color:#222;background:#fff;border-radius:32rpx;box-shadow:0 2rpx 12rpx rgba(0,0,0,.06);font-size:27rpx;line-height:62rpx}.filters{display:grid;grid-template-columns:repeat(4,1fr);height:84rpx;background:#fff;border-top:1rpx solid #f3f3f3;border-bottom:1rpx solid #eee}.filter{display:flex;align-items:center;justify-content:center;gap:8rpx;color:#3e3e3e;border-right:1rpx solid #eee;font-size:25rpx}.filter:last-child{border-right:0}.filter text{color:#999;font-size:20rpx}.filter.reserved{color:#999}.demo-notice{padding:12rpx 20rpx;color:#a87943;background:#fff8ed;text-align:center;font-size:20rpx}.library-list{height:calc(100vh - var(--status-bar-height) - 285rpx);padding:18rpx 18rpx 0;box-sizing:border-box}.document-card{display:flex;align-items:stretch;min-height:166rpx;margin-bottom:14rpx;padding:14rpx;background:#fff;border-radius:12rpx;box-shadow:0 2rpx 10rpx rgba(0,0,0,.03)}.preview{position:relative;display:flex;flex:0 0 104rpx;align-items:center;flex-direction:column;gap:8rpx;min-height:138rpx;padding:24rpx 12rpx 8rpx;background:linear-gradient(#fff,#f5f5f5);border:1rpx solid #e6e6e6;border-radius:4rpx;box-shadow:0 2rpx 7rpx rgba(0,0,0,.08)}.preview-line{width:68rpx;height:3rpx;background:#cfcfcf}.preview-line.wide{width:78rpx;background:#999}.preview-line.short{width:42rpx}.preview text{position:absolute;right:8rpx;bottom:7rpx;color:#df6b57;font-size:14rpx}.document-main{display:flex;min-width:0;flex:1;padding:8rpx 0 2rpx 20rpx;flex-direction:column}.document-title{overflow:hidden;color:#454545;font-size:26rpx;line-height:36rpx;text-overflow:ellipsis;white-space:nowrap}.document-badge{align-self:flex-start;margin-top:13rpx;padding:4rpx 10rpx;color:#e8a03d;border:1rpx solid #f0bd70;border-radius:18rpx;font-size:20rpx}.document-stats{display:flex;gap:24rpx;margin-top:auto;color:#9a9a9a;font-size:20rpx}.card-arrow{align-self:center;margin-left:8rpx;color:#bbb;font-size:38rpx}.empty-state{padding:100rpx 0;color:#999;text-align:center;font-size:26rpx}.retry{width:220rpx;margin:24rpx auto;background:#ff9f3d;color:#fff;font-size:25rpx;border-radius:40rpx}.list-spacer{height:110rpx}
 </style>

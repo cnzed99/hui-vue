@@ -23,24 +23,6 @@ export const morePrintEntries: PrintEntry[] = [
   { label: '试卷翻新', icon: '▰', tone: 'cyan' }
 ]
 
-export interface LibraryDocument {
-  id: number
-  title: string
-  category: string
-  source: string
-  views: number
-  prints: number
-  pages: number
-}
-
-export const libraryDocuments: LibraryDocument[] = [
-  { id: 1, title: '2024年12月英语四级真题第1套解析', category: '英语四级', source: '小板栗文件库', views: 310, prints: 55, pages: 18 },
-  { id: 2, title: '2025年06月英语四级真题第1套', category: '英语四级', source: '小板栗文件库', views: 125, prints: 38, pages: 8 },
-  { id: 3, title: '2024年12月英语六级真题第1套', category: '其他文档', source: '小板栗文件库', views: 89, prints: 29, pages: 9 },
-  { id: 4, title: '2025年06月英语六级真题第1套', category: '其他文档', source: '小板栗文件库', views: 86, prints: 26, pages: 9 },
-  { id: 5, title: '2025年06月英语四级真题第2套', category: '英语四级', source: '小板栗文件库', views: 34, prints: 16, pages: 8 }
-]
-
 export const profileMenus = [
   { label: '我的订单', note: '售后服务与支持', icon: '▤', tone: 'orange' },
   { label: '会员卡', icon: '▣', tone: 'blue' },
