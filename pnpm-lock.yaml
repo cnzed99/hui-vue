@@ -71,6 +71,9 @@ importers:
       diagram-js:
         specifier: ^15.14.0
         version: 15.14.0
+      dom7:
+        specifier: 4.0.6
+        version: 4.0.6
       driver.js:
         specifier: ^1.4.0
         version: 1.4.0
