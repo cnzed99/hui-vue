@@ -1,0 +1,26 @@
+diff --git a/package.json b/package.json
+index 78c35d9131..8e80a014ed 100644
+--- a/package.json
++++ b/package.json
+@@ -57,6 +57,7 @@
+     "element-plus": "2.13.7",
+     "fast-xml-parser": "^4.3.2",
+     "highlight.js": "^11.11.1",
++    "inherits": "2.0.4",
+     "jsbarcode": "^3.12.3",
+     "jsencrypt": "^3.5.4",
+     "jsoneditor": "^10.4.3",
+diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
+index c73a7170c6..08fa649352 100644
+--- a/pnpm-lock.yaml
++++ b/pnpm-lock.yaml
+@@ -89,6 +89,9 @@ importers:
+       highlight.js:
+         specifier: ^11.11.1
+         version: 11.11.1
++      inherits:
++        specifier: 2.0.4
++        version: 2.0.4
+       jsbarcode:
+         specifier: ^3.12.3
+         version: 3.12.3

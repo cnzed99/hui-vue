@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "status": "INSUFFICIENT_EVIDENCE",
+  "experimentStatus": "DECLARATION_GENERATION_FAILED",
+  "adminCandidateCommit": "f692e79e2879ab8162debe483bf848b55fb80925",
+  "capturedUtc": "2026-11-02T16:08:52.384950+00:00",
+  "inputSha256": {
+    "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/package.json": "bdaaa8d73b96d12a168d5411fb3e796e7b9a2fa9817ab7d8f1a64632fcd00a73",
+    "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/pnpm-lock.yaml": "a2191d8bd39ae7dda2c9ae34796570b11e1cb34797fdf84c7dedb2160419c317",
+    "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/scripts/generate-typecheck-declarations.mjs": "126f620d951e671c3820e4429e0c7fb98ab7f2f7f8e7284c338b1376f40e2e95",
+    "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/scripts/plan-typecheck-shards.cjs": "738bfe1d4bce568a0a425b6d811f02c17efbf05478e217fa247358a54c21047d",
+    "/home/ubuntu/print-system/runtime/worktrees/r11-admin-typecheck-engineering-20261102/ops/testing/run-admin-typecheck-third-round.py": "69498342f349b4dd74b94b6f104bd3e0a3411c673b3639f923a8277a19bc3e9b",
+    "/home/ubuntu/print-system/runtime/worktrees/r11-admin-typecheck-engineering-20261102/ops/testing/run-admin-typecheck-third-round.sh": "79803c50c656126d7e48522c20922ef63163edf4023daff63cddd21b403a818a"
+  },
+  "dependencyFix": {
+    "name": "inherits",
+    "version": "2.0.4",
+    "existingLockedVersion": true,
+    "existingCachedVersion": true,
+    "scope": "production dependencies, source direct import",
+    "lockDelta": "root importer entry only",
+    "validation": "pnpm install --lockfile-only --offline --frozen-lockfile --ignore-scripts PASS",
+    "otherDependencyVersionsChanged": false
+  },
+  "nextBlocker": {
+    "source": "src/views/bpm/model/form/PrintTemplate/module/utils/dom.ts",
+    "line": 1,
+    "import": "dom7",
+    "action": "STOP_NO_FURTHER_DEPENDENCY_PATCH"
+  },
+  "partialDeclarations": "PARTIAL_NOT_VALIDATED_NOT_USED_AS_COMPLETE_INPUT",
+  "dependencyGraph": "NOT_RUN",
+  "shards": "NOT_RUN",
+  "fullSingleProcessTypecheck": "NOT_RUN",
+  "health": {
+    "httpStatus": 200,
+    "businessCode": 401,
+    "servicesActive": true
+  },
+  "cleanup": {
+    "partialDeclarationsRemovedFromWorktree": true,
+    "safeWindowScratchRemoved": true
+  },
+  "defaultHeapRationale": "8192MiB default exceeded host RAM3.6GiB; cap2048MiB preserves compiler strictness but does not establish full check feasibility.",
+  "independentFinalReview": "NOT_RUN_COORDINATOR_TO_REVIEW",
+  "boundary": "Safe-window build=0 means experiment executor terminated normally, not compiler/typecheck success."
+}

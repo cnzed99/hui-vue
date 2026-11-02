@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "status": "DECLARATION_GENERATION_FAILED",
+  "finishedUtc": "2026-11-02T16:07:16.392729+00:00",
+  "admin": "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102",
+  "heapMiB": 2048,
+  "systemdMemoryMaxBytes": 3221225472,
+  "systemdMemorySwapMaxBytes": 268435456,
+  "results": [
+    {
+      "label": "fixture-type-error",
+      "command": [
+        "/home/ubuntu/print-system/runtime/node/node-v22.23.4-linux-x64/bin/node",
+        "--max-old-space-size=2048",
+        "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/node_modules/vue-tsc/bin/vue-tsc.js",
+        "--noEmit",
+        "--project",
+        "/home/ubuntu/print-system/runtime/build-tmp/r11-admin-typecheck-inherits-dXMStJfp/admin-typecheck/type-error/tsconfig.json"
+      ],
+      "exitCode": 2,
+      "durationSeconds": 2.43,
+      "timedOut": false,
+      "memoryLimit": false,
+      "log": "fixture-type-error.log",
+      "time": "fixture-type-error.time.txt"
+    },
+    {
+      "label": "fixture-global-conflict",
+      "command": [
+        "/home/ubuntu/print-system/runtime/node/node-v22.23.4-linux-x64/bin/node",
+        "--max-old-space-size=2048",
+        "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/node_modules/vue-tsc/bin/vue-tsc.js",
+        "--noEmit",
+        "--project",
+        "/home/ubuntu/print-system/runtime/build-tmp/r11-admin-typecheck-inherits-dXMStJfp/admin-typecheck/global-conflict/tsconfig.json"
+      ],
+      "exitCode": 2,
+      "durationSeconds": 2.383,
+      "timedOut": false,
+      "memoryLimit": false,
+      "log": "fixture-global-conflict.log",
+      "time": "fixture-global-conflict.time.txt"
+    },
+    {
+      "label": "generate-declarations",
+      "command": [
+        "/home/ubuntu/print-system/runtime/node/node-v22.23.4-linux-x64/bin/node",
+        "--max-old-space-size=2048",
+        "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/scripts/generate-typecheck-declarations.mjs"
+      ],
+      "exitCode": 1,
+      "durationSeconds": 25.782,
+      "timedOut": false,
+      "memoryLimit": false,
+      "log": "generate-declarations.log",
+      "time": "generate-declarations.time.txt"
+    }
+  ],
+  "fullSingleProcessTypecheck": "NOT_RUN",
+  "businessDeployment": "UNCHANGED",
+  "semanticBoundary": "Finite representative experiment only. Root coverage does not establish equivalence to full-program global semantics."
+}

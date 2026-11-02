@@ -1,0 +1,11 @@
+{
+  "label": "r11-admin-typecheck-inherits",
+  "finishedUtc": "2026-11-02T16:07:44.253923+00:00",
+  "freeBeforeBytes": 40939216896,
+  "freeAfterBytes": 40938938368,
+  "minimumFreeBytes": 10737418240,
+  "buildExitCode": 0,
+  "recoveryExitCode": 0,
+  "backendHttpHealthy": true,
+  "scratchRemoved": true
+}

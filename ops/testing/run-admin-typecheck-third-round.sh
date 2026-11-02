@@ -4,10 +4,12 @@ ulimit -c 0
 ROOT=/home/ubuntu/print-system
 ADMIN="$ROOT/runtime/worktrees/r11-admin-sharded-typecheck-20261102"
 ENGINEERING="$ROOT/runtime/worktrees/r11-admin-typecheck-engineering-20261102"
-EVIDENCE="$ROOT/evidence/testing/r11-admin-typecheck-third-round-20261102"
+[[ $# == 2 && $1 =~ ^[0-9a-f]{40}$ && $2 =~ ^r11-admin-typecheck-[a-z0-9-]+$ ]]
+EXPECTED_ADMIN_COMMIT=$1
+EVIDENCE="$ROOT/evidence/testing/$2"
 NODE_BIN="$ROOT/runtime/node/node-v22.23.4-linux-x64/bin"
 [[ -n ${TMPDIR:-} && $(realpath -e "$TMPDIR") == "$ROOT/runtime/build-tmp/"* ]]
-[[ $(git -C "$ADMIN" rev-parse HEAD) == 6575759a145cce02f0aa8dc46952a6add2bfa192 ]]
+[[ $(git -C "$ADMIN" rev-parse HEAD) == "$EXPECTED_ADMIN_COMMIT" ]]
 mkdir -p "$EVIDENCE"
 test ! -e "$EVIDENCE/summary.json"
 set +e
