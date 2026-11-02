@@ -1,0 +1,493 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] yudao                                                              [pom]
+[INFO] yudao-framework                                                    [pom]
+[INFO] yudao-common                                                       [jar]
+[INFO] yudao-spring-boot-starter-web                                      [jar]
+[INFO] yudao-spring-boot-starter-security                                 [jar]
+[INFO] yudao-spring-boot-starter-mybatis                                  [jar]
+[INFO] yudao-spring-boot-starter-redis                                    [jar]
+[INFO] yudao-spring-boot-starter-mq                                       [jar]
+[INFO] yudao-spring-boot-starter-job                                      [jar]
+[INFO] yudao-spring-boot-starter-test                                     [jar]
+[INFO] yudao-spring-boot-starter-biz-tenant                               [jar]
+[INFO] yudao-spring-boot-starter-websocket                                [jar]
+[INFO] yudao-spring-boot-starter-monitor                                  [jar]
+[INFO] yudao-spring-boot-starter-protection                               [jar]
+[INFO] yudao-spring-boot-starter-biz-ip                                   [jar]
+[INFO] yudao-spring-boot-starter-excel                                    [jar]
+[INFO] yudao-spring-boot-starter-biz-data-permission                      [jar]
+[INFO] yudao-module-infra                                                 [jar]
+[INFO] yudao-module-system                                                [jar]
+[INFO] yudao-server                                                       [jar]
+[INFO] 
+[INFO] -----------------------< cn.iocoder.boot:yudao >------------------------
+[INFO] Building yudao 2026.09-SNAPSHOT                                   [1/20]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao:pom:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] ------------------< cn.iocoder.boot:yudao-framework >-------------------
+[INFO] Building yudao-framework 2026.09-SNAPSHOT                         [2/20]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-framework ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-framework:pom:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --------------------< cn.iocoder.boot:yudao-common >--------------------
+[INFO] Building yudao-common 2026.09-SNAPSHOT                            [3/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-common ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-common/src/main/resources
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-common ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-common:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-common ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 73 source files with javac [target 17] to target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-common ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-common/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-common ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 5 source files with javac [target 17] to target/test-classes
+[INFO] 
+[INFO] -----------< cn.iocoder.boot:yudao-spring-boot-starter-web >------------
+[INFO] Building yudao-spring-boot-starter-web 2026.09-SNAPSHOT           [4/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-web ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-web ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-web:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-web ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 67 source files with javac [target 17] to target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-web ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-web/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-web ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 5 source files with javac [target 17] to target/test-classes
+[INFO] 
+[INFO] ----------< cn.iocoder.boot:yudao-spring-boot-starter-redis >-----------
+[INFO] Building yudao-spring-boot-starter-redis 2026.09-SNAPSHOT         [5/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-redis ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-redis ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-redis:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-redis ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 5 source files with javac [target 17] to target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-redis ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-redis/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-redis ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] -----------< cn.iocoder.boot:yudao-spring-boot-starter-job >------------
+[INFO] Building yudao-spring-boot-starter-job 2026.09-SNAPSHOT           [6/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-job ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-job ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-job:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-job ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 9 source files with javac [target 17] to target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-job ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-job/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-job ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] ---------< cn.iocoder.boot:yudao-spring-boot-starter-monitor >----------
+[INFO] Building yudao-spring-boot-starter-monitor 2026.09-SNAPSHOT       [7/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-monitor ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-monitor ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-monitor:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-monitor ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 8 source files with javac [target 17] to target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-monitor ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-monitor/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-monitor ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] ---------< cn.iocoder.boot:yudao-spring-boot-starter-security >---------
+[INFO] Building yudao-spring-boot-starter-security 2026.09-SNAPSHOT      [8/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-security ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-security ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-security:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-security ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 17 source files with javac [target 17] to target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-security ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-security/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-security ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] ------------< cn.iocoder.boot:yudao-spring-boot-starter-mq >------------
+[INFO] Building yudao-spring-boot-starter-mq 2026.09-SNAPSHOT            [9/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-mq ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-mq ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-mq:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-mq ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 16 source files with javac [target 17] to target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-mq ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-mq/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-mq ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] ---------< cn.iocoder.boot:yudao-spring-boot-starter-mybatis >----------
+[INFO] Building yudao-spring-boot-starter-mybatis 2026.09-SNAPSHOT      [10/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-mybatis ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-mybatis ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-mybatis:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-mybatis ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 24 source files with javac [target 17] to target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-mybatis ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-mybatis/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-mybatis ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 3 source files with javac [target 17] to target/test-classes
+[INFO] 
+[INFO] -----------< cn.iocoder.boot:yudao-spring-boot-starter-test >-----------
+[INFO] Building yudao-spring-boot-starter-test 2026.09-SNAPSHOT         [11/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-test ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-test/src/main/resources
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-test ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-test:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-test ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 10 source files with javac [target 17] to target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-test ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-test/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-test ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --------< cn.iocoder.boot:yudao-spring-boot-starter-biz-tenant >--------
+[INFO] Building yudao-spring-boot-starter-biz-tenant 2026.09-SNAPSHOT   [12/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-biz-tenant ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-biz-tenant ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-biz-tenant:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-biz-tenant ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 26 source files with javac [target 17] to target/classes
+[INFO] /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-biz-tenant/src/main/java/cn/iocoder/yudao/framework/tenant/core/mq/rocketmq/TenantRocketMQInitializer.java: /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-biz-tenant/src/main/java/cn/iocoder/yudao/framework/tenant/core/mq/rocketmq/TenantRocketMQInitializer.java uses or overrides a deprecated API.
+[INFO] /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-biz-tenant/src/main/java/cn/iocoder/yudao/framework/tenant/core/mq/rocketmq/TenantRocketMQInitializer.java: Recompile with -Xlint:deprecation for details.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-biz-tenant ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-biz-tenant/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-biz-tenant ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --------< cn.iocoder.boot:yudao-spring-boot-starter-protection >--------
+[INFO] Building yudao-spring-boot-starter-protection 2026.09-SNAPSHOT   [13/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-protection ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-protection ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-protection:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-protection ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 29 source files with javac [target 17] to target/classes
+[INFO] /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-protection/src/main/java/cn/iocoder/yudao/framework/ratelimiter/core/redis/RateLimiterRedisDAO.java: /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-protection/src/main/java/cn/iocoder/yudao/framework/ratelimiter/core/redis/RateLimiterRedisDAO.java uses or overrides a deprecated API.
+[INFO] /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-protection/src/main/java/cn/iocoder/yudao/framework/ratelimiter/core/redis/RateLimiterRedisDAO.java: Recompile with -Xlint:deprecation for details.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-protection ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-protection/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-protection ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [target 17] to target/test-classes
+[INFO] 
+[INFO] ----------< cn.iocoder.boot:yudao-spring-boot-starter-biz-ip >----------
+[INFO] Building yudao-spring-boot-starter-biz-ip 2026.09-SNAPSHOT       [14/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-biz-ip ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-biz-ip ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-biz-ip:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-biz-ip ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 5 source files with javac [target 17] to target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-biz-ip ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-biz-ip/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-biz-ip ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 2 source files with javac [target 17] to target/test-classes
+[INFO] 
+[INFO] ---< cn.iocoder.boot:yudao-spring-boot-starter-biz-data-permission >----
+[INFO] Building yudao-spring-boot-starter-biz-data-permission 2026.09-SNAPSHOT [15/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-biz-data-permission ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-biz-data-permission ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-biz-data-permission:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-biz-data-permission ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 15 source files with javac [target 17] to target/classes
+[INFO] /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-biz-data-permission/src/main/java/cn/iocoder/yudao/framework/datapermission/core/rule/dept/DeptDataPermissionRule.java: /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-biz-data-permission/src/main/java/cn/iocoder/yudao/framework/datapermission/core/rule/dept/DeptDataPermissionRule.java uses unchecked or unsafe operations.
+[INFO] /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-biz-data-permission/src/main/java/cn/iocoder/yudao/framework/datapermission/core/rule/dept/DeptDataPermissionRule.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-biz-data-permission ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-biz-data-permission/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-biz-data-permission ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 6 source files with javac [target 17] to target/test-classes
+[INFO] /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-biz-data-permission/src/test/java/cn/iocoder/yudao/framework/datapermission/core/aop/DataPermissionAnnotationInterceptorTest.java: /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-biz-data-permission/src/test/java/cn/iocoder/yudao/framework/datapermission/core/aop/DataPermissionAnnotationInterceptorTest.java uses or overrides a deprecated API.
+[INFO] /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-biz-data-permission/src/test/java/cn/iocoder/yudao/framework/datapermission/core/aop/DataPermissionAnnotationInterceptorTest.java: Recompile with -Xlint:deprecation for details.
+[INFO] /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-biz-data-permission/src/test/java/cn/iocoder/yudao/framework/datapermission/core/db/DataPermissionRuleHandlerTest.java: /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-biz-data-permission/src/test/java/cn/iocoder/yudao/framework/datapermission/core/db/DataPermissionRuleHandlerTest.java uses unchecked or unsafe operations.
+[INFO] /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-biz-data-permission/src/test/java/cn/iocoder/yudao/framework/datapermission/core/db/DataPermissionRuleHandlerTest.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --------< cn.iocoder.boot:yudao-spring-boot-starter-websocket >---------
+[INFO] Building yudao-spring-boot-starter-websocket 2026.09-SNAPSHOT    [16/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-websocket ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-websocket ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-websocket:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-websocket ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 27 source files with javac [target 17] to target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-websocket ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-websocket/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-websocket ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] ----------< cn.iocoder.boot:yudao-spring-boot-starter-excel >-----------
+[INFO] Building yudao-spring-boot-starter-excel 2026.09-SNAPSHOT        [17/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-excel ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-excel ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-excel:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-excel ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 20 source files with javac [target 17] to target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-excel ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-excel/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-excel ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 3 source files with javac [target 17] to target/test-classes
+[INFO] 
+[INFO] -----------------< cn.iocoder.boot:yudao-module-infra >-----------------
+[INFO] Building yudao-module-infra 2026.09-SNAPSHOT                     [18/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-module-infra ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 107 resources
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-module-infra ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-module-infra:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-module-infra ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 205 source files with javac [target 17] to target/classes
+[WARNING] /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-module-infra/src/main/java/cn/iocoder/yudao/module/infra/convert/config/ConfigConvert.java:[26,14] Unmapped target properties: "createTime, updateTime, creator, updater, deleted, type, transMap".
+[WARNING] /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-module-infra/src/main/java/cn/iocoder/yudao/module/infra/convert/codegen/CodegenConvert.java:[34,20] Unmapped target properties: "createTime, updateTime, creator, updater, deleted, id, dataSourceConfigId, scene, remark, moduleName, businessName, className, classComment, author, templateType, frontType, parentMenuId, masterTableId, subJoinColumnId, subJoinMany, treeParentColumnId, treeNameColumnId, transMap".
+[WARNING] /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-module-infra/src/main/java/cn/iocoder/yudao/module/infra/convert/codegen/CodegenConvert.java:[47,21] Unmapped target properties: "createTime, updateTime, creator, updater, deleted, id, tableId, ordinalPosition, dictType, example, createOperation, updateOperation, listOperation, listOperationCondition, listOperationResult, htmlType, transMap".
+[WARNING] /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-module-infra/src/main/java/cn/iocoder/yudao/module/infra/convert/file/FileConfigConvert.java:[20,18] Unmapped target property: "master".
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-module-infra ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 900 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-module-infra ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 27 source files with javac [target 17] to target/test-classes
+[INFO] 
+[INFO] ----------------< cn.iocoder.boot:yudao-module-system >-----------------
+[INFO] Building yudao-module-system 2026.09-SNAPSHOT                    [19/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-module-system ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 37 resources
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-module-system ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-module-system:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-module-system ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 419 source files with javac [target 17] to target/classes
+[WARNING] /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-module-system/src/main/java/cn/iocoder/yudao/module/system/convert/auth/AuthConvert.java:[82,26] Unmapped target property: "socialType".
+[WARNING] /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-module-system/src/main/java/cn/iocoder/yudao/module/system/convert/auth/AuthConvert.java:[84,23] Unmapped target property: "createIp".
+[INFO] /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-module-system/src/main/java/cn/iocoder/yudao/module/system/framework/justauth/core/AuthRequestFactory.java: /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-module-system/src/main/java/cn/iocoder/yudao/module/system/framework/justauth/core/AuthRequestFactory.java uses or overrides a deprecated API.
+[INFO] /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-module-system/src/main/java/cn/iocoder/yudao/module/system/framework/justauth/core/AuthRequestFactory.java: Recompile with -Xlint:deprecation for details.
+[INFO] /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-module-system/src/main/java/cn/iocoder/yudao/module/system/controller/admin/oauth2/OAuth2OpenController.java: /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-module-system/src/main/java/cn/iocoder/yudao/module/system/controller/admin/oauth2/OAuth2OpenController.java uses unchecked or unsafe operations.
+[INFO] /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-module-system/src/main/java/cn/iocoder/yudao/module/system/controller/admin/oauth2/OAuth2OpenController.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-module-system ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 4 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-module-system ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 39 source files with javac [target 17] to target/test-classes
+[INFO] 
+[INFO] --------------------< cn.iocoder.boot:yudao-server >--------------------
+[INFO] Building yudao-server 2026.09-SNAPSHOT                           [20/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-server ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 4 resources
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-server ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-server:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-server ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 184 source files with javac [target 17] to target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-server ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-server/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-server ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 18 source files with javac [target 17] to target/test-classes
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for yudao 2026.09-SNAPSHOT:
+[INFO] 
+[INFO] yudao .............................................. SUCCESS [  0.371 s]
+[INFO] yudao-framework .................................... SUCCESS [  0.140 s]
+[INFO] yudao-common ....................................... SUCCESS [  7.809 s]
+[INFO] yudao-spring-boot-starter-web ...................... SUCCESS [  3.185 s]
+[INFO] yudao-spring-boot-starter-security ................. SUCCESS [  1.272 s]
+[INFO] yudao-spring-boot-starter-mybatis .................. SUCCESS [  2.798 s]
+[INFO] yudao-spring-boot-starter-redis .................... SUCCESS [  0.993 s]
+[INFO] yudao-spring-boot-starter-mq ....................... SUCCESS [  1.128 s]
+[INFO] yudao-spring-boot-starter-job ...................... SUCCESS [  0.684 s]
+[INFO] yudao-spring-boot-starter-test ..................... SUCCESS [  0.895 s]
+[INFO] yudao-spring-boot-starter-biz-tenant ............... SUCCESS [  1.345 s]
+[INFO] yudao-spring-boot-starter-websocket ................ SUCCESS [  1.050 s]
+[INFO] yudao-spring-boot-starter-monitor .................. SUCCESS [  0.716 s]
+[INFO] yudao-spring-boot-starter-protection ............... SUCCESS [  1.509 s]
+[INFO] yudao-spring-boot-starter-biz-ip ................... SUCCESS [  1.003 s]
+[INFO] yudao-spring-boot-starter-excel .................... SUCCESS [  1.376 s]
+[INFO] yudao-spring-boot-starter-biz-data-permission ...... SUCCESS [  1.381 s]
+[INFO] yudao-module-infra ................................. SUCCESS [  9.672 s]
+[INFO] yudao-module-system ................................ SUCCESS [ 13.871 s]
+[INFO] yudao-server ....................................... SUCCESS [  5.249 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  57.107 s
+[INFO] Finished at: 2026-11-02T23:54:51+08:00
+[INFO] ------------------------------------------------------------------------

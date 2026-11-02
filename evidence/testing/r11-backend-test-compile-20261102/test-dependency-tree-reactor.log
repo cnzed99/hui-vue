@@ -1,0 +1,87 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] yudao                                                              [pom]
+[INFO] yudao-framework                                                    [pom]
+[INFO] yudao-common                                                       [jar]
+[INFO] yudao-spring-boot-starter-web                                      [jar]
+[INFO] yudao-spring-boot-starter-security                                 [jar]
+[INFO] yudao-spring-boot-starter-mybatis                                  [jar]
+[INFO] yudao-spring-boot-starter-redis                                    [jar]
+[INFO] yudao-spring-boot-starter-mq                                       [jar]
+[INFO] yudao-spring-boot-starter-job                                      [jar]
+[INFO] yudao-spring-boot-starter-test                                     [jar]
+[INFO] yudao-spring-boot-starter-biz-tenant                               [jar]
+[INFO] yudao-spring-boot-starter-websocket                                [jar]
+[INFO] yudao-spring-boot-starter-monitor                                  [jar]
+[INFO] yudao-spring-boot-starter-protection                               [jar]
+[INFO] yudao-spring-boot-starter-biz-ip                                   [jar]
+[INFO] yudao-spring-boot-starter-excel                                    [jar]
+[INFO] yudao-spring-boot-starter-biz-data-permission                      [jar]
+[INFO] yudao-module-infra                                                 [jar]
+[INFO] yudao-module-system                                                [jar]
+[INFO] yudao-server                                                       [jar]
+[INFO] 
+[INFO] -----------------------< cn.iocoder.boot:yudao >------------------------
+[INFO] Building yudao 2026.09-SNAPSHOT                                   [1/20]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-dependency-plugin:2.8:tree (default-cli) @ yudao ---
+[WARNING] The POM for org.apache.maven:maven-artifact:jar:2.0.9 is missing, no dependency information available
+[WARNING] The POM for org.apache.maven:maven-plugin-api:jar:2.0.9 is missing, no dependency information available
+[WARNING] The POM for org.apache.maven:maven-project:jar:2.0.9 is missing, no dependency information available
+[WARNING] The POM for org.apache.maven:maven-model:jar:2.0.9 is missing, no dependency information available
+[WARNING] The POM for org.apache.maven:maven-core:jar:2.0.9 is missing, no dependency information available
+[WARNING] The POM for org.apache.maven:maven-artifact-manager:jar:2.0.9 is missing, no dependency information available
+[WARNING] The POM for org.apache.maven:maven-repository-metadata:jar:2.0.9 is missing, no dependency information available
+[WARNING] The POM for org.apache.maven.reporting:maven-reporting-api:jar:3.0 is missing, no dependency information available
+[WARNING] The POM for org.apache.maven.reporting:maven-reporting-impl:jar:2.0.5 is missing, no dependency information available
+[WARNING] The POM for org.apache.maven.doxia:doxia-sink-api:jar:1.0 is missing, no dependency information available
+[WARNING] The POM for org.apache.maven.doxia:doxia-site-renderer:jar:1.0 is missing, no dependency information available
+[WARNING] The POM for org.codehaus.plexus:plexus-archiver:jar:2.3 is missing, no dependency information available
+[WARNING] The POM for org.codehaus.plexus:plexus-utils:jar:3.0.9 is missing, no dependency information available
+[WARNING] The POM for org.apache.maven.shared:file-management:jar:1.2.1 is missing, no dependency information available
+[WARNING] The POM for org.codehaus.plexus:plexus-io:jar:2.0.6 is missing, no dependency information available
+[WARNING] The POM for org.apache.maven.shared:maven-dependency-analyzer:jar:1.4 is missing, no dependency information available
+[WARNING] The POM for org.apache.maven.shared:maven-dependency-tree:jar:2.1 is missing, no dependency information available
+[WARNING] The POM for org.apache.maven.shared:maven-common-artifact-filters:jar:1.4 is missing, no dependency information available
+[WARNING] The POM for org.apache.maven.shared:maven-invoker:jar:2.0.11 is missing, no dependency information available
+[WARNING] The POM for commons-lang:commons-lang:jar:2.6 is missing, no dependency information available
+[WARNING] The POM for commons-collections:commons-collections:jar:3.2.1 is missing, no dependency information available
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for yudao 2026.09-SNAPSHOT:
+[INFO] 
+[INFO] yudao .............................................. FAILURE [  0.108 s]
+[INFO] yudao-framework .................................... SKIPPED
+[INFO] yudao-common ....................................... SKIPPED
+[INFO] yudao-spring-boot-starter-web ...................... SKIPPED
+[INFO] yudao-spring-boot-starter-security ................. SKIPPED
+[INFO] yudao-spring-boot-starter-mybatis .................. SKIPPED
+[INFO] yudao-spring-boot-starter-redis .................... SKIPPED
+[INFO] yudao-spring-boot-starter-mq ....................... SKIPPED
+[INFO] yudao-spring-boot-starter-job ...................... SKIPPED
+[INFO] yudao-spring-boot-starter-test ..................... SKIPPED
+[INFO] yudao-spring-boot-starter-biz-tenant ............... SKIPPED
+[INFO] yudao-spring-boot-starter-websocket ................ SKIPPED
+[INFO] yudao-spring-boot-starter-monitor .................. SKIPPED
+[INFO] yudao-spring-boot-starter-protection ............... SKIPPED
+[INFO] yudao-spring-boot-starter-biz-ip ................... SKIPPED
+[INFO] yudao-spring-boot-starter-excel .................... SKIPPED
+[INFO] yudao-spring-boot-starter-biz-data-permission ...... SKIPPED
+[INFO] yudao-module-infra ................................. SKIPPED
+[INFO] yudao-module-system ................................ SKIPPED
+[INFO] yudao-server ....................................... SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  0.906 s
+[INFO] Finished at: 2026-11-02T23:56:44+08:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-dependency-plugin:2.8:tree (default-cli) on project yudao: Execution default-cli of goal org.apache.maven.plugins:maven-dependency-plugin:2.8:tree failed: Plugin org.apache.maven.plugins:maven-dependency-plugin:2.8 or one of its dependencies could not be resolved: The following artifacts could not be resolved: org.apache.maven:maven-artifact:jar:2.0.9, org.apache.maven:maven-plugin-api:jar:2.0.9, org.apache.maven:maven-project:jar:2.0.9, org.apache.maven:maven-model:jar:2.0.9, org.apache.maven:maven-core:jar:2.0.9, org.apache.maven:maven-artifact-manager:jar:2.0.9, org.apache.maven:maven-repository-metadata:jar:2.0.9, org.apache.maven.reporting:maven-reporting-api:jar:3.0, org.apache.maven.reporting:maven-reporting-impl:jar:2.0.5, org.apache.maven.doxia:doxia-sink-api:jar:1.0, org.apache.maven.doxia:doxia-site-renderer:jar:1.0, org.codehaus.plexus:plexus-archiver:jar:2.3, org.codehaus.plexus:plexus-utils:jar:3.0.9, org.apache.maven.shared:file-management:jar:1.2.1, org.codehaus.plexus:plexus-io:jar:2.0.6, org.apache.maven.shared:maven-dependency-analyzer:jar:1.4, org.apache.maven.shared:maven-dependency-tree:jar:2.1, org.apache.maven.shared:maven-common-artifact-filters:jar:1.4, org.apache.maven.shared:maven-invoker:jar:2.0.11, commons-lang:commons-lang:jar:2.6, commons-collections:commons-collections:jar:3.2.1: Cannot access central (https://repo.maven.apache.org/maven2) in offline mode and the artifact org.apache.maven:maven-artifact:jar:2.0.9 has not been downloaded from it before. -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/PluginResolutionException

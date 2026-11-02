@@ -1,0 +1,21 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] --------------------< cn.iocoder.boot:yudao-server >--------------------
+[INFO] Building yudao-server 2026.09-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[WARNING] The POM for cn.iocoder.boot:yudao-module-system:jar:2026.09-SNAPSHOT is missing, no dependency information available
+[WARNING] The POM for cn.iocoder.boot:yudao-module-infra:jar:2026.09-SNAPSHOT is missing, no dependency information available
+[WARNING] The POM for cn.iocoder.boot:yudao-spring-boot-starter-protection:jar:2026.09-SNAPSHOT is missing, no dependency information available
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  0.893 s
+[INFO] Finished at: 2026-11-02T23:55:51+08:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal on project yudao-server: Could not resolve dependencies for project cn.iocoder.boot:yudao-server:jar:2026.09-SNAPSHOT: The following artifacts could not be resolved: cn.iocoder.boot:yudao-module-system:jar:2026.09-SNAPSHOT, cn.iocoder.boot:yudao-module-infra:jar:2026.09-SNAPSHOT, cn.iocoder.boot:yudao-spring-boot-starter-protection:jar:2026.09-SNAPSHOT: Cannot access huaweicloud (https://mirrors.huaweicloud.com/repository/maven/) in offline mode and the artifact cn.iocoder.boot:yudao-module-system:jar:2026.09-SNAPSHOT has not been downloaded from it before. -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/DependencyResolutionException

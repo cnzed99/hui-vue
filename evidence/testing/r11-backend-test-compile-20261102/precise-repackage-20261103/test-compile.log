@@ -1,0 +1,445 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] yudao                                                              [pom]
+[INFO] yudao-framework                                                    [pom]
+[INFO] yudao-common                                                       [jar]
+[INFO] yudao-spring-boot-starter-web                                      [jar]
+[INFO] yudao-spring-boot-starter-security                                 [jar]
+[INFO] yudao-spring-boot-starter-mybatis                                  [jar]
+[INFO] yudao-spring-boot-starter-redis                                    [jar]
+[INFO] yudao-spring-boot-starter-mq                                       [jar]
+[INFO] yudao-spring-boot-starter-job                                      [jar]
+[INFO] yudao-spring-boot-starter-test                                     [jar]
+[INFO] yudao-spring-boot-starter-biz-tenant                               [jar]
+[INFO] yudao-spring-boot-starter-websocket                                [jar]
+[INFO] yudao-spring-boot-starter-monitor                                  [jar]
+[INFO] yudao-spring-boot-starter-protection                               [jar]
+[INFO] yudao-spring-boot-starter-biz-ip                                   [jar]
+[INFO] yudao-spring-boot-starter-excel                                    [jar]
+[INFO] yudao-spring-boot-starter-biz-data-permission                      [jar]
+[INFO] yudao-module-infra                                                 [jar]
+[INFO] yudao-module-system                                                [jar]
+[INFO] yudao-server                                                       [jar]
+[INFO] 
+[INFO] -----------------------< cn.iocoder.boot:yudao >------------------------
+[INFO] Building yudao 2026.09-SNAPSHOT                                   [1/20]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao:pom:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] ------------------< cn.iocoder.boot:yudao-framework >-------------------
+[INFO] Building yudao-framework 2026.09-SNAPSHOT                         [2/20]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-framework ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-framework:pom:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --------------------< cn.iocoder.boot:yudao-common >--------------------
+[INFO] Building yudao-common 2026.09-SNAPSHOT                            [3/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-common ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-common/src/main/resources
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-common ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-common:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-common ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-common ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-common/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-common ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] -----------< cn.iocoder.boot:yudao-spring-boot-starter-web >------------
+[INFO] Building yudao-spring-boot-starter-web 2026.09-SNAPSHOT           [4/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-web ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-web ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-web:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-web ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-web ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-web/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-web ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] ----------< cn.iocoder.boot:yudao-spring-boot-starter-redis >-----------
+[INFO] Building yudao-spring-boot-starter-redis 2026.09-SNAPSHOT         [5/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-redis ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-redis ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-redis:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-redis ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-redis ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-redis/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-redis ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] -----------< cn.iocoder.boot:yudao-spring-boot-starter-job >------------
+[INFO] Building yudao-spring-boot-starter-job 2026.09-SNAPSHOT           [6/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-job ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-job ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-job:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-job ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-job ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-job/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-job ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] ---------< cn.iocoder.boot:yudao-spring-boot-starter-monitor >----------
+[INFO] Building yudao-spring-boot-starter-monitor 2026.09-SNAPSHOT       [7/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-monitor ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-monitor ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-monitor:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-monitor ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-monitor ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-monitor/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-monitor ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] ---------< cn.iocoder.boot:yudao-spring-boot-starter-security >---------
+[INFO] Building yudao-spring-boot-starter-security 2026.09-SNAPSHOT      [8/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-security ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-security ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-security:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-security ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-security ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-security/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-security ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] ------------< cn.iocoder.boot:yudao-spring-boot-starter-mq >------------
+[INFO] Building yudao-spring-boot-starter-mq 2026.09-SNAPSHOT            [9/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-mq ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-mq ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-mq:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-mq ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-mq ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-mq/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-mq ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] ---------< cn.iocoder.boot:yudao-spring-boot-starter-mybatis >----------
+[INFO] Building yudao-spring-boot-starter-mybatis 2026.09-SNAPSHOT      [10/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-mybatis ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-mybatis ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-mybatis:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-mybatis ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-mybatis ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-mybatis/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-mybatis ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] -----------< cn.iocoder.boot:yudao-spring-boot-starter-test >-----------
+[INFO] Building yudao-spring-boot-starter-test 2026.09-SNAPSHOT         [11/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-test ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-test/src/main/resources
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-test ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-test:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-test ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-test ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-test/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-test ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --------< cn.iocoder.boot:yudao-spring-boot-starter-biz-tenant >--------
+[INFO] Building yudao-spring-boot-starter-biz-tenant 2026.09-SNAPSHOT   [12/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-biz-tenant ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-biz-tenant ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-biz-tenant:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-biz-tenant ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-biz-tenant ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-biz-tenant/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-biz-tenant ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --------< cn.iocoder.boot:yudao-spring-boot-starter-protection >--------
+[INFO] Building yudao-spring-boot-starter-protection 2026.09-SNAPSHOT   [13/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-protection ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-protection ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-protection:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-protection ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-protection ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-protection/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-protection ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] ----------< cn.iocoder.boot:yudao-spring-boot-starter-biz-ip >----------
+[INFO] Building yudao-spring-boot-starter-biz-ip 2026.09-SNAPSHOT       [14/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-biz-ip ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-biz-ip ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-biz-ip:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-biz-ip ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-biz-ip ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-biz-ip/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-biz-ip ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] ---< cn.iocoder.boot:yudao-spring-boot-starter-biz-data-permission >----
+[INFO] Building yudao-spring-boot-starter-biz-data-permission 2026.09-SNAPSHOT [15/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-biz-data-permission ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-biz-data-permission ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-biz-data-permission:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-biz-data-permission ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-biz-data-permission ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-biz-data-permission/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-biz-data-permission ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --------< cn.iocoder.boot:yudao-spring-boot-starter-websocket >---------
+[INFO] Building yudao-spring-boot-starter-websocket 2026.09-SNAPSHOT    [16/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-websocket ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-websocket ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-websocket:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-websocket ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-websocket ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-websocket/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-websocket ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] ----------< cn.iocoder.boot:yudao-spring-boot-starter-excel >-----------
+[INFO] Building yudao-spring-boot-starter-excel 2026.09-SNAPSHOT        [17/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-spring-boot-starter-excel ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-spring-boot-starter-excel ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-spring-boot-starter-excel:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-spring-boot-starter-excel ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-spring-boot-starter-excel ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-framework/yudao-spring-boot-starter-excel/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-spring-boot-starter-excel ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] -----------------< cn.iocoder.boot:yudao-module-infra >-----------------
+[INFO] Building yudao-module-infra 2026.09-SNAPSHOT                     [18/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-module-infra ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 107 resources
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-module-infra ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-module-infra:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-module-infra ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-module-infra ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 900 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-module-infra ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] ----------------< cn.iocoder.boot:yudao-module-system >-----------------
+[INFO] Building yudao-module-system 2026.09-SNAPSHOT                    [19/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-module-system ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 37 resources
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-module-system ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-module-system:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-module-system ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-module-system ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 4 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-module-system ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --------------------< cn.iocoder.boot:yudao-server >--------------------
+[INFO] Building yudao-server 2026.09-SNAPSHOT                           [20/20]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ yudao-server ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 4 resources
+[INFO] 
+[INFO] --- flatten-maven-plugin:1.7.2:flatten (flatten) @ yudao-server ---
+[INFO] Generating flattened POM of project cn.iocoder.boot:yudao-server:jar:2026.09-SNAPSHOT...
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:compile (default-compile) @ yudao-server ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ yudao-server ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-server/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.14.0:testCompile (default-testCompile) @ yudao-server ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for yudao 2026.09-SNAPSHOT:
+[INFO] 
+[INFO] yudao .............................................. SUCCESS [  0.352 s]
+[INFO] yudao-framework .................................... SUCCESS [  0.170 s]
+[INFO] yudao-common ....................................... SUCCESS [  1.046 s]
+[INFO] yudao-spring-boot-starter-web ...................... SUCCESS [  0.233 s]
+[INFO] yudao-spring-boot-starter-security ................. SUCCESS [  0.137 s]
+[INFO] yudao-spring-boot-starter-mybatis .................. SUCCESS [  0.363 s]
+[INFO] yudao-spring-boot-starter-redis .................... SUCCESS [  0.259 s]
+[INFO] yudao-spring-boot-starter-mq ....................... SUCCESS [  0.308 s]
+[INFO] yudao-spring-boot-starter-job ...................... SUCCESS [  0.098 s]
+[INFO] yudao-spring-boot-starter-test ..................... SUCCESS [  0.161 s]
+[INFO] yudao-spring-boot-starter-biz-tenant ............... SUCCESS [  0.205 s]
+[INFO] yudao-spring-boot-starter-websocket ................ SUCCESS [  0.159 s]
+[INFO] yudao-spring-boot-starter-monitor .................. SUCCESS [  0.157 s]
+[INFO] yudao-spring-boot-starter-protection ............... SUCCESS [  0.221 s]
+[INFO] yudao-spring-boot-starter-biz-ip ................... SUCCESS [  0.131 s]
+[INFO] yudao-spring-boot-starter-excel .................... SUCCESS [  0.203 s]
+[INFO] yudao-spring-boot-starter-biz-data-permission ...... SUCCESS [  0.143 s]
+[INFO] yudao-module-infra ................................. SUCCESS [  0.558 s]
+[INFO] yudao-module-system ................................ SUCCESS [  0.301 s]
+[INFO] yudao-server ....................................... SUCCESS [  0.249 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  6.088 s
+[INFO] Finished at: 2026-11-03T00:05:09+08:00
+[INFO] ------------------------------------------------------------------------
