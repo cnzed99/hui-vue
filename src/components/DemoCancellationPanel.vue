@@ -48,7 +48,10 @@ async function refresh() {
   pending.value = loadPendingCancellation(session.principalId, id)
   const loaded = await getDemoCancellation(session, id)
   const confirmed = await ensureDemoSession()
-  if (!valid(request, expected, confirmed, id)) { if (request === generation) invalidate(); return }
+  if (!valid(request, expected, confirmed, id)) {
+    if (request === generation) { invalidate(); state.value = 'unknown'; message.value = '演示会话已变化，请重新查询当前主体订单。' }
+    return
+  }
   if (loaded.kind !== 'ok') { state.value = 'unknown'; message.value = '取消结果暂不可确认，请先恢复查询。'; return }
   value.value = loaded.value
   if (loaded.value.cancellation) {
@@ -73,7 +76,10 @@ async function submit(saved: PendingCancellation) {
   savePendingCancellation(saved); pending.value = saved
   const result = await postDemoCancellation(session, saved)
   const confirmed = await ensureDemoSession()
-  if (!valid(request, expected, confirmed, id)) { if (request === generation) invalidate(); return }
+  if (!valid(request, expected, confirmed, id)) {
+    if (request === generation) { invalidate(); state.value = 'unknown'; message.value = '演示会话已变化，原请求仍按原主体保存。' }
+    return
+  }
   if (result.kind === 'unknown') {
     state.value = 'unknown'; message.value = '请求结果待恢复。请先查询，不要重复创建请求。'; return
   }
