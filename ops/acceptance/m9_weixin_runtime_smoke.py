@@ -78,9 +78,12 @@ def main():
         for i,image in enumerate(reversed(images)): h.successful(part(token,upload,i,image))
         m9.expect_error(complete(token,upload),409,1927007)
         m9.expect_error(h.request("POST",APP+"/sessions",headers={"Origin":"",
-            "Referer":"https://servicewechat.com/wx0000000000000000/devtools/page-frame.html"}),403,1926006)
+            "Referer":"https://servicewechat.com/wx0000000000000000/devtools/page-frame.html"}),403,1926008)
+        m9.expect_error(h.request("POST",STAGED,token=token,body=json.dumps(manifest(images)).encode(),
+            content_type="application/json",headers={"Origin":"", "Idempotency-Key":key,
+            "Referer":"https://servicewechat.com/wx0000000000000000/devtools/page-frame.html"}),403,1926008)
         for origin in ("", "https://invalid.example"):
-            m9.expect_error(h.request("POST",APP+"/sessions",headers={"Origin":origin}),403,1926006)
+            m9.expect_error(h.request("POST",APP+"/sessions",headers={"Origin":origin}),403,1926008)
         report={"status":"PASS","h5ExistingLoop":"PASS","createReplay":True,"partReplay":True,
             "manifestOrderConflict":True,"crossPrincipalHidden":True,"incompleteRejected":True,
             "completeReplay":True,"sameKeyCrossTransportSameFile":True,"databaseReplaySameFile":True,

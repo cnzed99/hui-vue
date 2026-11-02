@@ -25,7 +25,7 @@ def main():
         body=b"{}", content_type="application/json", headers={"Idempotency-Key": "m9-staged-disabled-" + run})
     m9.expect_error(response, 404, 1935001)
     m9.expect_error(helper.request("POST", APP + "/sessions", headers={"Origin": "",
-        "Referer": "https://servicewechat.com/wx0000000000000000/devtools/page-frame.html"}), 403, 1926006)
+        "Referer": "https://servicewechat.com/wx0000000000000000/devtools/page-frame.html"}), 403, 1926008)
     print(json.dumps({"status":"PASS", "pdf":"READY", "singleImage":"READY", "h5Collage":"READY",
         "staged":"DISABLED", "native":"DISABLED"}))
 
