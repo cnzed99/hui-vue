@@ -28,6 +28,7 @@ const generation = ref(0)
 const mounted = ref(true)
 const continuing = ref(false)
 let uploadHandle: CollageUploadHandle | null = null
+let pickerRequest = 0
 
 const totalBytes = computed(() => images.value.reduce((sum, image) => sum + image.size, 0))
 const canSubmit = computed(() => images.value.length > 0 && images.value.length <= MAX_COUNT
@@ -56,9 +57,17 @@ function goBack() { uni.navigateBack() }
 
 function chooseImages() {
   if (sessionState.value !== 'ready' || !activeSessionToken.value
-    || state.value === 'uploading' || state.value === 'processing' || images.value.length >= MAX_COUNT) return
+    || continuing.value || state.value === 'uploading' || state.value === 'processing'
+    || images.value.length >= MAX_COUNT) return
   const count = MAX_COUNT - images.value.length
-  const accept = (value: unknown) => acceptSelection(value)
+  const pickerGeneration = generation.value
+  const pickerToken = activeSessionToken.value
+  const currentPicker = ++pickerRequest
+  const accept = (value: unknown) => {
+    if (!mounted.value || continuing.value || generation.value !== pickerGeneration
+      || activeSessionToken.value !== pickerToken || currentPicker !== pickerRequest) return
+    acceptSelection(value, pickerToken)
+  }
   // #ifdef MP-WEIXIN
   if (source.value === '微信图片') {
     uni.chooseMessageFile({ count, type: 'image', extension: ['jpg', 'jpeg', 'png'], success: accept })
@@ -71,7 +80,8 @@ function chooseImages() {
   // #endif
 }
 
-function acceptSelection(value: unknown) {
+function acceptSelection(value: unknown, pickerToken: string) {
+  if (!mounted.value || !pickerToken || activeSessionToken.value !== pickerToken) return
   const result = value as {
     tempFiles?: Array<{ path?: string; size?: number; name?: string }>
     tempFilePaths?: string[]
@@ -218,6 +228,7 @@ function selectionFingerprint(value: SelectedImage[]) {
 
 function resetForSessionChange(currentToken = '') {
   invalidateSubmission()
+  pickerRequest += 1
   continuing.value = false
   images.value = []
   activeSessionToken.value = currentToken
@@ -231,6 +242,7 @@ function disposePage() {
   if (!mounted.value) return
   mounted.value = false
   generation.value += 1
+  pickerRequest += 1
   continuing.value = false
   uploadHandle?.abort(); uploadHandle = null
   // uni tempFilePath is platform-owned; this page creates no browser object URL.
