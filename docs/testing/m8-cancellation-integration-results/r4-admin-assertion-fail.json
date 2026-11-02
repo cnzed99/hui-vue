@@ -1,0 +1,111 @@
+{
+  "result": "FAIL",
+  "startedUtc": "2026-11-02T05:47:58.116295+00:00",
+  "finishedUtc": "2026-11-02T05:48:53.660057+00:00",
+  "backendHead": "cf6cdf0eda42cba969e0221ed4cd564cade7ffc3",
+  "jarSha256": "629b0e151677f0dfa920ebae5fdbf5eff2a16384d442a4992bf1481e52edf512",
+  "sqlSha256": "b0cbf9be2d1620694e3db76a6faeb77496ce9eae2771129ae27a09bf6ed949c7",
+  "checks": [
+    {
+      "name": "isolated_runtime_started",
+      "result": "PASS",
+      "database_is_disposable": true,
+      "app_port": 49180,
+      "redis_port": 16389,
+      "backend_head": "cf6cdf0eda42cba969e0221ed4cd564cade7ffc3",
+      "jar_sha256": "629b0e151677f0dfa920ebae5fdbf5eff2a16384d442a4992bf1481e52edf512"
+    },
+    {
+      "name": "unpaid_idempotency_isolation",
+      "result": "PASS",
+      "replay": true,
+      "input_conflict": true,
+      "different_key_conflict": true,
+      "cross_owner_http": 404
+    },
+    {
+      "name": "paid_no_task_full_refund",
+      "result": "PASS",
+      "journals": 2
+    },
+    {
+      "name": "first_queue_cancel_refund_no_receipt",
+      "result": "PASS",
+      "state": "CANCELLED",
+      "receipt": null,
+      "claim_rejected": true
+    },
+    {
+      "name": "manual_review_preserves_task_and_allows_progress",
+      "result": "PASS",
+      "historical": "CLAIMED",
+      "current": "ACCEPTED",
+      "refunded": false
+    },
+    {
+      "name": "mid_write_failure_rolls_back_all",
+      "result": "PASS",
+      "http": 503,
+      "cancellation_rows": 0,
+      "refund_receipts": 0,
+      "refund_journals": 0
+    },
+    {
+      "name": "race_payment_winner_payment",
+      "result": "PASS",
+      "overlap_observed": true,
+      "winner_code": 0,
+      "loser_http": 409,
+      "loser_code": 1934004
+    },
+    {
+      "name": "race_payment_winner_cancellation",
+      "result": "PASS",
+      "overlap_observed": true,
+      "winner_code": 0,
+      "loser_http": 409,
+      "loser_code": 1930006
+    },
+    {
+      "name": "race_create_task_winner_create_task",
+      "result": "PASS",
+      "overlap_observed": true,
+      "winner_code": 0,
+      "loser_http": 409,
+      "loser_code": 1934004
+    },
+    {
+      "name": "race_create_task_winner_cancellation",
+      "result": "PASS",
+      "overlap_observed": true,
+      "winner_code": 0,
+      "loser_http": 409,
+      "loser_code": 1931005
+    },
+    {
+      "name": "race_claim_winner_claim",
+      "result": "PASS",
+      "overlap_observed": true,
+      "winner_code": 0,
+      "loser_http": 409,
+      "loser_code": 1934004
+    },
+    {
+      "name": "race_claim_winner_cancellation",
+      "result": "PASS",
+      "overlap_observed": true,
+      "winner_code": 0,
+      "loser_http": 409,
+      "loser_code": 1931008
+    }
+  ],
+  "cleanup": {
+    "scratchRemoved": true,
+    "appStopped": true,
+    "redisStopped": true,
+    "databaseRemoved": true,
+    "dbUserRemoved": true
+  },
+  "failure": "KeyError:'cancellationOutcome'",
+  "boundary": "Disposable database and local HTTP candidate only; real payments, real printers, WeChat device and user acceptance NOT_RUN"
+}

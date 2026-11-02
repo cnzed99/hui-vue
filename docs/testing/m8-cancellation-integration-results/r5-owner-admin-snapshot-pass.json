@@ -1,0 +1,36 @@
+{
+  "result": "PASS",
+  "startedUtc": "2026-11-02T05:49:24.284050+00:00",
+  "finishedUtc": "2026-11-02T05:49:58.877910+00:00",
+  "backendHead": "cf6cdf0eda42cba969e0221ed4cd564cade7ffc3",
+  "jarSha256": "629b0e151677f0dfa920ebae5fdbf5eff2a16384d442a4992bf1481e52edf512",
+  "sqlSha256": "b0cbf9be2d1620694e3db76a6faeb77496ce9eae2771129ae27a09bf6ed949c7",
+  "checks": [
+    {
+      "name": "isolated_runtime_started",
+      "result": "PASS",
+      "database_is_disposable": true,
+      "app_port": 49180,
+      "redis_port": 16389,
+      "backend_head": "cf6cdf0eda42cba969e0221ed4cd564cade7ffc3",
+      "jar_sha256": "629b0e151677f0dfa920ebae5fdbf5eff2a16384d442a4992bf1481e52edf512"
+    },
+    {
+      "name": "rr_owner_admin_read_no_torn_state",
+      "result": "PASS",
+      "owner_old_snapshots": 6,
+      "owner_new_snapshots": 6,
+      "admin_old_snapshots": 3,
+      "admin_new_snapshots": 3
+    }
+  ],
+  "cleanup": {
+    "scratchRemoved": true,
+    "appStopped": true,
+    "redisStopped": true,
+    "databaseRemoved": true,
+    "dbUserRemoved": true
+  },
+  "failure": null,
+  "boundary": "Disposable database and local HTTP candidate only; real payments, real printers, WeChat device and user acceptance NOT_RUN"
+}
