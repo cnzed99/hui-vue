@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { onLoad, onUnload } from '@dcloudio/uni-app'
+import { onHide, onLoad, onShow, onUnload } from '@dcloudio/uni-app'
 import { ensureDemoSession } from '@/api/demoSession'
 import { createDemoQuote } from '@/api/demoQuotes'
 import type { DemoQuote } from '@/api/demoQuotes'
-import { createDemoOrder } from '@/api/demoOrders'
+import { createDemoOrder, getDemoOrder } from '@/api/demoOrders'
 import type { DemoOrder } from '@/api/demoOrders'
 import { createDemoPayment, getDemoPayment } from '@/api/demoPayments'
 import type { DemoPayment } from '@/api/demoPayments'
@@ -12,6 +12,7 @@ import { getDemoPrintResult } from '@/api/demoPrintResult'
 import type { DemoPrintTask } from '@/api/demoPrintResult'
 import { loadDraft } from '@/domain/printDraft'
 import type { PrintDraft } from '@/domain/printDraft'
+import DemoCancellationPanel from '@/components/DemoCancellationPanel.vue'
 
 const draft = ref<PrintDraft | null>(null)
 const sideText = computed(() => draft.value?.side === 'DUPLEX' ? '双面' : '单面')
@@ -29,6 +30,9 @@ const printResultState = ref<'idle' | 'loading' | 'ready' | 'failed'>('idle')
 const printResultIssue = ref<'none' | 'unavailable' | 'principal-changed'>('none')
 const pendingOrderQuoteId = ref('')
 const pendingOrderPrincipalId = ref('')
+const visible = ref(true)
+const orderRefreshing = ref(false)
+let orderGeneration = 0
 const amountText = computed(() => order.value
   ? `¥${order.value.totalAmount}`
   : quoteState.value === 'ready' && quote.value
@@ -38,7 +42,7 @@ const printStatusText = computed(() => {
   const labels: Record<string, string> = {
     QUEUED: '等待后台模拟处理', CLAIMED: '模拟终端已领取', ACCEPTED: '模拟终端已受理',
     EXECUTING: '模拟执行中', SUCCEEDED: '模拟打印成功', FAILED: '模拟打印失败',
-    RESULT_UNKNOWN: '结果待人工核实'
+    RESULT_UNKNOWN: '结果待人工核实', CANCELLED: '模拟任务已取消'
   }
   if (printResultIssue.value === 'principal-changed') return '演示会话已变化，旧订单进度不可查询'
   if (printResultIssue.value === 'unavailable') return printTask.value
@@ -49,7 +53,11 @@ const printStatusText = computed(() => {
   if (printResultState.value === 'loading') return '正在查询打印进度'
   return '打印进度尚未查询'
 })
-const progressText = computed(() => printResultIssue.value === 'principal-changed'
+const progressText = computed(() => order.value?.orderState === 'CANCELLED'
+  ? order.value.refundState === 'SUCCEEDED' ? '订单已取消，全额模拟退款已记录，不涉及真实资金。' : '未付款订单已取消。'
+  : order.value?.cancellationOutcome === 'MANUAL_REVIEW_REQUIRED'
+    ? '申请已登记，原任务尚未被停止，当前未退款。'
+  : printResultIssue.value === 'principal-changed'
   ? '演示会话已变化，不能用新主体推断旧订单是否已创建任务。'
   : printResultIssue.value === 'unavailable'
     ? '最新打印进度暂不可确认；保留上次已知结果，不推断为未创建任务。'
@@ -99,9 +107,50 @@ onLoad(async () => {
     await requestQuote()
   }
 })
-onUnload(() => { clearExpiryTimer(); clearPrintTimer() })
+onShow(async () => {
+  const request = ++orderGeneration
+  visible.value = false
+  if (order.value) {
+    const session = await ensureDemoSession()
+    if (request !== orderGeneration) return
+    if (!session || pendingOrderPrincipalId.value !== session.principalId) {
+      order.value = null; payment.value = null; printTask.value = null
+      orderState.value = 'failed'; printResultIssue.value = 'principal-changed'
+    }
+  }
+  visible.value = true
+  if (order.value) void refreshCurrentOrder()
+})
+onHide(() => { visible.value = false; orderGeneration += 1; orderRefreshing.value = false; clearPrintTimer() })
+onUnload(() => { visible.value = false; orderGeneration += 1; clearExpiryTimer(); clearPrintTimer() })
 
 function goBack() { uni.navigateBack() }
+function updateCancellationOrder(updated: DemoOrder) {
+  if (!visible.value || updated.id !== order.value?.id) return
+  order.value = updated
+  if (updated.orderState === 'CANCELLED') { orderGeneration += 1; orderRefreshing.value = false; clearPrintTimer(); printTask.value = null; printResultState.value = 'idle' }
+}
+async function refreshCurrentOrder(): Promise<boolean> {
+  if (!order.value || !visible.value) return false
+  const id = order.value.id
+  const request = ++orderGeneration
+  orderRefreshing.value = true
+  const session = await ensureDemoSession()
+  if (!session || pendingOrderPrincipalId.value !== session.principalId) {
+    if (request === orderGeneration) { orderRefreshing.value = false; printResultIssue.value = 'principal-changed' }
+    return false
+  }
+  const loaded = await getDemoOrder(session, id)
+  const confirmed = await ensureDemoSession()
+  if (!visible.value || request !== orderGeneration || id !== order.value?.id) return false
+  orderRefreshing.value = false
+  if (!confirmed || confirmed.sessionId !== session.sessionId || confirmed.principalId !== session.principalId) {
+    printResultIssue.value = 'principal-changed'; return false
+  }
+  if (!loaded) { printResultIssue.value = 'unavailable'; return false }
+  updateCancellationOrder(loaded)
+  return true
+}
 function roundStorageKey(value: PrintDraft) {
   return `miniapp-quote-round-v1:${value.fileId}:${value.paper}:${value.color}:${value.copies}:${value.side}`
 }
@@ -143,12 +192,14 @@ function clearPrintTimer() {
 }
 function schedulePrintRefresh() {
   clearPrintTimer()
-  if (!printTask.value || !['SUCCEEDED', 'FAILED', 'RESULT_UNKNOWN'].includes(printTask.value.state)) {
+  if (visible.value && order.value?.orderState === 'OPEN' && (!printTask.value || !['SUCCEEDED', 'FAILED', 'RESULT_UNKNOWN', 'CANCELLED'].includes(printTask.value.state))) {
     printTimer = setInterval(() => { void refreshPrintResult(false) }, 5000)
   }
 }
 async function refreshPrintResult(showFailure = true) {
-  if (!order.value || printResultState.value === 'loading') return
+  if (!order.value || !visible.value || order.value.orderState !== 'OPEN' || printResultState.value === 'loading') return
+  const id = order.value.id
+  const request = orderGeneration
   printResultState.value = 'loading'
   printResultIssue.value = 'none'
   const session = await ensureDemoSession()
@@ -161,6 +212,11 @@ async function refreshPrintResult(showFailure = true) {
     return
   }
   const result = session ? await getDemoPrintResult(session, order.value.id) : { kind: 'unknown' as const }
+  const confirmed = await ensureDemoSession()
+  if (!visible.value || request !== orderGeneration || id !== order.value?.id || order.value.orderState !== 'OPEN') return
+  if (!session || !confirmed || session.sessionId !== confirmed.sessionId || session.principalId !== confirmed.principalId) {
+    clearPrintTimer(); printTask.value = null; printResultState.value = 'failed'; printResultIssue.value = 'principal-changed'; return
+  }
   if (result.kind !== 'ok') {
     printResultState.value = 'failed'
     printResultIssue.value = 'unavailable'
@@ -267,8 +323,9 @@ async function recoverOrder(quoteId: string): Promise<'ok' | 'rejected' | 'unkno
   }
   return 'ok'
 }
-function confirmPayment() {
-  if (!order.value || paymentState.value === 'creating' || paymentState.value === 'ready') return
+async function confirmPayment() {
+  if (!order.value || orderRefreshing.value || paymentState.value === 'creating' || paymentState.value === 'ready') return
+  if (!await refreshCurrentOrder() || order.value.orderState !== 'OPEN') return
   if (order.value.paymentState === 'SUCCEEDED') {
     void recoverPaymentReceipt()
     return
@@ -295,7 +352,7 @@ async function recoverPaymentReceipt() {
   await refreshPrintResult(false)
 }
 async function payOrder() {
-  if (!order.value) return
+  if (!order.value || !visible.value || !await refreshCurrentOrder() || order.value.orderState !== 'OPEN') return
   paymentState.value = 'creating'
   const session = await ensureDemoSession()
   const receipt = session ? await createDemoPayment(session, order.value.id) : null
@@ -313,14 +370,16 @@ async function payOrder() {
 <template>
   <view class="confirm-page">
     <view class="header"><view class="status-space" /><view class="title-row"><text class="back" @click="goBack">‹</text><text>确认订单</text><text class="spacer" /></view></view>
-    <view v-if="draft" class="body">
+    <view v-if="draft && visible" class="body">
       <view class="card file-card"><view class="file-icon">PDF</view><view class="file-copy"><text>{{ draft.fileName }}</text><text>{{ draft.pages }} 页 · {{ colorText }} · {{ sideText }} · {{ draft.copies }} 份</text></view></view>
       <view class="card rows"><view><text>纸张规格</text><text>A4 · 黑白</text></view><view><text>计价范围</text><text>本文件单独计算</text></view><view><text>份数</text><text>{{ draft.copies }}</text></view><view><text>金额</text><text class="pending">{{ quoteState === 'loading' ? '服务端计算中…' : amountText }}</text></view></view>
       <view class="notice"><text>当前进度</text><text>{{ progressText }}</text></view>
-      <view v-if="order" class="card result-card"><text>模拟订单</text><text>{{ order.orderNo }}</text><text>金额 ¥{{ order.totalAmount }} · {{ payment ? '模拟支付成功' : order.paymentState === 'SUCCEEDED' ? '已模拟支付，收据待恢复' : '未支付' }}</text><text>打印状态：{{ printStatusText }}</text><text v-if="printTask">Job {{ printTask.jobId }}</text></view>
+      <view v-if="order" class="card result-card"><text>{{ order.orderState === 'CANCELLED' ? '模拟订单已取消' : '模拟订单' }}</text><text>{{ order.orderNo }}</text><text>金额 ¥{{ order.totalAmount }} · {{ order.refundState === 'SUCCEEDED' ? '已全额模拟退款' : payment ? '模拟支付成功' : order.paymentState === 'SUCCEEDED' ? '已模拟支付，收据待恢复' : '未支付' }}</text><text>打印状态：{{ order.orderState === 'CANCELLED' ? '订单已取消，不再处理' : printStatusText }}</text><text v-if="printTask">Job {{ printTask.jobId }}</text></view>
       <view v-if="payment" class="receipt"><text>SIMULATED</text><text>模拟支付成功，不涉及真实资金</text><text>收据 {{ payment.id }}</text></view>
       <view v-if="printTask?.receipt" class="print-receipt"><text>{{ printTask.receipt.result === 'SIMULATED_SUCCESS' ? '模拟成功回执' : '模拟失败回执' }}</text><text>完成 {{ printTask.receipt.completedCopies }} 份 / {{ printTask.receipt.completedSheets }} 张</text><text v-if="printTask.receipt.reason">原因：{{ printTask.receipt.reason }}</text><text>仅为系统模拟，不代表真实出纸</text></view>
-      <button v-if="order && paymentState !== 'ready'" :class="paymentState === 'creating' ? 'disabled' : 'retry'" @click="confirmPayment">{{ paymentState === 'creating' ? '正在恢复支付结果…' : paymentState === 'failed' && order.paymentState === 'SUCCEEDED' ? '重试恢复模拟收据' : paymentState === 'failed' ? '重试模拟支付' : '模拟支付（不扣真实资金）' }}</button>
+      <DemoCancellationPanel v-if="order" :order-id="order.id" :active="visible" @updated="updateCancellationOrder" />
+      <button v-if="order?.orderState === 'CANCELLED'" class="disabled">订单已取消</button>
+      <button v-else-if="order && paymentState !== 'ready'" :class="paymentState === 'creating' || orderRefreshing ? 'disabled' : 'retry'" @click="confirmPayment">{{ orderRefreshing ? '正在确认订单状态…' : paymentState === 'creating' ? '正在恢复支付结果…' : paymentState === 'failed' && order.paymentState === 'SUCCEEDED' ? '重试恢复模拟收据' : paymentState === 'failed' ? '重试模拟支付' : '模拟支付（不扣真实资金）' }}</button>
       <button v-else-if="order && paymentState === 'ready' && printResultIssue === 'principal-changed'" class="disabled">会话已变化 · 旧订单进度不可查询</button>
       <button v-else-if="order && paymentState === 'ready'" class="retry" @click="refreshPrintResult(true)">{{ printResultState === 'loading' ? '正在刷新模拟打印进度…' : printResultIssue === 'unavailable' ? '重试查询模拟打印进度' : '刷新模拟打印进度' }}</button>
       <button v-else-if="pendingOrderQuoteId && orderState === 'creating'" class="disabled">正在恢复原模拟订单…</button>

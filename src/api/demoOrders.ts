@@ -8,11 +8,12 @@ export interface DemoOrder {
   simulation: true
   currency: 'CNY'
   totalAmount: string
-  orderState: 'OPEN'
+  orderState: 'OPEN' | 'CANCELLED'
   paymentState: 'UNPAID' | 'SUCCEEDED'
-  refundState: 'NONE'
+  refundState: 'NONE' | 'SUCCEEDED'
+  cancellationOutcome: null | 'CANCELLED_UNPAID' | 'CANCELLED_REFUNDED' | 'MANUAL_REVIEW_REQUIRED'
   printState: 'NOT_CREATED' | 'QUEUED' | 'CLAIMED' | 'ACCEPTED' | 'EXECUTING' |
-    'SUCCEEDED' | 'FAILED' | 'RESULT_UNKNOWN'
+    'SUCCEEDED' | 'FAILED' | 'RESULT_UNKNOWN' | 'CANCELLED'
   version: number
   createdAtMs: number
   updatedAtMs: number
@@ -56,15 +57,22 @@ export function parseDemoOrderEnvelope(value: unknown): DemoOrder | null {
   const item = order?.item
   const decimal = /^(0|[1-9][0-9]*)(\.[0-9]+)?$/
   const version = Number(order?.version)
-  const stateVersionValid = order?.printState === 'NOT_CREATED'
+  const openStateValid = order?.orderState === 'OPEN' && order.refundState === 'NONE' && (order?.printState === 'NOT_CREATED'
     ? (order.paymentState === 'UNPAID' && version === 1) || (order.paymentState === 'SUCCEEDED' && version === 2)
     : ['QUEUED', 'CLAIMED', 'ACCEPTED', 'EXECUTING', 'SUCCEEDED', 'FAILED', 'RESULT_UNKNOWN'].includes(order?.printState || '')
-      && order?.paymentState === 'SUCCEEDED' && Number.isSafeInteger(version) && version >= 3
+      && order?.paymentState === 'SUCCEEDED' && Number.isSafeInteger(version) && version >= 3)
+  const cancelledStateValid = order?.orderState === 'CANCELLED' && (
+    order.paymentState === 'UNPAID' && order.refundState === 'NONE' && order.printState === 'NOT_CREATED' && version === 2
+    || order.paymentState === 'SUCCEEDED' && order.refundState === 'SUCCEEDED' && (
+      order.printState === 'NOT_CREATED' && version === 3 || order.printState === 'CANCELLED' && version === 4))
   if (envelope?.code !== 0 || !order || typeof order.id !== 'string'
     || typeof order.orderNo !== 'string' || order.source !== 'MINIAPP_DEMO' || order.simulation !== true
     || order.currency !== 'CNY' || typeof order.totalAmount !== 'string' || !decimal.test(order.totalAmount)
-    || order.orderState !== 'OPEN' || !['UNPAID', 'SUCCEEDED'].includes(order.paymentState || '')
-    || order.refundState !== 'NONE' || !stateVersionValid || !item || typeof item.id !== 'string'
+    || !(openStateValid || cancelledStateValid)
+    || !(order.cancellationOutcome == null || ['CANCELLED_UNPAID', 'CANCELLED_REFUNDED', 'MANUAL_REVIEW_REQUIRED'].includes(order.cancellationOutcome))
+    || order.orderState === 'CANCELLED' && order.cancellationOutcome !== (order.paymentState === 'UNPAID' ? 'CANCELLED_UNPAID' : 'CANCELLED_REFUNDED')
+    || order.orderState === 'OPEN' && order.cancellationOutcome != null && order.cancellationOutcome !== 'MANUAL_REVIEW_REQUIRED'
+    || !item || typeof item.id !== 'string'
     || typeof item.quoteId !== 'string' || typeof item.fileId !== 'string'
     || typeof item.amount !== 'string' || item.amount !== order.totalAmount
     || item.quoteSnapshot?.mode !== 'DEMO' || item.quoteSnapshot?.totalAmount !== order.totalAmount) return null

@@ -9,6 +9,7 @@ import { getDemoPayment } from '@/api/demoPayments'
 import type { DemoPayment } from '@/api/demoPayments'
 import { getDemoPrintResult } from '@/api/demoPrintResult'
 import type { DemoPrintTask } from '@/api/demoPrintResult'
+import DemoCancellationPanel from '@/components/DemoCancellationPanel.vue'
 
 const orderId = ref('')
 const order = ref<DemoOrder | null>(null)
@@ -17,6 +18,7 @@ const printTask = ref<DemoPrintTask | null>(null)
 const state = ref<'loading' | 'ready' | 'error'>('loading')
 const paymentQuery = ref<'idle' | 'ready' | 'unknown'>('idle')
 const printQuery = ref<'idle' | 'ready' | 'unknown'>('idle')
+const visible = ref(false)
 let generation = 0
 let alive = false
 
@@ -24,6 +26,7 @@ const snapshot = computed(() => order.value?.item.quoteSnapshot)
 const sideText = computed(() => snapshot.value?.side === 'DUPLEX' ? '双面' : '单面')
 const paymentText = computed(() => {
   if (!order.value) return '暂不可确认'
+  if (order.value.refundState === 'SUCCEEDED') return '模拟支付成功 · 已全额模拟退款'
   if (order.value.paymentState === 'UNPAID') return '未模拟支付'
   if (payment.value) return '模拟支付成功'
   return paymentQuery.value === 'unknown' ? '已模拟支付，收据暂不可确认' : '模拟支付成功'
@@ -33,7 +36,7 @@ const printText = computed(() => {
   const labels: Record<DemoOrder['printState'], string> = {
     NOT_CREATED: '尚未创建模拟任务', QUEUED: '等待模拟处理', CLAIMED: '模拟终端已领取',
     ACCEPTED: '模拟终端已受理', EXECUTING: '模拟执行中', SUCCEEDED: '模拟打印成功',
-    FAILED: '模拟打印失败', RESULT_UNKNOWN: '结果待人工核实'
+    FAILED: '模拟打印失败', RESULT_UNKNOWN: '结果待人工核实', CANCELLED: '模拟任务已取消'
   }
   if (printQuery.value === 'unknown') return `上次已知：${labels[order.value.printState]}，最新结果暂不可确认`
   return printTask.value ? labels[printTask.value.state] : labels[order.value.printState]
@@ -48,6 +51,7 @@ onLoad(options => {
   orderId.value = id
 })
 onShow(() => {
+  visible.value = true
   alive = true
   if (orderId.value) void loadDetail()
 })
@@ -66,6 +70,7 @@ function clearScopedData() {
   printQuery.value = 'idle'
 }
 function invalidateHidden() {
+  visible.value = false
   alive = false
   generation += 1
   clearScopedData()
@@ -78,6 +83,7 @@ function sessionChanged(request: number) {
   state.value = 'error'
 }
 function goBack() { uni.navigateBack() }
+function updateCancellationOrder(updated: DemoOrder) { if (alive && updated.id === orderId.value) order.value = updated }
 function formatTime(value: number) {
   const date = new Date(value); const pad = (part: number) => String(part).padStart(2, '0')
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`
@@ -115,12 +121,13 @@ async function loadDetail() {
     <view v-if="state === 'loading'" class="message">正在加载订单…</view>
     <view v-else-if="state === 'error'" class="error-state"><text>订单详情暂时无法确认</text><button @click="loadDetail">重新加载</button></view>
     <view v-else-if="order && snapshot" class="content">
-      <view class="status-card"><text class="status-title">{{ printText }}</text><text>仅展示系统模拟处理结果</text></view>
+      <view class="status-card"><text class="status-title">{{ order.orderState === 'CANCELLED' ? '订单已取消' : printText }}</text><text v-if="order.cancellationOutcome === 'MANUAL_REVIEW_REQUIRED'">人工核实申请已登记，原任务尚未被停止，当前未退款</text><text v-else>仅展示系统模拟处理结果</text></view>
       <view class="card"><view class="heading">文档打印</view><view class="row"><text>订单号</text><text class="break">{{ order.orderNo }}</text></view><view class="row"><text>创建时间</text><text>{{ formatTime(order.createdAtMs) }}</text></view><view class="row"><text>打印设置</text><text>A4 · 黑白 · {{ sideText }}</text></view><view class="row"><text>页数与份数</text><text>{{ snapshot.pagesPerCopy }}页 · {{ snapshot.copies }}份</text></view><view class="row"><text>纸张数</text><text>{{ snapshot.totalSheets }}张</text></view><view class="row amount"><text>订单金额</text><text>¥{{ order.totalAmount }}</text></view></view>
       <view class="card"><view class="heading">处理状态</view><view class="row"><text>支付</text><text>{{ paymentText }}</text></view><view class="row"><text>打印</text><text>{{ printText }}</text></view></view>
       <view v-if="payment" class="receipt green"><text class="receipt-title">SIMULATED 支付收据</text><text>金额 ¥{{ payment.amount }}</text><text class="break">收据 {{ payment.id }}</text><text>模拟支付不涉及真实资金</text></view>
       <view v-if="printTask?.receipt" class="receipt orange"><text class="receipt-title">{{ printTask.receipt.result === 'SIMULATED_SUCCESS' ? '模拟成功回执' : '模拟失败回执' }}</text><text>完成 {{ printTask.receipt.completedCopies }}份 / {{ printTask.receipt.completedSheets }}张</text><text v-if="printTask.receipt.reason">原因：{{ printTask.receipt.reason }}</text><text>模拟回执不代表真实打印机出纸</text></view>
-      <view class="boundary">当前 AppID、微信支付、退款和真实打印端尚未接入；本页仅用于开发演示。</view>
+      <DemoCancellationPanel :order-id="order.id" :active="visible && state === 'ready'" @updated="updateCancellationOrder" />
+      <view class="boundary">当前 AppID、真实微信支付退款和真实打印端尚未接入；本页仅用于开发演示。</view>
       <button class="refresh" @click="loadDetail">刷新订单状态</button>
     </view>
   </view>

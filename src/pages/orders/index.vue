@@ -61,12 +61,14 @@ function formatTime(value: number) {
   const pad = (part: number) => String(part).padStart(2, '0')
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`
 }
-function paymentText(order: DemoOrder) { return order.paymentState === 'SUCCEEDED' ? '模拟支付成功' : '待模拟支付' }
+function paymentText(order: DemoOrder) { return order.refundState === 'SUCCEEDED' ? '已全额模拟退款' : order.orderState === 'CANCELLED' ? '订单已取消 · 未付款' : order.paymentState === 'SUCCEEDED' ? '模拟支付成功' : '待模拟支付' }
 function printText(order: DemoOrder) {
+  if (order.orderState === 'CANCELLED') return '订单已取消'
+  if (order.cancellationOutcome === 'MANUAL_REVIEW_REQUIRED') return '人工核实申请已登记'
   const labels: Record<DemoOrder['printState'], string> = {
     NOT_CREATED: '尚未创建模拟任务', QUEUED: '等待模拟处理', CLAIMED: '模拟终端已领取',
     ACCEPTED: '模拟终端已受理', EXECUTING: '模拟执行中', SUCCEEDED: '模拟打印成功',
-    FAILED: '模拟打印失败', RESULT_UNKNOWN: '结果待人工核实'
+    FAILED: '模拟打印失败', RESULT_UNKNOWN: '结果待人工核实', CANCELLED: '模拟任务已取消'
   }
   return labels[order.printState]
 }

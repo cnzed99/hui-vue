@@ -1,7 +1,7 @@
 import type { DemoSession } from '@/api/demoSession'
 
 export type DemoPrintState = 'QUEUED' | 'CLAIMED' | 'ACCEPTED' | 'EXECUTING' |
-  'SUCCEEDED' | 'FAILED' | 'RESULT_UNKNOWN'
+  'SUCCEEDED' | 'FAILED' | 'RESULT_UNKNOWN' | 'CANCELLED'
 export interface DemoPrintReceipt {
   id: string; receiptSeq: 1; result: 'SIMULATED_SUCCESS' | 'SIMULATED_FAILED'; reason: string | null
   plannedCopies: string; plannedSheets: string; completedCopies: string; completedSheets: string
@@ -43,11 +43,13 @@ function task(value: unknown): DemoPrintTask | null | undefined {
   const row = value as Partial<DemoPrintTask>
   const parsedReceipt = receipt(row.receipt)
   if (!uuid(row.id) || !/^PJ[0-9A-F]{32}$/.test(String(row.jobId)) || !uuid(row.orderId) || !uuid(row.orderItemId) ||
-      !['QUEUED', 'CLAIMED', 'ACCEPTED', 'EXECUTING', 'SUCCEEDED', 'FAILED', 'RESULT_UNKNOWN'].includes(String(row.state)) ||
+      !['QUEUED', 'CLAIMED', 'ACCEPTED', 'EXECUTING', 'SUCCEEDED', 'FAILED', 'RESULT_UNKNOWN', 'CANCELLED'].includes(String(row.state)) ||
       !positive(row.version) || !nonNegative(row.fence) || !(row.leaseId == null || uuid(row.leaseId)) ||
       !(row.leaseUntilMs == null || time(row.leaseUntilMs)) || !count(row.plannedCopies) || !count(row.plannedSheets) ||
       !uuid(row.fileId) || !/^[0-9a-f]{64}$/.test(String(row.fileSha256)) || !positive(row.eventSeq) ||
       !time(row.createdAtMs) || !time(row.updatedAtMs) || parsedReceipt === undefined) return undefined
+  if (row.state === 'CANCELLED' && (row.version !== 2 || row.eventSeq !== 2 || row.fence !== 0
+    || row.leaseId !== null || row.leaseUntilMs !== null || parsedReceipt !== null)) return undefined
   return { ...row, receipt: parsedReceipt } as DemoPrintTask
 }
 
