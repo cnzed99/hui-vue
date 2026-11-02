@@ -33,23 +33,24 @@
 
 - 精确 `multipart/form-data`；字段名固定为重复的 `files`，按 multipart 顺序处理，数量 1–9；不接受查询参数、文本字段、其它 part 名或空 part。Controller 使用 Servlet `Part` 顺序核对后才交给服务层。
 - 必须携带有效演示会话、正确 Origin/Host 和 `Idempotency-Key`；tenant/store/principal 继续由服务端会话确定。
-- 主体范围沿用 `MiniappDemoSessionService.requireForWrite` 产生的 `tenantId/storeId/principalId`，不得接受客户端主体字段。幂等唯一范围沿用 `print_miniapp_demo_file` 的 `(tenant_id, store_id, principal_id, idempotency_sha256)` 及 `MiniappDemoFileRepository.findIdempotent/insert`；下载/查询继续沿用 `findOwned`。本批不放宽这些作用域。
+- 主体范围沿用 `MiniappDemoSessionService.requireForWrite` 产生的 `tenantId/storeId/principalId`，不得接受客户端主体字段。幂等唯一范围沿用 `print_demo.print_miniapp_demo_file` 已存在的唯一键 `uk_print_miniapp_file_idempotency (tenant_id, store_id, principal_id, idempotency_sha256)` 及 `MiniappDemoFileRepository.findIdempotent/insert`；下载/查询继续沿用 `findOwned`，并保留外键到同主体 principal。本批不放宽这些作用域。
 - 有序输入摘要固定为 `SHA-256(ASCII(renderVersion) || uint32_be(fileCount) || 对每个文件依次追加 uint64_be(byteLength) || SHA-256(fileBytes))`。该摘要进入派生 PDF 的固定文档 ID，因此同一主体同键、相同数量/顺序/内容/布局版本得到相同 PDF 并返回同一文件；同键但数量、顺序、内容或布局版本不同形成不同 PDF 摘要，由现有文件服务返回幂等冲突。不得仅按文件名、MIME 或像素结果判相同。
 - 单图最大 2MiB；请求内原图总字节最大 12MiB；单图最大 600 万像素、单边最大 8192；全部图片总像素最大 3000 万；输出 PDF 最大 2MiB。
-- 外网只经 Nginx 到绑定回环地址的后端：精确路由先用约 13MiB `client_max_body_size` 拒绝超限；Spring 保留 16MiB 单 part/32MiB 请求的全局外层上限并显式 `file-size-threshold: 0` 落盘，容器临时目录必须位于本项目私有运行目录且由本服务用户独占。Controller 在解析后再次核对 part 数、名称、声明长度和总长度；服务层以 64KiB 流式复制并再次执行真实字节上限，不能依赖声明长度。
-- 渲染版本固定 `IMAGE_COLLAGE_A4_PORTRAIT_GRID_V1`；父进程只接受子进程唯一成功协议行，超时 15 秒，最大并发 1、等待队列容量 0，未取得信号量立即返回固定繁忙错误。所有 part 完成受限落盘和有序摘要后才尝试占用渲染槽，避免占槽期间读取网络；Nginx 另设每 IP 保守写入速率。
-- 子进程固定 `-Xms32m -Xmx384m -XX:MaxMetaspaceSize=96m -XX:+UseSerialGC`。子进程先读取每张图的头部尺寸/帧数并累计限制，再逐张解码、方向纠正、缩放并绘入唯一输出画布，不同时保留全部原始位图。超时、中断或协议异常时父进程先终止、最多等待 1 秒后强杀并等待退出，再清理任务目录。
+- 外网只经 Nginx 到已核验绑定 `127.0.0.1:48080` 的后端：精确路由先用 13MiB `client_max_body_size` 拒绝超限；在 `http` 级预定义 M9 全局连接区和每 IP 连接区，精确路由分别限制为全局最多 2 个正在接收的请求、每 IP 最多 1 个，并设保守写入速率。请求体缓冲到 M9 专用 Nginx body-temp 目录（`0700`、`www-data`、只清理该命名空间），避免进入主 JVM 堆；部署前检查系统盘至少 10GiB 可用。
+- Spring 当前外层上限已核验为单 part 16MiB、请求 32MiB；实现时新增显式 `file-size-threshold: 0`、项目私有 multipart 临时目录（`0700`、服务用户 `ubuntu`），并配置容器解析阶段全局 `max-part-count=10`、`max-part-header-size=1KiB`，同时保留 systemd `PrivateTmp=yes`。精确路径前置 `OncePerRequestFilter` 在 `DispatcherServlet` 解析 multipart 前取得容量 2 的上传准入，检查 `Content-Length`（存在时）及文件系统至少 10GiB 加本请求上限的余量；失败即在解析前拒绝，成功则在完整请求结束释放。Controller 解析后再次核对 1–9 个 part、名称、声明长度和总长度，拒绝任何额外 part；服务层以 64KiB 流式复制并再次执行真实字节上限，不能依赖声明长度。因为后端仅回环监听，外部请求不能绕过 Nginx 的 13MiB 与连接限制。新增容器全局 part 限制后必须回归现有 PDF/单图上传接口。
+- 渲染版本固定 `IMAGE_COLLAGE_A4_PORTRAIT_GRID_V1`；父进程只接受子进程唯一成功协议行，超时 15 秒。新增一个服务进程内共享的 `MiniappDemoProcessAdmission`，容量 1、等待队列 0，由既有 M7 单图渲染、M9 拼版渲染和 PDF inspector 三者共同占用；任一子进程运行时其余立即返回/延后为各自既有繁忙语义，禁止三个模块各持独立额度。所有 part 完成受限落盘和有序摘要后才尝试占用该共享槽，避免占槽期间读取网络。
+- M9 子进程固定 `-Xms32m -Xmx320m -XX:MaxMetaspaceSize=96m -XX:+UseSerialGC`。现有服务 `MemoryMax=1536MiB`、主 JVM最大堆 768MiB；共享准入确保 M7/M9/PDF inspector 任一时刻最多一个子进程。子进程先读取每张图的头部尺寸/帧数并累计限制，再逐张解码、方向纠正、缩放并绘入唯一输出画布，不同时保留全部原始位图。超时、中断或协议异常时父进程先终止、最多等待 1 秒后强杀并等待退出，再清理任务目录；以 9 张上限 fixture 记录 `MemoryCurrent/peak`，触及 systemd OOM 或没有足够余量即不启用功能。
 - 输入先进入本批私有 `image-collage-scratch/task-*`，根目录和任务目录 `0700`、文件 `0600`；父进程启动时持有与既有文件存储相同的单实例 OS 锁语义，并在接收请求前删除遗留 `task-*`。任何成功、失败、超时或正常进程退出路径都精确清理本批任务目录；主机强杀/重启遗留由下次启动回收。不得把原图、文件名、token、摘要或正文写入访问/API 日志。
 - 实际 JPEG/PNG 解码、像素限制、方向和透明度由服务端验证；扩展名与 MIME 仅作早期拒绝，不能替代真实格式验证。
 - 生成成功后只保存派生 PDF 和最小文件元数据；原图不进入长期存储，不返回文件路径。
 
 ## 数据、并发与失败边界
 
-- 不新增数据库表或迁移；复用现有 `MiniappDemoFileService.upload`、`MiniappDemoFileRepository.findIdempotent/findOwned/insert`、数据库主体幂等唯一约束、每主体活动文件上限及 1 小时保留机制。实现前以测试证明准确唯一约束存在，不满足时停止，不以应用锁代替数据库保护。
-- 只有完整 PDF 通过输出大小、页数和摘要校验后才创建/完成文件记录；任何一张图失败则整组失败，不产生部分拼版文件。
+- 不新增数据库表或迁移；复用现有 `MiniappDemoFileService.upload`、`MiniappDemoFileRepository.findIdempotent/findOwned/insert`、已核验的数据库唯一键 `uk_print_miniapp_file_idempotency`、每主体活动文件上限及 1 小时保留机制。实现测试再次读取 schema 证明准确唯一约束仍存在；不满足时停止，不以应用锁代替数据库保护。
+- 只有完整 PDF 通过渲染器的输出大小和摘要校验后才交给现有文件服务。文件服务按既有语义先持久化对象及 `UPLOADED` 记录，再由异步 PDF inspector 转为 `PROCESSING → READY(pageCount=1)` 或 `FAILED` 并清理失败对象；客户端只有看到 `READY` 且 `pageCount=1` 才可写草稿。任何一张原图失败则整组渲染失败，不创建 `UPLOADED` 记录；渲染成功但 inspector 拒绝时允许保留失败元数据证据，但不会成为可用业务文件。
 - 渲染槽不排队：并发请求最多一个进入渲染，其余返回繁忙；客户端只能保留原文件与原键显式重试。首个请求已提交后，同主体同键重放通过现有数据库唯一约束返回同一文件；提交前崩溃则没有记录，原键重试允许按确定性规则重新渲染。此语义不宣称“并发等待后同一响应”。
-- PDF 先完整生成、校验并 `fsync` 于本批 scratch，再调用现有文件服务：文件服务负责对象原子移动、记录事务提交、重复键冲突和启动时无引用对象清理。PDF 生成成功但记录提交前崩溃时，只留下 scratch/无引用对象并由启动清理；记录提交后重启，同键返回同一既有文件。
-- 文件到期后沿用现有 `DELETED`/purge 语义：同键重放返回同一已删除元数据而不重新生成；用户必须重新选择并产生新键。相同图片换新键可生成新文件，但同一渲染版本的派生 PDF 字节必须确定。
+- PDF 先完整生成、校验并 `fsync` 于本批 scratch，再调用现有文件服务：文件服务负责对象移动、`UPLOADED` 记录事务提交、重复键冲突、异步 PDF 校验和启动时无引用对象清理。PDF 生成成功但记录提交前崩溃时，只留下 scratch/无引用对象并由启动清理；记录提交后重启，同键返回同一既有文件或其后续 `READY/FAILED/DELETED` 状态。
+- 文件到期后沿用现有 `DELETED`/purge 语义：在会话仍有效时，同键重放可能为比较 `content_sha256` 临时重新渲染确定性 PDF，但必须返回同一已删除元数据，不新增持久文件/记录、不恢复 blob、不续期；会话已过期则先返回 `SESSION_INVALID`。用户要重新生成可用文件必须重新选择并产生新键。相同图片换新键可生成新文件，但同一渲染版本的派生 PDF 字节必须确定。
 - 本批不修改价格档位、订单状态机、模拟支付/退款、权限作用域、打印任务、防重复、租约/fencing 或回执规则。
 
 ## 小程序页面
@@ -64,15 +65,15 @@
 ## Nginx 与运行配置
 
 - 只增加精确 `/app-api/print/miniapp/demo/image-collages` POST；其它方法 403、相邻路径 404；后端继续仅监听回环地址，外网不能绕过 Nginx 的大小和速率限制。
-- `client_max_body_size` 约 13MiB，连接/读取/发送超时与后端 15 秒上限匹配；复用图片上传连接区，单独设置保守速率和 429。
+- `client_max_body_size 13m`，连接/读取/发送超时与后端 15 秒上限匹配；使用 M9 专用全局/每 IP 连接区、body-temp 路径及保守速率，超限返回 413，连接/速率拒绝返回 429。
 - 新功能使用独立 `PRINT_MINIAPP_DEMO_IMAGE_COLLAGES_ENABLED` 开关，默认 false；部署时先关闭验证旧链路和 GET，再显式开启。
 
 ## 最少充分验证
 
 - 渲染：1、2、3、4、5、6、7、8、9 图网格；EXIF 1–8；透明 PNG；混合纵横图；固定顺序和不裁切；输出单页及确定性哈希；交换两张图必须改变摘要/PDF；同输入同版本跨进程重启哈希相同。
-- 拒绝：0/10 图、未知/文本/空 part、单图/总字节、单图/总像素、维度、APNG/多帧、伪格式、损坏图、输出超限、超时、繁忙；multipart 超限必须在解码前拒绝。
+- 拒绝：0/10 图、未知/文本/空 part、单图/总字节、单图/总像素、维度、APNG/多帧、伪格式、损坏图、输出超限、超时、繁忙；容器在 multipart 解析阶段限制 part 数和 part header，业务总字节超限必须在解码前拒绝。并发覆盖 M7 渲染、M9 渲染与 PDF inspector 共享槽的成功、失败和中断释放，执行一次三入口竞争，证明不会同时启动两个受限子进程、没有死锁。
 - HTTP：会话/Origin/Host、提交后幂等重放与冲突、并发繁忙后原键重试、跨主体隐藏、会话变化、提交中断重启、到期同键返回 `DELETED`、Nginx 方法/邻接/大小/限流。
-- 清理：成功、格式失败、超限、超时、繁忙、强杀子进程和服务重启后均无子进程及 `task-*` 残留；只清理本批命名空间。
+- 清理：成功、格式失败、超限、超时、繁忙、强杀子进程和服务重启后均无子进程及 `task-*` 残留；只清理本批命名空间。验证 Nginx body-temp、Servlet multipart-temp、M9 scratch 三层均无本批残留，并记录 9 图 fixture 下 systemd 内存峰值和磁盘余量。
 - 页面：删除/替换/离页释放自建 URL；离页或会话切换后迟到成功响应不写草稿；失败时原键显式重试，刷新后要求重选。
 - 闭环：真实多图选择 fixture → READY → 既有报价、订单、模拟支付、后台唯一任务、模拟回执和小程序结果恢复。
 - 构建：后端主产物、小程序 type-check、H5 与微信构建；标准停服构建窗口后四服务恢复和健康等待。
