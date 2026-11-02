@@ -4,7 +4,7 @@ set -euo pipefail
 root=/home/ubuntu/print-system/runtime
 scratch="$(mktemp -d "$root/scratch/m8-sql-probe.XXXXXX")"
 probe_db="print_m8_probe_$(date +%s)_$RANDOM"
-source_db="$(sudo mysql -Nse "SELECT table_schema FROM information_schema.tables WHERE table_name='print_miniapp_demo_order' ORDER BY table_schema LIMIT 1")"
+source_db="$(sudo mysql -Nse "SELECT table_schema FROM information_schema.tables WHERE table_name='print_miniapp_demo_order' AND table_schema NOT LIKE 'print_m8_probe_%' ORDER BY table_schema LIMIT 1")"
 test -n "$source_db"
 
 cleanup() {
@@ -39,11 +39,14 @@ test "$trigger_count" = 6
 test "$check_count" = 8
 echo "migration_schema_pass tables=$table_count triggers=$trigger_count checks=$check_count"
 
-sudo mysql "$probe_db" \
-  < /home/ubuntu/print-system/runtime/worktrees/m8-cancel-refund-engineering-20261102/ops/db/print-miniapp-demo-cancellation-refund-rollback-no-writes.sql
+{ printf 'SET @m8_backend_drained=1;\n'; cat /home/ubuntu/print-system/runtime/worktrees/m8-cancel-refund-engineering-20261102/ops/db/print-miniapp-demo-cancellation-refund-rollback-no-writes.sql; } | sudo mysql "$probe_db"
 
 remaining="$(sudo mysql -N "$probe_db" -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema=DATABASE() AND table_name IN ('print_miniapp_demo_cancellation','print_miniapp_demo_refund_receipt','print_miniapp_demo_refund_journal')")"
 cancel_check="$(sudo mysql -N "$probe_db" -e "SELECT COUNT(*) FROM information_schema.table_constraints WHERE constraint_schema=DATABASE() AND table_name='print_miniapp_demo_print_task' AND constraint_name='chk_pmdpt_cancel'")"
 test "$remaining" = 0
 test "$cancel_check" = 0
 echo "rollback_no_writes_pass tables=$remaining cancel_check=$cancel_check"
+
+sudo mysql "$probe_db" \
+  < /home/ubuntu/print-system/runtime/worktrees/m8-cancel-refund-engineering-20261102/ops/db/print-miniapp-demo-cancellation-refund-v1.sql
+python3 /home/ubuntu/print-system/runtime/worktrees/m8-cancel-refund-engineering-20261102/ops/db/probe-m8-constraints.py "$probe_db"

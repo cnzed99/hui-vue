@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-db_name="$(sudo mysql -Nse "SELECT table_schema FROM information_schema.tables WHERE table_name='print_miniapp_demo_order' ORDER BY table_schema LIMIT 1")"
+db_name="$(sudo mysql -Nse "SELECT table_schema FROM information_schema.tables WHERE table_name='print_miniapp_demo_order' AND table_schema NOT LIKE 'print_m8_probe_%' ORDER BY table_schema LIMIT 1")"
 test -n "$db_name"
 echo preflight_database_found
 sudo mysql --batch --raw "$db_name" \

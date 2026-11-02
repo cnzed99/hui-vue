@@ -75,6 +75,7 @@ CREATE TABLE print_miniapp_demo_cancellation (
   PRIMARY KEY (id),
   UNIQUE KEY uk_pmdc_owner_id (tenant_id, store_id, principal_id, id),
   UNIQUE KEY uk_pmdc_owner_id_order (tenant_id, store_id, principal_id, id, order_id),
+  UNIQUE KEY uk_pmdc_refund_binding (tenant_id, store_id, principal_id, id, order_id, outcome),
   UNIQUE KEY uk_pmdc_order (tenant_id, store_id, principal_id, order_id),
   UNIQUE KEY uk_pmdc_idem (tenant_id, store_id, principal_id, idempotency_sha256),
   UNIQUE KEY uk_pmdc_task_event
@@ -102,6 +103,10 @@ CREATE TABLE print_miniapp_demo_cancellation (
     OR (outcome='CANCELLED_REFUNDED' AND reason='NEVER_CLAIMED'
       AND order_version_before=3 AND order_version_after=4
       AND task_id IS NOT NULL
+      AND task_state_before IS NOT NULL AND task_state_after IS NOT NULL
+      AND task_version_before IS NOT NULL AND task_version_after IS NOT NULL
+      AND task_event_seq_before IS NOT NULL AND task_event_seq_after IS NOT NULL
+      AND task_fence_before IS NOT NULL AND task_fence_after IS NOT NULL
       AND task_state_before='QUEUED' AND task_state_after='CANCELLED'
       AND task_version_before=1 AND task_version_after=2
       AND task_event_seq_before=1 AND task_event_seq_after=2
@@ -109,11 +114,17 @@ CREATE TABLE print_miniapp_demo_cancellation (
     OR (outcome='MANUAL_REVIEW_REQUIRED' AND reason='REQUIRES_MANUAL_REVIEW'
       AND order_version_before=order_version_after AND order_version_before>=3
       AND task_id IS NOT NULL
+      AND task_state_before IS NOT NULL AND task_state_after IS NOT NULL
+      AND task_version_before IS NOT NULL AND task_version_after IS NOT NULL
+      AND task_event_seq_before IS NOT NULL AND task_event_seq_after IS NOT NULL
+      AND task_fence_before IS NOT NULL AND task_fence_after IS NOT NULL
       AND task_state_before=task_state_after
       AND task_state_before IN
         ('QUEUED','CLAIMED','ACCEPTED','EXECUTING','SUCCEEDED','FAILED','RESULT_UNKNOWN')
       AND task_version_before=task_version_after AND task_version_before>=1
       AND task_event_seq_before=task_event_seq_after AND task_event_seq_before>=1
+      AND task_event_seq_before=task_version_before
+      AND order_version_before=task_version_before+2
       AND task_fence_before=task_fence_after AND task_fence_before>=0
       AND (task_state_before<>'QUEUED' OR task_fence_before>=1))
   )
@@ -122,6 +133,7 @@ CREATE TABLE print_miniapp_demo_cancellation (
 CREATE TABLE print_miniapp_demo_refund_receipt (
   id char(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
   cancellation_id char(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  cancellation_outcome varchar(32) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
   payment_receipt_id char(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
   order_id char(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
   tenant_id bigint NOT NULL,
@@ -141,9 +153,9 @@ CREATE TABLE print_miniapp_demo_refund_receipt (
   UNIQUE KEY uk_pmdrr_cancel (tenant_id, store_id, principal_id, cancellation_id),
   UNIQUE KEY uk_pmdrr_payment (tenant_id, store_id, principal_id, payment_receipt_id),
   CONSTRAINT fk_pmdrr_cancel FOREIGN KEY
-    (tenant_id, store_id, principal_id, cancellation_id, order_id)
+    (tenant_id, store_id, principal_id, cancellation_id, order_id, cancellation_outcome)
     REFERENCES print_miniapp_demo_cancellation
-    (tenant_id, store_id, principal_id, id, order_id),
+    (tenant_id, store_id, principal_id, id, order_id, outcome),
   CONSTRAINT fk_pmdrr_payment FOREIGN KEY
     (tenant_id, store_id, principal_id, payment_receipt_id, order_id)
     REFERENCES print_miniapp_demo_payment_receipt
@@ -151,7 +163,7 @@ CREATE TABLE print_miniapp_demo_refund_receipt (
   CONSTRAINT fk_pmdrr_order FOREIGN KEY (tenant_id, store_id, principal_id, order_id)
     REFERENCES print_miniapp_demo_order (tenant_id, store_id, principal_id, id),
   CONSTRAINT chk_pmdrr_fixed CHECK (provider='SIMULATED' AND mode='DEMO' AND state='SUCCEEDED'
-    AND simulation=1 AND currency='CNY'),
+    AND simulation=1 AND currency='CNY' AND cancellation_outcome='CANCELLED_REFUNDED'),
   CONSTRAINT chk_pmdrr_amount CHECK (amount REGEXP '^(0|[1-9][0-9]*)(\\.[0-9]+)?$'),
   CONSTRAINT chk_pmdrr_time CHECK (created_at_ms>0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;

@@ -1,0 +1,216 @@
+migration_schema_pass tables=3 triggers=6 checks=8
+rollback_no_writes_pass tables=0 cancel_check=0
+{
+  "status": "PASS_SQL_CONSTRAINTS_ONLY",
+  "cases": [
+    {
+      "case": "valid_unpaid",
+      "result": "PASS",
+      "mysqlExit": 0,
+      "error": null
+    },
+    {
+      "case": "valid_no_task",
+      "result": "PASS",
+      "mysqlExit": 0,
+      "error": null
+    },
+    {
+      "case": "valid_queued",
+      "result": "PASS",
+      "mysqlExit": 0,
+      "error": null
+    },
+    {
+      "case": "valid_manual",
+      "result": "PASS",
+      "mysqlExit": 0,
+      "error": null
+    },
+    {
+      "case": "queued_null_task_id",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdc_outcome' is violated."
+    },
+    {
+      "case": "queued_null_task_state_before",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdc_outcome' is violated."
+    },
+    {
+      "case": "queued_null_task_state_after",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdc_outcome' is violated."
+    },
+    {
+      "case": "queued_null_task_version_before",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdc_outcome' is violated."
+    },
+    {
+      "case": "queued_null_task_version_after",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdc_outcome' is violated."
+    },
+    {
+      "case": "queued_null_task_event_seq_before",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdc_outcome' is violated."
+    },
+    {
+      "case": "queued_null_task_event_seq_after",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdc_outcome' is violated."
+    },
+    {
+      "case": "queued_null_task_fence_before",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdc_outcome' is violated."
+    },
+    {
+      "case": "queued_null_task_fence_after",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdc_outcome' is violated."
+    },
+    {
+      "case": "manual_null_task_id",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdc_outcome' is violated."
+    },
+    {
+      "case": "manual_null_task_state_before",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdc_outcome' is violated."
+    },
+    {
+      "case": "manual_null_task_state_after",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdc_outcome' is violated."
+    },
+    {
+      "case": "manual_null_task_version_before",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdc_outcome' is violated."
+    },
+    {
+      "case": "manual_null_task_version_after",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdc_outcome' is violated."
+    },
+    {
+      "case": "manual_null_task_event_seq_before",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdc_outcome' is violated."
+    },
+    {
+      "case": "manual_null_task_event_seq_after",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdc_outcome' is violated."
+    },
+    {
+      "case": "manual_null_task_fence_before",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdc_outcome' is violated."
+    },
+    {
+      "case": "manual_null_task_fence_after",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdc_outcome' is violated."
+    },
+    {
+      "case": "manual_wrong_task_event_seq_before",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdc_outcome' is violated."
+    },
+    {
+      "case": "manual_wrong_task_event_seq_after",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdc_outcome' is violated."
+    },
+    {
+      "case": "manual_wrong_order_version_before",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdc_outcome' is violated."
+    },
+    {
+      "case": "manual_wrong_order_version_after",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdc_outcome' is violated."
+    },
+    {
+      "case": "valid_refund_no_task",
+      "result": "PASS",
+      "mysqlExit": 0,
+      "error": null
+    },
+    {
+      "case": "valid_refund_queued",
+      "result": "PASS",
+      "mysqlExit": 0,
+      "error": null
+    },
+    {
+      "case": "reject_refund_manual",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 1452 (23000) at line 1: Cannot add or update a child row: a foreign key constraint fails (`print_m8_probe_1793598000_6955`.`print_miniapp_demo_refund_receipt`, CONSTRAINT `fk_pmdrr_cancel` FOREIGN KEY (`tenant_id`, `store_id`, `principal_id`, `cancellation_id`, `order_id`, `cancell)"
+    },
+    {
+      "case": "reject_refund_unpaid",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 1452 (23000) at line 1: Cannot add or update a child row: a foreign key constraint fails (`print_m8_probe_1793598000_6955`.`print_miniapp_demo_refund_receipt`, CONSTRAINT `fk_pmdrr_cancel` FOREIGN KEY (`tenant_id`, `store_id`, `principal_id`, `cancellation_id`, `order_id`, `cancell)"
+    },
+    {
+      "case": "reject_refund_forged_outcome",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 3819 (HY000) at line 1: Check constraint 'chk_pmdrr_fixed' is violated."
+    },
+    {
+      "case": "active_service_blocks_controlled_rollback_before_ddl",
+      "result": "PASS",
+      "exit": 76
+    },
+    {
+      "case": "inflight_transaction_blocks_drain_before_ddl",
+      "result": "PASS",
+      "exit": 76
+    },
+    {
+      "case": "persist_manual_record_for_rollback_gate",
+      "result": "PASS",
+      "mysqlExit": 0,
+      "error": null
+    },
+    {
+      "case": "rollback_rejects_existing_m8_write",
+      "result": "PASS",
+      "mysqlExit": 1,
+      "error": "ERROR 1644 (45000) at line 26: M8 writes exist: rollback forbidden; disable POST and forward-fix"
+    }
+  ],
+  "count": 35
+}

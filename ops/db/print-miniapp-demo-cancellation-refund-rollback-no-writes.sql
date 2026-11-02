@@ -1,9 +1,13 @@
 -- M8 compatibility rollback. DESTRUCTIVE: valid only before any M8 record or M8 state exists.
 -- Requires final Astra High approval and an already verified database backup.
+-- Invoke only through rollback-m8-no-writes-controlled.sh after draining all app processes/connections.
 
 DELIMITER //
 CREATE PROCEDURE assert_no_m8_writes()
 BEGIN
+  IF COALESCE(@m8_backend_drained,0) <> 1 THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='M8 backend/traffic not drained: controlled rollback required';
+  END IF;
   IF (SELECT COUNT(*) FROM print_miniapp_demo_cancellation) <> 0
     OR (SELECT COUNT(*) FROM print_miniapp_demo_refund_receipt) <> 0
     OR (SELECT COUNT(*) FROM print_miniapp_demo_refund_journal) <> 0
