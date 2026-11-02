@@ -17,10 +17,10 @@ import java.util.List;
 public class PrintMiniappCatalogController {
 
     private static final PrintMiniappCatalogRespVO CATALOG = new PrintMiniappCatalogRespVO(
-            "miniapp-m2-2026-10-31",
+            "miniapp-pdf-sources-2026-11-02",
             List.of(
-                    method("wechat-chat", "微信聊天文档打印", "支持 Word、Excel、PDF、PPT 打印", "COMMON", "RESERVED"),
-                    method("local-document", "本地文档打印", "从手机本地选择文档一键打印", "OTHER", "LOCAL_ONLY"),
+                    method("wechat-chat", "微信聊天文档打印", "当前支持 PDF；Word、Excel、PPT 待接入", "COMMON", "PDF_AVAILABLE"),
+                    method("local-document", "本地文档打印", "选择本地 PDF 文件打印", "OTHER", "PDF_AVAILABLE"),
                     method("archive", "压缩包打印", "从微信聊天记录选择压缩包打印", "OTHER", "RESERVED"),
                     method("tencent-doc", "腾讯文档打印", "导入腾讯文档后打印", "OTHER", "RESERVED"),
                     method("kingsoft-doc", "金山文档打印", "导入金山文档后打印", "OTHER", "RESERVED"),
@@ -30,9 +30,9 @@ public class PrintMiniappCatalogController {
                     method("pdf-unlock", "PDF 解密打印", "解密能力待正式接入", "OTHER", "RESERVED"),
                     method("buy-paper", "购买 A4 白纸", "商品与库存接口待接入", "OTHER", "RESERVED")
             ),
-            List.of("pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "jpg", "jpeg", "png"),
+            List.of("pdf"),
             new PrintMiniappCatalogRespVO.DemoLimits(2L * 1024 * 1024, 20, 60),
-            false
+            true
     );
 
     @GetMapping
