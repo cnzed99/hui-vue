@@ -4,7 +4,8 @@
 
 ## 精确源码
 
-- 后端：`57221d2d853b276cdd8fbbfc736a0281bde3f8dc`
+- 后端初稿：`57221d2d853b276cdd8fbbfc736a0281bde3f8dc`
+- 后端 SQL 关联修正：`cf6cdf0eda42cba969e0221ed4cd564cade7ffc3`
 - 管理后台：`6575759a145cce02f0aa8dc46952a6add2bfa192`
 - 小程序：`6de36ca866758b31a1f08c4dc7f496b6e8b37790`
 - 工程/SQL：`03aabad23fc817f50a9baf87e45e631c9382884a`
@@ -21,7 +22,7 @@
 产物 SHA-256：
 
 ```text
-d69efebeda4ff4c35b50248e0747f6ad7efb1000f6364e71a2eaae9572863c7e  yudao-server.jar
+629b0e151677f0dfa920ebae5fdbf5eff2a16384d442a4992bf1481e52edf512  yudao-server.jar
 33acc866e5674acb0bee7639280addc05cbd4e264f5fe752aa89b2a002411095  admin dist/index.html
 f01dc9aef2957d3d0e32f2d8aabc70a8ac03772976438876f20f77cc5f86343d  miniapp dist/build/h5/index.html
 ```
