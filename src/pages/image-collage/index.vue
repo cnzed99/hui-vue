@@ -24,11 +24,13 @@ const submittedToken = ref('')
 const idempotencyKey = ref('')
 const generation = ref(0)
 const mounted = ref(true)
+const continuing = ref(false)
 let uploadHandle: CollageUploadHandle | null = null
 
 const totalBytes = computed(() => images.value.reduce((sum, image) => sum + image.size, 0))
 const canSubmit = computed(() => images.value.length > 0 && images.value.length <= MAX_COUNT
-  && totalBytes.value <= MAX_TOTAL_BYTES && state.value !== 'uploading' && state.value !== 'processing')
+  && totalBytes.value <= MAX_TOTAL_BYTES && state.value !== 'uploading' && state.value !== 'processing'
+  && !continuing.value)
 const totalSizeText = computed(() => `${(totalBytes.value / 1024 / 1024).toFixed(2)} MB`)
 
 onLoad((query) => {
@@ -109,6 +111,7 @@ function removeImage(index: number) {
 function invalidateSubmission() {
   generation.value += 1
   uploadHandle?.abort(); uploadHandle = null
+  continuing.value = false
   idempotencyKey.value = ''
   generatedFile.value = null
   submittedToken.value = ''
@@ -118,28 +121,39 @@ function invalidateSubmission() {
 
 async function generateCollage() {
   if (!canSubmit.value || images.value.length < 1) return
+  const currentGeneration = ++generation.value
+  const selection = images.value.map(image => ({ ...image }))
+  const selectionKey = selectionFingerprint(selection)
+  const retrying = Boolean(idempotencyKey.value)
+  const retryToken = retrying ? submittedToken.value : ''
+  state.value = 'uploading'; failureText.value = ''; progress.value = 0
   const session = await ensureDemoSession()
+  if (!isCurrentSelection(currentGeneration, selectionKey)) return
   if (!session) {
     sessionState.value = 'unavailable'; state.value = 'failed'
     failureText.value = '安全演示会话不可用，请稍后重试。'; return
   }
+  if (retrying && (!retryToken || session.accessToken !== retryToken)) {
+    resetForSessionChange(); return
+  }
   sessionState.value = 'ready'
   if (!idempotencyKey.value) idempotencyKey.value = newCollageIdempotencyKey()
-  const currentGeneration = ++generation.value
   const currentToken = session.accessToken
   submittedToken.value = currentToken
-  state.value = 'uploading'; failureText.value = ''; progress.value = 0
-  uploadHandle = uploadDemoImageCollage(session, images.value.map(image => image.path), idempotencyKey.value,
+  const handle = uploadDemoImageCollage(session, selection.map(image => image.path), idempotencyKey.value,
     value => { if (isCurrent(currentGeneration, currentToken)) progress.value = value })
-  const uploaded = await uploadHandle.promise
-  uploadHandle = null
+  uploadHandle = handle
+  const uploaded = await handle.promise
+  if (uploadHandle === handle) uploadHandle = null
   if (!isCurrent(currentGeneration, currentToken)) return
+  if (!await confirmSession(currentGeneration, currentToken)) return
   if (!uploaded) {
     state.value = 'failed'; failureText.value = '上传或拼版失败，可使用原选择和原请求键重试。'; return
   }
   state.value = 'processing'
   const result = await waitForDemoFile(session, uploaded)
   if (!isCurrent(currentGeneration, currentToken)) return
+  if (!await confirmSession(currentGeneration, currentToken)) return
   if (!result || result.status !== 'READY' || result.pageCount !== 1) {
     state.value = 'failed'
     failureText.value = result?.failureCode ? `服务端校验失败：${result.failureCode}` : '服务端校验超时，可使用原请求键重试。'
@@ -151,11 +165,18 @@ async function generateCollage() {
 
 async function continueToSettings() {
   const file = generatedFile.value
-  if (state.value !== 'complete' || !file || !mounted.value) return
+  if (state.value !== 'complete' || !file || !mounted.value || continuing.value) return
+  const currentGeneration = generation.value
+  const currentToken = submittedToken.value
+  const currentFileId = file.id
+  continuing.value = true
   const session = await ensureDemoSession()
-  if (!session || session.accessToken !== submittedToken.value) {
-    invalidateSubmission(); state.value = 'failed'; failureText.value = '会话已变化，请重新选择图片。'; return
+  if (!mounted.value || generation.value !== currentGeneration
+    || state.value !== 'complete' || generatedFile.value?.id !== currentFileId) return
+  if (!session || session.accessToken !== currentToken || submittedToken.value !== currentToken) {
+    resetForSessionChange(); return
   }
+  continuing.value = false
   saveDraft(createDraft('SERVER_UPLOAD', '图片拼版.pdf', file.sizeBytes, 1, file.id))
   uni.navigateTo({ url: '/pages/document-settings/index' })
 }
@@ -164,10 +185,36 @@ function isCurrent(value: number, token: string) {
   return mounted.value && generation.value === value && submittedToken.value === token
 }
 
+function isCurrentSelection(value: number, fingerprint: string) {
+  return mounted.value && generation.value === value && selectionFingerprint(images.value) === fingerprint
+}
+
+async function confirmSession(value: number, token: string) {
+  const confirmed = await ensureDemoSession()
+  if (!isCurrent(value, token)) return false
+  if (!confirmed || confirmed.accessToken !== token) {
+    resetForSessionChange(); return false
+  }
+  return true
+}
+
+function selectionFingerprint(value: SelectedImage[]) {
+  return JSON.stringify(value.map(image => [image.path, image.name, image.size]))
+}
+
+function resetForSessionChange() {
+  invalidateSubmission()
+  continuing.value = false
+  images.value = []
+  state.value = 'failed'
+  failureText.value = '会话已变化，请重新选择图片。'
+}
+
 function disposePage() {
   if (!mounted.value) return
   mounted.value = false
   generation.value += 1
+  continuing.value = false
   uploadHandle?.abort(); uploadHandle = null
   // uni tempFilePath is platform-owned; this page creates no browser object URL.
   images.value = []
@@ -193,7 +240,7 @@ function disposePage() {
       <view v-else-if="state === 'processing'" class="status warning"><text>正在校验拼版 PDF</text><text>服务端确认单页和文件状态后才能继续。</text></view>
       <view v-else-if="state === 'complete'" class="status success"><text>拼版已完成</text><text>已生成 1 页 A4 PDF。</text></view>
       <view v-else-if="state === 'failed'" class="status warning"><text>本次未完成</text><text>{{ failureText }}</text></view>
-      <button v-if="state === 'complete'" class="primary" @click="continueToSettings">继续设置打印参数</button>
+      <button v-if="state === 'complete'" class="primary" :disabled="continuing" @click="continueToSettings">{{ continuing ? '正在校验会话…' : '继续设置打印参数' }}</button>
       <button v-else class="primary" :class="{ disabled: !canSubmit || sessionState !== 'ready' }" @click="generateCollage">{{ state === 'failed' && idempotencyKey ? '使用原请求键重试' : '生成拼版并设置打印' }}</button>
       <view class="limits"><text>JPG/PNG · 单张≤2MB</text><text>合计≤12MB</text></view>
     </view>
