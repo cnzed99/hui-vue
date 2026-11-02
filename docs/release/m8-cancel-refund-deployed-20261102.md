@@ -32,6 +32,8 @@
 - 覆盖分支：未付款取消；已付款未建任务全额模拟退款；首个排队任务取消、全额模拟退款且无打印回执；任务已领取后转人工核实、不自动退款，并允许原任务继续处理。
 - 运行态证据：`evidence/testing/m8-runtime-deploy-20261102T074733Z-f4f527f1.json`
 - 运行态证据 SHA-256：`7a8959ef6e690be61f653f0e4577a9d31638c502ceee0ae6584504484e4031a4`
+- 浏览器证据：`evidence/miniapp/m8-cancel-refund-browser-20261102T080146610Z-dff29d2c/report.json`，11/11 `PASS`；覆盖小程序列表/详情/模拟退款边界，以及管理后台只读取消记录、退款收据和已取消订单处理阻断。
+- 浏览器证据 SHA-256：`38660cf4b42efc6090277a0d0132ff7507cd959c958a6e2482d21ced90bee80b`
 - MySQL、Redis、Nginx、`print-backend.service` 最终均为 `active`；系统盘剩余约 40 GiB。
 
 ## 过程异常与处置
