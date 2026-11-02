@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "runId": "20261102T154142Z-38221edf",
+  "scope": "fresh PDF upload/quote/order/simulated payment/admin task/simulated receipt/result over HTTP",
+  "checks": [
+    {
+      "name": "catalog_pdf_only_and_upload_enabled",
+      "passed": true
+    },
+    {
+      "name": "catalog_two_pdf_sources",
+      "passed": true
+    },
+    {
+      "name": "demo_session_issued",
+      "passed": true
+    },
+    {
+      "name": "pdf_ready_with_authoritative_page_count",
+      "passed": true
+    },
+    {
+      "name": "quote_1_valid",
+      "passed": true
+    },
+    {
+      "name": "order_pdf-source_paid",
+      "passed": true
+    },
+    {
+      "name": "admin_login",
+      "passed": true
+    },
+    {
+      "name": "task_claimed",
+      "passed": true
+    },
+    {
+      "name": "task_accepted",
+      "passed": true
+    },
+    {
+      "name": "task_executing",
+      "passed": true
+    },
+    {
+      "name": "task_succeeded",
+      "passed": true
+    },
+    {
+      "name": "miniapp_same_simulated_terminal_result",
+      "passed": true
+    },
+    {
+      "name": "admin_same_task_result",
+      "passed": true
+    }
+  ],
+  "realPayment": "NOT_RUN",
+  "realPrinter": "NOT_RUN",
+  "wechatDevice": "NOT_RUN",
+  "status": "PASS",
+  "fixtureFileId": "6ad756cc-3451-42cb-b43f-de5d92c8182f",
+  "fixtureOrderId": "f7ac03e0-0447-4887-a491-7ef98327dde8",
+  "fixtureTaskId": "52529f6f-b953-4bd5-9f25-c856c0e6e9ba"
+}

@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "classification": "COORDINATOR_REPORTED_REVIEW_RESULT_ARCHIVE",
+  "reviewDate": "2026-11-02",
+  "role": "sol_reviewer",
+  "model": "gpt-6.1-sol",
+  "effort": "high",
+  "runtimeEffortTelemetry": "NOT_SEPARATELY_OBTAINED",
+  "result": "PASS",
+  "miniappCommit": "27abcbe945ceb567a315f961d8bb50bd3bb2dc87",
+  "backendCommit": "7efd316fb154c65fff089da7a5919284fb1f8cd6",
+  "scope": [
+    "Chat-document and invoice-file PDF reuse of the existing upload and settings chain",
+    "Unknown source fallback",
+    "Cancellation, non-PDF and over-2MB selections do not upload",
+    "H5 and MP picker separation",
+    "Matching PDF-only frontend and backend public catalog capabilities"
+  ],
+  "astraHighTriggered": false,
+  "reason": "No critical pricing, payment or refund, permission isolation or print deduplication rule changed.",
+  "evidenceBoundaryAtReview": {
+    "backendFullJar": "NOT_RUN_AT_REVIEW",
+    "newSourceHttpFullLoop": "NOT_RUN_AT_REVIEW",
+    "wechatDeveloperTools": "NOT_RUN",
+    "wechatDevice": "NOT_RUN"
+  },
+  "laterRuntimeEvidence": "evidence/deploy/pdf-sources-20261102T153807Z-afbb79a0/",
+  "laterEvidenceBoundary": "Later build and runtime evidence is separately recorded; it does not retroactively change the scope of the independent source review."
+}

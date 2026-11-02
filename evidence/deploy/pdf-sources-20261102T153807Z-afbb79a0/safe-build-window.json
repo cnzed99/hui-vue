@@ -1,0 +1,11 @@
+{
+  "label": "pdf-source-routing-full",
+  "finishedUtc": "2026-11-02T15:39:52.370179+00:00",
+  "freeBeforeBytes": 41688387584,
+  "freeAfterBytes": 41487998976,
+  "minimumFreeBytes": 10737418240,
+  "buildExitCode": 0,
+  "recoveryExitCode": 0,
+  "backendHttpHealthy": true,
+  "scratchRemoved": true
+}

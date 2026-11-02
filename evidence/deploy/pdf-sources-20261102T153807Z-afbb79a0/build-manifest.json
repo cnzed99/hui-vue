@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "finishedUtc": "2026-11-02T15:39:23.348571+00:00",
+  "backendCommit": "7efd316fb154c65fff089da7a5919284fb1f8cd6",
+  "miniappCommit": "27abcbe945ceb567a315f961d8bb50bd3bb2dc87",
+  "backendPackage": "BUILD_SUCCESS",
+  "mavenTests": "SKIPPED",
+  "typeCheck": "PASS",
+  "sourceDirectedChecks": "PASS",
+  "h5Build": "PASS",
+  "backendJar": {
+    "path": "/home/ubuntu/print-system/runtime/worktrees/pdf-catalog-backend-20261102/yudao-server/target/yudao-server.jar",
+    "sha256": "4e33980ba88c61a69e61c5a590135c96a54d0973b2ceee8d739eb69036b0dc71",
+    "bytes": 175321530
+  },
+  "h5Index": {
+    "path": "/home/ubuntu/print-system/runtime/worktrees/pdf-source-routing-miniapp-20261102/dist/build/h5/index.html",
+    "sha256": "7d0097f747d07a1b1e92f24ae26f298d711efb0cba24d11e41b21729ce62efc4",
+    "bytes": 919
+  },
+  "wechatDevice": "NOT_RUN",
+  "deployment": "NOT_RUN"
+}

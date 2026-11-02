@@ -1,0 +1,197 @@
+{
+  "schemaVersion": 1,
+  "scope": "two H5 PDF source entries and client rejection paths",
+  "checks": [
+    {
+      "name": "chat_entry_source_title",
+      "passed": true
+    },
+    {
+      "name": "h5_local_picker_explanation",
+      "passed": true
+    },
+    {
+      "name": "cancel_keeps_empty_and_no_upload",
+      "passed": true
+    },
+    {
+      "name": "non_pdf_does_not_upload",
+      "passed": true
+    },
+    {
+      "name": "over_limit_does_not_upload",
+      "passed": true
+    },
+    {
+      "name": "chat_parsed_pdf_enters_settings",
+      "passed": true
+    },
+    {
+      "name": "invoice_entry_source_title",
+      "passed": true
+    },
+    {
+      "name": "invoice_parsed_pdf_enters_settings",
+      "passed": true
+    },
+    {
+      "name": "two_pdf_uploads_only",
+      "passed": true
+    },
+    {
+      "name": "no_original_system_requests",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "evidence/deploy/pdf-sources-20261102T153807Z-afbb79a0/chat-shared-settings.png",
+      "sha256": "f00ddaba1630c9e6d4f0cffaca146a91dae9e2b65e3273ff12dc163cfd8d11b3"
+    },
+    {
+      "path": "evidence/deploy/pdf-sources-20261102T153807Z-afbb79a0/invoice-shared-settings.png",
+      "sha256": "472a82e09998372d8b3dd3667a1baf9ae3b82e8bd24181daae557d5668e8fc23"
+    }
+  ],
+  "wechatDevice": "NOT_RUN",
+  "realPayment": "NOT_RUN",
+  "realPrinter": "NOT_RUN",
+  "status": "PASS",
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/miniapp/",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/miniapp/assets/uni.9202c53d.css",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/miniapp/assets/index-ByRo73VR.js",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/miniapp/assets/index-FL61-jxy.css",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/miniapp/assets/pages-document-method-index.DrnsajPv.js",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/miniapp/assets/catalog.C1RqFcyo.js",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/miniapp/assets/documentSource.CwjtlDSy.js",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/miniapp/assets/_plugin-vue_export-helper.BCo6x5W8.js",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/miniapp/assets/index-CeFiFuGR.css",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/app-api/print/miniapp/catalog",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/miniapp/assets/pages-document-upload-index.5Wy6-zou.js",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/miniapp/assets/demoSession.DL0OO2h9.js",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/miniapp/assets/demoFiles.ClQTDPpe.js",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/miniapp/assets/printDraft.DnhEnItR.js",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/miniapp/assets/index-BJF4G2Ky.css",
+      "originalSystem": false
+    },
+    {
+      "method": "POST",
+      "path": "/app-api/print/miniapp/demo/sessions",
+      "originalSystem": false
+    },
+    {
+      "method": "POST",
+      "path": "/app-api/print/miniapp/demo/files",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/app-api/print/miniapp/demo/file",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/app-api/print/miniapp/demo/file",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/img/shadow-grey.png",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/miniapp/assets/pages-document-settings-index.DZGmgsQQ.js",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/miniapp/assets/index-CvBsR-GA.css",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/miniapp/assets/pages-invoice-print-index.0TSsnT8l.js",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/miniapp/assets/index-cFATynZ_.css",
+      "originalSystem": false
+    },
+    {
+      "method": "POST",
+      "path": "/app-api/print/miniapp/demo/files",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/app-api/print/miniapp/demo/file",
+      "originalSystem": false
+    },
+    {
+      "method": "GET",
+      "path": "/app-api/print/miniapp/demo/file",
+      "originalSystem": false
+    }
+  ]
+}
