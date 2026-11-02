@@ -1,0 +1,1566 @@
+{
+  "baselineJarSha256": "4e33980ba88c61a69e61c5a590135c96a54d0973b2ceee8d739eb69036b0dc71",
+  "candidateJarSha256": "e16da5d2da357ba36020e7ef79376f1b61003d75dd0974f7525887b1f0eb0c67",
+  "baselineLibCount": 261,
+  "candidateLibCount": 261,
+  "baselineOnly": [],
+  "candidateOnly": [],
+  "externalLibCount": 245,
+  "allExternalLibNamesAndHashesEqual": true,
+  "externalLibs": [
+    {
+      "name": "BOOT-INF/lib/HikariCP-6.3.3.jar",
+      "baselineSha256": "709f378c05756280939ce50fc1b1f1a53bb8e1899dc1b249f21f12703640b48b",
+      "candidateSha256": "709f378c05756280939ce50fc1b1f1a53bb8e1899dc1b249f21f12703640b48b"
+    },
+    {
+      "name": "BOOT-INF/lib/JustAuth-1.16.7.jar",
+      "baselineSha256": "e82b0d26422846a0f7d2a7b202b4943a5c5b173656889eea4924d122a1e2a866",
+      "candidateSha256": "e82b0d26422846a0f7d2a7b202b4943a5c5b173656889eea4924d122a1e2a866"
+    },
+    {
+      "name": "BOOT-INF/lib/SparseBitSet-1.3.jar",
+      "baselineSha256": "f76b85adb0c00721ae267b7cfde4da7f71d3121cc2160c9fc00c0c89f8c53c8a",
+      "candidateSha256": "f76b85adb0c00721ae267b7cfde4da7f71d3121cc2160c9fc00c0c89f8c53c8a"
+    },
+    {
+      "name": "BOOT-INF/lib/angus-activation-2.0.3.jar",
+      "baselineSha256": "a6bd35c538cf90fff941ad6258c40c08fca0b5c9c3f536c657114f27ce0527a7",
+      "candidateSha256": "a6bd35c538cf90fff941ad6258c40c08fca0b5c9c3f536c657114f27ce0527a7"
+    },
+    {
+      "name": "BOOT-INF/lib/annotations-2.55.5.jar",
+      "baselineSha256": "b458983b95cc616710c3e36a3a4e6018f3a9e0537ce85ee64dc9ee981dbf026b",
+      "candidateSha256": "b458983b95cc616710c3e36a3a4e6018f3a9e0537ce85ee64dc9ee981dbf026b"
+    },
+    {
+      "name": "BOOT-INF/lib/annotations-3.0.1.jar",
+      "baselineSha256": "6b47ff0a6de0ce17cbedc3abb0828ca5bce3009d53ea47b3723ff023c4742f79",
+      "candidateSha256": "6b47ff0a6de0ce17cbedc3abb0828ca5bce3009d53ea47b3723ff023c4742f79"
+    },
+    {
+      "name": "BOOT-INF/lib/apache5-client-2.55.5.jar",
+      "baselineSha256": "db24e4723d0dd6fe9e8f2e8dfc7610d44345b06a301a1f08176f0fa4a3c6c652",
+      "candidateSha256": "db24e4723d0dd6fe9e8f2e8dfc7610d44345b06a301a1f08176f0fa4a3c6c652"
+    },
+    {
+      "name": "BOOT-INF/lib/arns-2.55.5.jar",
+      "baselineSha256": "dc16f2543be6b2e33c3c2f8f28fd027edb80105bc9eca7415792669607769cfb",
+      "candidateSha256": "dc16f2543be6b2e33c3c2f8f28fd027edb80105bc9eca7415792669607769cfb"
+    },
+    {
+      "name": "BOOT-INF/lib/aspectjweaver-1.9.25.1.jar",
+      "baselineSha256": "4fe86fdc18faea571f29129c70eaad5d121363504a06d7907be88f6c60ba3116",
+      "candidateSha256": "4fe86fdc18faea571f29129c70eaad5d121363504a06d7907be88f6c60ba3116"
+    },
+    {
+      "name": "BOOT-INF/lib/auth-2.55.5.jar",
+      "baselineSha256": "a105ebe6f88be191648099d5c9560a61db466b1d075746e7c8703a3b2a8d5fcb",
+      "candidateSha256": "a105ebe6f88be191648099d5c9560a61db466b1d075746e7c8703a3b2a8d5fcb"
+    },
+    {
+      "name": "BOOT-INF/lib/aws-core-2.55.5.jar",
+      "baselineSha256": "ac6357a6a3b04c65274c3d3de37780a5086dab2968a8767e87f1838ce3be6913",
+      "candidateSha256": "ac6357a6a3b04c65274c3d3de37780a5086dab2968a8767e87f1838ce3be6913"
+    },
+    {
+      "name": "BOOT-INF/lib/aws-query-protocol-2.55.5.jar",
+      "baselineSha256": "eb378794c5a099ff7e1eaa08cd930579d7a5cb0326d2e241d3607f020e8d2b51",
+      "candidateSha256": "eb378794c5a099ff7e1eaa08cd930579d7a5cb0326d2e241d3607f020e8d2b51"
+    },
+    {
+      "name": "BOOT-INF/lib/aws-xml-protocol-2.55.5.jar",
+      "baselineSha256": "4caaa279ae9d0358b4998490036f40242c4cd58fdaf39bb06da6706d55401085",
+      "candidateSha256": "4caaa279ae9d0358b4998490036f40242c4cd58fdaf39bb06da6706d55401085"
+    },
+    {
+      "name": "BOOT-INF/lib/bcpkix-jdk18on-1.80.jar",
+      "baselineSha256": "4f4ba6a92617ea19dc183f0fa5db492eee426fdde2a0a2d6c94777ffd1af6413",
+      "candidateSha256": "4f4ba6a92617ea19dc183f0fa5db492eee426fdde2a0a2d6c94777ffd1af6413"
+    },
+    {
+      "name": "BOOT-INF/lib/bcprov-jdk18on-1.80.jar",
+      "baselineSha256": "e8ad209f8c58d291a37ca9750e9e9fac60596956c983e49dd8282381dd8b3249",
+      "candidateSha256": "e8ad209f8c58d291a37ca9750e9e9fac60596956c983e49dd8282381dd8b3249"
+    },
+    {
+      "name": "BOOT-INF/lib/bcutil-jdk18on-1.80.jar",
+      "baselineSha256": "22eca687f7955411f456af33e6ea8e68fc73cd80cb8b32aa5f7a8b1827d7c678",
+      "candidateSha256": "22eca687f7955411f456af33e6ea8e68fc73cd80cb8b32aa5f7a8b1827d7c678"
+    },
+    {
+      "name": "BOOT-INF/lib/bizlog-sdk-3.0.6.jar",
+      "baselineSha256": "22bbe18f5f0bba90d458e9a45341858a9708dff9e14e5dc91af813b2477ac321",
+      "candidateSha256": "22bbe18f5f0bba90d458e9a45341858a9708dff9e14e5dc91af813b2477ac321"
+    },
+    {
+      "name": "BOOT-INF/lib/byte-buddy-1.17.8.jar",
+      "baselineSha256": "2b5ddc8c1f4234bdb7cb45338a8e10a13e0e3ca473e91d5d821d681127ea8ba1",
+      "candidateSha256": "2b5ddc8c1f4234bdb7cb45338a8e10a13e0e3ca473e91d5d821d681127ea8ba1"
+    },
+    {
+      "name": "BOOT-INF/lib/cache-api-1.1.1.jar",
+      "baselineSha256": "9f34e007edfa82a7b2a2e1b969477dcf5099ce7f4f926fb54ce7e27c4a0cd54b",
+      "candidateSha256": "9f34e007edfa82a7b2a2e1b969477dcf5099ce7f4f926fb54ce7e27c4a0cd54b"
+    },
+    {
+      "name": "BOOT-INF/lib/caffeine-3.2.4.jar",
+      "baselineSha256": "9d9d2cfd681fd9272ded3d27c9930db12f89f732345975aa113ebc223bbf1224",
+      "candidateSha256": "9d9d2cfd681fd9272ded3d27c9930db12f89f732345975aa113ebc223bbf1224"
+    },
+    {
+      "name": "BOOT-INF/lib/captcha-1.4.0.jar",
+      "baselineSha256": "5dc3df4073734af85d9be39e5f6b6c7d0c9c45506a92dee6bbcb6d11f9e5e6ce",
+      "candidateSha256": "5dc3df4073734af85d9be39e5f6b6c7d0c9c45506a92dee6bbcb6d11f9e5e6ce"
+    },
+    {
+      "name": "BOOT-INF/lib/captcha-spring-boot-starter-1.4.0.jar",
+      "baselineSha256": "33a7386c5c5a459c832697768b8388388e9afe19417d5bf45a3363d893acfc52",
+      "candidateSha256": "33a7386c5c5a459c832697768b8388388e9afe19417d5bf45a3363d893acfc52"
+    },
+    {
+      "name": "BOOT-INF/lib/checksums-2.55.5.jar",
+      "baselineSha256": "886dd1e80b67b3d1fac9a2216311bd98c14dc80ec745f492949df34d75fc9519",
+      "candidateSha256": "886dd1e80b67b3d1fac9a2216311bd98c14dc80ec745f492949df34d75fc9519"
+    },
+    {
+      "name": "BOOT-INF/lib/checksums-spi-2.55.5.jar",
+      "baselineSha256": "d55d68962f9b61b55039801a8e1f46c2070db48f25b2fdb584db4f9c8fd45e75",
+      "candidateSha256": "d55d68962f9b61b55039801a8e1f46c2070db48f25b2fdb584db4f9c8fd45e75"
+    },
+    {
+      "name": "BOOT-INF/lib/classmate-1.7.3.jar",
+      "baselineSha256": "75fbda45456f123fb6e2028a6189442d8d0730b357adce4c0a6d7e789f70669b",
+      "candidateSha256": "75fbda45456f123fb6e2028a6189442d8d0730b357adce4c0a6d7e789f70669b"
+    },
+    {
+      "name": "BOOT-INF/lib/commons-codec-1.18.0.jar",
+      "baselineSha256": "ba005f304cef92a3dede24a38ad5ac9b8afccf0d8f75839d6c1338634cf7f6e4",
+      "candidateSha256": "ba005f304cef92a3dede24a38ad5ac9b8afccf0d8f75839d6c1338634cf7f6e4"
+    },
+    {
+      "name": "BOOT-INF/lib/commons-collections4-4.4.jar",
+      "baselineSha256": "1df8b9430b5c8ed143d7815e403e33ef5371b2400aadbe9bda0883762e0846d1",
+      "candidateSha256": "1df8b9430b5c8ed143d7815e403e33ef5371b2400aadbe9bda0883762e0846d1"
+    },
+    {
+      "name": "BOOT-INF/lib/commons-compress-1.27.1.jar",
+      "baselineSha256": "293d80f54b536b74095dcd7ea3cf0a29bbfc3402519281332495f4420d370d16",
+      "candidateSha256": "293d80f54b536b74095dcd7ea3cf0a29bbfc3402519281332495f4420d370d16"
+    },
+    {
+      "name": "BOOT-INF/lib/commons-csv-1.11.0.jar",
+      "baselineSha256": "b697fe3f94cfc4f7e2a87bddf78d15cd10d8c86cbe56ae9196a62d6edbf6b76d",
+      "candidateSha256": "b697fe3f94cfc4f7e2a87bddf78d15cd10d8c86cbe56ae9196a62d6edbf6b76d"
+    },
+    {
+      "name": "BOOT-INF/lib/commons-io-2.21.0.jar",
+      "baselineSha256": "7d643a2afea8b058b762aa6fb90e5b256f6c729739f8b3784c3370ddc609e88d",
+      "candidateSha256": "7d643a2afea8b058b762aa6fb90e5b256f6c729739f8b3784c3370ddc609e88d"
+    },
+    {
+      "name": "BOOT-INF/lib/commons-lang3-3.20.0.jar",
+      "baselineSha256": "69e5c9fa35da7a51a5fd2099dfe56a2d8d32cf233e2f6d770e796146440263f4",
+      "candidateSha256": "69e5c9fa35da7a51a5fd2099dfe56a2d8d32cf233e2f6d770e796146440263f4"
+    },
+    {
+      "name": "BOOT-INF/lib/commons-logging-1.4.0.jar",
+      "baselineSha256": "d175dbd751dd782a63bde28c7a039520e971f25e84b79c19b8435edc3603e0dc",
+      "candidateSha256": "d175dbd751dd782a63bde28c7a039520e971f25e84b79c19b8435edc3603e0dc"
+    },
+    {
+      "name": "BOOT-INF/lib/commons-math3-3.6.1.jar",
+      "baselineSha256": "1e56d7b058d28b65abd256b8458e3885b674c1d588fa43cd7d1cbb9c7ef2b308",
+      "candidateSha256": "1e56d7b058d28b65abd256b8458e3885b674c1d588fa43cd7d1cbb9c7ef2b308"
+    },
+    {
+      "name": "BOOT-INF/lib/commons-net-3.13.0.jar",
+      "baselineSha256": "9e88444afadc9467f0bf3d328f93b9538da35a9be05cdee430766e64fddbd6c5",
+      "candidateSha256": "9e88444afadc9467f0bf3d328f93b9538da35a9be05cdee430766e64fddbd6c5"
+    },
+    {
+      "name": "BOOT-INF/lib/crt-core-2.55.5.jar",
+      "baselineSha256": "a76b73bcd751b718f1293ff7370b82b2c773bc501a2495adb8d8034471a7ee54",
+      "candidateSha256": "a76b73bcd751b718f1293ff7370b82b2c773bc501a2495adb8d8034471a7ee54"
+    },
+    {
+      "name": "BOOT-INF/lib/curvesapi-1.08.jar",
+      "baselineSha256": "ad95b08b8bbf9d7d17e5e00814898fa23324f32bc5b62f1a37801e6a56ce0079",
+      "candidateSha256": "ad95b08b8bbf9d7d17e5e00814898fa23324f32bc5b62f1a37801e6a56ce0079"
+    },
+    {
+      "name": "BOOT-INF/lib/dom4j-2.1.3.jar",
+      "baselineSha256": "549f3007c6290f6a901e57d1d331b4ed0e6bf7384f78bf10316ffceeca834de6",
+      "candidateSha256": "549f3007c6290f6a901e57d1d331b4ed0e6bf7384f78bf10316ffceeca834de6"
+    },
+    {
+      "name": "BOOT-INF/lib/druid-1.2.28.jar",
+      "baselineSha256": "c4cec3792390a2bbe6020d59be52160fd38d15de0f00dc52702eb91128c695a5",
+      "candidateSha256": "c4cec3792390a2bbe6020d59be52160fd38d15de0f00dc52702eb91128c695a5"
+    },
+    {
+      "name": "BOOT-INF/lib/druid-spring-boot-3-starter-1.2.28.jar",
+      "baselineSha256": "bd297a5c0ceaa99760c355aeb7148a97a4a5a14585139f3a914c0b329b1597ea",
+      "candidateSha256": "bd297a5c0ceaa99760c355aeb7148a97a4a5a14585139f3a914c0b329b1597ea"
+    },
+    {
+      "name": "BOOT-INF/lib/dynamic-datasource-creator-4.5.0.jar",
+      "baselineSha256": "66ac561c010136d12d1ebe2f7a7a2b7cb3a6ccff22d9beeb24df7caae4f02b0c",
+      "candidateSha256": "66ac561c010136d12d1ebe2f7a7a2b7cb3a6ccff22d9beeb24df7caae4f02b0c"
+    },
+    {
+      "name": "BOOT-INF/lib/dynamic-datasource-spring-4.5.0.jar",
+      "baselineSha256": "c1d8d6b965cf5a21107ecbe427cf11dff340141551549ad16c2223395ad43d64",
+      "candidateSha256": "c1d8d6b965cf5a21107ecbe427cf11dff340141551549ad16c2223395ad43d64"
+    },
+    {
+      "name": "BOOT-INF/lib/dynamic-datasource-spring-boot-common-4.5.0.jar",
+      "baselineSha256": "81a7958e672d67ba39e43225eb1a59fa861538e00bcd6c093818ed18b79a12ee",
+      "candidateSha256": "81a7958e672d67ba39e43225eb1a59fa861538e00bcd6c093818ed18b79a12ee"
+    },
+    {
+      "name": "BOOT-INF/lib/dynamic-datasource-spring-boot3-starter-4.5.0.jar",
+      "baselineSha256": "2efe5e179a7d13d90e53df69e5532e56f4ef7f1b72624181af45b5f80d5b4412",
+      "candidateSha256": "2efe5e179a7d13d90e53df69e5532e56f4ef7f1b72624181af45b5f80d5b4412"
+    },
+    {
+      "name": "BOOT-INF/lib/easy-trans-anno-3.1.8.jar",
+      "baselineSha256": "38ed97cca309ce344277ff932bac29b81a89020618896870ac22b8b9e2b6cb64",
+      "candidateSha256": "38ed97cca309ce344277ff932bac29b81a89020618896870ac22b8b9e2b6cb64"
+    },
+    {
+      "name": "BOOT-INF/lib/easy-trans-mybatis-plus-extend-3.1.8.jar",
+      "baselineSha256": "df2499f66a6ce0efa83db1d49cbd98cce53d17428be65bc2f9ee4fce21198ce8",
+      "candidateSha256": "df2499f66a6ce0efa83db1d49cbd98cce53d17428be65bc2f9ee4fce21198ce8"
+    },
+    {
+      "name": "BOOT-INF/lib/easy-trans-service-3.1.8.jar",
+      "baselineSha256": "0bc45c3e679fc086be561651f6c82724bb8f1eb85e053ff842531c59bc451281",
+      "candidateSha256": "0bc45c3e679fc086be561651f6c82724bb8f1eb85e053ff842531c59bc451281"
+    },
+    {
+      "name": "BOOT-INF/lib/easy-trans-spring-boot-starter-3.1.8.jar",
+      "baselineSha256": "926aae758821d060d7a4b7fd26f57ef8bdb5e7b10df470c89c05d7e21b442cb7",
+      "candidateSha256": "926aae758821d060d7a4b7fd26f57ef8bdb5e7b10df470c89c05d7e21b442cb7"
+    },
+    {
+      "name": "BOOT-INF/lib/ehcache-3.10.9.jar",
+      "baselineSha256": "f22d97693b02b5b95169799340c009862f4935082130b630bb64780dbafaf718",
+      "candidateSha256": "f22d97693b02b5b95169799340c009862f4935082130b630bb64780dbafaf718"
+    },
+    {
+      "name": "BOOT-INF/lib/endpoints-spi-2.55.5.jar",
+      "baselineSha256": "36c05352ed6447f52fcfde265e25a325f28b67d38dd6cd6d7b6805433011c910",
+      "candidateSha256": "36c05352ed6447f52fcfde265e25a325f28b67d38dd6cd6d7b6805433011c910"
+    },
+    {
+      "name": "BOOT-INF/lib/error_prone_annotations-2.50.0.jar",
+      "baselineSha256": "4667724877f1d37a689202da191e23efa7657c62eef93ccdac406eccfe5cdd0a",
+      "candidateSha256": "4667724877f1d37a689202da191e23efa7657c62eef93ccdac406eccfe5cdd0a"
+    },
+    {
+      "name": "BOOT-INF/lib/eventstream-1.0.1.jar",
+      "baselineSha256": "0c37d8e696117f02c302191b8110b0d0eb20fa412fce34c3a269ec73c16ce822",
+      "candidateSha256": "0c37d8e696117f02c302191b8110b0d0eb20fa412fce34c3a269ec73c16ce822"
+    },
+    {
+      "name": "BOOT-INF/lib/failureaccess-1.0.3.jar",
+      "baselineSha256": "cbfc3906b19b8f55dd7cfd6dfe0aa4532e834250d7f080bd8d211a3e246b59cb",
+      "candidateSha256": "cbfc3906b19b8f55dd7cfd6dfe0aa4532e834250d7f080bd8d211a3e246b59cb"
+    },
+    {
+      "name": "BOOT-INF/lib/fastexcel-1.3.0.jar",
+      "baselineSha256": "09cbf0a09721d89745bd347ebe0fe0d2ffd9344df14c21059c8b89f570012368",
+      "candidateSha256": "09cbf0a09721d89745bd347ebe0fe0d2ffd9344df14c21059c8b89f570012368"
+    },
+    {
+      "name": "BOOT-INF/lib/fastexcel-support-0.0.1.jar",
+      "baselineSha256": "11b94a947cfb9c03678063af15788f090b2c1326b1b9e6100f9027228d508482",
+      "candidateSha256": "11b94a947cfb9c03678063af15788f090b2c1326b1b9e6100f9027228d508482"
+    },
+    {
+      "name": "BOOT-INF/lib/fastjson-2.0.65.jar",
+      "baselineSha256": "085f276d7406dad6faf7d4f767492189b5f99925c48c6ba51b8c440452c6244c",
+      "candidateSha256": "085f276d7406dad6faf7d4f767492189b5f99925c48c6ba51b8c440452c6244c"
+    },
+    {
+      "name": "BOOT-INF/lib/fastjson2-2.0.65.jar",
+      "baselineSha256": "e12cd0e49047e052533d897d4b45d1074a21229f2a1939404234398d4c10c06d",
+      "candidateSha256": "e12cd0e49047e052533d897d4b45d1074a21229f2a1939404234398d4c10c06d"
+    },
+    {
+      "name": "BOOT-INF/lib/fastjson2-extension-2.0.65.jar",
+      "baselineSha256": "9a5c4bd4f42085ead8c26d202025690788905afade1d05b09b5aca2521235979",
+      "candidateSha256": "9a5c4bd4f42085ead8c26d202025690788905afade1d05b09b5aca2521235979"
+    },
+    {
+      "name": "BOOT-INF/lib/fontbox-3.0.8.jar",
+      "baselineSha256": "a1915c24e3edbe0ecec93896dfbf6d41427810b663ade97bd4e8bae86ec3fdab",
+      "candidateSha256": "a1915c24e3edbe0ecec93896dfbf6d41427810b663ade97bd4e8bae86ec3fdab"
+    },
+    {
+      "name": "BOOT-INF/lib/gson-2.13.2.jar",
+      "baselineSha256": "dd0ce1b55a3ed2080cb70f9c655850cda86c206862310009dcb5e5c95265a5e0",
+      "candidateSha256": "dd0ce1b55a3ed2080cb70f9c655850cda86c206862310009dcb5e5c95265a5e0"
+    },
+    {
+      "name": "BOOT-INF/lib/guava-33.7.1-jre.jar",
+      "baselineSha256": "796d8e28ac64e83a47c4c5935a8fecc4682650a04bbdead738ef0f5a3a0e6c46",
+      "candidateSha256": "796d8e28ac64e83a47c4c5935a8fecc4682650a04bbdead738ef0f5a3a0e6c46"
+    },
+    {
+      "name": "BOOT-INF/lib/hibernate-validator-8.0.3.Final.jar",
+      "baselineSha256": "2ad24670fd08e21d3f43d3105d5326bd5ef6b01e819c5cd103823866b954517e",
+      "candidateSha256": "2ad24670fd08e21d3f43d3105d5326bd5ef6b01e819c5cd103823866b954517e"
+    },
+    {
+      "name": "BOOT-INF/lib/http-auth-2.55.5.jar",
+      "baselineSha256": "e9978ae7af34f30b408cac1dedb9b742af33e9f61cac71861e871b420cbf31cb",
+      "candidateSha256": "e9978ae7af34f30b408cac1dedb9b742af33e9f61cac71861e871b420cbf31cb"
+    },
+    {
+      "name": "BOOT-INF/lib/http-auth-aws-2.55.5.jar",
+      "baselineSha256": "4aacfc2f078c28c863232f986add72d930554511e399a7f801266d503d2d41bd",
+      "candidateSha256": "4aacfc2f078c28c863232f986add72d930554511e399a7f801266d503d2d41bd"
+    },
+    {
+      "name": "BOOT-INF/lib/http-auth-aws-eventstream-2.55.5.jar",
+      "baselineSha256": "afbfb415e24e8803635dc071bf88784f3b51948de4f25b9458af05cf99748f85",
+      "candidateSha256": "afbfb415e24e8803635dc071bf88784f3b51948de4f25b9458af05cf99748f85"
+    },
+    {
+      "name": "BOOT-INF/lib/http-auth-spi-2.55.5.jar",
+      "baselineSha256": "32e6561c6f355e93f92311f4a7f3302748b7e66660d332ccce600174a3b60dee",
+      "candidateSha256": "32e6561c6f355e93f92311f4a7f3302748b7e66660d332ccce600174a3b60dee"
+    },
+    {
+      "name": "BOOT-INF/lib/http-client-spi-2.55.5.jar",
+      "baselineSha256": "8563eb28ed2b2baba40ce2499e654e4a62994750a96d938f51b30266c8a06834",
+      "candidateSha256": "8563eb28ed2b2baba40ce2499e654e4a62994750a96d938f51b30266c8a06834"
+    },
+    {
+      "name": "BOOT-INF/lib/httpclient-4.5.13.jar",
+      "baselineSha256": "6fe9026a566c6a5001608cf3fc32196641f6c1e5e1986d1037ccdbd5f31ef743",
+      "candidateSha256": "6fe9026a566c6a5001608cf3fc32196641f6c1e5e1986d1037ccdbd5f31ef743"
+    },
+    {
+      "name": "BOOT-INF/lib/httpclient5-5.5.2.jar",
+      "baselineSha256": "5aec3f3447ec816e593e380b59fbe3e42083318af6b215bc177386f7742f6146",
+      "candidateSha256": "5aec3f3447ec816e593e380b59fbe3e42083318af6b215bc177386f7742f6146"
+    },
+    {
+      "name": "BOOT-INF/lib/httpcore-4.4.16.jar",
+      "baselineSha256": "6c9b3dd142a09dc468e23ad39aad6f75a0f2b85125104469f026e52a474e464f",
+      "candidateSha256": "6c9b3dd142a09dc468e23ad39aad6f75a0f2b85125104469f026e52a474e464f"
+    },
+    {
+      "name": "BOOT-INF/lib/httpcore5-5.3.6.jar",
+      "baselineSha256": "8fb4528d3e970aca440523a1bd698a389fa710ecfea4c5c6096698b86d1669ce",
+      "candidateSha256": "8fb4528d3e970aca440523a1bd698a389fa710ecfea4c5c6096698b86d1669ce"
+    },
+    {
+      "name": "BOOT-INF/lib/httpcore5-h2-5.3.6.jar",
+      "baselineSha256": "479a8aa5e6f99030a2a446a68d1f62320698932746f811fc656a1ea06b94184d",
+      "candidateSha256": "479a8aa5e6f99030a2a446a68d1f62320698932746f811fc656a1ea06b94184d"
+    },
+    {
+      "name": "BOOT-INF/lib/httpmime-4.5.13.jar",
+      "baselineSha256": "06e754d99245b98dcc2860dcb43d20e737d650da2bf2077a105f68accbd5c5cc",
+      "candidateSha256": "06e754d99245b98dcc2860dcb43d20e737d650da2bf2077a105f68accbd5c5cc"
+    },
+    {
+      "name": "BOOT-INF/lib/hutool-all-5.8.47.jar",
+      "baselineSha256": "14b100a79f482a75cc1c4d37a06f9bdaa9b561f683d2108f02a2f7dbea5b9a60",
+      "candidateSha256": "14b100a79f482a75cc1c4d37a06f9bdaa9b561f683d2108f02a2f7dbea5b9a60"
+    },
+    {
+      "name": "BOOT-INF/lib/hutool-core-6.0.0-M22.jar",
+      "baselineSha256": "ec5df940018867086a270c31be37ff690cc42ce9d2191c04e244e767cad6b689",
+      "candidateSha256": "ec5df940018867086a270c31be37ff690cc42ce9d2191c04e244e767cad6b689"
+    },
+    {
+      "name": "BOOT-INF/lib/hutool-extra-6.0.0-M22.jar",
+      "baselineSha256": "a2526fda2cb9781c498564b5cf1fdcb137df970010fa4047bb09155dd503e7b2",
+      "candidateSha256": "a2526fda2cb9781c498564b5cf1fdcb137df970010fa4047bb09155dd503e7b2"
+    },
+    {
+      "name": "BOOT-INF/lib/hutool-log-6.0.0-M22.jar",
+      "baselineSha256": "6975fff3c5d141e314bcec1ae44ac70d01f00a6e5d1e4f95b45c7961ca86141d",
+      "candidateSha256": "6975fff3c5d141e314bcec1ae44ac70d01f00a6e5d1e4f95b45c7961ca86141d"
+    },
+    {
+      "name": "BOOT-INF/lib/hutool-setting-6.0.0-M22.jar",
+      "baselineSha256": "9a85c6f00142c5d6e0345510121972e7bc94e3e62f52f585cc0dfece143d6ffe",
+      "candidateSha256": "9a85c6f00142c5d6e0345510121972e7bc94e3e62f52f585cc0dfece143d6ffe"
+    },
+    {
+      "name": "BOOT-INF/lib/hutool-swing-6.0.0-M22.jar",
+      "baselineSha256": "d9d3540b52fd170eb121b97036a5770e289326e2cc79d2a589cd1097307e2eeb",
+      "candidateSha256": "d9d3540b52fd170eb121b97036a5770e289326e2cc79d2a589cd1097307e2eeb"
+    },
+    {
+      "name": "BOOT-INF/lib/identity-spi-2.55.5.jar",
+      "baselineSha256": "09e4b669ed31494738896cf142201bdc634311fa6411f4c8e31d5252b80bae53",
+      "candidateSha256": "09e4b669ed31494738896cf142201bdc634311fa6411f4c8e31d5252b80bae53"
+    },
+    {
+      "name": "BOOT-INF/lib/ip2region-2.7.0.jar",
+      "baselineSha256": "382603eb3bff74bb70913f29f7a620ab006851b4867a41cbd78b77a00fd2ef69",
+      "candidateSha256": "382603eb3bff74bb70913f29f7a620ab006851b4867a41cbd78b77a00fd2ef69"
+    },
+    {
+      "name": "BOOT-INF/lib/istack-commons-runtime-4.1.2.jar",
+      "baselineSha256": "7fd6792361f4dd00f8c56af4a20cecc0066deea4a8f3dec38348af23fc2296ee",
+      "candidateSha256": "7fd6792361f4dd00f8c56af4a20cecc0066deea4a8f3dec38348af23fc2296ee"
+    },
+    {
+      "name": "BOOT-INF/lib/j2objc-annotations-3.1.jar",
+      "baselineSha256": "84d3a150518485f8140ea99b8a985656749629f6433c92b80c75b36aba3b099b",
+      "candidateSha256": "84d3a150518485f8140ea99b8a985656749629f6433c92b80c75b36aba3b099b"
+    },
+    {
+      "name": "BOOT-INF/lib/jackson-annotations-2.21.jar",
+      "baselineSha256": "53ca085f4a150f703f49e1aabd935bd03b43e1ea3d55d135438292af22cef56b",
+      "candidateSha256": "53ca085f4a150f703f49e1aabd935bd03b43e1ea3d55d135438292af22cef56b"
+    },
+    {
+      "name": "BOOT-INF/lib/jackson-core-2.21.4.jar",
+      "baselineSha256": "4b40a06396f239f8de2da57419adde6e94e5edc18a2171d471ea05eeed4e5c2d",
+      "candidateSha256": "4b40a06396f239f8de2da57419adde6e94e5edc18a2171d471ea05eeed4e5c2d"
+    },
+    {
+      "name": "BOOT-INF/lib/jackson-databind-2.21.4.jar",
+      "baselineSha256": "3888e9e69ab66fbacaacc9aea0e9ffbf15368288e4aca468b024dba11c09fbf9",
+      "candidateSha256": "3888e9e69ab66fbacaacc9aea0e9ffbf15368288e4aca468b024dba11c09fbf9"
+    },
+    {
+      "name": "BOOT-INF/lib/jackson-dataformat-yaml-2.21.4.jar",
+      "baselineSha256": "055eb4c008ab12f0cb63e93a6454463d032fde0fca85943d69f8dc7469489e4b",
+      "candidateSha256": "055eb4c008ab12f0cb63e93a6454463d032fde0fca85943d69f8dc7469489e4b"
+    },
+    {
+      "name": "BOOT-INF/lib/jackson-datatype-jdk8-2.21.4.jar",
+      "baselineSha256": "2dde4a8f1aad3306c040f56ff40da81c6d58dcef3434c00849c9bce09f56a074",
+      "candidateSha256": "2dde4a8f1aad3306c040f56ff40da81c6d58dcef3434c00849c9bce09f56a074"
+    },
+    {
+      "name": "BOOT-INF/lib/jackson-datatype-jsr310-2.21.4.jar",
+      "baselineSha256": "d1ac4b98b70304e56448423589fde5e775b100889643ad1ead62cc7811633684",
+      "candidateSha256": "d1ac4b98b70304e56448423589fde5e775b100889643ad1ead62cc7811633684"
+    },
+    {
+      "name": "BOOT-INF/lib/jackson-module-parameter-names-2.21.4.jar",
+      "baselineSha256": "9510f91a4be2c700753ad244596b67424cb32c23659db1dc534219226e5df3a3",
+      "candidateSha256": "9510f91a4be2c700753ad244596b67424cb32c23659db1dc534219226e5df3a3"
+    },
+    {
+      "name": "BOOT-INF/lib/jakarta.activation-api-2.1.4.jar",
+      "baselineSha256": "c9db52100ce6c8aac95cc39075f95720d2e561b11f8051b81c121ad4effd7004",
+      "candidateSha256": "c9db52100ce6c8aac95cc39075f95720d2e561b11f8051b81c121ad4effd7004"
+    },
+    {
+      "name": "BOOT-INF/lib/jakarta.annotation-api-2.1.1.jar",
+      "baselineSha256": "5f65fdaf424eee2b55e1d882ba9bb376be93fb09b37b808be6e22e8851c909fe",
+      "candidateSha256": "5f65fdaf424eee2b55e1d882ba9bb376be93fb09b37b808be6e22e8851c909fe"
+    },
+    {
+      "name": "BOOT-INF/lib/jakarta.mail-2.0.5.jar",
+      "baselineSha256": "f48001755a4a591bb1b602965337fcf316d794c43783052f88ede05130539358",
+      "candidateSha256": "f48001755a4a591bb1b602965337fcf316d794c43783052f88ede05130539358"
+    },
+    {
+      "name": "BOOT-INF/lib/jakarta.validation-api-3.0.2.jar",
+      "baselineSha256": "291c25e6910cc6a7ebd96d4c6baebf6d7c37676c5482c2d96146e901b62c1fc9",
+      "candidateSha256": "291c25e6910cc6a7ebd96d4c6baebf6d7c37676c5482c2d96146e901b62c1fc9"
+    },
+    {
+      "name": "BOOT-INF/lib/jakarta.xml.bind-api-4.0.5.jar",
+      "baselineSha256": "5e489b6c874c4119e003ff1403db523ee3a8959ec499f3de29e77245efccf216",
+      "candidateSha256": "5e489b6c874c4119e003ff1403db523ee3a8959ec499f3de29e77245efccf216"
+    },
+    {
+      "name": "BOOT-INF/lib/java-object-diff-0.95.jar",
+      "baselineSha256": "b069f5c6aa244a84adb4667a893b80f674f84e662776a1ea1afae689a5c18324",
+      "candidateSha256": "b069f5c6aa244a84adb4667a893b80f674f84e662776a1ea1afae689a5c18324"
+    },
+    {
+      "name": "BOOT-INF/lib/jaxb-core-4.0.9.jar",
+      "baselineSha256": "6b014df25d22c8446cc2df0a378c5b2137747f197a731d99eb24c756b26f7e8d",
+      "candidateSha256": "6b014df25d22c8446cc2df0a378c5b2137747f197a731d99eb24c756b26f7e8d"
+    },
+    {
+      "name": "BOOT-INF/lib/jaxb-runtime-4.0.9.jar",
+      "baselineSha256": "93e09b7316b6af68d6e2083e4c297daf28e8957f45d725077af812c0b12c39ab",
+      "candidateSha256": "93e09b7316b6af68d6e2083e4c297daf28e8957f45d725077af812c0b12c39ab"
+    },
+    {
+      "name": "BOOT-INF/lib/jboss-logging-3.6.3.Final.jar",
+      "baselineSha256": "7c12ee575508f81e22b1db9334b969d0ec54ef0fd1dcba24eeab1a44235fc366",
+      "candidateSha256": "7c12ee575508f81e22b1db9334b969d0ec54ef0fd1dcba24eeab1a44235fc366"
+    },
+    {
+      "name": "BOOT-INF/lib/jcip-annotations-1.0.jar",
+      "baselineSha256": "be5805392060c71474bf6c9a67a099471274d30b83eef84bfc4e0889a4f1dcc0",
+      "candidateSha256": "be5805392060c71474bf6c9a67a099471274d30b83eef84bfc4e0889a4f1dcc0"
+    },
+    {
+      "name": "BOOT-INF/lib/jcl-over-slf4j-2.0.18.jar",
+      "baselineSha256": "ec5c36d57d2dbe100f84878f944575cb7871da32c7a115b8d7e0721277045d67",
+      "candidateSha256": "ec5c36d57d2dbe100f84878f944575cb7871da32c7a115b8d7e0721277045d67"
+    },
+    {
+      "name": "BOOT-INF/lib/jodd-util-6.3.0.jar",
+      "baselineSha256": "e5c676715897124101f74900dd1f98ebbcad9da3ab2dffbac6e7712612094427",
+      "candidateSha256": "e5c676715897124101f74900dd1f98ebbcad9da3ab2dffbac6e7712612094427"
+    },
+    {
+      "name": "BOOT-INF/lib/jsch-2.28.7.jar",
+      "baselineSha256": "4819f453e5d3dc277be2b91d49a0f87b7c4db36dc35c72c0d4bfeba56d2f94bd",
+      "candidateSha256": "4819f453e5d3dc277be2b91d49a0f87b7c4db36dc35c72c0d4bfeba56d2f94bd"
+    },
+    {
+      "name": "BOOT-INF/lib/json-utils-2.55.5.jar",
+      "baselineSha256": "94e81dd091965b0809bd983da7c18acefc694a0715a07fab80f41e54b0f546de",
+      "candidateSha256": "94e81dd091965b0809bd983da7c18acefc694a0715a07fab80f41e54b0f546de"
+    },
+    {
+      "name": "BOOT-INF/lib/jsoup-1.23.2.jar",
+      "baselineSha256": "e9d8c856856680427f096d156f02a414289985c930998fcb519ce5be39b42003",
+      "candidateSha256": "e9d8c856856680427f096d156f02a414289985c930998fcb519ce5be39b42003"
+    },
+    {
+      "name": "BOOT-INF/lib/jspecify-1.0.0.jar",
+      "baselineSha256": "1fad6e6be7557781e4d33729d49ae1cdc8fdda6fe477bb0cc68ce351eafdfbab",
+      "candidateSha256": "1fad6e6be7557781e4d33729d49ae1cdc8fdda6fe477bb0cc68ce351eafdfbab"
+    },
+    {
+      "name": "BOOT-INF/lib/jsqlparser-5.2.jar",
+      "baselineSha256": "e10ade9feefcfb9ab1b8e33d9222b992b4ef2f494537edc4180494188a0c39a5",
+      "candidateSha256": "e10ade9feefcfb9ab1b8e33d9222b992b4ef2f494537edc4180494188a0c39a5"
+    },
+    {
+      "name": "BOOT-INF/lib/jsr305-3.0.1.jar",
+      "baselineSha256": "c885ce34249682bc0236b4a7d56efcc12048e6135a5baf7a9cde8ad8cda13fcd",
+      "candidateSha256": "c885ce34249682bc0236b4a7d56efcc12048e6135a5baf7a9cde8ad8cda13fcd"
+    },
+    {
+      "name": "BOOT-INF/lib/jul-to-slf4j-2.0.18.jar",
+      "baselineSha256": "cbb7d1aaaa9e871eb1a06594abd911bf97027152976edf1edc315be75239204e",
+      "candidateSha256": "cbb7d1aaaa9e871eb1a06594abd911bf97027152976edf1edc315be75239204e"
+    },
+    {
+      "name": "BOOT-INF/lib/justauth-spring-boot-starter-1.4.0.jar",
+      "baselineSha256": "35d679f4ad55cd47d0ddbcd3274ef43cb76e63086ed9ba63f62b9e5b02f4ae78",
+      "candidateSha256": "35d679f4ad55cd47d0ddbcd3274ef43cb76e63086ed9ba63f62b9e5b02f4ae78"
+    },
+    {
+      "name": "BOOT-INF/lib/knife4j-core-4.5.0.jar",
+      "baselineSha256": "1fdc57ddea560afea4f2a24940b520dffdc826f8eab100462cb417b997346b88",
+      "candidateSha256": "1fdc57ddea560afea4f2a24940b520dffdc826f8eab100462cb417b997346b88"
+    },
+    {
+      "name": "BOOT-INF/lib/knife4j-openapi3-jakarta-spring-boot-starter-4.5.0.jar",
+      "baselineSha256": "eb6a31b6a06a6d6f27520d0c46cf48cee0e32fdad47bec0a0ff39c1f985ddcb8",
+      "candidateSha256": "eb6a31b6a06a6d6f27520d0c46cf48cee0e32fdad47bec0a0ff39c1f985ddcb8"
+    },
+    {
+      "name": "BOOT-INF/lib/knife4j-openapi3-ui-4.5.0.jar",
+      "baselineSha256": "5d50ec693a1ffd5cc3cdc8b924d9a937512fb91854b35c2edc97436f4debdd47",
+      "candidateSha256": "5d50ec693a1ffd5cc3cdc8b924d9a937512fb91854b35c2edc97436f4debdd47"
+    },
+    {
+      "name": "BOOT-INF/lib/kryo-5.6.2.jar",
+      "baselineSha256": "4e8b1d2f4977187af8a51a957329722dc1cdc56a7c94fbb5a791e82897629cff",
+      "candidateSha256": "4e8b1d2f4977187af8a51a957329722dc1cdc56a7c94fbb5a791e82897629cff"
+    },
+    {
+      "name": "BOOT-INF/lib/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar",
+      "baselineSha256": "b372a037d4230aa57fbeffdef30fd6123f9c0c2db85d0aced00c91b974f33f99",
+      "candidateSha256": "b372a037d4230aa57fbeffdef30fd6123f9c0c2db85d0aced00c91b974f33f99"
+    },
+    {
+      "name": "BOOT-INF/lib/log4j-api-2.24.3.jar",
+      "baselineSha256": "5b4a0a0cd0e751ded431c162442bdbdd53328d1f8bb2bae5fc1bbeee0f66d80f",
+      "candidateSha256": "5b4a0a0cd0e751ded431c162442bdbdd53328d1f8bb2bae5fc1bbeee0f66d80f"
+    },
+    {
+      "name": "BOOT-INF/lib/log4j-to-slf4j-2.24.3.jar",
+      "baselineSha256": "c7f2b0c612a4eb05b1587d1c880eb4cf5f4f53850676a8ede8da2b8fabb4f73f",
+      "candidateSha256": "c7f2b0c612a4eb05b1587d1c880eb4cf5f4f53850676a8ede8da2b8fabb4f73f"
+    },
+    {
+      "name": "BOOT-INF/lib/logback-classic-1.5.34.jar",
+      "baselineSha256": "b65e05076a5c1aadb659b4fe4bc5fee31cb26cd70390292eb03e4a7a24cff10f",
+      "candidateSha256": "b65e05076a5c1aadb659b4fe4bc5fee31cb26cd70390292eb03e4a7a24cff10f"
+    },
+    {
+      "name": "BOOT-INF/lib/logback-core-1.5.34.jar",
+      "baselineSha256": "42eda264c0c650c2bec59e66151a88b708a8663dc1b49d788202d53e78b8caae",
+      "candidateSha256": "42eda264c0c650c2bec59e66151a88b708a8663dc1b49d788202d53e78b8caae"
+    },
+    {
+      "name": "BOOT-INF/lib/lombok-1.18.48.jar",
+      "baselineSha256": "85477a4655ebb2c074a9099cfb749be454449fee564d4282610df1b85f7c508b",
+      "candidateSha256": "85477a4655ebb2c074a9099cfb749be454449fee564d4282610df1b85f7c508b"
+    },
+    {
+      "name": "BOOT-INF/lib/mapstruct-1.7.0.Beta2.jar",
+      "baselineSha256": "c03c68912f6a606cf9e8e964c562b3199c13297f345c06dcb049e428f82287b3",
+      "candidateSha256": "c03c68912f6a606cf9e8e964c562b3199c13297f345c06dcb049e428f82287b3"
+    },
+    {
+      "name": "BOOT-INF/lib/mapstruct-jdk8-1.7.0.Beta2.jar",
+      "baselineSha256": "c1c30b749e4aa1d0134cd4c5b215ee3222690d2e75fc2b447a6d02846c20827f",
+      "candidateSha256": "c1c30b749e4aa1d0134cd4c5b215ee3222690d2e75fc2b447a6d02846c20827f"
+    },
+    {
+      "name": "BOOT-INF/lib/metrics-spi-2.55.5.jar",
+      "baselineSha256": "6b85a8353b1469a8e200de3f49328c1ed117dabd8a81b8fbd6c986153148af2b",
+      "candidateSha256": "6b85a8353b1469a8e200de3f49328c1ed117dabd8a81b8fbd6c986153148af2b"
+    },
+    {
+      "name": "BOOT-INF/lib/micrometer-commons-1.15.12.jar",
+      "baselineSha256": "4b779cf7acb0534bb1f8e964f25200037ecb3944368f859a630fa637d6d5d7c0",
+      "candidateSha256": "4b779cf7acb0534bb1f8e964f25200037ecb3944368f859a630fa637d6d5d7c0"
+    },
+    {
+      "name": "BOOT-INF/lib/micrometer-observation-1.15.12.jar",
+      "baselineSha256": "54483e68ed44af1bb0c36d1df2235d36f233e459d52f5a3be3e69813827a6300",
+      "candidateSha256": "54483e68ed44af1bb0c36d1df2235d36f233e459d52f5a3be3e69813827a6300"
+    },
+    {
+      "name": "BOOT-INF/lib/minlog-1.3.1.jar",
+      "baselineSha256": "5d4d632cfbebfe0a7644501cc303570b691406181bee65e9916b921c767d7c72",
+      "candidateSha256": "5d4d632cfbebfe0a7644501cc303570b691406181bee65e9916b921c767d7c72"
+    },
+    {
+      "name": "BOOT-INF/lib/mxparser-1.2.2.jar",
+      "baselineSha256": "aeeee23a3303d811bca8790ea7f25b534314861c03cff36dafdcc2180969eb97",
+      "candidateSha256": "aeeee23a3303d811bca8790ea7f25b534314861c03cff36dafdcc2180969eb97"
+    },
+    {
+      "name": "BOOT-INF/lib/mybatis-3.5.19.jar",
+      "baselineSha256": "93eea616ae355751bd5fbabb57f0732713fbe79f3196f33c51a0aeeb4255862a",
+      "candidateSha256": "93eea616ae355751bd5fbabb57f0732713fbe79f3196f33c51a0aeeb4255862a"
+    },
+    {
+      "name": "BOOT-INF/lib/mybatis-plus-3.5.17.jar",
+      "baselineSha256": "705c760bbc52387fb566c8db6b58f5e904c6c12ce9a2dc3e3d572b284cb92f8d",
+      "candidateSha256": "705c760bbc52387fb566c8db6b58f5e904c6c12ce9a2dc3e3d572b284cb92f8d"
+    },
+    {
+      "name": "BOOT-INF/lib/mybatis-plus-annotation-3.5.17.jar",
+      "baselineSha256": "372bcc91fe6b9071f7b85f95262957835b6975813179cac97392817771a8b56e",
+      "candidateSha256": "372bcc91fe6b9071f7b85f95262957835b6975813179cac97392817771a8b56e"
+    },
+    {
+      "name": "BOOT-INF/lib/mybatis-plus-core-3.5.17.jar",
+      "baselineSha256": "f1796f941c1035f0382c135e3274528913f52d8651c6d26c52bfa1a7e522b332",
+      "candidateSha256": "f1796f941c1035f0382c135e3274528913f52d8651c6d26c52bfa1a7e522b332"
+    },
+    {
+      "name": "BOOT-INF/lib/mybatis-plus-extension-3.5.17.jar",
+      "baselineSha256": "18dd448c8849e78849f344a4c34f70d48e66852c450db6b0a6894d2f7c701b0e",
+      "candidateSha256": "18dd448c8849e78849f344a4c34f70d48e66852c450db6b0a6894d2f7c701b0e"
+    },
+    {
+      "name": "BOOT-INF/lib/mybatis-plus-generator-3.5.17.jar",
+      "baselineSha256": "8739977398cf692fc1cdde2352dd5e8c149bee24efb3dd0fc18ae8065ec294d1",
+      "candidateSha256": "8739977398cf692fc1cdde2352dd5e8c149bee24efb3dd0fc18ae8065ec294d1"
+    },
+    {
+      "name": "BOOT-INF/lib/mybatis-plus-join-adapter-base-1.5.9.jar",
+      "baselineSha256": "db92f6751e2671cb11e6e058139bbe6ea7192ce6ef74bdd1fff9ae8cd74b61ec",
+      "candidateSha256": "db92f6751e2671cb11e6e058139bbe6ea7192ce6ef74bdd1fff9ae8cd74b61ec"
+    },
+    {
+      "name": "BOOT-INF/lib/mybatis-plus-join-adapter-jsqlparser-1.5.9.jar",
+      "baselineSha256": "0a734c4c2cc6c013f9eb0b4065a32ffd0f7705b0f28ee0063fd6c140af317a66",
+      "candidateSha256": "0a734c4c2cc6c013f9eb0b4065a32ffd0f7705b0f28ee0063fd6c140af317a66"
+    },
+    {
+      "name": "BOOT-INF/lib/mybatis-plus-join-annotation-1.5.9.jar",
+      "baselineSha256": "ff28870d68b45b7f05c5fa840d5ea753e2e581874cab23e469fe4a5d8c08a165",
+      "candidateSha256": "ff28870d68b45b7f05c5fa840d5ea753e2e581874cab23e469fe4a5d8c08a165"
+    },
+    {
+      "name": "BOOT-INF/lib/mybatis-plus-join-boot-starter-1.5.9.jar",
+      "baselineSha256": "9f8414f211dff50851e6fc9f66c0adae2778a2e0b871c5dcdc2f7a4ea6ff641e",
+      "candidateSha256": "9f8414f211dff50851e6fc9f66c0adae2778a2e0b871c5dcdc2f7a4ea6ff641e"
+    },
+    {
+      "name": "BOOT-INF/lib/mybatis-plus-join-core-1.5.9.jar",
+      "baselineSha256": "8c4ac2c1fd315d644685a79625c5ddedff47b44ffc9ea3324bd712e4f6c094fb",
+      "candidateSha256": "8c4ac2c1fd315d644685a79625c5ddedff47b44ffc9ea3324bd712e4f6c094fb"
+    },
+    {
+      "name": "BOOT-INF/lib/mybatis-plus-join-extension-1.5.9.jar",
+      "baselineSha256": "f64c67b36ef25365b69912a725f5f287b02bb5af86c6a0dd297e0f235fa74cb8",
+      "candidateSha256": "f64c67b36ef25365b69912a725f5f287b02bb5af86c6a0dd297e0f235fa74cb8"
+    },
+    {
+      "name": "BOOT-INF/lib/mybatis-plus-join-wrapper-ext-1.5.9.jar",
+      "baselineSha256": "c3432f65803e5fde1cb98914537bc70d6ceec38b3c59698f54ae91979f5b025f",
+      "candidateSha256": "c3432f65803e5fde1cb98914537bc70d6ceec38b3c59698f54ae91979f5b025f"
+    },
+    {
+      "name": "BOOT-INF/lib/mybatis-plus-jsqlparser-3.5.17.jar",
+      "baselineSha256": "2462329aadf4bf3a1a5aa5e24fad40e917bee89d28f0691a75df15eae39ab9ac",
+      "candidateSha256": "2462329aadf4bf3a1a5aa5e24fad40e917bee89d28f0691a75df15eae39ab9ac"
+    },
+    {
+      "name": "BOOT-INF/lib/mybatis-plus-jsqlparser-common-3.5.17.jar",
+      "baselineSha256": "003640b765ab7c5af5009b7c864516160ad255d6934531b46446c25fd67c0d95",
+      "candidateSha256": "003640b765ab7c5af5009b7c864516160ad255d6934531b46446c25fd67c0d95"
+    },
+    {
+      "name": "BOOT-INF/lib/mybatis-plus-spring-3.5.17.jar",
+      "baselineSha256": "285a96eac3bc9006e2e0d9c847bd09e9857e0a40542a3fa82e36dc0ddfc34f3a",
+      "candidateSha256": "285a96eac3bc9006e2e0d9c847bd09e9857e0a40542a3fa82e36dc0ddfc34f3a"
+    },
+    {
+      "name": "BOOT-INF/lib/mybatis-plus-spring-boot-autoconfigure-3.5.17.jar",
+      "baselineSha256": "86990fbd8cca5c2a7132ad33bf145b7820108958826323c044f88e2f51c21973",
+      "candidateSha256": "86990fbd8cca5c2a7132ad33bf145b7820108958826323c044f88e2f51c21973"
+    },
+    {
+      "name": "BOOT-INF/lib/mybatis-plus-spring-boot-native-image-3.5.17.jar",
+      "baselineSha256": "530a1b83e4d4d7600d07fcdafa898f3e2770bbd2cf95aa49fce039f2945ab8d1",
+      "candidateSha256": "530a1b83e4d4d7600d07fcdafa898f3e2770bbd2cf95aa49fce039f2945ab8d1"
+    },
+    {
+      "name": "BOOT-INF/lib/mybatis-plus-spring-boot3-starter-3.5.17.jar",
+      "baselineSha256": "20db937818dc0e96d00e39b6c87556e29c80ecfe7794b1667df9e2b06c30241b",
+      "candidateSha256": "20db937818dc0e96d00e39b6c87556e29c80ecfe7794b1667df9e2b06c30241b"
+    },
+    {
+      "name": "BOOT-INF/lib/mybatis-spring-3.0.5.jar",
+      "baselineSha256": "5a9bcbc3e6d7586a1a301177b9a355a4c46080c0c6a568b8c434fae027fa3e3b",
+      "candidateSha256": "5a9bcbc3e6d7586a1a301177b9a355a4c46080c0c6a568b8c434fae027fa3e3b"
+    },
+    {
+      "name": "BOOT-INF/lib/mysql-connector-j-9.7.0.jar",
+      "baselineSha256": "0353648eaa1c91e0f4020c959abf756bc866ffd583df22ae6b6f6e0cbd43eb44",
+      "candidateSha256": "0353648eaa1c91e0f4020c959abf756bc866ffd583df22ae6b6f6e0cbd43eb44"
+    },
+    {
+      "name": "BOOT-INF/lib/netty-buffer-4.2.18.Final.jar",
+      "baselineSha256": "fdf236d2b76aa9710684401fdad7dff9dec56e43da5d39172c9a55ba5f14b360",
+      "candidateSha256": "fdf236d2b76aa9710684401fdad7dff9dec56e43da5d39172c9a55ba5f14b360"
+    },
+    {
+      "name": "BOOT-INF/lib/netty-codec-4.2.18.Final.jar",
+      "baselineSha256": "439645eb5061f8f50fbf27afacce394e4cecc4d373e1f7a384837e4661d5f430",
+      "candidateSha256": "439645eb5061f8f50fbf27afacce394e4cecc4d373e1f7a384837e4661d5f430"
+    },
+    {
+      "name": "BOOT-INF/lib/netty-codec-base-4.2.18.Final.jar",
+      "baselineSha256": "7e4612bead7ba88ac6f7908fa722f90ad6835ea96505c9e40b2f93686c1f61f3",
+      "candidateSha256": "7e4612bead7ba88ac6f7908fa722f90ad6835ea96505c9e40b2f93686c1f61f3"
+    },
+    {
+      "name": "BOOT-INF/lib/netty-codec-compression-4.2.18.Final.jar",
+      "baselineSha256": "9d8a4b9a6a2a166ec5a4bbe51a78b4f6a726457c51d81495743c7e7ccb9f4765",
+      "candidateSha256": "9d8a4b9a6a2a166ec5a4bbe51a78b4f6a726457c51d81495743c7e7ccb9f4765"
+    },
+    {
+      "name": "BOOT-INF/lib/netty-codec-dns-4.2.18.Final.jar",
+      "baselineSha256": "6f4b6da1483a82a637804740c2fb61385c9337a5e7ae5e357720cc03ba60b728",
+      "candidateSha256": "6f4b6da1483a82a637804740c2fb61385c9337a5e7ae5e357720cc03ba60b728"
+    },
+    {
+      "name": "BOOT-INF/lib/netty-codec-http-4.2.18.Final.jar",
+      "baselineSha256": "2d50765eb58591ce35146c54ca032a257808d2165d8985a8522c70ea1470e8d7",
+      "candidateSha256": "2d50765eb58591ce35146c54ca032a257808d2165d8985a8522c70ea1470e8d7"
+    },
+    {
+      "name": "BOOT-INF/lib/netty-codec-http2-4.2.18.Final.jar",
+      "baselineSha256": "a45a2b06c377b9c87c21ae2b37f04c8d808192590a73d977e7a60fd59921f283",
+      "candidateSha256": "a45a2b06c377b9c87c21ae2b37f04c8d808192590a73d977e7a60fd59921f283"
+    },
+    {
+      "name": "BOOT-INF/lib/netty-codec-marshalling-4.2.18.Final.jar",
+      "baselineSha256": "eccf83cbbd1319db879424c4559d465dc43251fe1a8ff759c4320b5adbcf26b7",
+      "candidateSha256": "eccf83cbbd1319db879424c4559d465dc43251fe1a8ff759c4320b5adbcf26b7"
+    },
+    {
+      "name": "BOOT-INF/lib/netty-codec-protobuf-4.2.18.Final.jar",
+      "baselineSha256": "1bcaedd0da94f8579477f0848e910c24aced8b1ed7c3e1bff16d56fd0229b516",
+      "candidateSha256": "1bcaedd0da94f8579477f0848e910c24aced8b1ed7c3e1bff16d56fd0229b516"
+    },
+    {
+      "name": "BOOT-INF/lib/netty-common-4.2.18.Final.jar",
+      "baselineSha256": "5d97cae5669685872339698efe13f74fe3cdb2dccdb36963b2352bd95acf7070",
+      "candidateSha256": "5d97cae5669685872339698efe13f74fe3cdb2dccdb36963b2352bd95acf7070"
+    },
+    {
+      "name": "BOOT-INF/lib/netty-handler-4.2.18.Final.jar",
+      "baselineSha256": "6d5a08d9dd6d7d0211202e22dbb1629b23a62550335c7e80892da1d4cb115540",
+      "candidateSha256": "6d5a08d9dd6d7d0211202e22dbb1629b23a62550335c7e80892da1d4cb115540"
+    },
+    {
+      "name": "BOOT-INF/lib/netty-nio-client-2.55.5.jar",
+      "baselineSha256": "e0b565a21e2e39b68389aafbb8fafab6cedf9669f157ab24727d585184367d11",
+      "candidateSha256": "e0b565a21e2e39b68389aafbb8fafab6cedf9669f157ab24727d585184367d11"
+    },
+    {
+      "name": "BOOT-INF/lib/netty-resolver-4.2.18.Final.jar",
+      "baselineSha256": "68373ec544cf769ba17bf2ef455166d98f2c260dff536edf35ef57067a9c155f",
+      "candidateSha256": "68373ec544cf769ba17bf2ef455166d98f2c260dff536edf35ef57067a9c155f"
+    },
+    {
+      "name": "BOOT-INF/lib/netty-resolver-dns-4.2.18.Final.jar",
+      "baselineSha256": "7dd3ec96bef04abc91a0f461f8acc19ebc0738c257ea653aea9dd0ad67b3b1ce",
+      "candidateSha256": "7dd3ec96bef04abc91a0f461f8acc19ebc0738c257ea653aea9dd0ad67b3b1ce"
+    },
+    {
+      "name": "BOOT-INF/lib/netty-transport-4.2.18.Final.jar",
+      "baselineSha256": "eac4f12068db4489e60c6520fad663e5d872f0436a7c641aa9e08db649947863",
+      "candidateSha256": "eac4f12068db4489e60c6520fad663e5d872f0436a7c641aa9e08db649947863"
+    },
+    {
+      "name": "BOOT-INF/lib/netty-transport-classes-epoll-4.2.18.Final.jar",
+      "baselineSha256": "3677ca998f3db749d3fdb0fb1b1674f9809f4fbe8f819a346f4858dfb16c4d95",
+      "candidateSha256": "3677ca998f3db749d3fdb0fb1b1674f9809f4fbe8f819a346f4858dfb16c4d95"
+    },
+    {
+      "name": "BOOT-INF/lib/netty-transport-native-unix-common-4.2.18.Final.jar",
+      "baselineSha256": "cada7023d09136af128511ca94421d69dc84d0f1f64c9e1f127a1271bb62932a",
+      "candidateSha256": "cada7023d09136af128511ca94421d69dc84d0f1f64c9e1f127a1271bb62932a"
+    },
+    {
+      "name": "BOOT-INF/lib/objenesis-3.4.jar",
+      "baselineSha256": "95488102feaf2e2858adf6b299353677dac6c15294006f8ed1c5556f8e3cd251",
+      "candidateSha256": "95488102feaf2e2858adf6b299353677dac6c15294006f8ed1c5556f8e3cd251"
+    },
+    {
+      "name": "BOOT-INF/lib/ojdbc11-23.7.0.25.01.jar",
+      "baselineSha256": "ec8b7f2020b03b19f572e1bc34f94330610e86d3113ffe1e1f0474b8f5ce88ed",
+      "candidateSha256": "ec8b7f2020b03b19f572e1bc34f94330610e86d3113ffe1e1f0474b8f5ce88ed"
+    },
+    {
+      "name": "BOOT-INF/lib/opentelemetry-api-1.66.0.jar",
+      "baselineSha256": "b93c5e4b5d504e77670e85fdd8c258ab08bad808473c403a91ae65f1a393f0b7",
+      "candidateSha256": "b93c5e4b5d504e77670e85fdd8c258ab08bad808473c403a91ae65f1a393f0b7"
+    },
+    {
+      "name": "BOOT-INF/lib/opentelemetry-context-1.49.0.jar",
+      "baselineSha256": "17de3c85b341240b3b216c43adbd244c9fbd39c9e5448306d56460f80599a76b",
+      "candidateSha256": "17de3c85b341240b3b216c43adbd244c9fbd39c9e5448306d56460f80599a76b"
+    },
+    {
+      "name": "BOOT-INF/lib/oracle-spring-boot-starter-ucp-23.4.0.jar",
+      "baselineSha256": "3f2d5bd526c2aea226023a54eb5f9a40358cba5bccb8dfc825eb7ac4cfd966a7",
+      "candidateSha256": "3f2d5bd526c2aea226023a54eb5f9a40358cba5bccb8dfc825eb7ac4cfd966a7"
+    },
+    {
+      "name": "BOOT-INF/lib/pdfbox-3.0.8.jar",
+      "baselineSha256": "97647cfbde61ebcfc06b4cf8c9b0ffcaaee073396eceb4a7f6836a9b9128903c",
+      "candidateSha256": "97647cfbde61ebcfc06b4cf8c9b0ffcaaee073396eceb4a7f6836a9b9128903c"
+    },
+    {
+      "name": "BOOT-INF/lib/pdfbox-io-3.0.8.jar",
+      "baselineSha256": "36a0e04001010b4c764857817412b96339930b19755e728959805cc0352061b2",
+      "candidateSha256": "36a0e04001010b4c764857817412b96339930b19755e728959805cc0352061b2"
+    },
+    {
+      "name": "BOOT-INF/lib/poi-5.4.1.jar",
+      "baselineSha256": "da5abf42da4604c5a7bca38956af6e9d6f196d9b6d4cb7eabee4f480b580d505",
+      "candidateSha256": "da5abf42da4604c5a7bca38956af6e9d6f196d9b6d4cb7eabee4f480b580d505"
+    },
+    {
+      "name": "BOOT-INF/lib/poi-ooxml-5.4.1.jar",
+      "baselineSha256": "fd200c9e6f74d704160a97e9d52041995ed87439454530001edd920688f19f53",
+      "candidateSha256": "fd200c9e6f74d704160a97e9d52041995ed87439454530001edd920688f19f53"
+    },
+    {
+      "name": "BOOT-INF/lib/poi-ooxml-lite-5.4.1.jar",
+      "baselineSha256": "dc590461efdfcd4f27e2a892737979ab5e30b4132a7adfc7c9e56447b71a45b0",
+      "candidateSha256": "dc590461efdfcd4f27e2a892737979ab5e30b4132a7adfc7c9e56447b71a45b0"
+    },
+    {
+      "name": "BOOT-INF/lib/profiles-2.55.5.jar",
+      "baselineSha256": "7e5f6b19693744f0adc9499d1fbfaa29848e855507f150976aa769ef3a3d6ece",
+      "candidateSha256": "7e5f6b19693744f0adc9499d1fbfaa29848e855507f150976aa769ef3a3d6ece"
+    },
+    {
+      "name": "BOOT-INF/lib/protocol-core-2.55.5.jar",
+      "baselineSha256": "e7225853a633b798457b8ff543db874fba62e6043acc0805ec75cbf8f0717c32",
+      "candidateSha256": "e7225853a633b798457b8ff543db874fba62e6043acc0805ec75cbf8f0717c32"
+    },
+    {
+      "name": "BOOT-INF/lib/quartz-2.5.2.jar",
+      "baselineSha256": "452e418739c0da1bff255f7c1343dd3a92e1fdd3ceb126b185939edae9922091",
+      "candidateSha256": "452e418739c0da1bff255f7c1343dd3a92e1fdd3ceb126b185939edae9922091"
+    },
+    {
+      "name": "BOOT-INF/lib/reactive-streams-1.0.4.jar",
+      "baselineSha256": "f75ca597789b3dac58f61857b9ac2e1034a68fa672db35055a8fb4509e325f28",
+      "candidateSha256": "f75ca597789b3dac58f61857b9ac2e1034a68fa672db35055a8fb4509e325f28"
+    },
+    {
+      "name": "BOOT-INF/lib/reactor-core-3.7.19.jar",
+      "baselineSha256": "50390c15320c578784f60ea9d4d3f7a3eff9ba90c6567f38c6cce5c9f1f69faa",
+      "candidateSha256": "50390c15320c578784f60ea9d4d3f7a3eff9ba90c6567f38c6cce5c9f1f69faa"
+    },
+    {
+      "name": "BOOT-INF/lib/redisson-4.7.0.jar",
+      "baselineSha256": "1b0bc132adbc8063d33cfad952c835c31dc2ab6f8c9cef26a08d7d5eeb1eb799",
+      "candidateSha256": "1b0bc132adbc8063d33cfad952c835c31dc2ab6f8c9cef26a08d7d5eeb1eb799"
+    },
+    {
+      "name": "BOOT-INF/lib/redisson-spring-boot-starter-4.7.0.jar",
+      "baselineSha256": "f81eb586721677e2b9714eb6734039b4b754604502387b2c2b093de8e973bb33",
+      "candidateSha256": "f81eb586721677e2b9714eb6734039b4b754604502387b2c2b093de8e973bb33"
+    },
+    {
+      "name": "BOOT-INF/lib/redisson-spring-data-35-4.7.0.jar",
+      "baselineSha256": "ad44764066967ece7de1c05e7340d81e71977c2e4aecb4a0a078e2c9f00d8434",
+      "candidateSha256": "ad44764066967ece7de1c05e7340d81e71977c2e4aecb4a0a078e2c9f00d8434"
+    },
+    {
+      "name": "BOOT-INF/lib/reflectasm-1.11.9.jar",
+      "baselineSha256": "712b44da79a5b7f47a28cbfcb3d8ecfc872fae349c48aa4d3e38a5d69956afce",
+      "candidateSha256": "712b44da79a5b7f47a28cbfcb3d8ecfc872fae349c48aa4d3e38a5d69956afce"
+    },
+    {
+      "name": "BOOT-INF/lib/regions-2.55.5.jar",
+      "baselineSha256": "273d8590de918b8525cacd06d9a5cca933429810427d01bf92d11af69a031e0b",
+      "candidateSha256": "273d8590de918b8525cacd06d9a5cca933429810427d01bf92d11af69a031e0b"
+    },
+    {
+      "name": "BOOT-INF/lib/retries-2.55.5.jar",
+      "baselineSha256": "f78b2db3059b718e2f296b49977a6da9a5654dcf5b6c21b0ab3da158c8b5efd9",
+      "candidateSha256": "f78b2db3059b718e2f296b49977a6da9a5654dcf5b6c21b0ab3da158c8b5efd9"
+    },
+    {
+      "name": "BOOT-INF/lib/retries-spi-2.55.5.jar",
+      "baselineSha256": "5362d6cf25a007ae7237c65354bc8812ba702016b53fe5bcf3873ee4a72b3edf",
+      "candidateSha256": "5362d6cf25a007ae7237c65354bc8812ba702016b53fe5bcf3873ee4a72b3edf"
+    },
+    {
+      "name": "BOOT-INF/lib/rxjava-3.1.12.jar",
+      "baselineSha256": "1808a433ef55dcc2965523e512ab914a5d0d727228a2683ed7559d7cccf44e37",
+      "candidateSha256": "1808a433ef55dcc2965523e512ab914a5d0d727228a2683ed7559d7cccf44e37"
+    },
+    {
+      "name": "BOOT-INF/lib/s3-2.55.5.jar",
+      "baselineSha256": "de64925fdfbfbee37b4b618087734634d14e5c28073eaee11f72e70692e30a00",
+      "candidateSha256": "de64925fdfbfbee37b4b618087734634d14e5c28073eaee11f72e70692e30a00"
+    },
+    {
+      "name": "BOOT-INF/lib/sdk-core-2.55.5.jar",
+      "baselineSha256": "59eeea96e948b287c698b4ba51087da3ea267dad6d963588ac7674aa0fcef0a8",
+      "candidateSha256": "59eeea96e948b287c698b4ba51087da3ea267dad6d963588ac7674aa0fcef0a8"
+    },
+    {
+      "name": "BOOT-INF/lib/simple-http-1.0.5.jar",
+      "baselineSha256": "e42d851b4d05b9ead5f712e479fa7e647cc9d47a185b0f3117a0b9aa2693ff2b",
+      "candidateSha256": "e42d851b4d05b9ead5f712e479fa7e647cc9d47a185b0f3117a0b9aa2693ff2b"
+    },
+    {
+      "name": "BOOT-INF/lib/slf4j-api-2.0.18.jar",
+      "baselineSha256": "44508fd1576500688c790b190acdd16fec4f8c79a3e0b900afd70503cf055f55",
+      "candidateSha256": "44508fd1576500688c790b190acdd16fec4f8c79a3e0b900afd70503cf055f55"
+    },
+    {
+      "name": "BOOT-INF/lib/snakeyaml-2.4.jar",
+      "baselineSha256": "ef779af5d29a9dde8cc70ce0341f5c6f7735e23edff9685ceaa9d35359b7bb7f",
+      "candidateSha256": "ef779af5d29a9dde8cc70ce0341f5c6f7735e23edff9685ceaa9d35359b7bb7f"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-aop-6.2.19.jar",
+      "baselineSha256": "a11b93539d80b02caf76171db2da96df39abebbfef49a2fadd6dda0779f2e20b",
+      "candidateSha256": "a11b93539d80b02caf76171db2da96df39abebbfef49a2fadd6dda0779f2e20b"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-beans-6.2.19.jar",
+      "baselineSha256": "846dc8f30a639a36eb551ee99a30469be4d11bd285ca9daf164d98321571b404",
+      "candidateSha256": "846dc8f30a639a36eb551ee99a30469be4d11bd285ca9daf164d98321571b404"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-boot-3.5.15.jar",
+      "baselineSha256": "1d3ea175f61f492d95cbca457d6cc9cf1b696b550422c1b424d50dfa58f7da15",
+      "candidateSha256": "1d3ea175f61f492d95cbca457d6cc9cf1b696b550422c1b424d50dfa58f7da15"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-boot-autoconfigure-3.5.15.jar",
+      "baselineSha256": "180af16bbaa61ae70b3d8c533fe36264b1305d4a6916965ed86d0f4e47b73b3b",
+      "candidateSha256": "180af16bbaa61ae70b3d8c533fe36264b1305d4a6916965ed86d0f4e47b73b3b"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-boot-jarmode-tools-3.5.15.jar",
+      "baselineSha256": "0ef100c6915f599606de3d46ae898e7d46594a47db311071a488ee50b2f58a55",
+      "candidateSha256": "0ef100c6915f599606de3d46ae898e7d46594a47db311071a488ee50b2f58a55"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-context-6.2.19.jar",
+      "baselineSha256": "ead4b645f94a7f665f00093eaafde634e97b34524294de653b51e43e0b3fc4a4",
+      "candidateSha256": "ead4b645f94a7f665f00093eaafde634e97b34524294de653b51e43e0b3fc4a4"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-context-support-6.2.19.jar",
+      "baselineSha256": "f99b9158ca52c8c2309663ae112f2c7ae10b1696b2350f401ee771a22722f7cc",
+      "candidateSha256": "f99b9158ca52c8c2309663ae112f2c7ae10b1696b2350f401ee771a22722f7cc"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-core-6.2.19.jar",
+      "baselineSha256": "52146689e71a911c92bac26677d73c692512a739893a57710cc233591756bff6",
+      "candidateSha256": "52146689e71a911c92bac26677d73c692512a739893a57710cc233591756bff6"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-data-commons-3.5.12.jar",
+      "baselineSha256": "eb591cf120bc54aa952b980110efe5e4b914b1cc583ac6244ead7fe7df519b4b",
+      "candidateSha256": "eb591cf120bc54aa952b980110efe5e4b914b1cc583ac6244ead7fe7df519b4b"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-data-keyvalue-3.5.12.jar",
+      "baselineSha256": "9f26e2f2143dce5d5c31af4877c2452b9cff68ba152e764851229e6f42121c68",
+      "candidateSha256": "9f26e2f2143dce5d5c31af4877c2452b9cff68ba152e764851229e6f42121c68"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-data-redis-3.5.12.jar",
+      "baselineSha256": "660b03980f38cb8bf20df76769f621b8acbec54e8fd53b2f1eaac127d2bb0ef4",
+      "candidateSha256": "660b03980f38cb8bf20df76769f621b8acbec54e8fd53b2f1eaac127d2bb0ef4"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-expression-6.2.19.jar",
+      "baselineSha256": "d710a44417d890353895b341a722d7d08199e2b7da52f0a11c0e92571e1d6e19",
+      "candidateSha256": "d710a44417d890353895b341a722d7d08199e2b7da52f0a11c0e92571e1d6e19"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-jcl-6.2.19.jar",
+      "baselineSha256": "9994478bcea1423b8892d4eb0db942c94da0090167c3c684050c1eaef04491d0",
+      "candidateSha256": "9994478bcea1423b8892d4eb0db942c94da0090167c3c684050c1eaef04491d0"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-jdbc-6.2.19.jar",
+      "baselineSha256": "c81fd8aca952aac243d9327af12596c2058012c9d3784f1313477a6d2cc56306",
+      "candidateSha256": "c81fd8aca952aac243d9327af12596c2058012c9d3784f1313477a6d2cc56306"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-messaging-6.2.19.jar",
+      "baselineSha256": "9b063aad34a6876a640976c6657ab25cb2bf6c41e2eafaa5a7e50ccf3234390c",
+      "candidateSha256": "9b063aad34a6876a640976c6657ab25cb2bf6c41e2eafaa5a7e50ccf3234390c"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-oxm-6.2.19.jar",
+      "baselineSha256": "a208114b98e48dc23010beab422b8f69c1d518ec27ce194d2ecead75d0898a0b",
+      "candidateSha256": "a208114b98e48dc23010beab422b8f69c1d518ec27ce194d2ecead75d0898a0b"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-security-config-6.5.11.jar",
+      "baselineSha256": "218685930013a2d1c126a896490ac3c44cf6fe90cf3d0286f2266bb877f916f7",
+      "candidateSha256": "218685930013a2d1c126a896490ac3c44cf6fe90cf3d0286f2266bb877f916f7"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-security-core-6.5.11.jar",
+      "baselineSha256": "26ac26527cc015c5c71f3832add705a2410129a8f8de847054f2bc3b1d2e4465",
+      "candidateSha256": "26ac26527cc015c5c71f3832add705a2410129a8f8de847054f2bc3b1d2e4465"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-security-crypto-6.5.11.jar",
+      "baselineSha256": "dcdd2f3b2d5d2bb1531986b5cc1737b464a76d8b5831f93fc8da9cdd67e6797f",
+      "candidateSha256": "dcdd2f3b2d5d2bb1531986b5cc1737b464a76d8b5831f93fc8da9cdd67e6797f"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-security-web-6.5.11.jar",
+      "baselineSha256": "50df9fc76162d33cf8b5410cf7a7a969abd42a5ecddb284aab4f453cb5512306",
+      "candidateSha256": "50df9fc76162d33cf8b5410cf7a7a969abd42a5ecddb284aab4f453cb5512306"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-tx-6.2.19.jar",
+      "baselineSha256": "34a1b6f5d87ef4cca6849e1bc70a0f965eec6476737b3cae73ff2561a266ef73",
+      "candidateSha256": "34a1b6f5d87ef4cca6849e1bc70a0f965eec6476737b3cae73ff2561a266ef73"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-web-6.2.19.jar",
+      "baselineSha256": "ca88e364ecebee61163e2260e8a20584138eca74e28a050d6a2ef6302bad2f2d",
+      "candidateSha256": "ca88e364ecebee61163e2260e8a20584138eca74e28a050d6a2ef6302bad2f2d"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-webmvc-6.2.19.jar",
+      "baselineSha256": "134f42320cedd31f54f683d2ca9936a4e015c011fb1882a31fa7213e2d8c7e94",
+      "candidateSha256": "134f42320cedd31f54f683d2ca9936a4e015c011fb1882a31fa7213e2d8c7e94"
+    },
+    {
+      "name": "BOOT-INF/lib/spring-websocket-6.2.19.jar",
+      "baselineSha256": "ee8bbae1c3889e16e2ec540310612597a3f573c03a113a7b0bd721b7690cf1e1",
+      "candidateSha256": "ee8bbae1c3889e16e2ec540310612597a3f573c03a113a7b0bd721b7690cf1e1"
+    },
+    {
+      "name": "BOOT-INF/lib/springdoc-openapi-starter-common-2.8.17.jar",
+      "baselineSha256": "f0b54bace3ced0acfac30be0e4f1910eb25817ee61fdd85c6b7244ea271e5d72",
+      "candidateSha256": "f0b54bace3ced0acfac30be0e4f1910eb25817ee61fdd85c6b7244ea271e5d72"
+    },
+    {
+      "name": "BOOT-INF/lib/springdoc-openapi-starter-webmvc-api-2.8.17.jar",
+      "baselineSha256": "be6a4890014a2d761013c431207088cafa4305c0a21ef51a20d30a3fc9a251fe",
+      "candidateSha256": "be6a4890014a2d761013c431207088cafa4305c0a21ef51a20d30a3fc9a251fe"
+    },
+    {
+      "name": "BOOT-INF/lib/springdoc-openapi-starter-webmvc-ui-2.8.17.jar",
+      "baselineSha256": "0db126b58f7d1c10e9bb1a1b2be094315e56ff5800f38573a4d29b5536b47c38",
+      "candidateSha256": "0db126b58f7d1c10e9bb1a1b2be094315e56ff5800f38573a4d29b5536b47c38"
+    },
+    {
+      "name": "BOOT-INF/lib/sshd-common-2.14.0.jar",
+      "baselineSha256": "0f8de48ee6fdbee0dafeb7bd69e5402e3e3e666f3ac81c2158bee0c49360b5c6",
+      "candidateSha256": "0f8de48ee6fdbee0dafeb7bd69e5402e3e3e666f3ac81c2158bee0c49360b5c6"
+    },
+    {
+      "name": "BOOT-INF/lib/sshd-core-2.14.0.jar",
+      "baselineSha256": "94ae95a43910c3eb0698bf97dc004a5d98946d062e72d6c2ea58158e311915af",
+      "candidateSha256": "94ae95a43910c3eb0698bf97dc004a5d98946d062e72d6c2ea58158e311915af"
+    },
+    {
+      "name": "BOOT-INF/lib/swagger-annotations-jakarta-2.2.47.jar",
+      "baselineSha256": "9b30b319f1c31993e6128d22e12652be9a688589e30c67819ed84e95b96e7f88",
+      "candidateSha256": "9b30b319f1c31993e6128d22e12652be9a688589e30c67819ed84e95b96e7f88"
+    },
+    {
+      "name": "BOOT-INF/lib/swagger-core-jakarta-2.2.47.jar",
+      "baselineSha256": "e63b78c1e5b049e6670ca9bb43c3f35cf362ecc08ac59a783994a6a732a7d7eb",
+      "candidateSha256": "e63b78c1e5b049e6670ca9bb43c3f35cf362ecc08ac59a783994a6a732a7d7eb"
+    },
+    {
+      "name": "BOOT-INF/lib/swagger-models-jakarta-2.2.47.jar",
+      "baselineSha256": "15d10f4f7eac1e02a8ff940b430c634fc9dfe08368a54dffa3216cc2dc811aa2",
+      "candidateSha256": "15d10f4f7eac1e02a8ff940b430c634fc9dfe08368a54dffa3216cc2dc811aa2"
+    },
+    {
+      "name": "BOOT-INF/lib/swagger-ui-5.32.2.jar",
+      "baselineSha256": "1db1386611b1f3d71cc8acc6a1898c3b514060ad01055bae904e24969d591ed0",
+      "candidateSha256": "1db1386611b1f3d71cc8acc6a1898c3b514060ad01055bae904e24969d591ed0"
+    },
+    {
+      "name": "BOOT-INF/lib/third-party-jackson-core-2.55.5.jar",
+      "baselineSha256": "9034b79cbe4d0ed9b13b8ebe67a2d0e6daae316a48c8511f65a5fa7396344b35",
+      "candidateSha256": "9034b79cbe4d0ed9b13b8ebe67a2d0e6daae316a48c8511f65a5fa7396344b35"
+    },
+    {
+      "name": "BOOT-INF/lib/tika-core-3.3.1.jar",
+      "baselineSha256": "9f22cdcf9e648eb301525cab78bf325ece370c65c20e961efa1d6abc26985fc0",
+      "candidateSha256": "9f22cdcf9e648eb301525cab78bf325ece370c65c20e961efa1d6abc26985fc0"
+    },
+    {
+      "name": "BOOT-INF/lib/tomcat-embed-core-10.1.55.jar",
+      "baselineSha256": "82473f841824095e03f2c938c18707e44e388e34fb1735b2b338bb4f22fd54f0",
+      "candidateSha256": "82473f841824095e03f2c938c18707e44e388e34fb1735b2b338bb4f22fd54f0"
+    },
+    {
+      "name": "BOOT-INF/lib/tomcat-embed-el-10.1.55.jar",
+      "baselineSha256": "a527fe51c6f9428c5116f78fe28588e55357b4492309b51fb0453372da16fa5f",
+      "candidateSha256": "a527fe51c6f9428c5116f78fe28588e55357b4492309b51fb0453372da16fa5f"
+    },
+    {
+      "name": "BOOT-INF/lib/tomcat-embed-websocket-10.1.55.jar",
+      "baselineSha256": "81800431395fe2ef317fc14075ed49faaa64679a3458ee8791159111a1aa1b37",
+      "candidateSha256": "81800431395fe2ef317fc14075ed49faaa64679a3458ee8791159111a1aa1b37"
+    },
+    {
+      "name": "BOOT-INF/lib/transmittable-thread-local-2.14.5.jar",
+      "baselineSha256": "b7873215661fc84d870b1639544bcd32b5933c3ab450664cd8363e0e1b1b7ad1",
+      "candidateSha256": "b7873215661fc84d870b1639544bcd32b5933c3ab450664cd8363e0e1b1b7ad1"
+    },
+    {
+      "name": "BOOT-INF/lib/txw2-4.0.9.jar",
+      "baselineSha256": "d6343e5945d87266ca4e8974a0a2a876e1bd147a00fb65ed3f2e1a3a00f3a82a",
+      "candidateSha256": "d6343e5945d87266ca4e8974a0a2a876e1bd147a00fb65ed3f2e1a3a00f3a82a"
+    },
+    {
+      "name": "BOOT-INF/lib/ucp-23.7.0.25.01.jar",
+      "baselineSha256": "47db806cdb834746edcfdcacaa1f464fcaf201e820e94658be9e1254d713094f",
+      "candidateSha256": "47db806cdb834746edcfdcacaa1f464fcaf201e820e94658be9e1254d713094f"
+    },
+    {
+      "name": "BOOT-INF/lib/utils-2.55.5.jar",
+      "baselineSha256": "def91628e3d5488c5b0b0d9a8b881cacf3f56dbdf21939b80be2040aa29a6e65",
+      "candidateSha256": "def91628e3d5488c5b0b0d9a8b881cacf3f56dbdf21939b80be2040aa29a6e65"
+    },
+    {
+      "name": "BOOT-INF/lib/utils-lite-2.55.5.jar",
+      "baselineSha256": "35c5d0ab3109f1097b04eefe6e0afad648b7b041ca7d3023473c6b581e9f3550",
+      "candidateSha256": "35c5d0ab3109f1097b04eefe6e0afad648b7b041ca7d3023473c6b581e9f3550"
+    },
+    {
+      "name": "BOOT-INF/lib/velocity-engine-core-2.4.1.jar",
+      "baselineSha256": "1c19157d1171d560088e485be97c93a7a2f7e9f56e517f0a30273c5c39df6231",
+      "candidateSha256": "1c19157d1171d560088e485be97c93a7a2f7e9f56e517f0a30273c5c39df6231"
+    },
+    {
+      "name": "BOOT-INF/lib/webjars-locator-lite-1.1.3.jar",
+      "baselineSha256": "7b67c4e69437a9c32b9c901bfaa056c7e2f1db62401757f02387c1f014bd00c4",
+      "candidateSha256": "7b67c4e69437a9c32b9c901bfaa056c7e2f1db62401757f02387c1f014bd00c4"
+    },
+    {
+      "name": "BOOT-INF/lib/weixin-java-common-4.8.6-20260919.232150.jar",
+      "baselineSha256": "4b1fc51d920e14d31c8724f9427af77a029f8b9bdf61bea45c52c2adf4dabe3f",
+      "candidateSha256": "4b1fc51d920e14d31c8724f9427af77a029f8b9bdf61bea45c52c2adf4dabe3f"
+    },
+    {
+      "name": "BOOT-INF/lib/weixin-java-miniapp-4.8.6-20260919.232150.jar",
+      "baselineSha256": "4637211c0860ca6a5866685c039a591e90fe3c0ef170c6746c7624484d6c776f",
+      "candidateSha256": "4637211c0860ca6a5866685c039a591e90fe3c0ef170c6746c7624484d6c776f"
+    },
+    {
+      "name": "BOOT-INF/lib/weixin-java-mp-4.8.6-20260919.232150.jar",
+      "baselineSha256": "5364ceb24daec0d9e24036bcf7d7658df88dfc704b19412795a50a1c7ab0c0b7",
+      "candidateSha256": "5364ceb24daec0d9e24036bcf7d7658df88dfc704b19412795a50a1c7ab0c0b7"
+    },
+    {
+      "name": "BOOT-INF/lib/wx-java-miniapp-spring-boot-starter-4.8.6-20260919.232150.jar",
+      "baselineSha256": "1d490271575ca7d98f3ec2bc71ce399a60adef04698714942bff0e7fe3932202",
+      "candidateSha256": "1d490271575ca7d98f3ec2bc71ce399a60adef04698714942bff0e7fe3932202"
+    },
+    {
+      "name": "BOOT-INF/lib/wx-java-mp-spring-boot-starter-4.8.6-20260919.232150.jar",
+      "baselineSha256": "df716f35078f0029a901a1cbd8ec83fed345b21ee0cd92ca2b2de19ee10c8356",
+      "candidateSha256": "df716f35078f0029a901a1cbd8ec83fed345b21ee0cd92ca2b2de19ee10c8356"
+    },
+    {
+      "name": "BOOT-INF/lib/xmlbeans-5.3.0.jar",
+      "baselineSha256": "6cc69da3b4d35b83c5e477cd4daba204e44109833e34af2b9a8a2c8788289917",
+      "candidateSha256": "6cc69da3b4d35b83c5e477cd4daba204e44109833e34af2b9a8a2c8788289917"
+    },
+    {
+      "name": "BOOT-INF/lib/xmlpull-1.1.3.1.jar",
+      "baselineSha256": "34e08ee62116071cbb69c0ed70d15a7a5b208d62798c59f2120bb8929324cb63",
+      "candidateSha256": "34e08ee62116071cbb69c0ed70d15a7a5b208d62798c59f2120bb8929324cb63"
+    },
+    {
+      "name": "BOOT-INF/lib/xstream-1.4.21.jar",
+      "baselineSha256": "f56586f3de59ae2a49430acbc9f27942b8c5cebec9245c869fae7136733333ec",
+      "candidateSha256": "f56586f3de59ae2a49430acbc9f27942b8c5cebec9245c869fae7136733333ec"
+    }
+  ],
+  "internalLibs": [
+    {
+      "name": "BOOT-INF/lib/yudao-common-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "f392277081fabd8397dc7068306ad8f5ad787335fdca80f22f092d65b36ecfb8",
+      "candidateSha256": "8ada459ecfcb5f28350854ae7365fcc2ae64d9a083ad2ce47d13a3f2488705f0",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-common/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-module-infra-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "97b072c070bc8fd7dc8c62dc26f693fec126656e04f8e82f26330e3cbcda26d3",
+      "candidateSha256": "b494c9e4e3075ae53da1e6a9edee7b617fc667fc5df5734c803c9af633f7d662",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-module-infra/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-module-system-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "23ed14ed794c1a799330fb732dc6f47f66c2b7027cad05c8a4b3f4106a6ee6fb",
+      "candidateSha256": "02208aa3003583d856fadd76ad8fa8c1c0c74156c58fe8f62f0a412b730b46bb",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-module-system/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-biz-data-permission-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "ed229a97f0d7dcb6bea8b376e1ed479e2ecda7374a5e1a2dc1bc132afa8f041f",
+      "candidateSha256": "06e9e4923198abccee91ec3de34f55a56da89d0e526f81a69246f069f8185548",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-biz-data-permission/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-biz-ip-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "173fa8e9d4f296cf379ea179f120bca21c20a4a803ce3ca5fb92588d2462a6e6",
+      "candidateSha256": "4222bd66b25f0f372beac2ff531a2d185c126570b370e8d22157d99bee13e324",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-biz-ip/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-biz-tenant-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "123fbfd497cd8d46550fab137d310da5f745f8a448716d68db8fccdd04da6994",
+      "candidateSha256": "9a91d426c0b72b7c239ef8d72c7c4976fd396a861feba34e5c905e847c998304",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-biz-tenant/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-excel-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "5c62cc4d6fa59e255fc8b40746165c33fcc6afd08df7e89dae8cf343a3ea04ea",
+      "candidateSha256": "434d77318ff8af262367be31f1ba530496ea3be27558cc8b31e3b1167fa1137d",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-excel/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-job-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "890e396060c8bff94c4cad5d4ac1654c18c30a2828ad356cb2edb70828b08f68",
+      "candidateSha256": "4d786a3676d4b8e8a30ee171e6b6ba84c36e2a9c06d720d64d491349d397d6d0",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-job/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-monitor-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "c36e14e5f7196f4e82342c6ee786eada555d995d382672a6af012da862b9718e",
+      "candidateSha256": "5c3cc51f356724782a406bc93c1c5b87097e0fc27c0cdf269f94d1ef91fef71d",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-monitor/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-mq-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "dbc9f4e1aa57e5d53c1c16591ec84738086ace86765ab4f970c93791a4846d2c",
+      "candidateSha256": "ffee8c75548d216733f332fceda984a9b09fa8d608ed744a1b57c0e669ff7437",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-mq/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-mybatis-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "9da97e97436c2b2ee54b135b0e46235ebdecc208f65bc33f9f4f9a7ddc70de42",
+      "candidateSha256": "b8445e6d8e31acfc68ed5e05b3840262b5d3793e195f9a79472eeda06d818f23",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-mybatis/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-protection-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "ebc94f319ed7cac081ac60c164f99442a9b88aa69f3444f748f2c4c39799907f",
+      "candidateSha256": "e5900f071cbecc0ea64f82e55a2fd1373a26face159d59b04beab45aacbd56c6",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-protection/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-redis-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "65dba3fb930b7a901783e0a88a2eee4e860a85043e0e05c738d81259d8236c03",
+      "candidateSha256": "f8e351b85c0f3abf402b44fb4a93519932c0029f84817903db54b782cfac2bfb",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-redis/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-security-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "78c3e1c73cc462b235606fa851bd777cd727bf94dd7b5c85cac67da118eed12a",
+      "candidateSha256": "d77bcd11aa6ac2e43f7605d9dcbd88065e0887fcadcf82f478714f92570202b6",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-security/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-web-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "5ed7f813426a8f41542a2478fe6df2bd7db776e461f8261745cf85f90c662fc5",
+      "candidateSha256": "c4dfde1e47674666fbdcd0684da5581b2ea9c6af6efcec59add5c913151f333b",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-web/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-websocket-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "5815b84ddf4653851cc1770fe186d382ab179274022d14899f8461f5a416131b",
+      "candidateSha256": "893beae24790991d350491c49b0a66b80754a157eb555d6a1c8e34341524dc0e",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-websocket/pom.properties"
+      ]
+    }
+  ],
+  "internalDifferences": [
+    {
+      "name": "BOOT-INF/lib/yudao-common-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "f392277081fabd8397dc7068306ad8f5ad787335fdca80f22f092d65b36ecfb8",
+      "candidateSha256": "8ada459ecfcb5f28350854ae7365fcc2ae64d9a083ad2ce47d13a3f2488705f0",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-common/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-module-infra-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "97b072c070bc8fd7dc8c62dc26f693fec126656e04f8e82f26330e3cbcda26d3",
+      "candidateSha256": "b494c9e4e3075ae53da1e6a9edee7b617fc667fc5df5734c803c9af633f7d662",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-module-infra/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-module-system-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "23ed14ed794c1a799330fb732dc6f47f66c2b7027cad05c8a4b3f4106a6ee6fb",
+      "candidateSha256": "02208aa3003583d856fadd76ad8fa8c1c0c74156c58fe8f62f0a412b730b46bb",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-module-system/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-biz-data-permission-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "ed229a97f0d7dcb6bea8b376e1ed479e2ecda7374a5e1a2dc1bc132afa8f041f",
+      "candidateSha256": "06e9e4923198abccee91ec3de34f55a56da89d0e526f81a69246f069f8185548",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-biz-data-permission/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-biz-ip-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "173fa8e9d4f296cf379ea179f120bca21c20a4a803ce3ca5fb92588d2462a6e6",
+      "candidateSha256": "4222bd66b25f0f372beac2ff531a2d185c126570b370e8d22157d99bee13e324",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-biz-ip/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-biz-tenant-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "123fbfd497cd8d46550fab137d310da5f745f8a448716d68db8fccdd04da6994",
+      "candidateSha256": "9a91d426c0b72b7c239ef8d72c7c4976fd396a861feba34e5c905e847c998304",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-biz-tenant/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-excel-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "5c62cc4d6fa59e255fc8b40746165c33fcc6afd08df7e89dae8cf343a3ea04ea",
+      "candidateSha256": "434d77318ff8af262367be31f1ba530496ea3be27558cc8b31e3b1167fa1137d",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-excel/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-job-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "890e396060c8bff94c4cad5d4ac1654c18c30a2828ad356cb2edb70828b08f68",
+      "candidateSha256": "4d786a3676d4b8e8a30ee171e6b6ba84c36e2a9c06d720d64d491349d397d6d0",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-job/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-monitor-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "c36e14e5f7196f4e82342c6ee786eada555d995d382672a6af012da862b9718e",
+      "candidateSha256": "5c3cc51f356724782a406bc93c1c5b87097e0fc27c0cdf269f94d1ef91fef71d",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-monitor/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-mq-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "dbc9f4e1aa57e5d53c1c16591ec84738086ace86765ab4f970c93791a4846d2c",
+      "candidateSha256": "ffee8c75548d216733f332fceda984a9b09fa8d608ed744a1b57c0e669ff7437",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-mq/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-mybatis-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "9da97e97436c2b2ee54b135b0e46235ebdecc208f65bc33f9f4f9a7ddc70de42",
+      "candidateSha256": "b8445e6d8e31acfc68ed5e05b3840262b5d3793e195f9a79472eeda06d818f23",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-mybatis/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-protection-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "ebc94f319ed7cac081ac60c164f99442a9b88aa69f3444f748f2c4c39799907f",
+      "candidateSha256": "e5900f071cbecc0ea64f82e55a2fd1373a26face159d59b04beab45aacbd56c6",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-protection/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-redis-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "65dba3fb930b7a901783e0a88a2eee4e860a85043e0e05c738d81259d8236c03",
+      "candidateSha256": "f8e351b85c0f3abf402b44fb4a93519932c0029f84817903db54b782cfac2bfb",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-redis/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-security-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "78c3e1c73cc462b235606fa851bd777cd727bf94dd7b5c85cac67da118eed12a",
+      "candidateSha256": "d77bcd11aa6ac2e43f7605d9dcbd88065e0887fcadcf82f478714f92570202b6",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-security/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-web-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "5ed7f813426a8f41542a2478fe6df2bd7db776e461f8261745cf85f90c662fc5",
+      "candidateSha256": "c4dfde1e47674666fbdcd0684da5581b2ea9c6af6efcec59add5c913151f333b",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-web/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-websocket-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "5815b84ddf4653851cc1770fe186d382ab179274022d14899f8461f5a416131b",
+      "candidateSha256": "893beae24790991d350491c49b0a66b80754a157eb555d6a1c8e34341524dc0e",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-websocket/pom.properties"
+      ]
+    }
+  ],
+  "internalClassAndResourceContentEqual": true,
+  "forbiddenTestLibraries": [],
+  "requiredRuntimeLibrariesPresent": true,
+  "jarMtimeEpoch": 1793635519,
+  "startEpoch": 1793635502
+}

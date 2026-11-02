@@ -1,0 +1,11 @@
+{
+  "label": "r11-backend-test-compile-final",
+  "finishedUtc": "2026-11-02T15:59:12.577674+00:00",
+  "freeBeforeBytes": 40935452672,
+  "freeAfterBytes": 40935239680,
+  "minimumFreeBytes": 10737418240,
+  "buildExitCode": 0,
+  "recoveryExitCode": 0,
+  "backendHttpHealthy": true,
+  "scratchRemoved": true
+}

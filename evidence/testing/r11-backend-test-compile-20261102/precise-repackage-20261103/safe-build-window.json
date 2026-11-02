@@ -1,0 +1,11 @@
+{
+  "label": "r11-backend-precise-repackage",
+  "finishedUtc": "2026-11-02T16:05:52.213886+00:00",
+  "freeBeforeBytes": 40941080576,
+  "freeAfterBytes": 40939429888,
+  "minimumFreeBytes": 10737418240,
+  "buildExitCode": 0,
+  "recoveryExitCode": 0,
+  "backendHttpHealthy": true,
+  "scratchRemoved": true
+}

@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "status": "PASS_TEST_COMPILE_PACKAGE_DEPENDENCY_PARITY_AND_ONE_MOCKITO_CHECK",
+  "backendBaseCommit": "7efd316fb154c65fff089da7a5919284fb1f8cd6",
+  "backendCommit": "f9d6d912993643b69462e5c091aecbabf02bb2f2",
+  "branch": "print/phase1-backend-test-compile",
+  "change": "mockito-core test scope managed by existing BOM; exclude transitive objenesis to preserve existing runtime version",
+  "testSourceCount": 18,
+  "compiledTestClassCount": 46,
+  "testCompile": "PASS",
+  "packageWithSkipTests": "PASS",
+  "dependencyScope": "test",
+  "dependencyTree": "FAILED_OFFLINE_NOT_PROOF; RAW_LOGS_RETAINED",
+  "freshJarBuild": "PASS_EXACT_TARGET_JAR_AND_ORIGINAL_REMOVED_UNDER_BUILD_LOCK; NEW_BUILDING_JAR_LINE; MTIME_AFTER_START",
+  "candidateJarSha256": "e16da5d2da357ba36020e7ef79376f1b61003d75dd0974f7525887b1f0eb0c67",
+  "runtimeLibComparison": "precise-repackage-20261103/runtime-lib-comparison.json",
+  "allExternalLibNamesAndHashesEqual": true,
+  "externalLibCount": 245,
+  "internalClassAndResourceContentEqual": true,
+  "internalMetadataDifference": "16 module JAR hashes differ only in generated pom.properties build metadata; classes and resources match",
+  "requiredRuntimeLibraries": [
+    "objenesis-3.4.jar",
+    "byte-buddy-1.17.8.jar"
+  ],
+  "forbiddenTestLibraries": [],
+  "mockitoRuntimeCheck": {
+    "class": "cn.iocoder.yudao.server.print.store.profile.PrintStoreProfileChecks",
+    "status": "PASS",
+    "count": 65,
+    "sqlExecuted": false,
+    "redisExecuted": false,
+    "evidence": "precise-repackage-20261103/mockito-check-result.json"
+  },
+  "allPrintingMainChecks": "NOT_RUN",
+  "upstreamJUnit": "NOT_RUN",
+  "astraReview": {
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "result": "PASS_TO_IMPLEMENT",
+    "source": "COORDINATOR_REPORTED_DESIGN_REVIEW",
+    "scope": "third precise repackage after two validation failures; preserve POM, delete two exact worktree target artifacts, compare libraries, run one Mockito check; not final implementation review"
+  },
+  "serviceRecovery": {
+    "safeWindowBuildExitCode": 0,
+    "safeWindowRecoveryExitCode": 0,
+    "scratchRemoved": true,
+    "httpStatus": 200,
+    "businessCode": 401,
+    "services": [
+      "active",
+      "active",
+      "active",
+      "active"
+    ]
+  },
+  "deployment": "NOT_RUN",
+  "push": "NOT_RUN",
+  "implementationModel": "gpt-6.1-sol",
+  "effort": "INHERITED_PARENT_NOT_SEPARATELY_EXPOSED",
+  "reproductionCommand": "bash /home/ubuntu/print-system/runtime/worktrees/pdf-source-routing-engineering-20261102/ops/run-safe-build-window.sh r11-backend-precise-repackage -- bash /home/ubuntu/print-system/evidence/testing/r11-backend-test-compile-20261102/run-precise-repackage.sh",
+  "finishedUtc": "2026-11-02T16:06:30.117496+00:00"
+}

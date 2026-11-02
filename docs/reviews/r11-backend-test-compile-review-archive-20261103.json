@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "archiveDate": "2026-11-03",
+  "classification": "COORDINATOR_REPORTED_REVIEW_RESULT_ARCHIVE",
+  "source": "Parent coordinator supplied agent review messages; raw model runtime telemetry is not available in this archive",
+  "backendBaseCommit": "7efd316fb154c65fff089da7a5919284fb1f8cd6",
+  "backendCommit": "f9d6d912993643b69462e5c091aecbabf02bb2f2",
+  "scope": "yudao-server/pom.xml 12-line test dependency change and related test compilation, precise repackage, runtime library parity and one existing Mockito memory check evidence",
+  "astraDesignReview": {
+    "role": "astra_reviewer",
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "effortTelemetry": "NOT_SEPARATELY_EXPOSED",
+    "result": "PASS_TO_IMPLEMENT",
+    "trigger": "Same dependency parity validation issue remained unresolved after two repair rounds",
+    "candidatePomSha256": "2c82d5108760065ddd871e45e86b72db6123a38de0189b3ca7f8a5800f2ebbfc",
+    "approvedSteps": [
+      "Preserve current POM without dependencyManagement version overrides",
+      "Validate isolated worktree and target real paths under build lock; delete only yudao-server.jar and yudao-server.jar.original",
+      "Run offline single-thread test-compile and package with skipTests in standard safe build window",
+      "Require fresh Building jar evidence and artifact mtime after run start",
+      "Compare every external runtime library name and SHA with stable artifact; require Objenesis 3.4, Byte Buddy 1.17.8 and no Mockito or Byte Buddy Agent",
+      "Verify internal classes and resources unchanged except explained generated metadata",
+      "Run at least one existing Mockito memory check",
+      "Recover four services and verify HTTP 200 plus business code 401; stop on any failure"
+    ],
+    "boundary": "Design approval only; does not approve candidate validation, deployment, full tests or release"
+  },
+  "solFinalReview": {
+    "role": "sol_reviewer",
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "effortTelemetry": "NOT_SEPARATELY_EXPOSED",
+    "result": "PASS",
+    "boundCommit": "f9d6d912993643b69462e5c091aecbabf02bb2f2",
+    "verified": [
+      "Mockito is test scope and Objenesis exclusion matches approved POM",
+      "Fresh JAR generated; test compilation and packaging succeeded",
+      "245 external runtime libraries have identical names and SHA with stable artifact",
+      "16 internal module differences are generated metadata only; classes and resources match",
+      "Existing Mockito memory check passed 65 checks",
+      "Four services active and HTTP 200 plus business code 401 verified"
+    ],
+    "boundary": "Test compilation fix only; full printing main checks, upstream JUnit, SQL, Redis and HTTP acceptance remain NOT_RUN; not production release approval"
+  },
+  "evidence": "../../evidence/testing/r11-backend-test-compile-20261102/summary.json",
+  "archiveImplementationModel": "gpt-6.1-sol",
+  "archiveImplementationEffort": "INHERITED_PARENT_NOT_SEPARATELY_EXPOSED",
+  "archiveIndependentReview": "PENDING_COORDINATOR",
+  "deploymentByArchive": false,
+  "pushByArchive": false
+}

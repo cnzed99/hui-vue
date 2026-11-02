@@ -1,0 +1,174 @@
+{
+  "baselineJarSha256": "4e33980ba88c61a69e61c5a590135c96a54d0973b2ceee8d739eb69036b0dc71",
+  "candidateJarSha256": "ee59fd2ef5799da5ace8c0f297d563177245888c663a49f6034ed0f17dc97235",
+  "baselineLibCount": 261,
+  "candidateLibCount": 261,
+  "baselineOnly": [
+    "BOOT-INF/lib/objenesis-3.4.jar"
+  ],
+  "candidateOnly": [
+    "BOOT-INF/lib/objenesis-3.3.jar"
+  ],
+  "hashDifferences": [
+    {
+      "name": "BOOT-INF/lib/yudao-common-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "f392277081fabd8397dc7068306ad8f5ad787335fdca80f22f092d65b36ecfb8",
+      "candidateSha256": "8ada459ecfcb5f28350854ae7365fcc2ae64d9a083ad2ce47d13a3f2488705f0",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-common/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-module-infra-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "97b072c070bc8fd7dc8c62dc26f693fec126656e04f8e82f26330e3cbcda26d3",
+      "candidateSha256": "b494c9e4e3075ae53da1e6a9edee7b617fc667fc5df5734c803c9af633f7d662",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-module-infra/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-module-system-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "23ed14ed794c1a799330fb732dc6f47f66c2b7027cad05c8a4b3f4106a6ee6fb",
+      "candidateSha256": "02208aa3003583d856fadd76ad8fa8c1c0c74156c58fe8f62f0a412b730b46bb",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-module-system/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-biz-data-permission-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "ed229a97f0d7dcb6bea8b376e1ed479e2ecda7374a5e1a2dc1bc132afa8f041f",
+      "candidateSha256": "06e9e4923198abccee91ec3de34f55a56da89d0e526f81a69246f069f8185548",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-biz-data-permission/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-biz-ip-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "173fa8e9d4f296cf379ea179f120bca21c20a4a803ce3ca5fb92588d2462a6e6",
+      "candidateSha256": "4222bd66b25f0f372beac2ff531a2d185c126570b370e8d22157d99bee13e324",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-biz-ip/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-biz-tenant-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "123fbfd497cd8d46550fab137d310da5f745f8a448716d68db8fccdd04da6994",
+      "candidateSha256": "9a91d426c0b72b7c239ef8d72c7c4976fd396a861feba34e5c905e847c998304",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-biz-tenant/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-excel-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "5c62cc4d6fa59e255fc8b40746165c33fcc6afd08df7e89dae8cf343a3ea04ea",
+      "candidateSha256": "434d77318ff8af262367be31f1ba530496ea3be27558cc8b31e3b1167fa1137d",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-excel/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-job-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "890e396060c8bff94c4cad5d4ac1654c18c30a2828ad356cb2edb70828b08f68",
+      "candidateSha256": "4d786a3676d4b8e8a30ee171e6b6ba84c36e2a9c06d720d64d491349d397d6d0",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-job/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-monitor-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "c36e14e5f7196f4e82342c6ee786eada555d995d382672a6af012da862b9718e",
+      "candidateSha256": "5c3cc51f356724782a406bc93c1c5b87097e0fc27c0cdf269f94d1ef91fef71d",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-monitor/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-mq-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "dbc9f4e1aa57e5d53c1c16591ec84738086ace86765ab4f970c93791a4846d2c",
+      "candidateSha256": "ffee8c75548d216733f332fceda984a9b09fa8d608ed744a1b57c0e669ff7437",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-mq/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-mybatis-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "9da97e97436c2b2ee54b135b0e46235ebdecc208f65bc33f9f4f9a7ddc70de42",
+      "candidateSha256": "b8445e6d8e31acfc68ed5e05b3840262b5d3793e195f9a79472eeda06d818f23",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-mybatis/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-protection-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "ebc94f319ed7cac081ac60c164f99442a9b88aa69f3444f748f2c4c39799907f",
+      "candidateSha256": "e5900f071cbecc0ea64f82e55a2fd1373a26face159d59b04beab45aacbd56c6",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-protection/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-redis-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "65dba3fb930b7a901783e0a88a2eee4e860a85043e0e05c738d81259d8236c03",
+      "candidateSha256": "f8e351b85c0f3abf402b44fb4a93519932c0029f84817903db54b782cfac2bfb",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-redis/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-security-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "78c3e1c73cc462b235606fa851bd777cd727bf94dd7b5c85cac67da118eed12a",
+      "candidateSha256": "d77bcd11aa6ac2e43f7605d9dcbd88065e0887fcadcf82f478714f92570202b6",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-security/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-web-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "5ed7f813426a8f41542a2478fe6df2bd7db776e461f8261745cf85f90c662fc5",
+      "candidateSha256": "c4dfde1e47674666fbdcd0684da5581b2ea9c6af6efcec59add5c913151f333b",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-web/pom.properties"
+      ]
+    },
+    {
+      "name": "BOOT-INF/lib/yudao-spring-boot-starter-websocket-2026.09-SNAPSHOT.jar",
+      "baselineSha256": "5815b84ddf4653851cc1770fe186d382ab179274022d14899f8461f5a416131b",
+      "candidateSha256": "893beae24790991d350491c49b0a66b80754a157eb555d6a1c8e34341524dc0e",
+      "innerAdded": [],
+      "innerRemoved": [],
+      "innerChanged": [
+        "META-INF/maven/cn.iocoder.boot/yudao-spring-boot-starter-websocket/pom.properties"
+      ]
+    }
+  ]
+}

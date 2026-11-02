@@ -1,0 +1,1 @@
+[INFO] Building jar: /home/ubuntu/print-system/runtime/worktrees/backend-test-compile-20261102/yudao-server/target/yudao-server.jar

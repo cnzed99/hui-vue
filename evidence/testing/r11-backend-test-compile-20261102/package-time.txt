@@ -1,0 +1,23 @@
+	Command being timed: "mvn -o -B -ntp -T 1 -pl yudao-server -am -DskipTests package"
+	User time (seconds): 14.33
+	System time (seconds): 1.28
+	Percent of CPU this job got: 192%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:08.12
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 290080
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 12
+	Minor (reclaiming a frame) page faults: 76937
+	Voluntary context switches: 10545
+	Involuntary context switches: 12124
+	Swaps: 0
+	File system inputs: 1520
+	File system outputs: 768
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
