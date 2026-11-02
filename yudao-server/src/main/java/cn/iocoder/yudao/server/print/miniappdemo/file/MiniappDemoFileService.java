@@ -58,6 +58,7 @@ public class MiniappDemoFileService {
     private ScheduledExecutorService worker;
     private java.nio.channels.FileChannel lockChannel;
     private java.nio.channels.FileLock workerLock;
+    private volatile boolean retainStorageLockUntilExit;
 
     public MiniappDemoFileService(MiniappDemoFileProperties properties, MiniappDemoFileRepository repository,
             MiniappDemoSessionRepository sessions, MiniappDemoPdfProcessInspector inspector,
@@ -113,6 +114,10 @@ public class MiniappDemoFileService {
                 return; // Keep the OS lock until this process exits.
             }
         }
+        if (retainStorageLockUntilExit) {
+            LOG.warn("miniapp_demo_storage_lock_retained_until_process_exit");
+            return;
+        }
         closeLock();
     }
 
@@ -140,6 +145,11 @@ public class MiniappDemoFileService {
         if (!properties.isEnabled() || workerLock == null || !workerLock.isValid()) {
             throw new IllegalStateException("Miniapp demo storage lock is not held");
         }
+    }
+
+    /** Keep the OS lock open when a dependent renderer cannot drain safely during shutdown. */
+    public void retainStorageLockUntilProcessExit() {
+        retainStorageLockUntilExit = true;
     }
 
     private MiniappDemoFileMetadata uploadSerialized(MiniappDemoIdentity identity, MultipartFile file, String idempotencyKey) {

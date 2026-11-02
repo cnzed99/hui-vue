@@ -34,6 +34,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 /** Standalone synthetic checks; never reads user images or business data. */
 public final class MiniappDemoImageCollageRendererChecks {
@@ -93,6 +94,7 @@ public final class MiniappDemoImageCollageRendererChecks {
                         () -> renderer.render(three));
             }
             check("shared_admission_released", renderer.render(three).length > 0);
+            shutdownDrainCheck(root.resolve("shutdown-drain"), Path.of(args[0]), fixtures.get(0));
             List<MultipartFile> ten = new ArrayList<>(fixtures); ten.add(fixtures.get(0));
             rejects("ten_rejected", MiniappDemoImageCollageException.Reason.INVALID_INPUT,
                     () -> renderer.render(ten));
@@ -119,6 +121,12 @@ public final class MiniappDemoImageCollageRendererChecks {
 
     private static MiniappDemoImageCollageProcessRenderer renderer(Path root, Path jar,
             MiniappDemoProcessAdmission admission, long maxPixels, Runnable storageLockCheck) throws Exception {
+        return renderer(root, jar, admission, maxPixels, storageLockCheck, () -> { });
+    }
+
+    private static MiniappDemoImageCollageProcessRenderer renderer(Path root, Path jar,
+            MiniappDemoProcessAdmission admission, long maxPixels, Runnable storageLockCheck,
+            Runnable retainStorageLock) throws Exception {
         Files.createDirectories(root);
         Files.setPosixFilePermissions(root, Set.of(PosixFilePermission.OWNER_READ,
                 PosixFilePermission.OWNER_WRITE, PosixFilePermission.OWNER_EXECUTE));
@@ -127,7 +135,8 @@ public final class MiniappDemoImageCollageRendererChecks {
         files.setMaxBytes(2 * 1024 * 1024); files.setMaxPages(20); files.setRetentionSeconds(3600);
         MiniappDemoImageCollageProperties properties = properties(root, maxPixels);
         MiniappDemoImageCollageProcessRenderer renderer =
-                new MiniappDemoImageCollageProcessRenderer(properties, files, admission, storageLockCheck);
+                new MiniappDemoImageCollageProcessRenderer(properties, files, admission,
+                        storageLockCheck, retainStorageLock);
         renderer.initialize(); return renderer;
     }
 
@@ -214,6 +223,42 @@ public final class MiniappDemoImageCollageRendererChecks {
         check("third_upload_rejected_before_downstream", thirdResponse.status.get() == 429 && !thirdDownstream.get());
         release.countDown(); first.join(5000); second.join(5000);
         check("upload_slots_release", !first.isAlive() && !second.isAlive());
+    }
+
+    private static void shutdownDrainCheck(Path root, Path jar, MultipartFile fixture) throws Exception {
+        CountDownLatch renderEntered = new CountDownLatch(1);
+        CountDownLatch allowRender = new CountDownLatch(1);
+        AtomicInteger lockChecks = new AtomicInteger();
+        AtomicBoolean retained = new AtomicBoolean();
+        Runnable lockCheck = () -> {
+            if (lockChecks.incrementAndGet() != 2) return; // first check belongs to initialize()
+            renderEntered.countDown();
+            try {
+                if (!allowRender.await(5, TimeUnit.SECONDS)) throw new IllegalStateException("render gate timeout");
+            } catch (InterruptedException interrupted) {
+                Thread.currentThread().interrupt();
+                throw new IllegalStateException("render gate interrupted", interrupted);
+            }
+        };
+        MiniappDemoImageCollageProcessRenderer renderer = renderer(root, jar,
+                new MiniappDemoProcessAdmission(), 6_000_000, lockCheck, () -> retained.set(true));
+        AtomicReference<Throwable> renderFailure = new AtomicReference<>();
+        Thread render = new Thread(() -> {
+            try { renderer.render(List.of(fixture)); }
+            catch (Throwable failure) { renderFailure.set(failure); }
+        }, "collage-render-shutdown-check");
+        Thread stop = new Thread(renderer::stop, "collage-stop-check");
+        render.start();
+        check("shutdown_check_render_entered", renderEntered.await(5, TimeUnit.SECONDS));
+        stop.start();
+        Thread.sleep(100);
+        check("shutdown_waits_before_release", stop.isAlive());
+        allowRender.countDown();
+        render.join(20_000); stop.join(20_000);
+        check("shutdown_drains_active_render", !render.isAlive() && !stop.isAlive()
+                && renderFailure.get() == null && !retained.get());
+        rejects("shutdown_rejects_new_render", MiniappDemoImageCollageException.Reason.RENDER_UNAVAILABLE,
+                () -> renderer.render(List.of(fixture)));
     }
 
     private static void runFilter(MiniappDemoImageCollageUploadAdmissionFilter filter, FilterChain chain) {

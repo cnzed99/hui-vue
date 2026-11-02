@@ -4,6 +4,7 @@ import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoProcessAdmission;
 import cn.iocoder.yudao.server.print.miniappdemo.file.MiniappDemoFileProperties;
 import cn.iocoder.yudao.server.print.miniappdemo.file.MiniappDemoFileService;
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -44,6 +45,10 @@ public final class MiniappDemoImageCollageProcessRenderer {
     private final MiniappDemoFileProperties fileProperties;
     private final MiniappDemoProcessAdmission processAdmission;
     private final Runnable storageLockCheck;
+    private final Runnable retainStorageLock;
+    private final Object lifecycleMonitor = new Object();
+    private boolean stopping;
+    private int activeRenders;
     private Path runtimeJar;
     private Path scratch;
 
@@ -51,16 +56,24 @@ public final class MiniappDemoImageCollageProcessRenderer {
     public MiniappDemoImageCollageProcessRenderer(MiniappDemoImageCollageProperties properties,
             MiniappDemoFileProperties fileProperties, MiniappDemoProcessAdmission processAdmission,
             MiniappDemoFileService fileService) {
-        this(properties, fileProperties, processAdmission, fileService::requireStorageLockHeld);
+        this(properties, fileProperties, processAdmission, fileService::requireStorageLockHeld,
+                fileService::retainStorageLockUntilProcessExit);
     }
 
     MiniappDemoImageCollageProcessRenderer(MiniappDemoImageCollageProperties properties,
             MiniappDemoFileProperties fileProperties, MiniappDemoProcessAdmission processAdmission,
             Runnable storageLockCheck) {
+        this(properties, fileProperties, processAdmission, storageLockCheck, () -> { });
+    }
+
+    MiniappDemoImageCollageProcessRenderer(MiniappDemoImageCollageProperties properties,
+            MiniappDemoFileProperties fileProperties, MiniappDemoProcessAdmission processAdmission,
+            Runnable storageLockCheck, Runnable retainStorageLock) {
         this.properties = properties;
         this.fileProperties = fileProperties;
         this.processAdmission = processAdmission;
         this.storageLockCheck = storageLockCheck;
+        this.retainStorageLock = retainStorageLock;
     }
 
     @PostConstruct
@@ -79,9 +92,40 @@ public final class MiniappDemoImageCollageProcessRenderer {
         cleanupAbandoned();
     }
 
+    @PreDestroy
+    public void stop() {
+        boolean interrupted = false;
+        boolean drained = false;
+        long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(properties.getRenderTimeoutSeconds() + 5L);
+        synchronized (lifecycleMonitor) {
+            stopping = true;
+            while (activeRenders > 0) {
+                long remaining = deadline - System.nanoTime();
+                if (remaining <= 0) break;
+                try {
+                    TimeUnit.NANOSECONDS.timedWait(lifecycleMonitor, remaining);
+                } catch (InterruptedException failure) {
+                    interrupted = true;
+                    break;
+                }
+            }
+            drained = activeRenders == 0;
+        }
+        if (!drained) retainStorageLock.run();
+        if (interrupted) Thread.currentThread().interrupt();
+    }
+
     public byte[] render(List<MultipartFile> images) {
         requireEnabled();
-        storageLockCheck.run();
+        beginRender();
+        try {
+            return renderWhileStorageLocked(images);
+        } finally {
+            endRender();
+        }
+    }
+
+    private byte[] renderWhileStorageLocked(List<MultipartFile> images) {
         if (images == null || images.isEmpty() || images.size() > 9 || images.stream().anyMatch(image -> image == null || image.isEmpty())) {
             throw failure(INVALID_INPUT);
         }
@@ -163,6 +207,25 @@ public final class MiniappDemoImageCollageProcessRenderer {
             joinUninterruptibly(collectorThread, process == null ? null : process.getInputStream());
             if (lease != null) lease.close();
             if (task != null) deleteTaskDirectory(task, scratch);
+        }
+    }
+
+    private void beginRender() {
+        synchronized (lifecycleMonitor) {
+            if (stopping) throw failure(RENDER_UNAVAILABLE);
+            try {
+                storageLockCheck.run();
+            } catch (RuntimeException failure) {
+                throw failure(RENDER_UNAVAILABLE);
+            }
+            activeRenders += 1;
+        }
+    }
+
+    private void endRender() {
+        synchronized (lifecycleMonitor) {
+            activeRenders -= 1;
+            lifecycleMonitor.notifyAll();
         }
     }
 
