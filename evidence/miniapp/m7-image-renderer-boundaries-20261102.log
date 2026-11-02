@@ -1,0 +1,39 @@
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+OK:JPEG:80x60:130d244c971c33ea3c629ec893cc0e53359f7e896793e57f97bff8171a89f677
+PASS width=80 height=60 corners=RGBY
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+OK:JPEG:80x60:a94db522f4d4df6ec859d668330ed4122b9edcf15895647c855418724d89832b
+PASS width=80 height=60 corners=GRYB
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+OK:JPEG:80x60:2bfcb20be5e64a47f091adfbc0eafe755a9dc71b25ec55a891cc77aa657c4297
+PASS width=80 height=60 corners=YBGR
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+OK:JPEG:80x60:bff04c379b0b1397d8a9b946868a2a986dfe243938e9980c23fcd0ddbc1d3206
+PASS width=80 height=60 corners=BYRG
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+OK:JPEG:60x80:a7fe98578a2ac5d6b4b86da5e1b7d59a9315c53cf4ce14b6263725f841926f54
+PASS width=60 height=80 corners=RBGY
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+OK:JPEG:60x80:2b167c211d89e0e1bb85962140764f87b3ce221637ae2b12e4d8474b2959f7c9
+PASS width=60 height=80 corners=BRYG
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+OK:JPEG:60x80:82bc61bbaab42706944e318889ea22dc1db1969c1960929acbed0e6bf56509e1
+PASS width=60 height=80 corners=YGBR
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+OK:JPEG:60x80:39e7f0dc99f8eb52f947d69842cda841807706c0d2f958f936d9e62cfe1e956e
+PASS width=60 height=80 corners=GYRB
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+OK:JPEG:2400x1799:75b02821f14999cec9d33c7c1b9ebeb84dba6a834b9917f5324504f0d3d24672
+NEAR_LIMIT elapsed=1.89 max_rss_kib=161236
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+OK:1
+130d244c971c33ea3c629ec893cc0e53359f7e896793e57f97bff8171a89f677  /home/ubuntu/print-system/runtime/scratch/m7-image-exif-run/orientation-1.pdf
+a94db522f4d4df6ec859d668330ed4122b9edcf15895647c855418724d89832b  /home/ubuntu/print-system/runtime/scratch/m7-image-exif-run/orientation-2.pdf
+2bfcb20be5e64a47f091adfbc0eafe755a9dc71b25ec55a891cc77aa657c4297  /home/ubuntu/print-system/runtime/scratch/m7-image-exif-run/orientation-3.pdf
+bff04c379b0b1397d8a9b946868a2a986dfe243938e9980c23fcd0ddbc1d3206  /home/ubuntu/print-system/runtime/scratch/m7-image-exif-run/orientation-4.pdf
+a7fe98578a2ac5d6b4b86da5e1b7d59a9315c53cf4ce14b6263725f841926f54  /home/ubuntu/print-system/runtime/scratch/m7-image-exif-run/orientation-5.pdf
+2b167c211d89e0e1bb85962140764f87b3ce221637ae2b12e4d8474b2959f7c9  /home/ubuntu/print-system/runtime/scratch/m7-image-exif-run/orientation-6.pdf
+82bc61bbaab42706944e318889ea22dc1db1969c1960929acbed0e6bf56509e1  /home/ubuntu/print-system/runtime/scratch/m7-image-exif-run/orientation-7.pdf
+39e7f0dc99f8eb52f947d69842cda841807706c0d2f958f936d9e62cfe1e956e  /home/ubuntu/print-system/runtime/scratch/m7-image-exif-run/orientation-8.pdf
+75b02821f14999cec9d33c7c1b9ebeb84dba6a834b9917f5324504f0d3d24672  /home/ubuntu/print-system/runtime/scratch/m7-image-exif-run/near-limit.pdf
+M7_IMAGE_BOUNDARIES_PASS near_limit_pdf_bytes=77743

@@ -1,0 +1,22 @@
+{
+  "boundaries": {
+    "externalAcceptance": "NOT_RUN",
+    "realPayment": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "wechatDevice": "NOT_RUN"
+  },
+  "fileId": "00811c9c-ace6-42db-a5ba-a7754975a1ba",
+  "fixtureBytes": 195138,
+  "fixtureSha256": "423283fbe7931f3209e936b942c6525c215ff1070d524b81764eacaddd581eb9",
+  "orderId": "2e8eb055-1764-4c0d-8787-7e1cb932096b",
+  "pageCount": 1,
+  "paymentState": "SUCCEEDED",
+  "quoteId": "de650c42-dff5-4a81-8ae3-9ccb3a60edc8",
+  "renderVersion": null,
+  "result": "PASS",
+  "runId": "20261102T045024Z-87a2c7af",
+  "simulatedReceipt": true,
+  "status": "READY",
+  "taskId": "47294efc-182b-409a-956a-52624de31dc1",
+  "taskState": "SUCCEEDED"
+}

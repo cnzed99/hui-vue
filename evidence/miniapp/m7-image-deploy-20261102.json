@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "executedAt": "2026-11-02T04:48:49Z",
+  "runId": "20261102T044816Z-ed1f3461",
+  "deployment": {
+    "backendRelease": "f95abc20388187c5",
+    "backendArtifactSha256": "f95abc20388187c5c9d35401b45534403e9d2ff2d4e45108218b7505195a176c",
+    "miniappRelease": "miniapp-m7-image-20261102T044816Z-ed1f3461",
+    "miniappIndexSha256": "495b3342b02fe6c9eb513074138240de1edf13cb3f50effeb3d323b115a9771a",
+    "activeIndexSha256": "495b3342b02fe6c9eb513074138240de1edf13cb3f50effeb3d323b115a9771a",
+    "httpIndexSha256": "495b3342b02fe6c9eb513074138240de1edf13cb3f50effeb3d323b115a9771a"
+  },
+  "routeProbe": {
+    "httpStatus": 401,
+    "contentType": "application/json;charset=UTF-8",
+    "businessCode": 1926003,
+    "result": "PASS"
+  },
+  "services": {
+    "mysql": "active",
+    "redis-server": "active",
+    "nginx": "active",
+    "print-backend.service": "active"
+  },
+  "freeDiskGiBApprox": 41,
+  "deploymentScriptSha256": "9db0841b9b067bef38884099d80715993b80d1b6214648d311b5221872afb82b",
+  "boundaries": {
+    "browserUi": "NOT_RUN",
+    "wechatDevice": "NOT_RUN",
+    "realPayment": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  }
+}
