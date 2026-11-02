@@ -93,6 +93,10 @@ public final class MiniappDemoCollageUploadService {
                     if(!found.manifest.digest.equals(manifest.digest))throw failure(CONFLICT);
                     return view(found,identity);
                 }
+                if ("COMMITTING".equals(found.state)) {
+                    found.cancelled = true;
+                    throw failure(BUSY);
+                }
                 remove(found);
             }
             synchronized(registry) {
@@ -230,9 +234,18 @@ public final class MiniappDemoCollageUploadService {
         try{begin();}catch(RuntimeException e){return;}
         try{
             List<Session> snapshot;synchronized(registry){snapshot=List.copyOf(sessions.values());}
-            for(Session s:snapshot)synchronized(s){if(s.expires<=System.currentTimeMillis()){
-                if("COMMITTING".equals(s.state))s.cancelled=true;else remove(s);
-            }}
+            for(Session s:snapshot) {
+                try {
+                    synchronized(s) {
+                        if(s.cancelled || s.expires<=System.currentTimeMillis()) {
+                            if("COMMITTING".equals(s.state))s.cancelled=true;else remove(s);
+                        }
+                    }
+                } catch (RuntimeException cleanupFailure) {
+                    // Keep failed entries reserved and retry next tick; never cancel the scheduled task.
+                    // No path, upload id, principal or content is logged.
+                }
+            }
         }finally{end();}
     }
     @PreDestroy public void stop(){

@@ -94,6 +94,9 @@ public final class MiniappDemoCollageUploadChecks {
             try(var walk=Files.walk(storage)){for(Path p:walk.sorted(Comparator.reverseOrder()).toList())Files.deleteIfExists(p);}
         }
         errorExits();
+        cancellationDuringCommit(false);
+        cancellationDuringCommit(true);
+        cleanupRetry();
         System.out.println("STAGED_UPLOAD_CHECKS_PASS "+passed);
     }
     static void shutdownBlockedWrite(MiniappDemoCollageUploadService service,FakeFiles files,MiniappDemoIdentity identity,JsonNode manifest)throws Exception{
@@ -139,6 +142,61 @@ public final class MiniappDemoCollageUploadChecks {
         } finally {
             service.stop();try(var walk=Files.walk(storage)){for(Path p:walk.sorted(Comparator.reverseOrder()).toList())Files.deleteIfExists(p);}
         }
+    }
+    static Object internalSession(MiniappDemoCollageUploadService service,String id)throws Exception{
+        var field=MiniappDemoCollageUploadService.class.getDeclaredField("sessions");field.setAccessible(true);
+        return ((Map<?,?>)field.get(service)).get(id);
+    }
+    static void setExpired(MiniappDemoCollageUploadService service,String id)throws Exception{
+        Object s=internalSession(service,id);var expires=s.getClass().getDeclaredField("expires");expires.setAccessible(true);expires.setLong(s,0L);
+    }
+    static void cancellationDuringCommit(boolean expire)throws Exception{
+        Path storage=Files.createTempDirectory("staged-commit-race-");Files.setPosixFilePermissions(storage,MiniappDemoCollageUploadService.DIR);
+        var props=new MiniappDemoCollageUploadProperties();props.setEnabled(true);props.setRoot(storage.resolve("image-collage-upload-scratch"));
+        var fp=new MiniappDemoFileProperties();fp.setStorageRoot(storage);var cp=new MiniappDemoImageCollageProperties();cp.setEnabled(true);
+        CountDownLatch entered=new CountDownLatch(1),release=new CountDownLatch(1);
+        var service=new MiniappDemoCollageUploadService(props,new FakeFiles(),(i,p,k)->{
+            entered.countDown();try{release.await();check("render_inputs_alive_"+expire,p.get(0).getInputStream().read()==1);}
+            catch(Exception e){throw new IllegalStateException(e);}return metadata("result");
+        },fp,cp);
+        service.initialize();ExecutorService executor=Executors.newSingleThreadExecutor();
+        try{
+            var a=identity("race");var m=manifest(new byte[]{1});var s=service.create(a,m,"race");
+            service.upload(a,s.uploadId(),0,new Part(new byte[]{1}));
+            var future=executor.submit(()->service.complete(a,s.uploadId()));check("blocked_commit_entered_"+expire,entered.await(3,TimeUnit.SECONDS));
+            if(expire)setExpired(service,s.uploadId());else service.cancel(a,s.uploadId());
+            rejected("same_key_busy_until_commit_exit_"+expire,()->service.create(a,m,"race"),1935006);
+            rejected("principal_slot_held_during_commit_"+expire,()->service.create(a,m,"other"),1935006);
+            for(int i=0;i<3;i++)service.create(identity("global"+i),m,"global"+i);
+            rejected("global_slot_held_during_commit_"+expire,()->service.create(identity("fifth"),m,"fifth"),1935006);
+            check("part_not_removed_during_commit_"+expire,Files.exists(props.getRoot().resolve(s.uploadId()).resolve("part-0")));
+            release.countDown();
+            try{future.get(3,TimeUnit.SECONDS);throw new AssertionError();}catch(ExecutionException e){check("commit_exit_hidden_"+expire,e.getCause() instanceof MiniappDemoCollageUploadException);}
+            check("commit_exit_cleaned_"+expire,!Files.exists(props.getRoot().resolve(s.uploadId())));
+        }finally{release.countDown();executor.shutdownNow();service.stop();try(var walk=Files.walk(storage)){for(Path p:walk.sorted(Comparator.reverseOrder()).toList())Files.deleteIfExists(p);}}
+    }
+    static void cleanupRetry()throws Exception{
+        Path storage=Files.createTempDirectory("staged-cleaner-");Files.setPosixFilePermissions(storage,MiniappDemoCollageUploadService.DIR);
+        var props=new MiniappDemoCollageUploadProperties();props.setEnabled(true);props.setRoot(storage.resolve("image-collage-upload-scratch"));
+        var fp=new MiniappDemoFileProperties();fp.setStorageRoot(storage);var cp=new MiniappDemoImageCollageProperties();cp.setEnabled(true);
+        var service=new MiniappDemoCollageUploadService(props,new FakeFiles(),(i,p,k)->metadata("unused"),fp,cp);service.initialize();
+        var scheduler=Executors.newSingleThreadScheduledExecutor();CountDownLatch first=new CountDownLatch(1),proceed=new CountDownLatch(1),later=new CountDownLatch(2);
+        try{
+            var m=manifest(new byte[]{1});var a=identity("bad");var bad=service.create(a,m,"bad");var good=service.create(identity("good"),m,"good");
+            Path obstruction=props.getRoot().resolve(bad.uploadId()).resolve("unexpected-directory");Files.createDirectory(obstruction);
+            setExpired(service,bad.uploadId());setExpired(service,good.uploadId());
+            var expire=MiniappDemoCollageUploadService.class.getDeclaredMethod("expire");expire.setAccessible(true);AtomicInteger ticks=new AtomicInteger();
+            var job=scheduler.scheduleWithFixedDelay(()->{
+                try{expire.invoke(service);}catch(Exception e){throw new IllegalStateException(e);}
+                if(ticks.incrementAndGet()==1){first.countDown();try{proceed.await();}catch(InterruptedException e){Thread.currentThread().interrupt();}}else later.countDown();
+            },0,10,TimeUnit.MILLISECONDS);
+            check("cleanup_tick_completed_despite_failure",first.await(3,TimeUnit.SECONDS));
+            check("other_expired_session_reclaimed",internalSession(service,good.uploadId())==null);
+            check("failed_cleanup_keeps_registry_reservation",internalSession(service,bad.uploadId())!=null);
+            rejected("failed_cleanup_keeps_principal_slot",()->service.create(a,m,"new"),1935006);
+            Files.delete(obstruction);proceed.countDown();check("scheduled_cleaner_runs_after_failure",later.await(3,TimeUnit.SECONDS)&&!job.isDone());
+            check("failed_cleanup_retried_successfully",internalSession(service,bad.uploadId())==null);
+        }finally{proceed.countDown();scheduler.shutdownNow();service.stop();try(var walk=Files.walk(storage)){for(Path p:walk.sorted(Comparator.reverseOrder()).toList())Files.deleteIfExists(p);}}
     }
     static void nativeChannel(){
         var p=new MiniappDemoSessionProperties();p.setEnabled(true);p.setIssuanceEnabled(true);p.setTenantId(1L);p.setStoreId(1L);
