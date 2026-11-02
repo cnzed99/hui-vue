@@ -10,7 +10,8 @@
     "build:h5": "uni build",
     "build:mp-weixin": "uni build -p mp-weixin",
     "type-check": "vue-tsc --noEmit",
-    "check:catalog": "node scripts/check-catalog.cjs"
+    "check:catalog": "node scripts/check-catalog.cjs",
+    "check:collage-staged": "node scripts/check-collage-staged.cjs"
   },
   "dependencies": {
     "@dcloudio/uni-app": "3.0.0-5030420261029002",

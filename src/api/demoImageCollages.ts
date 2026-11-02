@@ -1,5 +1,6 @@
 import type { DemoSession } from '@/api/demoSession'
 import type { DemoFileMetadata } from '@/api/demoFiles'
+import { uploadStagedImageCollage } from '@/api/demoImageCollageStaged'
 
 export interface CollageUploadHandle {
   promise: Promise<DemoFileMetadata | null>
@@ -43,6 +44,11 @@ export function uploadDemoImageCollage(
   if (!url || filePaths.length < 1 || filePaths.length > 9 || !idempotencyKey) {
     return { promise: Promise.resolve(null), abort: () => undefined }
   }
+  // #ifdef MP-WEIXIN
+  return uploadStagedImageCollage(url.replace(/\/image-collages$/, '/image-collage-upload-sessions'),
+    session, filePaths, idempotencyKey, progress, parseEnvelope)
+  // #endif
+  // #ifdef H5
   const promise = new Promise<DemoFileMetadata | null>(resolve => {
     task = uni.uploadFile({
       url,
@@ -61,4 +67,7 @@ export function uploadDemoImageCollage(
     task?.onProgressUpdate?.(event => progress(Math.max(0, Math.min(100, Number(event.progress) || 0))))
   })
   return { promise, abort: () => task?.abort?.() }
+  // #endif
+  // Other platforms have no enabled adapter in this project.
+  return { promise: Promise.resolve(null), abort: () => undefined }
 }

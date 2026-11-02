@@ -168,7 +168,8 @@ async function generateCollage() {
     value => { if (isCurrent(currentGeneration, currentToken)) progress.value = value })
   uploadHandle = handle
   const uploaded = await handle.promise
-  if (uploadHandle === handle) uploadHandle = null
+  // Keep the handle after failure or success so a changed selection/leaving the page
+  // can cancel its temporary native session. Explicit retries keep the original key.
   if (!isCurrent(currentGeneration, currentToken)) return
   if (!await confirmSession(currentGeneration, currentToken)) return
   if (!uploaded) {
