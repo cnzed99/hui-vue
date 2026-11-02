@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "scope": "M7 single-image H5 upload to shared print settings",
+  "runId": "20261102T045720303Z-e1f286d2",
+  "startedAt": "2026-11-02T04:57:20.304Z",
+  "checks": [
+    {
+      "name": "image_directory_renders_four_methods",
+      "passed": true
+    },
+    {
+      "name": "collage_remains_explicitly_blocked",
+      "passed": true
+    },
+    {
+      "name": "selected_image_preview_and_rules_render",
+      "passed": true
+    },
+    {
+      "name": "image_upload_reaches_ready",
+      "passed": true
+    },
+    {
+      "name": "image_endpoint_was_used",
+      "passed": true
+    },
+    {
+      "name": "ready_image_enters_shared_settings",
+      "passed": true
+    },
+    {
+      "name": "no_unexpected_writes_or_original_calls",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "image-selected",
+      "path": "evidence/miniapp/m7-image-browser-20261102T045720303Z-e1f286d2/image-selected.png",
+      "sha256": "c97ebf7ae74a0f60b837c7fe93c5d355de96163b07a6373c227a1f994b7970d1"
+    },
+    {
+      "name": "image-ready",
+      "path": "evidence/miniapp/m7-image-browser-20261102T045720303Z-e1f286d2/image-ready.png",
+      "sha256": "8a92ea27a094c71a2d95b90c1ed5c4647cadef68dcd2ee946ae7f924865f76c6"
+    },
+    {
+      "name": "shared-settings",
+      "path": "evidence/miniapp/m7-image-browser-20261102T045720303Z-e1f286d2/shared-settings.png",
+      "sha256": "9946ebfed56aea1d722a806ec28ad4e4a759e6b0c815744a47131dc1f4470eed"
+    }
+  ],
+  "boundaries": {
+    "originalSystemWrites": "NOT_RUN",
+    "collageUpload": "NOT_RUN",
+    "aiEnhancement": "NOT_RUN",
+    "cropping": "NOT_RUN",
+    "orderCreation": "NOT_RUN_SHARED_UI_ALREADY_VERIFIED",
+    "realPayment": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "wechatDevice": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "status": "PASS",
+  "finishedAt": "2026-11-02T04:57:25.265Z",
+  "passed": 7,
+  "failed": 0,
+  "forbiddenRequests": []
+}

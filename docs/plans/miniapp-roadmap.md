@@ -141,7 +141,7 @@
 - 受控部署连续失败两轮后按规则触发 Astra High。审查要求补正确 Origin、严格核对 `HTTP 401 + code 1926003`、共享构建锁和可证明回滚；修正脚本 SHA-256 `9db0841b9b067bef38884099d80715993b80d1b6214648d311b5221872afb82b` 后复审 PASS 并部署成功。
 - 当前发布：后端 release `f95abc20388187c5`，小程序 release `miniapp-m7-image-20261102T044816Z-ed1f3461`；构建源、活动文件和 HTTP `/miniapp/` 的 `index.html` SHA-256 均为 `495b3342b02fe6c9eb513074138240de1edf13cb3f50effeb3d323b115a9771a`，四项服务 active，磁盘剩余约 41GB。
 - 运行证据 `evidence/miniapp/m7-image-full-loop-20261102.json`：近限 JPEG 经图片接口生成单页 PDF，随后完成权威报价、订单、模拟支付、管理端唯一任务处理、模拟回执及小程序结果查询。真实微信设备、真实支付/退款、真实打印设备和外部用户验收继续为 `NOT_RUN`。
-- Windows 浏览器自动化因工具无法可靠判断当前 Chrome URL 而按安全策略停止；本批没有新的浏览器 UI 闭环证据，不能用 API 证据替代页面验收。
+- 云端 H5 浏览器烟测 `evidence/miniapp/m7-image-browser-20261102T045720303Z-e1f286d2/report.json` 为 7/7 PASS，覆盖四项图片目录、拼版明确阻断、单图选择预览、真实图片接口、转换 READY、进入共用打印设置和无原站请求/额外写入；微信开发者工具、真机及用户外部验收仍未执行。
 
 ## 当前完成度口径
 
