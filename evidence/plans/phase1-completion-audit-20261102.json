@@ -1,0 +1,864 @@
+{
+  "schemaVersion": 1,
+  "auditDate": "2026-11-02",
+  "capturedUtc": "2026-11-02T15:05:11.409280+00:00",
+  "status": "PARTIAL",
+  "auditKind": "READ_ONLY_EVIDENCE_AND_DOCUMENTATION; NO_BUSINESS_CHANGE; NO_DEPLOYMENT; NO_PUSH",
+  "baseline": {
+    "engineeringCommit": "361103669070383671d7b7a207b9a18e53044f64",
+    "branch": "docs/phase1-completion-audit-20261102",
+    "worktree": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102"
+  },
+  "scopeAuthority": "RULES overrides stale local taskbook phase sequencing; no scope deleted",
+  "progressEstimate": {
+    "phase1PriorityPercent": 94,
+    "overallSystemPercent": 80,
+    "method": "EXISTING_VERIFIED_BUSINESS_SCOPE_ESTIMATE_UNCHANGED; NOT_RECALCULATED; NOT_PAGE_COUNT; NOT_FORMAL_ACCEPTANCE",
+    "authority": [
+      "ROADMAP",
+      "STAGED_DEPLOY"
+    ]
+  },
+  "localRequirementSource": {
+    "path": "D:/work/后台/打印后台/打印系统研发任务书.md",
+    "sha256": "2fe127a3c6a3d5c457e25000e8e22b72c6900f347301068a09df6003a07ffd71",
+    "role": "REQUIREMENTS_ONLY_NOT_CURRENT_COMPLETION_EVIDENCE",
+    "caveat": "old phase sequencing and M0-M5 task IDs differ from miniapp M0-M10; latest AGENTS takes precedence"
+  },
+  "coordinatorObservation": {
+    "classification": "CURRENT_COORDINATOR_OBSERVATION_UNARCHIVED",
+    "state": "original WeChat requested completion of login on phone; WeChat then closed",
+    "evidenceStatus": "NOT_ARCHIVED_NOT_REPRODUCED_BY_AUDITOR",
+    "originalResearch": "NOT_RUN_THIS_BATCH",
+    "nextPrerequisite": "USER_COMPLETES_PHONE_LOGIN_THEN_READONLY_OBSERVATION",
+    "notAcceptanceEvidence": true
+  },
+  "milestones": [
+    {
+      "id": "M0",
+      "status": "PASS",
+      "boundary": "engineering baseline and four documentation sources; no external acceptance",
+      "authoritativeEvidence": [
+        "RULES",
+        "ROADMAP",
+        "ARCH",
+        "WECHAT",
+        "PRODUCT"
+      ]
+    },
+    {
+      "id": "M1",
+      "status": "PASS",
+      "boundary": "navigation/UI and H5/MP compile only; no WeChat device",
+      "authoritativeEvidence": [
+        "M1_REVIEW",
+        "ROADMAP"
+      ]
+    },
+    {
+      "id": "M2",
+      "status": "PASS",
+      "boundary": "readonly catalog and source-selection shell; local fallback explicitly bounded",
+      "authoritativeEvidence": [
+        "M2_REVIEW",
+        "ROADMAP"
+      ]
+    },
+    {
+      "id": "M3",
+      "status": "PASS",
+      "boundary": "restricted PDF, authoritative quote, persistent order and simulated payment; historical evidence through M4 and current old-chain regression",
+      "authoritativeEvidence": [
+        "ROADMAP",
+        "M4_RUNTIME",
+        "M4_BROWSER",
+        "STAGED_RUNTIME"
+      ]
+    },
+    {
+      "id": "M4",
+      "status": "PASS",
+      "boundary": "companion admin processing, unique task, fencing and immutable simulated receipt; development environment",
+      "authoritativeEvidence": [
+        "M4_RUNTIME",
+        "M4_BROWSER",
+        "M4_REVIEW"
+      ]
+    },
+    {
+      "id": "M5",
+      "status": "PARTIAL",
+      "boundary": "orders, text loop and readonly first-level pages verified; post-selection types and profile rights unfinished",
+      "authoritativeEvidence": [
+        "M5_ORDERS",
+        "M5_ORDERS_BROWSER",
+        "M5_ORDINARY_REVIEW",
+        "M5_PROFILE_REVIEW",
+        "M5_PROFILE_BROWSER",
+        "TEXT_RUNTIME",
+        "TEXT_BROWSER",
+        "TEXT_RESTART",
+        "TEXT_REVIEW"
+      ]
+    },
+    {
+      "id": "M6",
+      "status": "PASS",
+      "boundary": "original synthetic library detail/preview to print development loop; favorites/sharing/store scope unfinished",
+      "authoritativeEvidence": [
+        "LIB_RUNTIME",
+        "LIB_BROWSER",
+        "LIB_REVIEW"
+      ]
+    },
+    {
+      "id": "M7",
+      "status": "PASS",
+      "boundary": "restricted single JPG/PNG to A4 PDF and shared simulated print loop; original advanced parameters unfinished",
+      "authoritativeEvidence": [
+        "IMAGE_RUNTIME",
+        "IMAGE_BROWSER",
+        "IMAGE_REVIEW"
+      ]
+    },
+    {
+      "id": "M8",
+      "status": "PASS",
+      "boundary": "unpaid cancellation, full simulated refund before claim, immutable manual-verification branch; real refund NOT_RUN",
+      "authoritativeEvidence": [
+        "CANCEL_RUNTIME",
+        "CANCEL_BROWSER",
+        "CANCEL_REVIEW"
+      ]
+    },
+    {
+      "id": "M9",
+      "status": "PARTIAL",
+      "boundary": "H5 collage and staged HTTP contracts PASS; native disabled, uni.uploadFile/platform/device NOT_RUN, original post-selection layout unobserved",
+      "authoritativeEvidence": [
+        "COLLAGE_RUNTIME",
+        "COLLAGE_BROWSER",
+        "STAGED_REVIEW",
+        "STAGED_DEPLOY",
+        "STAGED_RUNTIME",
+        "STAGED_EDGE"
+      ]
+    },
+    {
+      "id": "M10",
+      "status": "PARTIAL",
+      "boundary": "configuration/compile gate PASS; real release NOT_READY and device NOT_RUN; final product Sol High PASS reported by coordinator with exact commits, standalone review file not archived in this baseline",
+      "authoritativeEvidence": [
+        "M10_SUMMARY",
+        "M10_CURRENT",
+        "M10_VERSION",
+        "M10_ARTIFACTS",
+        "M10_WINDOW"
+      ]
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "server",
+      "status": "PARTIAL",
+      "authoritativeEvidence": [
+        "ARCH",
+        "M4_RUNTIME",
+        "TEXT_RUNTIME",
+        "LIB_RUNTIME",
+        "IMAGE_RUNTIME",
+        "CANCEL_RUNTIME",
+        "STAGED_RUNTIME"
+      ],
+      "boundary": "five development loops verified, remaining types/rights/external adapters incomplete"
+    },
+    {
+      "id": "admin",
+      "status": "PARTIAL",
+      "authoritativeEvidence": [
+        "M4_BROWSER",
+        "CANCEL_BROWSER",
+        "ARCH"
+      ],
+      "boundary": "companion task/result/cancellation inspection verified; pure admin backlog deferred, not deleted"
+    },
+    {
+      "id": "miniapp",
+      "status": "PARTIAL",
+      "authoritativeEvidence": [
+        "ROADMAP",
+        "TEXT_BROWSER",
+        "LIB_BROWSER",
+        "IMAGE_BROWSER",
+        "COLLAGE_BROWSER",
+        "M10_CURRENT"
+      ],
+      "boundary": "H5 development loops verified; profile/post-selection/native/real identity incomplete"
+    },
+    {
+      "id": "developmentDeployment",
+      "status": "PASS",
+      "authoritativeEvidence": [
+        "STAGED_DEPLOY",
+        "STAGED_RUNTIME",
+        "STAGED_EDGE"
+      ],
+      "boundary": "live hashes/services/health captured; M10 not deployed; not production release"
+    },
+    {
+      "id": "externalIntegration",
+      "status": "BLOCKED_EXTERNAL",
+      "authoritativeEvidence": [
+        "WECHAT",
+        "M10_CURRENT"
+      ],
+      "boundary": "resources missing; real operations/device/platform NOT_RUN"
+    }
+  ],
+  "fiveChains": [
+    {
+      "id": "documentPDF",
+      "status": "PASS",
+      "scope": "NEW_SYSTEM_DEVELOPMENT_SIMULATED_PAYMENT_AND_PRINT",
+      "authoritativeEvidence": [
+        "M4_RUNTIME",
+        "M4_BROWSER",
+        "STAGED_RUNTIME"
+      ]
+    },
+    {
+      "id": "customTextPDF",
+      "status": "PASS",
+      "scope": "NEW_SYSTEM_DEVELOPMENT_SIMULATED_PAYMENT_AND_PRINT",
+      "authoritativeEvidence": [
+        "TEXT_RUNTIME",
+        "TEXT_RESTART",
+        "TEXT_BROWSER"
+      ]
+    },
+    {
+      "id": "originalDemoLibraryPDF",
+      "status": "PASS",
+      "scope": "NEW_SYSTEM_DEVELOPMENT_SIMULATED_PAYMENT_AND_PRINT",
+      "authoritativeEvidence": [
+        "LIB_RUNTIME",
+        "LIB_BROWSER"
+      ]
+    },
+    {
+      "id": "singleImageA4PDF",
+      "status": "PASS",
+      "scope": "NEW_SYSTEM_DEVELOPMENT_SIMULATED_PAYMENT_AND_PRINT",
+      "authoritativeEvidence": [
+        "IMAGE_RUNTIME",
+        "IMAGE_BROWSER"
+      ]
+    },
+    {
+      "id": "multiImageSingleA4PDF",
+      "status": "PASS",
+      "scope": "NEW_SYSTEM_DEVELOPMENT_SIMULATED_PAYMENT_AND_PRINT",
+      "authoritativeEvidence": [
+        "COLLAGE_RUNTIME",
+        "COLLAGE_BROWSER",
+        "STAGED_RUNTIME"
+      ]
+    }
+  ],
+  "remaining": [
+    {
+      "id": "R01",
+      "area": "original_readonly_observation",
+      "status": "BLOCKED_EXTERNAL",
+      "executablePrerequisites": "user completes WeChat phone login, then resume documented readonly entry/page/state observation",
+      "authorization": "USER_LOGIN_REQUIRED",
+      "externalResources": "WECHAT_SESSION",
+      "originalSystemDataGeneration": "ONLY_IF_LATER_UPLOAD_ORDER_PURCHASE_OR_MODIFY",
+      "strictCompletion": "capture session/time and readonly screenshots; no inferred post-selection behavior"
+    },
+    {
+      "id": "R02",
+      "area": "photo_id_scan_zip_postselection",
+      "status": "PARTIAL",
+      "executablePrerequisites": "R01 and observed parameter/type/format/layout/ZIP pricing rules; seek explicit scoped authorization before original data generation",
+      "authorization": "REQUIRED_FOR_ORIGINAL_WRITE_AND_UNCONFIRMED_RULES",
+      "externalResources": "ORIGINAL_UI_ACCESS_AND_SAFE_FIXTURES",
+      "originalSystemDataGeneration": "YES_IF_SELECTION_UPLOAD_OR_GENERATION_WRITES_ORIGINAL",
+      "strictCompletion": "service-authoritative parameters and original comparison; persistence, quote, simulated order/admin/result and relevant failure paths"
+    },
+    {
+      "id": "R03",
+      "area": "profile_membership_redpacket_library_service",
+      "status": "PARTIAL",
+      "executablePrerequisites": "R01; freeze entitlement/discount/recharge/redemption/favorites/sharing/account/support behavior and data contract",
+      "authorization": "RULE_CONFIRMATION_REQUIRED; ORIGINAL_WRITE_REQUIRES_SPECIFIC_AUTHORIZATION",
+      "externalResources": "ORIGINAL_UI_ACCESS; EXTERNAL_PROVIDER_IF_USED",
+      "originalSystemDataGeneration": "CONDITIONAL_PURCHASE_RECHARGE_BIND_FEEDBACK_DELETE",
+      "strictCompletion": "real new-system entitlement APIs and isolation/persistence; clear simulation for funds; readonly shells do not pass"
+    },
+    {
+      "id": "R04",
+      "area": "invoice_link_word_and_other_formats",
+      "status": "PARTIAL",
+      "executablePrerequisites": "readonly map of each remaining source/parser; confirm permitted formats, fetch limits and conversion behavior",
+      "authorization": "RULE_CONFIRMATION_AND_ORIGINAL_WRITE_AUTHORIZATION_IF_NEEDED",
+      "externalResources": "SAFE_FIXTURES; WECHAT_FILE_ACCESS_WHEN_REQUIRED",
+      "originalSystemDataGeneration": "CONDITIONAL_ORIGINAL_FILE_SELECT_UPLOAD_SUBMIT",
+      "strictCompletion": "each confirmed source reaches bounded parse/quote/order/result, or explicit remaining gap; no unsupported equivalence claim"
+    },
+    {
+      "id": "R05",
+      "area": "new_wechat_identity_appid_domains",
+      "status": "BLOCKED_EXTERNAL",
+      "executablePrerequisites": "own miniapp subject/AppID; filed HTTPS domain, TLS/DNS, console allowlists and privacy/category approvals",
+      "authorization": "USER_OR_PROVIDER_RESOURCE_SETUP_REQUIRED",
+      "externalResources": "APPID; DOMAIN; CERTIFICATE; WECHAT_CONSOLE; SERVER_SIDE_SECRET_STORE",
+      "originalSystemDataGeneration": "NO",
+      "strictCompletion": "verify ownership and actual console/TLS; login/code2Session/account binding; strict build plus actual authenticated execution"
+    },
+    {
+      "id": "R06",
+      "area": "wechat_devtools_device_native_upload",
+      "status": "NOT_RUN",
+      "executablePrerequisites": "R05; explicit enablement plan and required review for native gate; actual uni.uploadFile on devtools and physical devices",
+      "authorization": "EXTERNAL_RESOURCE_AND_GATE_ENABLEMENT_REQUIRED",
+      "externalResources": "DEVTOOLS; PHYSICAL_PHONE; NETWORK",
+      "originalSystemDataGeneration": "NO",
+      "strictCompletion": "1 and 9 images in actual client; connection/quota behavior, retry/error/expiry/identity and complete quote/order/result with archived evidence"
+    },
+    {
+      "id": "R07",
+      "area": "library_real_scope_favorites_sharing",
+      "status": "PARTIAL",
+      "executablePrerequisites": "freeze store/cross-store catalog/search/sort/favorite/share permissions without reading original user files",
+      "authorization": "RULE_CONFIRMATION; ORIGINAL_WRITE_REQUIRES_AUTHORIZATION",
+      "externalResources": "OWNED_TEST_CONTENT; WECHAT_SHARE_WHEN_USED",
+      "originalSystemDataGeneration": "CONDITIONAL_FAVORITE_SHARE",
+      "strictCompletion": "new-system persistence and permission/cross-scope verification; demo three entries do not establish real store library"
+    },
+    {
+      "id": "R08",
+      "area": "external_payment_refund_reconciliation",
+      "status": "BLOCKED_EXTERNAL",
+      "executablePrerequisites": "merchant ownership/API-v3 certificates, callbacks and reconciliation; Astra High design and final review before sensitive execution",
+      "authorization": "SEPARATE_REAL_CHANNEL_AUTHORIZATION_REQUIRED",
+      "externalResources": "MERCHANT_ACCOUNT; CERTIFICATES; PUBLIC_HTTPS_CALLBACK",
+      "originalSystemDataGeneration": "NO",
+      "strictCompletion": "verified real payment/refund callbacks, idempotency and ledger/reconciliation evidence; simulated receipts never pass"
+    },
+    {
+      "id": "R09",
+      "area": "subscription_object_storage",
+      "status": "BLOCKED_EXTERNAL",
+      "executablePrerequisites": "templates/user consent and owned bucket, lifecycle, controlled temporary credentials and access rules",
+      "authorization": "RESOURCE_SETUP_AND_RELEVANT_SCOPE_CONFIRMATION",
+      "externalResources": "WECHAT_TEMPLATE; STORAGE_ACCOUNT_BUCKET",
+      "originalSystemDataGeneration": "NO",
+      "strictCompletion": "actual delivery/authorization evidence and scoped upload/download/lifecycle; adapter names do not pass"
+    },
+    {
+      "id": "R10",
+      "area": "real_print_terminal",
+      "status": "BLOCKED_EXTERNAL",
+      "executablePrerequisites": "terminal protocol, owned test devices/credentials, task identity/heartbeat/receipt/recovery contract; Astra High review",
+      "authorization": "SEPARATE_REAL_DEVICE_AUTHORIZATION_REQUIRED",
+      "externalResources": "REAL_CLIENT; PRINTER; SITE_WINDOW",
+      "originalSystemDataGeneration": "NO",
+      "strictCompletion": "physical output and receipt-level semantics; duplicate/unknown/offline recovery by device model; simulated receipt never passes"
+    },
+    {
+      "id": "R11",
+      "area": "full_regression_visual_capacity_acceptance",
+      "status": "NOT_RUN",
+      "executablePrerequisites": "resolve repository Mockito test dependency and admin full vue-tsc resource limit under approved build window; scope baseline/screenshots/capacity and user acceptance",
+      "authorization": "USER_ACCEPTANCE_AND_CAPACITY_TARGET_CONFIRMATION",
+      "externalResources": "BUILD_RESOURCES; CONFIRMED_FIXTURES; ACCEPTANCE_SESSION",
+      "originalSystemDataGeneration": "NO",
+      "strictCompletion": "build/test results separately recorded; visual/function comparison and user signoff; limited runtime probes not full regression"
+    },
+    {
+      "id": "R12",
+      "area": "deferred_pure_admin_reports_operations",
+      "status": "PARTIAL",
+      "executablePrerequisites": "finish phase-one miniapp and required companion backend first; retain existing work and original overall backlog",
+      "authorization": "USER_EXPLICIT_REQUEST_IF_INSERTED_BEFORE_PHASE1_COMPLETE",
+      "externalResources": "CONFIRMED_OVERALL_BACKLOG",
+      "originalSystemDataGeneration": "CONDITIONAL_ORIGINAL_WRITE",
+      "strictCompletion": "per requirement/API/permission/persistence/visual evidence; no page-count completion or deletion by deferral"
+    },
+    {
+      "id": "R13",
+      "area": "archive_reported_m10_product_review",
+      "status": "PARTIAL",
+      "executablePrerequisites": "coordinator-provided Sol High PASS already binds miniapp 0a1a37f and engineering 3611036; preserve report as durable review record",
+      "authorization": "NO_NEW_USER_AUTHORIZATION_FOR_DOCS_RECORD",
+      "externalResources": "COORDINATOR_REPORTED_RESULT",
+      "originalSystemDataGeneration": "NO",
+      "strictCompletion": "archive original independent result bound to exact commits; do not turn plan review into product review or external acceptance"
+    },
+    {
+      "id": "R14",
+      "area": "live_deployment_evidence_portability",
+      "status": "PARTIAL",
+      "executablePrerequisites": "coordinator may archive only sanitized exact M9 raw runtime evidence into intended evidence branch/artifact; preserve hashes",
+      "authorization": "NO_NEW_USER_AUTHORIZATION_FOR_SANITIZED_DOCS_ARCHIVE",
+      "externalResources": "EXISTING_SERVER_EVIDENCE",
+      "originalSystemDataGeneration": "NO",
+      "strictCompletion": "recover all LIVE_SERVER_ONLY references from durable sanitized archive; fix future checksum manifests without rewriting historical evidence"
+    }
+  ],
+  "nextPriority": [
+    "R01",
+    "R02",
+    "R03",
+    "R04",
+    "R07",
+    "R13",
+    "R14",
+    "R05",
+    "R06",
+    "R11",
+    "R08",
+    "R09",
+    "R10",
+    "R12"
+  ],
+  "executionPolicy": "independent already-authorized work can proceed while external gates pending; real integrations never inferred or activated by this audit",
+  "evidence": {
+    "RULES": {
+      "path": "AGENTS.md",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/AGENTS.md",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "a9b476a9ca27098a12e51116232dd8bc1c127f05f2ea9eee0535a9cc0b2f1d62"
+    },
+    "ROADMAP": {
+      "path": "docs/plans/miniapp-roadmap.md",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/docs/plans/miniapp-roadmap.md",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "d8d74310f022248e0b9f9bd9df635550a18453ba3d71b7230fc6f124681a01bb"
+    },
+    "ARCH": {
+      "path": "docs/architecture/miniapp-integration.md",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/docs/architecture/miniapp-integration.md",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "c9ba99a20168bb0921d1e7701ab0dbcaa5c20228f3f468a324d357a4161210cc"
+    },
+    "WECHAT": {
+      "path": "docs/integrations/wechat-reserved.md",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/docs/integrations/wechat-reserved.md",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "556fa2798a08b94e53b6500b28b25230b4fb3734b5819fcdd5a753323f01e411"
+    },
+    "PRODUCT": {
+      "path": "docs/product/miniapp-replication.md",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/docs/product/miniapp-replication.md",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "8d08088e920eded555b33f055925a0878d39a8fc9c46e64d9e6c6275e5ea67bc"
+    },
+    "M1_REVIEW": {
+      "path": "docs/reviews/sol-miniapp-m1-review-2026-10-31.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/docs/reviews/sol-miniapp-m1-review-2026-10-31.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "1d792d2dc6a6ac32f8487c86ac211e83a638c46d22644d4ee3f32534d7e131db"
+    },
+    "M2_REVIEW": {
+      "path": "docs/reviews/astra-miniapp-m2-catalog-review-2026-10-31.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/docs/reviews/astra-miniapp-m2-catalog-review-2026-10-31.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "8ec892f50a04b98ce6c2920da1e8780122ac07373e1f44fad8ee7046f9034dd6"
+    },
+    "M4_RUNTIME": {
+      "path": "evidence/miniapp/m4-runtime-verification-20261031T083605Z.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/evidence/miniapp/m4-runtime-verification-20261031T083605Z.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "b24445ffa5769806547c7f1a8e8cd9a6354bedc7997da089cd98285b77084f56"
+    },
+    "M4_BROWSER": {
+      "path": "evidence/miniapp/m4-browser-closed-loop-20261031T084158083Z-6b5e450f/report.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/evidence/miniapp/m4-browser-closed-loop-20261031T084158083Z-6b5e450f/report.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "88d9a2b9f72b78a93290e431a93badad171ff9240f4367f2ef2dbe1d3398b372"
+    },
+    "M4_REVIEW": {
+      "path": "docs/reviews/astra-miniapp-m4-print-processing-review-2026-10-31.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/docs/reviews/astra-miniapp-m4-print-processing-review-2026-10-31.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "9cf53a97322915c6fa0f2eff6d71ca28668bc78ab92a5518f8c55c714a65f870"
+    },
+    "M5_ORDERS": {
+      "path": "evidence/miniapp/m5-order-center-runtime-20261031T090441Z.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/evidence/miniapp/m5-order-center-runtime-20261031T090441Z.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "e9059776015a146d6e27e7bbbce888bddf5cb6807ffadb6915471fcb2bf34031"
+    },
+    "M5_ORDERS_BROWSER": {
+      "path": "evidence/miniapp/m5-order-center-browser-20261031T090604388Z-382b7968/report.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/evidence/miniapp/m5-order-center-browser-20261031T090604388Z-382b7968/report.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "78197fc04929a7c1593bc9c03afb7fa829d7cbc6b18a7fc4249c3fa658c3e65d"
+    },
+    "M5_ORDINARY_REVIEW": {
+      "path": "docs/reviews/sol-miniapp-ordinary-batch-review-20261031.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/docs/reviews/sol-miniapp-ordinary-batch-review-20261031.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "17205fb2e925e4acbcea65e9e3f1975b1a834a98fe667cf467be48c8863c7f40"
+    },
+    "M5_PROFILE_REVIEW": {
+      "path": "docs/reviews/sol-miniapp-profile-more-batch-review-20261031.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/docs/reviews/sol-miniapp-profile-more-batch-review-20261031.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "07b71f7441ffda9fd62f4646c53260b06a8d2b6ed9e532b9515e6502184a76e6"
+    },
+    "M5_PROFILE_BROWSER": {
+      "path": "evidence/miniapp/m5-profile-more-browser-20261031T094620872Z-4559d691/report.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/evidence/miniapp/m5-profile-more-browser-20261031T094620872Z-4559d691/report.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "c7b7b51e9dd03cc6206b47339fb77ffc758eff231482b0ece241cf1c94c7345c"
+    },
+    "TEXT_RUNTIME": {
+      "path": "evidence/miniapp/m5-text-runtime-20261031T103739Z.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/evidence/miniapp/m5-text-runtime-20261031T103739Z.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "413b9a34e638884a4eb8d2b0b04ad2bef656c2127317db30d3f22262d829ef2b"
+    },
+    "TEXT_BROWSER": {
+      "path": "evidence/miniapp/m5-text-browser-closed-loop-20261031T104234923Z-b7200728/report.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/evidence/miniapp/m5-text-browser-closed-loop-20261031T104234923Z-b7200728/report.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "d7d8bcef2e19a5eeda3d43029830b16a9fa396ab30a075baa954bbf2f499f3d8"
+    },
+    "TEXT_RESTART": {
+      "path": "evidence/miniapp/m5-text-restart-determinism-20261031T103645Z-6976b28c.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/evidence/miniapp/m5-text-restart-determinism-20261031T103645Z-6976b28c.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "b77b4f156236c5116df1e76354d95e983c2d7625975572a35e8454d709078edf"
+    },
+    "TEXT_REVIEW": {
+      "path": "docs/reviews/m5-text-print-loop-astra-high-20261031.md",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/docs/reviews/m5-text-print-loop-astra-high-20261031.md",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "064f355439bbf8d38d0dab6b12baa2806a1c12a0b40bf2840458a5c250374816"
+    },
+    "LIB_RUNTIME": {
+      "path": "evidence/miniapp/m6-library-runtime-20261031T111307Z.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/evidence/miniapp/m6-library-runtime-20261031T111307Z.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "c25bbe53406b2c6bda9c5451d3666f08b37d168a2a0e5cdd4f0a4cfa5a1fc91f"
+    },
+    "LIB_BROWSER": {
+      "path": "evidence/miniapp/m6-library-browser-closed-loop-20261102T035337933Z-0f4c6fb1/report.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/evidence/miniapp/m6-library-browser-closed-loop-20261102T035337933Z-0f4c6fb1/report.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "16582de36e8dc87b1c58c5ac6fcfe5e7dbcc167752d8559b3e776219c4b47682"
+    },
+    "LIB_REVIEW": {
+      "path": "docs/reviews/m6-library-final-review-20261102.md",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/docs/reviews/m6-library-final-review-20261102.md",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "45dc4bc2f19ac702fdbcbd48eaeb5adf2a9be258790c8912cb2fa61cc5df4fc2"
+    },
+    "IMAGE_RUNTIME": {
+      "path": "evidence/miniapp/m7-image-full-loop-20261102.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/evidence/miniapp/m7-image-full-loop-20261102.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "ac5699706ffcebf3673655ab818af72c062ec638740db7858d4ad640f15b36a7"
+    },
+    "IMAGE_BROWSER": {
+      "path": "evidence/miniapp/m7-image-browser-20261102T045720303Z-e1f286d2/report.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/evidence/miniapp/m7-image-browser-20261102T045720303Z-e1f286d2/report.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "a92f991b3e724c7166e62aecd3189b116687243195fe40154137b5c8df5c0a35"
+    },
+    "IMAGE_REVIEW": {
+      "path": "docs/reviews/m7-image-final-review-20261102.md",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/docs/reviews/m7-image-final-review-20261102.md",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "a36d985bee3d135ddb0ea24f80d6f3deb42435d36655575ad77dc9549a4078d2"
+    },
+    "CANCEL_RUNTIME": {
+      "path": "evidence/testing/m8-runtime-deploy-20261102T074733Z-f4f527f1.json",
+      "resolvedPath": "/home/ubuntu/print-system/evidence/testing/m8-runtime-deploy-20261102T074733Z-f4f527f1.json",
+      "availability": "LIVE_SERVER_ONLY",
+      "sha256": "7a8959ef6e690be61f653f0e4577a9d31638c502ceee0ae6584504484e4031a4"
+    },
+    "CANCEL_BROWSER": {
+      "path": "evidence/miniapp/m8-cancel-refund-browser-20261102T080146610Z-dff29d2c/report.json",
+      "resolvedPath": "/home/ubuntu/print-system/evidence/miniapp/m8-cancel-refund-browser-20261102T080146610Z-dff29d2c/report.json",
+      "availability": "LIVE_SERVER_ONLY",
+      "sha256": "38660cf4b42efc6090277a0d0132ff7507cd959c958a6e2482d21ced90bee80b"
+    },
+    "CANCEL_REVIEW": {
+      "path": "docs/reviews/m8-cancel-refund-final-astra-review-20261102.md",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/docs/reviews/m8-cancel-refund-final-astra-review-20261102.md",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "2c8f25cf32b72b339ca804732f3335253e96f2f3888a87965ac68ca117e82dfa"
+    },
+    "COLLAGE_RUNTIME": {
+      "path": "evidence/miniapp/m9-image-collage-runtime-20261102T112128Z.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/evidence/miniapp/m9-image-collage-runtime-20261102T112128Z.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "6e8de41228ce1913a057a1a095779d5e3f7657d632c9317bbf40fa2b973f168f"
+    },
+    "COLLAGE_BROWSER": {
+      "path": "evidence/miniapp/m9-image-collage-browser-20261102T112230056Z-ee38fdcc/report.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/evidence/miniapp/m9-image-collage-browser-20261102T112230056Z-ee38fdcc/report.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "292dd150216b04f4b7ad6ca7b4cfffadc46336e91a46a7d5ee1ab6564770d98c"
+    },
+    "STAGED_REVIEW": {
+      "path": "docs/reviews/m9-weixin-staged-upload-final-astra-review.md",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/docs/reviews/m9-weixin-staged-upload-final-astra-review.md",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "3bb351fbd3872af1ab2a05b107948a21e171bdca2ab8aeaf8e23aa8eb6f36a84"
+    },
+    "STAGED_DEPLOY": {
+      "path": "docs/progress/miniapp-m9-weixin-staged-upload-deployed-2026-11-02.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/docs/progress/miniapp-m9-weixin-staged-upload-deployed-2026-11-02.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "f5f9541c9201e4ff6af25bdcfbedbdae3d7c7b5e8d2de2233f8e4784dfc172ec"
+    },
+    "STAGED_RUNTIME": {
+      "path": "evidence/deploy/m9-weixin-20261102T142140Z-1bdbec28/runtime-smoke.json",
+      "resolvedPath": "/home/ubuntu/print-system/evidence/deploy/m9-weixin-20261102T142140Z-1bdbec28/runtime-smoke.json",
+      "availability": "LIVE_SERVER_ONLY",
+      "sha256": "68705b6149ec01c28f57ee10532fc968384d42b656419228370da168cc4e0f7e"
+    },
+    "STAGED_EDGE": {
+      "path": "evidence/deploy/m9-weixin-20261102T142140Z-1bdbec28/edge-admission-smoke.json",
+      "resolvedPath": "/home/ubuntu/print-system/evidence/deploy/m9-weixin-20261102T142140Z-1bdbec28/edge-admission-smoke.json",
+      "availability": "LIVE_SERVER_ONLY",
+      "sha256": "085c7dd00a3983aba918b387981007cbbb0600e1fe498648512cd607299f668d"
+    },
+    "STAGED_SUMS": {
+      "path": "evidence/deploy/m9-weixin-20261102T142140Z-1bdbec28/SHA256SUMS",
+      "resolvedPath": "/home/ubuntu/print-system/evidence/deploy/m9-weixin-20261102T142140Z-1bdbec28/SHA256SUMS",
+      "availability": "LIVE_SERVER_ONLY",
+      "sha256": "0bcb358434e4557c311e04a734e957e931f7e758bef389344fb216e3087ba3ff"
+    },
+    "M10_SUMMARY": {
+      "path": "evidence/miniapp/m10-wechat-readiness-20261102/summary.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/evidence/miniapp/m10-wechat-readiness-20261102/summary.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "d26303b0985de25483efb725ff1602523ecf5e9f26cd255a6f432aec96860ca5"
+    },
+    "M10_CURRENT": {
+      "path": "evidence/miniapp/m10-wechat-readiness-20261102/current-readiness.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/evidence/miniapp/m10-wechat-readiness-20261102/current-readiness.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "00fe902fa7d8af14cbb896f3ac8d21428a2c13233d145445e97ab4ea7e57955b"
+    },
+    "M10_VERSION": {
+      "path": "evidence/miniapp/m10-wechat-readiness-20261102/verification-version.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/evidence/miniapp/m10-wechat-readiness-20261102/verification-version.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "6584f8d3be5f9c3727be1db81625adb5c7f14d1dc9ea17918d6ae723335793fe"
+    },
+    "M10_ARTIFACTS": {
+      "path": "evidence/miniapp/m10-wechat-readiness-20261102/artifact-checks.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/evidence/miniapp/m10-wechat-readiness-20261102/artifact-checks.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "7582a26e9c64e98d0872e21e7b89809a6ed67bea97ee8b6e192174af8373b70b"
+    },
+    "M10_WINDOW": {
+      "path": "evidence/miniapp/m10-wechat-readiness-20261102/safe-build-window.json",
+      "resolvedPath": "/home/ubuntu/print-system/runtime/worktrees/phase1-completion-audit-20261102/evidence/miniapp/m10-wechat-readiness-20261102/safe-build-window.json",
+      "availability": "TRACKED_BASELINE",
+      "sha256": "4e0580f12a5876fe186f1678d33ea039d9e34003c8f290f523518e6184ca22ee"
+    }
+  },
+  "gitHeads": {
+    "engineering": {
+      "path": "/home/ubuntu/print-system",
+      "head": "4db07cfb2d9bc1482de4912c40bcdcc73b9ba4b5",
+      "branch": "master"
+    },
+    "backendWorkingTree": {
+      "path": "/home/ubuntu/print-system/runtime/worktrees/m9-weixin-upload-backend-20261102",
+      "head": "71e22c43606a620bc8ab9f1d100ff3630013e6ad",
+      "branch": "print/phase1-backend-m9-weixin-upload"
+    },
+    "adminWorkingTree": {
+      "path": "/home/ubuntu/print-system/runtime/worktrees/m8-cancel-refund-admin-20261102",
+      "head": "6575759a145cce02f0aa8dc46952a6add2bfa192",
+      "branch": "print/phase1-admin-m8-cancel-refund"
+    },
+    "miniappDeployedSource": {
+      "path": "/home/ubuntu/print-system/runtime/worktrees/m9-weixin-upload-miniapp-20261102",
+      "head": "b44e5fa2ab6a404519654f595342cb958981ea40",
+      "branch": "print/phase1-miniapp-m9-weixin-upload"
+    },
+    "miniappM10Candidate": {
+      "path": "/home/ubuntu/print-system/runtime/worktrees/m10-wechat-readiness-miniapp-20261102",
+      "head": "0a1a37f95f07199d93d522cd0fdec24468a5a9ec",
+      "branch": "print/phase1-miniapp-m10-wechat-readiness"
+    }
+  },
+  "engineeringBranches": [
+    "docs/phase1-completion-audit-20261102 361103669070383671d7b7a207b9a18e53044f64",
+    "master 4db07cfb2d9bc1482de4912c40bcdcc73b9ba4b5",
+    "print/phase1-engineering 524458173bde781b82c6181b75defaae4fcc3b39",
+    "print/phase1-engineering-m10-wechat-readiness 361103669070383671d7b7a207b9a18e53044f64",
+    "print/phase1-engineering-m7-image 61152a50dcabeea720c7a0bc2de4afcdcbfd04b3",
+    "print/phase1-engineering-m8-cancel-refund a772a9dbb4a3f54c72d98879894306fb3861995f",
+    "print/phase1-engineering-m9-image-collage 9a167379ab5e21cdb6e76addee4906657dd40efc",
+    "print/phase1-engineering-m9-weixin-upload 752b7a720c0eba26372464a58137f3e831df7058"
+  ],
+  "liveSnapshot": {
+    "services": {
+      "print-backend": "active",
+      "mysql": "active",
+      "redis-server": "active",
+      "nginx": "active"
+    },
+    "http": {
+      "miniapp": {
+        "url": "http://127.0.0.1:18080/miniapp/",
+        "httpStatus": 200
+      },
+      "incorrectActuatorProbe": {
+        "url": "http://127.0.0.1:48080/actuator/health",
+        "httpStatus": 200,
+        "bodyStatus": null,
+        "frameworkCode": 404,
+        "acceptedAsHealth": false
+      },
+      "backendHealth": {
+        "url": "http://127.0.0.1:48080/admin-api/system/auth/get-permission-info",
+        "httpStatus": 200,
+        "frameworkCode": 401,
+        "acceptedAsHealth": true,
+        "contractSource": "ops/runtime/frontend-safe-build/recover.sh:127-128"
+      }
+    },
+    "activeFiles": {
+      "backendJar": {
+        "path": "/home/ubuntu/print-system/runtime/releases/current/backend.jar",
+        "resolvedPath": "/home/ubuntu/print-system/runtime/releases/204c17310c99f2e2/backend.jar",
+        "sha256": "204c17310c99f2e2fa6dde8b0127d76ef5e9073028d1718760cdbb6987780ffc"
+      },
+      "adminIndex": {
+        "path": "/var/www/print-system/index.html",
+        "resolvedPath": "/var/www/print-system/index.html",
+        "sha256": "33acc866e5674acb0bee7639280addc05cbd4e264f5fe752aa89b2a002411095"
+      },
+      "miniappIndex": {
+        "path": "/var/www/print-system/miniapp/index.html",
+        "resolvedPath": "/var/www/print-system/releases/miniapp-m9-weixin-20261102T142140Z-1bdbec28/index.html",
+        "sha256": "d37af00986584012604c688f432d1b23795f90c115d021f80f16169de49e5391"
+      },
+      "nginxAvailable": {
+        "path": "/etc/nginx/sites-available/print-system",
+        "resolvedPath": "/etc/nginx/sites-available/print-system",
+        "sha256": "e728449cb2596ab88ec8951f52a4bee6ae315de0497c3585d14e521c2a1292e7"
+      },
+      "nginxEnabled": {
+        "path": "/etc/nginx/sites-enabled/print-system",
+        "resolvedPath": "/etc/nginx/sites-enabled/print-system",
+        "sha256": "e728449cb2596ab88ec8951f52a4bee6ae315de0497c3585d14e521c2a1292e7"
+      }
+    },
+    "freeBytes": 41822474240,
+    "m9FlagsFromDeploymentEvidence": {
+      "staged": true,
+      "native": false,
+      "source": "STAGED_DEPLOY",
+      "runtimeSecretConfigRead": false
+    },
+    "manifestChecks": [
+      {
+        "file": "edge-admission-smoke.json",
+        "expected": "085c7dd00a3983aba918b387981007cbbb0600e1fe498648512cd607299f668d",
+        "actual": "085c7dd00a3983aba918b387981007cbbb0600e1fe498648512cd607299f668d",
+        "match": true,
+        "selfEntry": false
+      },
+      {
+        "file": "pre-enable-regression.log",
+        "expected": "0a1f0585f6a86c6e2be6deb8a8d7c5f26e5b6940213fcfe65028c691fc1cd7bb",
+        "actual": "0a1f0585f6a86c6e2be6deb8a8d7c5f26e5b6940213fcfe65028c691fc1cd7bb",
+        "match": true,
+        "selfEntry": false
+      },
+      {
+        "file": "edge-admission-smoke.log",
+        "expected": "1d9a4b0623b86604e810cb98b39cbfe34a13c62cb00797b17af03e94119948b9",
+        "actual": "1d9a4b0623b86604e810cb98b39cbfe34a13c62cb00797b17af03e94119948b9",
+        "match": true,
+        "selfEntry": false
+      },
+      {
+        "file": "runtime-smoke.json",
+        "expected": "68705b6149ec01c28f57ee10532fc968384d42b656419228370da168cc4e0f7e",
+        "actual": "68705b6149ec01c28f57ee10532fc968384d42b656419228370da168cc4e0f7e",
+        "match": true,
+        "selfEntry": false
+      },
+      {
+        "file": "runtime-smoke.log",
+        "expected": "82ec1f2187678fb9887f038c64bd6e8feac0f99903dd8391ce0d260bbeed9d06",
+        "actual": "82ec1f2187678fb9887f038c64bd6e8feac0f99903dd8391ce0d260bbeed9d06",
+        "match": true,
+        "selfEntry": false
+      },
+      {
+        "file": "SHA256SUMS",
+        "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "actual": "0bcb358434e4557c311e04a734e957e931f7e758bef389344fb216e3087ba3ff",
+        "match": false,
+        "selfEntry": true
+      }
+    ],
+    "manifestCaveat": "historical SHA256SUMS self-entry has empty-file hash and does not match itself; all other five entries match; no historical artifact changed"
+  },
+  "review": {
+    "auditImplementationModel": "INHERITED_PARENT_NOT_INDEPENDENTLY_VERIFIED",
+    "independentAuditReview": "NOT_RUN_COORDINATOR_TO_REVIEW",
+    "astraTriggeredByAudit": false,
+    "reason": "documentation and read-only metadata/hash checks; no critical rule change or deployment"
+  },
+  "validation": {
+    "allEvidencePathsExist": true,
+    "evidenceHashesCaptured": true,
+    "m9NonSelfManifestEntriesMatch": true,
+    "liveJarMatchesDeployedEvidence": true,
+    "nginxAvailableEnabledMatch": true,
+    "noSecretsRead": true,
+    "businessFilesChanged": false,
+    "verifiedUtc": "2026-11-02T15:08:57.398077+00:00",
+    "baselineGitBlobsMatchAllTrackedReferences": true,
+    "allMarkdownLinksExist": true,
+    "markdownLinkCount": 41,
+    "allDocumentCommitObjectsExistInCorrectProjectRepositories": true,
+    "documentCommitObjectCount": 6,
+    "milestoneAndRemainingIdsComplete": true,
+    "statusesValid": true,
+    "servedIndices": {
+      "miniappIndex": {
+        "url": "http://127.0.0.1:18080/miniapp/",
+        "httpStatus": 200,
+        "sha256": "d37af00986584012604c688f432d1b23795f90c115d021f80f16169de49e5391",
+        "matchesActiveFile": true
+      },
+      "adminIndex": {
+        "url": "http://127.0.0.1:18080/login",
+        "httpStatus": 200,
+        "sha256": "33acc866e5674acb0bee7639280addc05cbd4e264f5fe752aa89b2a002411095",
+        "matchesActiveFile": true
+      }
+    },
+    "standardBackendHealthContract": "HTTP200_AND_FRAMEWORK_CODE_401",
+    "readonlyOnly": true
+  },
+  "m10FinalProductReview": {
+    "classification": "COORDINATOR_REPORTED_REVIEW_RESULT",
+    "role": "sol_reviewer",
+    "model": "GPT-6.1 Sol",
+    "effort": "high",
+    "result": "PASS",
+    "miniappCommit": "0a1a37f95f07199d93d522cd0fdec24468a5a9ec",
+    "engineeringCommit": "361103669070383671d7b7a207b9a18e53044f64",
+    "scope": "configuration gate and offline compile evidence only",
+    "recordPath": null,
+    "evidenceBoundary": "not independently replayed by auditor; no fabricated repository review path; external capabilities NOT_RUN/NOT_READY"
+  }
+}
