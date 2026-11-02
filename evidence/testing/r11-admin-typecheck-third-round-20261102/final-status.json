@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "status": "INSUFFICIENT_EVIDENCE",
+  "experimentStatus": "DECLARATION_GENERATION_FAILED",
+  "baseAdminCommit": "6575759a145cce02f0aa8dc46952a6add2bfa192",
+  "capturedUtc": "2026-11-02T16:03:21.173149+00:00",
+  "inputSha256": {
+    "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/package.json": "2ad6149b880611a4cb1964fd79f976cc46cfe7f200d1469c2e51fdfd9c1b930e",
+    "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/scripts/generate-typecheck-declarations.mjs": "3e39f7dbaf088454aa45a033e07cb34f18acf11346853add6b772a61425294f8",
+    "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/scripts/plan-typecheck-shards.cjs": "738bfe1d4bce568a0a425b6d811f02c17efbf05478e217fa247358a54c21047d",
+    "/home/ubuntu/print-system/runtime/worktrees/r11-admin-typecheck-engineering-20261102/ops/testing/run-admin-typecheck-third-round.py": "69498342f349b4dd74b94b6f104bd3e0a3411c673b3639f923a8277a19bc3e9b",
+    "/home/ubuntu/print-system/runtime/worktrees/r11-admin-typecheck-engineering-20261102/ops/testing/run-admin-typecheck-third-round.sh": "b55d4a75361ceb436af2a2e807827d47b00243d4c4fa22507ec9911e56c595ad"
+  },
+  "partialDeclarations": "PARTIAL_NOT_VALIDATED_NOT_USED_AS_COMPLETE_INPUT",
+  "dependencyGraph": "NOT_RUN",
+  "shards": "NOT_RUN",
+  "fullSingleProcessTypecheck": "NOT_RUN",
+  "health": {
+    "httpStatus": 200,
+    "businessCode": 401,
+    "services": [
+      "mysql",
+      "redis-server",
+      "nginx",
+      "print-backend.service"
+    ],
+    "servicesActive": true
+  },
+  "cleanup": {
+    "partialDeclarationsRemovedFromWorktree": true,
+    "safeWindowScratchRemoved": true
+  },
+  "boundary": "Safe-window build=0 means experiment executor terminated normally, not compiler/typecheck success.",
+  "adminCandidateCommit": "973bcc3628ebe59bdb68ca89b6f6faea060e7801",
+  "independentFinalReview": "NOT_RUN_COORDINATOR_TO_REVIEW"
+}

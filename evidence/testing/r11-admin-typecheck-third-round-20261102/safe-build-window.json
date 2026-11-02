@@ -1,0 +1,11 @@
+{
+  "label": "r11-admin-typecheck-third-round",
+  "finishedUtc": "2026-11-02T16:01:41.845137+00:00",
+  "freeBeforeBytes": 40941498368,
+  "freeAfterBytes": 40941887488,
+  "minimumFreeBytes": 10737418240,
+  "buildExitCode": 0,
+  "recoveryExitCode": 0,
+  "backendHttpHealthy": true,
+  "scratchRemoved": true
+}
