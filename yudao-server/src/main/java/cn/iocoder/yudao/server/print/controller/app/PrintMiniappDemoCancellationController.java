@@ -35,6 +35,7 @@ public class PrintMiniappDemoCancellationController {
     public ResponseEntity<CommonResult<MiniappDemoCancellationView>> get(
             @RequestHeader(value="Authorization",required=false) String authorization,
             @RequestHeader(value="Origin",required=false) String origin,
+            @RequestHeader(value="Referer",required=false) String referer,
             @RequestHeader(value="Host",required=false) String host,
             @RequestParam MultiValueMap<String,String> query) {
         if(query.size()!=1 || query.get("orderId")==null || query.get("orderId").size()!=1) throw invalid();
@@ -48,11 +49,12 @@ public class PrintMiniappDemoCancellationController {
             @RequestHeader(value="Idempotency-Key",required=false) String key,
             @RequestHeader(value="Authorization",required=false) String authorization,
             @RequestHeader(value="Origin",required=false) String origin,
+            @RequestHeader(value="Referer",required=false) String referer,
             @RequestHeader(value="Host",required=false) String host,
             @RequestHeader(value="Content-Type",required=false) String contentType,
             @RequestParam MultiValueMap<String,String> query) {
         if(!query.isEmpty() || contentType==null || !MediaType.APPLICATION_JSON_VALUE.equalsIgnoreCase(contentType.split(";",2)[0].trim())) throw invalid();
-        return noStore(CommonResult.success(cancellations.create(sessions.requireForWrite(authorization,origin,host),body,key)));
+        return noStore(CommonResult.success(cancellations.create(sessions.requireForWrite(authorization,origin,referer,host),body,key)));
     }
     @ExceptionHandler(MiniappDemoCancellationException.class)
     public ResponseEntity<CommonResult<Object>> error(MiniappDemoCancellationException failure) {

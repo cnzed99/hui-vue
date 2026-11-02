@@ -28,9 +28,10 @@ public class PrintMiniappDemoSessionController {
     public ResponseEntity<CommonResult<MiniappDemoSessionService.IssuedSession>> issue(
             @RequestBody(required = false) byte[] body, @RequestParam MultiValueMap<String, String> query,
             @RequestHeader(value = "Origin", required = false) String origin,
+            @RequestHeader(value = "Referer", required = false) String referer,
             @RequestHeader(value = "Host", required = false) String host) {
         if ((body != null && body.length != 0) || !query.isEmpty()) throw invalid();
-        return noStore(CommonResult.success(sessions.issue(origin, host)));
+        return noStore(CommonResult.success(sessions.issue(origin, referer, host)));
     }
 
     @GetMapping("/session")
@@ -39,6 +40,7 @@ public class PrintMiniappDemoSessionController {
     public ResponseEntity<CommonResult<SessionView>> get(@RequestHeader(value = "Authorization", required = false) String authorization,
             @RequestParam MultiValueMap<String, String> query,
             @RequestHeader(value = "Origin", required = false) String origin,
+            @RequestHeader(value = "Referer", required = false) String referer,
             @RequestHeader(value = "Host", required = false) String host) {
         if (!query.isEmpty()) throw invalid();
         MiniappDemoIdentity identity = sessions.require(authorization, origin, host);

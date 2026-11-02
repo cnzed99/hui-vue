@@ -64,11 +64,12 @@ public class PrintMiniappDemoLibraryController {
             @RequestHeader(value="Idempotency-Key",required=false) String key,
             @RequestHeader(value="Authorization",required=false) String authorization,
             @RequestHeader(value="Origin",required=false) String origin,
+            @RequestHeader(value="Referer",required=false) String referer,
             @RequestHeader(value="Host",required=false) String host,
             @RequestHeader(value=HttpHeaders.CONTENT_TYPE,required=false) String contentType,
             @RequestParam MultiValueMap<String,String> query) {
         if (!isJson(contentType) || !query.isEmpty()) throw invalid();
-        var identity=sessions.requireForWrite(authorization,origin,host);
+        var identity=sessions.requireForWrite(authorization,origin,referer,host);
         if (raw==null || raw.length==0) throw invalid();
         if (raw.length>2048) throw new MiniappDemoLibraryException(TOO_LARGE);
         JsonNode body;

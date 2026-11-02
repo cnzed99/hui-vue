@@ -45,10 +45,11 @@ public class PrintMiniappDemoImageFileController {
             @RequestHeader(value = "Idempotency-Key", required = false) String key,
             @RequestHeader(value = "Authorization", required = false) String authorization,
             @RequestHeader(value = "Origin", required = false) String origin,
+            @RequestHeader(value = "Referer", required = false) String referer,
             @RequestHeader(value = "Host", required = false) String host,
             @RequestParam MultiValueMap<String, String> query) {
         if (!query.isEmpty()) throw invalid();
-        var identity = sessions.requireForWrite(authorization, origin, host);
+        var identity = sessions.requireForWrite(authorization, origin, referer, host);
         return noStore(CommonResult.success(images.create(identity, file, key)));
     }
 

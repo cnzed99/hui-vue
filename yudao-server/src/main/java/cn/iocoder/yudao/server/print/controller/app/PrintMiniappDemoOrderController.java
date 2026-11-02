@@ -43,10 +43,11 @@ public class PrintMiniappDemoOrderController {
             @RequestHeader(value = "Idempotency-Key", required = false) String key,
             @RequestHeader(value = "Authorization", required = false) String authorization,
             @RequestHeader(value = "Origin", required = false) String origin,
+            @RequestHeader(value = "Referer", required = false) String referer,
             @RequestHeader(value = "Host", required = false) String host,
             @RequestParam MultiValueMap<String, String> query) {
         if (!query.isEmpty()) throw invalid();
-        MiniappDemoIdentity identity = sessions.requireForWrite(authorization, origin, host);
+        MiniappDemoIdentity identity = sessions.requireForWrite(authorization, origin, referer, host);
         return noStore(CommonResult.success(orders.create(identity, body, key)));
     }
 
@@ -57,6 +58,7 @@ public class PrintMiniappDemoOrderController {
     public ResponseEntity<CommonResult<MiniappDemoOrderPage>> page(
             @RequestHeader(value = "Authorization", required = false) String authorization,
             @RequestHeader(value = "Origin", required = false) String origin,
+            @RequestHeader(value = "Referer", required = false) String referer,
             @RequestHeader(value = "Host", required = false) String host,
             @RequestParam MultiValueMap<String, String> query) {
         if (query.size() != 2 || query.get("pageNo") == null || query.get("pageNo").size() != 1
@@ -74,6 +76,7 @@ public class PrintMiniappDemoOrderController {
     public ResponseEntity<CommonResult<MiniappDemoOrderView>> get(
             @RequestHeader(value = "Authorization", required = false) String authorization,
             @RequestHeader(value = "Origin", required = false) String origin,
+            @RequestHeader(value = "Referer", required = false) String referer,
             @RequestHeader(value = "Host", required = false) String host,
             @RequestParam MultiValueMap<String, String> query) {
         if (query.size() != 1 || query.get("id") == null || query.get("id").size() != 1) throw invalid();

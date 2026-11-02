@@ -54,6 +54,7 @@ public class PrintMiniappDemoImageCollageController {
             @RequestHeader(value = "Idempotency-Key", required = false) String key,
             @RequestHeader(value = "Authorization", required = false) String authorization,
             @RequestHeader(value = "Origin", required = false) String origin,
+            @RequestHeader(value = "Referer", required = false) String referer,
             @RequestHeader(value = "Host", required = false) String host,
             @RequestParam MultiValueMap<String, String> query,
             HttpServletRequest request) throws ServletException, IOException {
@@ -69,7 +70,7 @@ public class PrintMiniappDemoImageCollageController {
             total = Math.addExact(total, part.getSize());
         }
         if (total < 1) throw invalid();
-        var identity = sessions.requireForWrite(authorization, origin, host);
+        var identity = sessions.requireForWrite(authorization, origin, referer, host);
         return noStore(CommonResult.success(collages.create(identity, files, key)));
     }
 

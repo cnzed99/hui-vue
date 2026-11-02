@@ -41,10 +41,11 @@ public class PrintMiniappDemoQuoteController {
             @RequestHeader(value = "Idempotency-Key", required = false) String key,
             @RequestHeader(value = "Authorization", required = false) String authorization,
             @RequestHeader(value = "Origin", required = false) String origin,
+            @RequestHeader(value = "Referer", required = false) String referer,
             @RequestHeader(value = "Host", required = false) String host,
             @RequestParam MultiValueMap<String, String> query) {
         if (!query.isEmpty()) throw invalid();
-        MiniappDemoIdentity identity = sessions.requireForWrite(authorization, origin, host);
+        MiniappDemoIdentity identity = sessions.requireForWrite(authorization, origin, referer, host);
         return noStore(CommonResult.success(quotes.create(identity, body, key)));
     }
 
@@ -54,6 +55,7 @@ public class PrintMiniappDemoQuoteController {
     public ResponseEntity<CommonResult<MiniappDemoQuoteView>> get(
             @RequestHeader(value = "Authorization", required = false) String authorization,
             @RequestHeader(value = "Origin", required = false) String origin,
+            @RequestHeader(value = "Referer", required = false) String referer,
             @RequestHeader(value = "Host", required = false) String host,
             @RequestParam MultiValueMap<String, String> query) {
         if (query.size() != 1 || query.get("id") == null || query.get("id").size() != 1) throw invalid();

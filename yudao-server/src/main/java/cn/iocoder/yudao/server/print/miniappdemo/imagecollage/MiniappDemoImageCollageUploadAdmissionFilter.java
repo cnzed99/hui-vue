@@ -28,14 +28,22 @@ public final class MiniappDemoImageCollageUploadAdmissionFilter extends OncePerR
             PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE, PosixFilePermission.OWNER_EXECUTE);
     private final MiniappDemoImageCollageProperties properties;
     private final WebProperties webProperties;
+    private final MiniappDemoCollageUploadProperties staged;
     private Semaphore uploads;
     private Path multipartRoot;
     private String targetRequestPath;
 
     public MiniappDemoImageCollageUploadAdmissionFilter(MiniappDemoImageCollageProperties properties,
             WebProperties webProperties) {
+        this(properties, webProperties, new MiniappDemoCollageUploadProperties());
+    }
+
+    @org.springframework.beans.factory.annotation.Autowired
+    public MiniappDemoImageCollageUploadAdmissionFilter(MiniappDemoImageCollageProperties properties,
+            WebProperties webProperties, MiniappDemoCollageUploadProperties staged) {
         this.properties = properties;
         this.webProperties = webProperties;
+        this.staged = staged;
     }
 
     @PostConstruct
@@ -54,11 +62,19 @@ public final class MiniappDemoImageCollageUploadAdmissionFilter extends OncePerR
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        return !matchesTargetRequest(request.getContextPath(), request.getRequestURI());
+        return !matchesTargetRequest(request.getContextPath(), request.getRequestURI())
+                && !matchesStagedPart(request.getContextPath(), request.getRequestURI());
     }
 
     boolean matchesTargetRequest(String contextPath, String requestUri) {
         return (normalizeContextPath(contextPath) + targetRequestPath).equals(requestUri);
+    }
+
+    boolean matchesStagedPart(String contextPath, String requestUri) {
+        String base = normalizeContextPath(contextPath) + normalizePrefix(webProperties.getAppApi().getPrefix())
+                + "/print/miniapp/demo/image-collage-upload-sessions/";
+        return requestUri != null && requestUri.startsWith(base)
+                && requestUri.substring(base.length()).matches("[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/parts/[0-8]");
     }
 
     private static String normalizePrefix(String prefix) {
@@ -79,26 +95,37 @@ public final class MiniappDemoImageCollageUploadAdmissionFilter extends OncePerR
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
+        boolean stagedPart = matchesStagedPart(request.getContextPath(), request.getRequestURI());
+        if (stagedPart && (!staged.isEnabled() || !"POST".equals(request.getMethod()))) {
+            reject(response, 404, 1_935_001, "Staged collage upload is disabled");
+            return;
+        }
         if (!properties.isEnabled() || uploads == null || multipartRoot == null) {
-            reject(response, HttpServletResponse.SC_NOT_FOUND, 1_934_001, "Miniapp demo image collage is disabled");
+            reject(response, HttpServletResponse.SC_NOT_FOUND, stagedPart ? 1_935_001 : 1_934_001, "Miniapp demo image collage is disabled");
             return;
         }
         long declared = request.getContentLengthLong();
-        if (declared > properties.getMaxMultipartBytes()) {
-            reject(response, HttpServletResponse.SC_REQUEST_ENTITY_TOO_LARGE, 1_934_003,
+        long maximum = stagedPart ? 3L * 1024 * 1024 : properties.getMaxMultipartBytes();
+        if (stagedPart && (declared <= 0 || request.getContentType() == null
+                || !request.getContentType().toLowerCase(java.util.Locale.ROOT).startsWith("multipart/form-data;"))) {
+            reject(response, 400, 1_935_002, "Invalid staged collage upload request");
+            return;
+        }
+        if (declared > maximum) {
+            reject(response, HttpServletResponse.SC_REQUEST_ENTITY_TOO_LARGE, stagedPart ? 1_935_008 : 1_934_003,
                     "Miniapp demo image collage exceeds the input limit");
             return;
         }
         if (!uploads.tryAcquire()) {
-            reject(response, 429, 1_934_006,
+            reject(response, 429, stagedPart ? 1_935_006 : 1_934_006,
                     "Miniapp demo image collage renderer is busy");
             return;
         }
         try {
             FileStore store = Files.getFileStore(multipartRoot);
-            long reserve = Math.addExact(properties.getMinFreeBytes(), properties.getMaxMultipartBytes());
+            long reserve = Math.addExact(properties.getMinFreeBytes(), maximum);
             if (store.getUsableSpace() < reserve) {
-                reject(response, HttpServletResponse.SC_SERVICE_UNAVAILABLE, 1_934_010,
+                reject(response, HttpServletResponse.SC_SERVICE_UNAVAILABLE, stagedPart ? 1_935_007 : 1_934_010,
                         "Miniapp demo image collage storage capacity is low");
                 return;
             }

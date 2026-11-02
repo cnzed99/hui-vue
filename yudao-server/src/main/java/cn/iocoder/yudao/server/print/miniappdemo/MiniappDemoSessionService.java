@@ -30,8 +30,9 @@ public class MiniappDemoSessionService {
         this.transaction.setIsolationLevel(TransactionDefinition.ISOLATION_READ_COMMITTED);
     }
 
-    public IssuedSession issue(String origin, String host) {
-        properties.requireIssuanceRequest(origin, host);
+    public IssuedSession issue(String origin, String host) { return issue(origin, null, host); }
+    public IssuedSession issue(String origin, String referer, String host) {
+        properties.requireIssuanceRequest(origin, referer, host);
         byte[] bytes = new byte[32];
         RANDOM.nextBytes(bytes);
         String token = Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
@@ -65,7 +66,10 @@ public class MiniappDemoSessionService {
     }
 
     public MiniappDemoIdentity requireForWrite(String authorization, String origin, String host) {
-        properties.requireWriteRequest(origin, host);
+        return requireForWrite(authorization, origin, null, host);
+    }
+    public MiniappDemoIdentity requireForWrite(String authorization, String origin, String referer, String host) {
+        properties.requireWriteRequest(origin, referer, host);
         if (authorization == null || !authorization.matches("Bearer [A-Za-z0-9_-]{43}")) {
             throw new MiniappDemoSessionException(SESSION_INVALID);
         }
