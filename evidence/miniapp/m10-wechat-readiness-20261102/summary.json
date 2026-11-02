@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "directedChecks": 7,
+  "typeCheck": "PASS",
+  "h5Build": "COMPILE_ONLY",
+  "ordinaryMpBuild": "COMPILE_ONLY",
+  "missingConfigIntegrationBuild": "NOT_READY_EXIT_1",
+  "syntheticIntegrationBuild": "COMPILE_ONLY_FIXTURE",
+  "pathEscapeIntegrationBuild": "NOT_READY_EXIT_1",
+  "directStrictModeWithBlankManifest": "NOT_READY_NONZERO",
+  "syntheticArtifactsRemoved": true,
+  "currentReleaseReadiness": "NOT_READY",
+  "wechatDeveloperTools": "NOT_RUN",
+  "device": "NOT_RUN",
+  "originalSystemAccess": "NOT_RUN",
+  "deployment": "NOT_RUN"
+}

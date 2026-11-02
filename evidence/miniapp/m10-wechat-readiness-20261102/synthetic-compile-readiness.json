@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-02T14:43:36.760Z",
+  "status": "NOT_READY",
+  "configStatus": "READY_FOR_COMPILE",
+  "evidenceLevel": "LOCAL_CONFIGURATION_ONLY",
+  "deviceValidation": "NOT_RUN",
+  "releaseReason": "Syntax and self-declarations cannot verify AppID ownership, filing/TLS, WeChat console, credentials, device behavior or release acceptance.",
+  "checks": [
+    {
+      "id": "appId",
+      "status": "AVAILABLE_FORMAT_ONLY",
+      "value": "wx6f3a8c219d5e7b40",
+      "reason": null
+    },
+    {
+      "id": "apiBase",
+      "status": "AVAILABLE_FORMAT_ONLY",
+      "value": "https://api.synthetic-wechat-fixture.cn/app-api",
+      "reason": null
+    },
+    {
+      "id": "requestDomains",
+      "status": "AVAILABLE_FORMAT_ONLY",
+      "value": [
+        "https://api.synthetic-wechat-fixture.cn"
+      ],
+      "reason": null
+    },
+    {
+      "id": "uploadFileDomains",
+      "status": "AVAILABLE_FORMAT_ONLY",
+      "value": [
+        "https://api.synthetic-wechat-fixture.cn"
+      ],
+      "reason": null
+    },
+    {
+      "id": "downloadFileDomains",
+      "status": "AVAILABLE_FORMAT_ONLY",
+      "value": [
+        "https://files.synthetic-wechat-fixture.cn"
+      ],
+      "reason": null
+    },
+    {
+      "id": "filedHttpsDomain",
+      "status": "MISSING_OR_INVALID",
+      "value": null,
+      "reason": "External prerequisite has not been supplied/confirmed."
+    },
+    {
+      "id": "legalDomainConsole",
+      "status": "MISSING_OR_INVALID",
+      "value": null,
+      "reason": "External prerequisite has not been supplied/confirmed."
+    },
+    {
+      "id": "privacyAgreement",
+      "status": "MISSING_OR_INVALID",
+      "value": null,
+      "reason": "External prerequisite has not been supplied/confirmed."
+    },
+    {
+      "id": "categoryQualifications",
+      "status": "MISSING_OR_INVALID",
+      "value": null,
+      "reason": "External prerequisite has not been supplied/confirmed."
+    },
+    {
+      "id": "subscriptionMessages",
+      "status": "MISSING_OR_INVALID",
+      "value": null,
+      "reason": "External prerequisite has not been supplied/confirmed."
+    },
+    {
+      "id": "paymentConfiguration",
+      "status": "MISSING_OR_INVALID",
+      "value": null,
+      "reason": "External prerequisite has not been supplied/confirmed."
+    },
+    {
+      "id": "wechatLogin",
+      "status": "MISSING_OR_INVALID",
+      "value": null,
+      "reason": "External prerequisite has not been supplied/confirmed."
+    },
+    {
+      "id": "deviceValidation",
+      "status": "MISSING_OR_INVALID",
+      "value": null,
+      "reason": "External prerequisite has not been supplied/confirmed."
+    }
+  ],
+  "missing": [
+    "filedHttpsDomain",
+    "legalDomainConsole",
+    "privacyAgreement",
+    "categoryQualifications",
+    "subscriptionMessages",
+    "paymentConfiguration",
+    "wechatLogin",
+    "deviceValidation"
+  ],
+  "secretsIncluded": false,
+  "build": {
+    "status": "COMPILE_ONLY",
+    "output": "dist/integration/mp-weixin"
+  }
+}

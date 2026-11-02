@@ -1,0 +1,11 @@
+{
+  "label": "m10-wechat-readiness",
+  "finishedUtc": "2026-11-02T14:42:51.693135+00:00",
+  "freeBeforeBytes": 41833926656,
+  "freeAfterBytes": 41833816064,
+  "minimumFreeBytes": 10737418240,
+  "buildExitCode": 1,
+  "recoveryExitCode": 0,
+  "backendHttpHealthy": true,
+  "scratchRemoved": true
+}

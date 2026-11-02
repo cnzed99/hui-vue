@@ -18,6 +18,7 @@
 | M7 | 单图片打印闭环 | JPG/PNG 受限处理、A4 PDF、既有打印闭环和浏览器验证通过 | 已完成并部署 |
 | M8 | 取消、模拟退款与人工核实 | 未付款取消；未领取全额模拟退款；已领取转人工核实；三端运行验证通过 | 已完成并部署，Astra High PASS |
 | M9 | 多图片拼版打印闭环 | 1–9 张有序 JPG/PNG 生成单页 A4 PDF；复用既有打印闭环；HTTP 与 H5 浏览器验证通过 | 开发候选已部署，Astra High PASS；逐张 HTTP 门禁通过，微信原生通道关闭 |
+| M10 | 微信发布配置就绪门禁 | 严格MP联调编译、机器缺项清单、正反例与普通构建验证 | 配置门禁完成；真实发布 NOT_READY，真机 NOT_RUN |
 | 外部接入 | 微信登录/支付/退款/订阅/存储/正式打印端 | 外部资质与密钥就绪；真实联调和上线审查 | 待申请 |
 
 ## M1 验收清单
@@ -177,6 +178,19 @@
 - `edge-admission-smoke.json` PASS：`.5` 源的一条 HTTP/1.1 keepalive 连接串行 create＋9 part＋complete，11 次均 200、0 重试、4.184 秒，最终 READY、1 页；`.2/.3/.4` 混合 H5/part 慢请求证明同 IP 上限 1、跨 IP共享 global=2、第三 H5/part 均 429，关闭后容量恢复。
 - 首次适配部署因 `.5` 第二张 part 的连接准入 429 自动回滚；验收脚本改用单连接串行后本次通过。该门禁只验证服务端 keepalive 串行条件，不能推断 `uni.uploadFile` 的连接复用，不能冒充微信平台验收。
 - 微信开发者工具、真机、AppID 接入、正式合法域名、真实支付退款、真实打印和外部用户验收均 NOT_RUN。保留既有完成度口径：一期优先约 94%、系统整体约 80%。
+
+## M10 微信发布配置就绪门禁记录
+
+- 本批为普通工程配置与离线门禁，基于小程序 b44e5fa2ab6a404519654f595342cb958981ea40、工程文档 752b7a720c0eba26372464a58137f3e831df7058；使用两个独立分支/工作树，无推送、无部署、不访问原云途智印。
+- 已审计11个读取 VITE_APP_API_BASE 的 API 模块。普通 H5 保留 /app-api 同源开发，普通 MP 无 HTTPS 时保留既有 fallback；源 manifest AppID 仍空、urlCheck=false，普通 MP 产物只表示编译验证。
+- 新增无密钥 .env.wechat-integration.example、环境类型声明、机器就绪清单与 build:mp-weixin:integration。严格联调模式要求非占位格式 AppID、绝对 HTTPS FQDN、精确 /app-api 路径及 request/uploadFile/downloadFile origin 声明；拒绝 HTTP/本地/IP/查询片段/路径越界，并对临时注入 AppID/urlCheck=true 的生成产物做核对。失败非零退出 NOT_READY，旧联调产物清除。
+- readiness JSON 明确区分配置语法 READY_FOR_COMPILE 与整体 NOT_READY；备案、域名控制台、隐私协议、类目资质、订阅消息、支付、登录与真机均列入缺失/自述待核实清单。任何 *_CONFIRMED=true 都只是 DECLARED_NOT_VERIFIED，不能证明外部接入或验收。
+- 定向7组检查 PASS，覆盖非法URL/Host/占位AppID、域名关联、manifest一致性、外部自述和CLI退出码；type-check、普通H5、普通MP编译均通过。合成 AppID/域名的 integration 正例编译通过，只属 fixture compile；缺配置、路径绕过及直接strict mode使用空manifest均按预期失败。
+- 最终只读产物断言 PASS：固定11消费者与源扫描集合一致，逐模块编入期望HTTPS基址且无env残留；staged wrapper通过caller require/调用/精确路径替换与adapter export连接验证，仅为静态编译证据。源 manifest 只核对 AppID/urlCheck 字段保留，不夸大为完整字节未变。
+- 验证脚本曾有三次失败：泛词secret误命中固定字段secretsIncluded；产物路径错误假定为vendor；修订后又错误将API目录总数断言11（实际12个，1个为staged wrapper）。原失败日志全部保留；后两次为同一产物断言问题，第三轮修订前已触发 Astra High，按其 PASS_TO_FIX 方案修正固定消费者集合/连接断言，先只跑断言通过，再仅执行剩余负例，没有重跑已通过构建。
+- 证据目录 evidence/miniapp/m10-wechat-readiness-20261102/：summary.json、current-readiness.json、synthetic-compile-readiness.json、artifact-checks.json、各检查/构建日志和 reproduce-checks.sh。标准 safe-build 窗口使用共享锁串行停四服务、trap恢复并等待健康；最终记录见 safe-build-window.json。合成integration产物已清除。
+- 审查边界：Astra High 已用于连续失败诊断与第三轮方案门禁；本批产品差异最终独立批量审查由主任务收口，不以实施者自检替代独立审查。未修改计价、支付退款、权限隔离或防重复核心规则，未执行上线。
+- 微信开发者工具/真机、真实AppID/备案HTTPS域名、合法域名控制台、登录、真实支付退款、订阅消息、真实打印和用户外部验收仍为 NOT_RUN/NOT_READY。保持一期约94%、系统整体约80%的既有口径，不因配置脚本增加业务完成度。
 
 ## 当前完成度口径
 

@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "fixtureOnly": true,
+  "appIdInjected": true,
+  "urlCheckEnabled": true,
+  "apiBaseConsumers": [
+    "catalog",
+    "demoCancellations",
+    "demoFiles",
+    "demoImageCollages",
+    "demoLibrary",
+    "demoOrders",
+    "demoPayments",
+    "demoPrintResult",
+    "demoQuotes",
+    "demoSession",
+    "demoTextFiles"
+  ],
+  "noUnresolvedEnv": true,
+  "stagedAdapterConnection": "STATIC_COMPILED_ONLY",
+  "sourceManifestFieldsPreserved": true,
+  "device": "NOT_RUN"
+}

@@ -1,0 +1,38 @@
+{
+  "miniappCommit": "0a1a37f95f07199d93d522cd0fdec24468a5a9ec",
+  "miniappBaseline": "b44e5fa2ab6a404519654f595342cb958981ea40",
+  "engineeringBaseline": "752b7a720c0eba26372464a58137f3e831df7058",
+  "createdUtc": "2026-11-02T14:54:01.499658+00:00",
+  "implementationModel": "INHERITED_PARENT_NOT_INDEPENDENTLY_VERIFIED",
+  "review": {
+    "role": "astra_reviewer",
+    "model": "GPT-6 Astra",
+    "effort": "high",
+    "reason": "two consecutive artifact-verification repair failures",
+    "conclusion": "CHANGES_REQUIRED/PASS_TO_FIX_PLAN",
+    "scope": "verification plan only; final independent product review is coordinated by parent task",
+    "approvedCorrectionExecuted": true
+  },
+  "externalWechatReadiness": "NOT_READY",
+  "device": "NOT_RUN",
+  "deployment": "NOT_RUN",
+  "push": "NOT_RUN",
+  "syntheticFixtureArtifactsRemoved": true,
+  "checks": {
+    "status": "PASS",
+    "directedChecks": 7,
+    "typeCheck": "PASS",
+    "h5Build": "COMPILE_ONLY",
+    "ordinaryMpBuild": "COMPILE_ONLY",
+    "missingConfigIntegrationBuild": "NOT_READY_EXIT_1",
+    "syntheticIntegrationBuild": "COMPILE_ONLY_FIXTURE",
+    "pathEscapeIntegrationBuild": "NOT_READY_EXIT_1",
+    "directStrictModeWithBlankManifest": "NOT_READY_NONZERO",
+    "syntheticArtifactsRemoved": true,
+    "currentReleaseReadiness": "NOT_READY",
+    "wechatDeveloperTools": "NOT_RUN",
+    "device": "NOT_RUN",
+    "originalSystemAccess": "NOT_RUN",
+    "deployment": "NOT_RUN"
+  }
+}

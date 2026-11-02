@@ -1,0 +1,16 @@
+{
+  "build-h5.log": "4ecef6d5253a159ac7fa545be827bdc771ef85d4ebf61ea90eb58f0758d103e8",
+  "build-mp-weixin.log": "5ed1442f0f47c2768d866a8aaa62fac86aa20c480a3cb53004afe5a8623c8bb9",
+  "current-readiness.log": "0cd7a50af6c1715dfab1c94d0daa132a360298eca1709c530880aac7fca3472a",
+  "directed-checks-r1-failed.log": "d0c27c700311b9a93e4c2144cd8b2f1752caa04487e30c2969ff416b50789c1a",
+  "directed-checks.log": "8c6d7496f58cce9cd54fbf92d66c3bea6ca641250af202420b8e5739d220cc99",
+  "integration-direct-negative.log": "2eb20a73bc8c8c5271422990e31f5da1b93abec653bced72fd80b5a72d3e6084",
+  "integration-negative.log": "f3464070b6fc379c379675ef1b1fa4193b3ce2e0e6d38f5503745d7d652da3b2",
+  "integration-path-negative.log": "863846b1a55fb35941aff501ee3bc960be952fca59711b8d88a0a85e7339b9d3",
+  "integration-synthetic-positive.log": "e6b37da71aa9302584e96ba021e7c32fec0917e12b1368bd57823d8abc6d7fec",
+  "safe-build-window-r1.log": "29b6d02957258277ea79dfcf6b9866fba91d91049893ff68ac01c3e901536af0",
+  "safe-build-window-r2-artifact-location-failed.log": "75faa532b406446280e678d240ba75b19eef8b41fc4e0752e740d09af8cd2df0",
+  "safe-build-window-r3-count-failed.log": "df28a40a55bff7f56c59c81c3fdbbc4a1c2647e9b572f78fffa8f274e20717ac",
+  "safe-build-window.log": "377b7a6b96014ce06ab2f9e66baa08849e19634e265f9fbed163e3a670b4bf11",
+  "type-check.log": "6f9ea310cc3d31afb752bb01b2a509da047695340eb88d8c47f9493c006f1149"
+}
