@@ -2,6 +2,7 @@ package cn.iocoder.yudao.server.print.miniappdemo.file;
 
 import cn.iocoder.yudao.server.print.file.PdfInspection;
 import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoIdentity;
+import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoProcessAdmission;
 import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoSessionException;
 import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoSessionRepository;
 import jakarta.annotation.PostConstruct;
@@ -46,6 +47,7 @@ public class MiniappDemoFileService {
     private final MiniappDemoFileRepository repository;
     private final MiniappDemoSessionRepository sessions;
     private final MiniappDemoPdfProcessInspector inspector;
+    private final MiniappDemoProcessAdmission processAdmission;
     private final TransactionTemplate transaction;
     private final Object uploadMutex = new Object();
     private Semaphore uploadSlots;
@@ -59,11 +61,12 @@ public class MiniappDemoFileService {
 
     public MiniappDemoFileService(MiniappDemoFileProperties properties, MiniappDemoFileRepository repository,
             MiniappDemoSessionRepository sessions, MiniappDemoPdfProcessInspector inspector,
-            PlatformTransactionManager manager) {
+            MiniappDemoProcessAdmission processAdmission, PlatformTransactionManager manager) {
         this.properties = properties;
         this.repository = repository;
         this.sessions = sessions;
         this.inspector = inspector;
+        this.processAdmission = processAdmission;
         this.transaction = new TransactionTemplate(manager);
     }
 
@@ -244,30 +247,34 @@ public class MiniappDemoFileService {
                 row = expireIfNeeded(row);
                 purge(row);
             }
-            var next = repository.claimNext(System.currentTimeMillis());
-            if (next.isEmpty()) return;
-            MiniappDemoFileRow row = next.get();
-            if (row.processingAttempts() > properties.getMaxProcessingAttempts()) {
-                repository.failed(row, "PROCESSING_RETRY_LIMIT", System.currentTimeMillis());
-            } else {
-                try {
-                    Path path = objectPath(row.storageKey());
-                    if (!Files.isRegularFile(path, LinkOption.NOFOLLOW_LINKS) || Files.isSymbolicLink(path)) {
-                        repository.failed(row, "FILE_MISSING", System.currentTimeMillis());
-                    } else {
-                        int pages = inspector.inspect(path, scratch, properties.getMaxBytes(), properties.getMaxPages(),
-                                properties.getParserTimeoutSeconds());
-                        repository.ready(row, pages, System.currentTimeMillis());
+            MiniappDemoProcessAdmission.Lease lease = processAdmission.tryAcquire();
+            if (lease == null) return;
+            try (lease) {
+                var next = repository.claimNext(System.currentTimeMillis());
+                if (next.isEmpty()) return;
+                MiniappDemoFileRow row = next.get();
+                if (row.processingAttempts() > properties.getMaxProcessingAttempts()) {
+                    repository.failed(row, "PROCESSING_RETRY_LIMIT", System.currentTimeMillis());
+                } else {
+                    try {
+                        Path path = objectPath(row.storageKey());
+                        if (!Files.isRegularFile(path, LinkOption.NOFOLLOW_LINKS) || Files.isSymbolicLink(path)) {
+                            repository.failed(row, "FILE_MISSING", System.currentTimeMillis());
+                        } else {
+                            int pages = inspector.inspect(path, scratch, properties.getMaxBytes(), properties.getMaxPages(),
+                                    properties.getParserTimeoutSeconds());
+                            repository.ready(row, pages, System.currentTimeMillis());
+                        }
+                    } catch (PdfInspection.Failure failure) {
+                        repository.failed(row, failure.code(), System.currentTimeMillis());
+                    } catch (InterruptedException interrupted) {
+                        Thread.currentThread().interrupt();
+                        repository.failed(row, "PDF_INTERRUPTED", System.currentTimeMillis());
                     }
-                } catch (PdfInspection.Failure failure) {
-                    repository.failed(row, failure.code(), System.currentTimeMillis());
-                } catch (InterruptedException interrupted) {
-                    Thread.currentThread().interrupt();
-                    repository.failed(row, "PDF_INTERRUPTED", System.currentTimeMillis());
                 }
+                MiniappDemoFileRow current = repository.findExact(row).orElse(row);
+                purge(expireIfNeeded(current));
             }
-            MiniappDemoFileRow current = repository.findExact(row).orElse(row);
-            purge(expireIfNeeded(current));
         } catch (Exception failure) {
             LOG.warn("miniapp_demo_file_worker_retry errorType={}", failure.getClass().getSimpleName());
         }

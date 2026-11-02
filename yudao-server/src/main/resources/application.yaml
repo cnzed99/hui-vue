@@ -14,6 +14,8 @@ spring:
     multipart:
       max-file-size: 16MB # 单个文件大小
       max-request-size: 32MB # 设置总上传的文件大小
+      file-size-threshold: 0B # 上传内容不进入主 JVM 堆；由服务私有临时目录承接
+      location: ${PRINT_MINIAPP_DEMO_MULTIPART_ROOT:/tmp}
 
   # Jackson 配置项
   jackson:
@@ -30,6 +32,9 @@ spring:
       time-to-live: 1h # 设置过期时间为 1 小时
 
 server:
+  tomcat:
+    max-part-count: 10 # 解析阶段硬限制，M9 最多 9 个文件且拒绝额外字段
+    max-part-header-size: 1KB
   servlet:
     encoding:
       enabled: true

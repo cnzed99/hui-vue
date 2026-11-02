@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.server.print.miniappdemo.image;
 
 import cn.iocoder.yudao.server.print.miniappdemo.file.MiniappDemoFileProperties;
+import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoProcessAdmission;
 import org.apache.pdfbox.Loader;
 
 import javax.imageio.ImageIO;
@@ -67,7 +68,8 @@ public final class MiniappDemoImageRendererChecks {
         images.setEnabled(true); images.setRenderVersion(MiniappDemoImageProperties.RENDER_VERSION);
         images.setMaxInputBytes(2 * 1024 * 1024); images.setMaxPixels(maxPixels); images.setMaxDimension(8192);
         images.setMaxPdfBytes(2 * 1024 * 1024); images.setMaxConcurrentRenders(1); images.setRenderTimeoutSeconds(10);
-        MiniappDemoImageProcessRenderer renderer = new MiniappDemoImageProcessRenderer(images, files);
+        MiniappDemoImageProcessRenderer renderer = new MiniappDemoImageProcessRenderer(
+                images, files, new MiniappDemoProcessAdmission());
         renderer.initialize(); return renderer;
     }
 

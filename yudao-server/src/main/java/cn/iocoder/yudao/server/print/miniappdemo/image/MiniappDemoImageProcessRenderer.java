@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.server.print.miniappdemo.image;
 
 import cn.iocoder.yudao.server.print.miniappdemo.file.MiniappDemoFileProperties;
+import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoProcessAdmission;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,6 @@ import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.Set;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
@@ -28,12 +28,13 @@ public class MiniappDemoImageProcessRenderer {
     private static final Pattern OK = Pattern.compile("(?m)^OK:(JPEG|PNG):[1-9][0-9]*x[1-9][0-9]*:[0-9a-f]{64}$");
     private final MiniappDemoImageProperties properties;
     private final MiniappDemoFileProperties fileProperties;
-    private Semaphore slots;
+    private final MiniappDemoProcessAdmission processAdmission;
     private Path runtimeJar;
     private Path scratch;
 
-    public MiniappDemoImageProcessRenderer(MiniappDemoImageProperties properties, MiniappDemoFileProperties fileProperties) {
-        this.properties = properties; this.fileProperties = fileProperties;
+    public MiniappDemoImageProcessRenderer(MiniappDemoImageProperties properties, MiniappDemoFileProperties fileProperties,
+            MiniappDemoProcessAdmission processAdmission) {
+        this.properties = properties; this.fileProperties = fileProperties; this.processAdmission = processAdmission;
     }
 
     @PostConstruct
@@ -50,13 +51,13 @@ public class MiniappDemoImageProcessRenderer {
         }
         scratch = privateDirectory(fileProperties.getStorageRoot().normalize().resolve("image-scratch"));
         cleanupAbandoned();
-        slots = new Semaphore(properties.getMaxConcurrentRenders(), true);
     }
 
     public byte[] render(InputStream source, long declaredSize) {
         requireEnabled();
         if (source == null || declaredSize < 1 || declaredSize > properties.getMaxInputBytes()) throw failure(INPUT_TOO_LARGE);
-        if (!slots.tryAcquire()) throw failure(RENDER_BUSY);
+        MiniappDemoProcessAdmission.Lease lease = processAdmission.tryAcquire();
+        if (lease == null) throw failure(RENDER_BUSY);
         Path task = null;
         Process process = null;
         Collector collector = null;
@@ -112,12 +113,12 @@ public class MiniappDemoImageProcessRenderer {
             if (process != null && process.isAlive()) terminateUninterruptibly(process);
             joinUninterruptibly(collectorThread, process == null ? null : process.getInputStream());
             if (task != null) deleteTaskDirectory(task, scratch);
-            slots.release();
+            lease.close();
         }
     }
 
     private void requireEnabled() {
-        if (!properties.isEnabled() || slots == null || runtimeJar == null || scratch == null) throw failure(DISABLED);
+        if (!properties.isEnabled() || runtimeJar == null || scratch == null) throw failure(DISABLED);
     }
     private static MiniappDemoImageException failure(MiniappDemoImageException.Reason reason) {
         return new MiniappDemoImageException(reason);
