@@ -1,0 +1,47 @@
+diff --git a/package.json b/package.json
+index 8e80a014ed..9d40bb82fd 100644
+--- a/package.json
++++ b/package.json
+@@ -52,6 +52,7 @@
+     "dhtmlx-gantt": "^9.1.1",
+     "diagram-js": "^15.14.0",
+     "driver.js": "^1.4.0",
++    "dom7": "4.0.6",
+     "echarts": "^6.0.0",
+     "echarts-wordcloud": "^2.1.0",
+     "element-plus": "2.13.7",
+diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
+index 08fa649352..381bc8dcb9 100644
+--- a/pnpm-lock.yaml
++++ b/pnpm-lock.yaml
+@@ -71,6 +71,9 @@ importers:
+       diagram-js:
+         specifier: ^15.14.0
+         version: 15.14.0
++      dom7:
++        specifier: 4.0.6
++        version: 4.0.6
+       driver.js:
+         specifier: ^1.4.0
+         version: 1.4.0
+diff --git a/types/dom7.d.ts b/types/dom7.d.ts
+deleted file mode 100644
+index 0d7a75e6a8..0000000000
+--- a/types/dom7.d.ts
++++ /dev/null
+@@ -1,15 +0,0 @@
+-declare module 'dom7' {
+-  interface Dom7Static {
+-    fn: Record<string, any>
+-    (...args: any[]): any
+-  }
+-
+-  const dom7: Dom7Static
+-  export default dom7
+-
+-  export const append: any
+-  export const on: any
+-  export const hide: any
+-  export const click: any
+-  export type Dom7Array = any
+-}

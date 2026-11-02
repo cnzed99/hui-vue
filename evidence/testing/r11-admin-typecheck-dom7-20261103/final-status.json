@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "status": "RESOURCE_LIMIT",
+  "adminCandidateCommit": "b429f6d7bd367144ad1ec460507ad40d0f5087fa",
+  "capturedUtc": "2026-11-02T16:19:07.136413+00:00",
+  "inputSha256": {
+    "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/package.json": "22e26f9a86a55f5f923bb59b8cc25d86f921f1fa7e0f1365122cc67d035e98a3",
+    "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/pnpm-lock.yaml": "7b6d8402920b7aa9d546772a9861e862079d164cc75b2ebb7eca4f10783a487b",
+    "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/scripts/generate-typecheck-declarations.mjs": "126f620d951e671c3820e4429e0c7fb98ab7f2f7f8e7284c338b1376f40e2e95",
+    "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/scripts/plan-typecheck-shards.cjs": "738bfe1d4bce568a0a425b6d811f02c17efbf05478e217fa247358a54c21047d",
+    "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/scripts/check-dom7-types.cjs": "f739846b4c23bc9fbc082a16e36bd9a6e7d36d025fb100e8d8904cb4b828d4c5",
+    "/home/ubuntu/print-system/runtime/worktrees/r11-admin-typecheck-engineering-20261102/ops/testing/run-admin-typecheck-third-round.py": "591e9eb03e95124944d9f72b8cf76a68e2d18f9c61a8a1233ab5d87404a1f251",
+    "/home/ubuntu/print-system/runtime/worktrees/r11-admin-typecheck-engineering-20261102/ops/testing/run-admin-typecheck-third-round.sh": "79803c50c656126d7e48522c20922ef63163edf4023daff63cddd21b403a818a"
+  },
+  "dependencyFix": {
+    "name": "dom7",
+    "version": "4.0.6",
+    "scope": "production",
+    "lockDelta": "root importer only",
+    "offlineFrozenLockValidation": "PASS",
+    "otherDependencyVersionsChanged": false,
+    "placeholderRemoved": "types/dom7.d.ts",
+    "typeResolution": "official dom7@4.0.6/dom7.d.ts",
+    "officialTypeFixture": "Dom7Array.length string assignment => TS2322",
+    "typeOnlyExportChange": "NOT_REQUIRED_NO_DIAGNOSTIC_OBTAINED"
+  },
+  "declarations": {
+    "status": "PASS_GENERATED_BY_REAL_VITE_SERVE_PLUGINS",
+    "transformedSourceCount": 2911,
+    "hashes": {
+      "auto-imports.d.ts": "d887f4e8ba8e138e88be8d506867557041b06215a5b4f0c6564f729bf08824a7",
+      "auto-components.d.ts": "e2a34603ce5c6a08b789507f6de86ef53e3130fd43a3154e206315bc376de800"
+    }
+  },
+  "dependencyGraph": {
+    "status": "RESOURCE_LIMIT",
+    "exitCode": 134,
+    "heapMiB": 2048,
+    "maxRssKiB": 2237156,
+    "seconds": 39.823
+  },
+  "coveragePlanner": "NOT_RUN",
+  "representativeShard": "NOT_RUN",
+  "ordinaryShard": "NOT_RUN",
+  "fullSingleProcessTypecheck": "NOT_RUN",
+  "R11": "OPEN",
+  "health": {
+    "httpStatus": 200,
+    "businessCode": 401,
+    "servicesActive": true
+  },
+  "cleanup": {
+    "generatedDeclarationsRemovedFromWorktree": true,
+    "safeWindowScratchRemoved": true
+  },
+  "defaultHeapRationale": "8192MiB default exceeded host RAM3.6GiB; cap2048MiB preserves compiler strictness but does not establish full check feasibility.",
+  "independentFinalReview": "NOT_RUN_COORDINATOR_TO_REVIEW",
+  "deployment": "UNCHANGED",
+  "boundary": "Safe-window build=0 means experiment executor terminated normally, not compiler/typecheck success."
+}

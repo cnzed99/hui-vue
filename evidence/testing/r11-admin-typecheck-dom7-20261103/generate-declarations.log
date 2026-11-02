@@ -1,0 +1,64 @@
+NODE_ENV=production is not supported in the .env file. Only NODE_ENV=development is supported to create a development build of your project. If you need to set process.env.NODE_ENV, you can set it in the Vite config instead.
+Browserslist: browsers data (caniuse-lite) is 7 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/@microsoft+fetch-event-source@2.0.1/node_modules/@microsoft/fetch-event-source/lib/esm/index.js" points to missing source files
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/@microsoft+fetch-event-source@2.0.1/node_modules/@microsoft/fetch-event-source/lib/esm/fetch.js" points to missing source files
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/@microsoft+fetch-event-source@2.0.1/node_modules/@microsoft/fetch-event-source/lib/esm/parse.js" points to missing source files
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/entities@4.5.0/node_modules/entities/lib/esm/index.js" points to a source file outside its package: "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/index.ts"
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/entities@4.5.0/node_modules/entities/lib/esm/escape.js" points to a source file outside its package: "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/escape.ts"
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/entities@4.5.0/node_modules/entities/lib/esm/decode.js" points to a source file outside its package: "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/decode.ts"
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/entities@4.5.0/node_modules/entities/lib/esm/encode.js" points to a source file outside its package: "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/encode.ts"
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/entities@4.5.0/node_modules/entities/lib/esm/generated/decode-data-html.js" points to a source file outside its package: "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/generated/decode-data-html.ts"
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/entities@4.5.0/node_modules/entities/lib/esm/generated/decode-data-xml.js" points to a source file outside its package: "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/generated/decode-data-xml.ts"
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/entities@4.5.0/node_modules/entities/lib/esm/decode_codepoint.js" points to a source file outside its package: "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/decode_codepoint.ts"
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/entities@4.5.0/node_modules/entities/lib/esm/generated/encode-html.js" points to a source file outside its package: "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/generated/encode-html.ts"
+12:15:56 AM [vite] (client) Failed to load source map for /home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/src/components/Tinyflow/ui/index.js.
+Error: An error occurred while trying to read the map file at index.js.map
+Error: ENOENT: no such file or directory, open '/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/src/components/Tinyflow/ui/index.js.map'
+    at Object.readFileSync (node:fs:440:20)
+    at file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:19109:13
+    at readFromFileMap (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:18809:13)
+    at exports.fromMapFileComment (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:18903:12)
+    at exports.fromMapFileSource (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:18914:22)
+    at extractSourcemapFromFile (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:19095:87)
+    at loadAndTransform (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:20064:22)
+12:15:57 AM [vite] (client) Failed to load source map for /home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/src/components/Tinyflow/ui/index.umd.js.
+Error: An error occurred while trying to read the map file at index.umd.js.map
+Error: ENOENT: no such file or directory, open '/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/src/components/Tinyflow/ui/index.umd.js.map'
+    at Object.readFileSync (node:fs:440:20)
+    at file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:19109:13
+    at readFromFileMap (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:18809:13)
+    at exports.fromMapFileComment (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:18903:12)
+    at exports.fromMapFileSource (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:18914:22)
+    at extractSourcemapFromFile (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:19095:87)
+    at loadAndTransform (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:20064:22)
+12:16:02 AM [vite] (client) Failed to load source map for /home/ubuntu/print-system/src/frontend/node_modules/.pnpm/@form-create+designer@3.4.0_typescript@6.0.3_vue@3.5.34_typescript@6.0.3_/node_modules/@form-create/designer/dist/index.es.js.
+SyntaxError: Unexpected token '�', "��r��y�" is not valid JSON
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/snabbdom@3.6.3/node_modules/snabbdom/build/index.js" points to missing source files
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/snabbdom@3.6.3/node_modules/snabbdom/build/htmldomapi.js" points to missing source files
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/snabbdom@3.6.3/node_modules/snabbdom/build/vnode.js" points to missing source files
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/snabbdom@3.6.3/node_modules/snabbdom/build/helpers/attachto.js" points to missing source files
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/snabbdom@3.6.3/node_modules/snabbdom/build/is.js" points to missing source files
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/snabbdom@3.6.3/node_modules/snabbdom/build/modules/attributes.js" points to missing source files
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/snabbdom@3.6.3/node_modules/snabbdom/build/modules/class.js" points to missing source files
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/snabbdom@3.6.3/node_modules/snabbdom/build/modules/dataset.js" points to missing source files
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/snabbdom@3.6.3/node_modules/snabbdom/build/modules/eventlisteners.js" points to missing source files
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/snabbdom@3.6.3/node_modules/snabbdom/build/modules/props.js" points to missing source files
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/snabbdom@3.6.3/node_modules/snabbdom/build/modules/style.js" points to missing source files
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/snabbdom@3.6.3/node_modules/snabbdom/build/init.js" points to missing source files
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/snabbdom@3.6.3/node_modules/snabbdom/build/thunk.js" points to missing source files
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/snabbdom@3.6.3/node_modules/snabbdom/build/tovnode.js" points to missing source files
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/snabbdom@3.6.3/node_modules/snabbdom/build/h.js" points to missing source files
+Sourcemap for "/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/snabbdom@3.6.3/node_modules/snabbdom/build/jsx.js" points to missing source files
+12:16:05 AM [vite] (client) Failed to load source map for /home/ubuntu/print-system/src/frontend/node_modules/.pnpm/@vscode+markdown-it-katex@1.1.2/node_modules/@vscode/markdown-it-katex/dist/index.js.
+Error: An error occurred while trying to read the map file at index.js.map
+Error: ENOENT: no such file or directory, open '/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/@vscode+markdown-it-katex@1.1.2/node_modules/@vscode/markdown-it-katex/dist/index.js.map'
+    at Object.readFileSync (node:fs:440:20)
+    at file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:19109:13
+    at readFromFileMap (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:18809:13)
+    at exports.fromMapFileComment (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:18903:12)
+    at exports.fromMapFileSource (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:18914:22)
+    at extractSourcemapFromFile (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:19095:87)
+    at loadAndTransform (file:///home/ubuntu/print-system/src/frontend/node_modules/.pnpm/vite@8.1.4_@types+node@25.6.0_esbuild@0.27.3_jiti@2.6.1_sass@1.99.0_terser@5.46.2_yaml@2.8.4/node_modules/vite/dist/node/chunks/node.js:20064:22)
+{"status":"GENERATED_BY_REAL_VITE_SERVE_PLUGINS","transformedSourceCount":2911,"declarations":{"src/types/auto-imports.d.ts":"d887f4e8ba8e138e88be8d506867557041b06215a5b4f0c6564f729bf08824a7","src/types/auto-components.d.ts":"e2a34603ce5c6a08b789507f6de86ef53e3130fd43a3154e206315bc376de800"}}

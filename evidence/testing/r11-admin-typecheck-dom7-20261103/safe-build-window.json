@@ -1,0 +1,11 @@
+{
+  "label": "r11-admin-typecheck-dom7",
+  "finishedUtc": "2026-11-02T16:17:52.448226+00:00",
+  "freeBeforeBytes": 40937381888,
+  "freeAfterBytes": 40936841216,
+  "minimumFreeBytes": 10737418240,
+  "buildExitCode": 0,
+  "recoveryExitCode": 0,
+  "backendHttpHealthy": true,
+  "scratchRemoved": true
+}

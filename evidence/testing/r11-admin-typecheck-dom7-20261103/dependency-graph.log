@@ -1,0 +1,20 @@
+
+<--- Last few GCs --->
+
+[622511:0x12f54000]    37764 ms: Scavenge (interleaved) 2044.0 (2085.4) -> 2042.9 (2085.4) MB, pooled: 0 MB, 14.62 / 0.00 ms  (average mu = 0.266, current mu = 0.208) allocation failure; 
+[622511:0x12f54000]    39198 ms: Mark-Compact 2044.2 (2085.7) -> 2041.9 (2086.9) MB, pooled: 0 MB, 1421.15 / 0.00 ms  (average mu = 0.183, current mu = 0.093) allocation failure; scavenge might not succeed
+
+
+<--- JS stacktrace --->
+
+FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory
+----- Native stack trace -----
+
+ 1: 0xe48bbe node::OOMErrorHandler(char const*, v8::OOMDetails const&) [/home/ubuntu/print-system/runtime/node/node-v22.23.4-linux-x64/bin/node]
+ 2: 0x1248d00 v8::Utils::ReportOOMFailure(v8::internal::Isolate*, char const*, v8::OOMDetails const&) [/home/ubuntu/print-system/runtime/node/node-v22.23.4-linux-x64/bin/node]
+ 3: 0x1248fd7 v8::internal::V8::FatalProcessOutOfMemory(v8::internal::Isolate*, char const*, v8::OOMDetails const&) [/home/ubuntu/print-system/runtime/node/node-v22.23.4-linux-x64/bin/node]
+ 4: 0x1477ee5  [/home/ubuntu/print-system/runtime/node/node-v22.23.4-linux-x64/bin/node]
+ 5: 0x1477f13  [/home/ubuntu/print-system/runtime/node/node-v22.23.4-linux-x64/bin/node]
+ 6: 0x1490fea  [/home/ubuntu/print-system/runtime/node/node-v22.23.4-linux-x64/bin/node]
+ 7: 0x14941b8  [/home/ubuntu/print-system/runtime/node/node-v22.23.4-linux-x64/bin/node]
+ 8: 0x1cfcc61  [/home/ubuntu/print-system/runtime/node/node-v22.23.4-linux-x64/bin/node]

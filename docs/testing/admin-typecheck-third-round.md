@@ -1,6 +1,6 @@
 # R11 管理端第三轮受限类型检查（2026-11-03 CST）
 
-结果：`INSUFFICIENT_EVIDENCE`。执行器已完成有限试验；真实声明生成阶段失败，依赖图、共享集和代表片均未执行。完整单进程 `vue-tsc` 仍未通过，不据此关闭 R11。
+当前结论：`RESOURCE_LIMIT`（dom7修复后最终有限试验，见末节）。以下保留最初 `INSUFFICIENT_EVIDENCE` 及后续依赖修复记录。完整单进程 `vue-tsc` 仍未通过，不据此关闭 R11。
 
 设计来源：主协调转交的 Astra High `PASS_TO_IMPLEMENT`。触发为相同完整检查两轮 V8 堆 OOM（2500/2048MB）。该批准仅允许受限方案，不是检查通过。实施模型 `gpt-6.1-sol`，effort 继承且未另取遥测。
 
@@ -36,3 +36,21 @@
 本轮结论继续为 `INSUFFICIENT_EVIDENCE`；依赖图、代表片、普通片及原完整检查均未执行。部分生成声明标为 `PARTIAL_NOT_VALIDATED` 后移出工作树。服务恢复HTTP200/业务code401，四服务active，scratch清理完成。原始第一轮证据保留。
 
 默认 `ts:check` 的8192MB降为2048MB是当前3.6GiB物理内存主机的安全上限纠偏，避免该普通入口主动允许8GiB V8堆；它不改变TypeScript严格度，也不证明2048MB足以完成全量检查。完整检查仍有两次历史OOM，本批受限试验结果仍有独立门槛。
+
+## dom7 官方类型修复与最终有限试验
+
+主协调转交 Astra High `PASS_TO_IMPLEMENT`，绑定管理端 `f692e79e2879ab8162debe483bf848b55fb80925`。按方案精确增加生产依赖 `dom7: 4.0.6`，锁文件仅增加根 importer 条目，复用现有锁定包与缓存，离线冻结锁校验通过。删除 `types/dom7.d.ts` 的整包any占位，真实官方 `dom7.d.ts` 生效；未改 `dom.ts:8`，因为本批没有真实诊断要求该类型导出变更。
+
+管理端候选为 `b429f6d7bd367144ad1ec460507ad40d0f5087fa`。新增窄门禁以原 compilerOptions 解析 dom7，验证实际路径等于官方声明，并在隔离fixture中确认给 `Dom7Array.length` 赋字符串准确产生TS2322。没有添加stub、断言或弱化类型。
+
+最终证据目录 `evidence/testing/r11-admin-typecheck-dom7-20261103/`：
+
+- 依赖修复与官方类型门禁：PASS；另两项TS2322/TS2717执行器fixture继续检出预期错误。
+- 真实声明生成：PASS，2911源文件，62.145秒，峰值RSS1707032KiB。冻结摘要为 auto-imports `d887f4e8ba8e138e88be8d506867557041b06215a5b4f0c6564f729bf08824a7`、auto-components `e2a34603ce5c6a08b789507f6de86ef53e3130fd43a3154e206315bc376de800`。
+- 真实 `vue-tsc --listFilesOnly` 依赖图枚举：RESOURCE_LIMIT，39.823秒、峰值RSS2237156KiB、V8在2048MB堆OOM，退出134。原日志与time记录均保留；GNU time末尾的Exit status字段不能覆盖进程退出134与OOM诊断。
+- 根/共享覆盖规划、代表片、普通片：NOT_RUN。没有足够完整的图继续分片；没有将未执行写为PASS。
+- 原单进程全量类型检查：NOT_RUN，本批未关闭R11。
+
+资源上限、标准构建窗口及停止条件保持原方案。OOM后立即停止，没有增加heap/swap，没有继续补xyflow或element-ui。四服务恢复active，另行实测HTTP200/业务code401；scratch及隔离依赖链接清理，完整生成声明已冻结于证据并从工作树移除。没有部署或推送。
+
+后续需要更大云端构建资源，或另行审查能够可靠构建完整Vue依赖及共享语义的方案。当前证据不支持在4GB主机上继续无上限重试，也不证明某个更大规格一定足够。

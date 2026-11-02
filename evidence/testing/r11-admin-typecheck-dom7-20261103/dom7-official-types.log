@@ -1,0 +1,1 @@
+{"status":"PASS","packageVersion":"4.0.6","officialDeclaration":"/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/dom7@4.0.6/node_modules/dom7/dom7.d.ts","resolvedDeclaration":"/home/ubuntu/print-system/src/frontend/node_modules/.pnpm/dom7@4.0.6/node_modules/dom7/dom7.d.ts","diagnostic":{"code":2322,"text":"Type 'string' is not assignable to type 'number'."}}

@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "status": "RESOURCE_LIMIT",
+  "finishedUtc": "2026-11-02T16:17:24.124409+00:00",
+  "admin": "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102",
+  "heapMiB": 2048,
+  "systemdMemoryMaxBytes": 3221225472,
+  "systemdMemorySwapMaxBytes": 268435456,
+  "results": [
+    {
+      "label": "fixture-type-error",
+      "command": [
+        "/home/ubuntu/print-system/runtime/node/node-v22.23.4-linux-x64/bin/node",
+        "--max-old-space-size=2048",
+        "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/node_modules/vue-tsc/bin/vue-tsc.js",
+        "--noEmit",
+        "--project",
+        "/home/ubuntu/print-system/runtime/build-tmp/r11-admin-typecheck-dom7-E3o3DLTN/admin-typecheck/type-error/tsconfig.json"
+      ],
+      "exitCode": 2,
+      "durationSeconds": 2.374,
+      "timedOut": false,
+      "memoryLimit": false,
+      "log": "fixture-type-error.log",
+      "time": "fixture-type-error.time.txt"
+    },
+    {
+      "label": "fixture-global-conflict",
+      "command": [
+        "/home/ubuntu/print-system/runtime/node/node-v22.23.4-linux-x64/bin/node",
+        "--max-old-space-size=2048",
+        "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/node_modules/vue-tsc/bin/vue-tsc.js",
+        "--noEmit",
+        "--project",
+        "/home/ubuntu/print-system/runtime/build-tmp/r11-admin-typecheck-dom7-E3o3DLTN/admin-typecheck/global-conflict/tsconfig.json"
+      ],
+      "exitCode": 2,
+      "durationSeconds": 2.426,
+      "timedOut": false,
+      "memoryLimit": false,
+      "log": "fixture-global-conflict.log",
+      "time": "fixture-global-conflict.time.txt"
+    },
+    {
+      "label": "dom7-official-types",
+      "command": [
+        "/home/ubuntu/print-system/runtime/node/node-v22.23.4-linux-x64/bin/node",
+        "--max-old-space-size=2048",
+        "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/scripts/check-dom7-types.cjs"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 1.374,
+      "timedOut": false,
+      "memoryLimit": false,
+      "log": "dom7-official-types.log",
+      "time": "dom7-official-types.time.txt"
+    },
+    {
+      "label": "generate-declarations",
+      "command": [
+        "/home/ubuntu/print-system/runtime/node/node-v22.23.4-linux-x64/bin/node",
+        "--max-old-space-size=2048",
+        "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/scripts/generate-typecheck-declarations.mjs"
+      ],
+      "exitCode": 0,
+      "durationSeconds": 62.145,
+      "timedOut": false,
+      "memoryLimit": false,
+      "log": "generate-declarations.log",
+      "time": "generate-declarations.time.txt"
+    },
+    {
+      "label": "dependency-graph",
+      "command": [
+        "/home/ubuntu/print-system/runtime/node/node-v22.23.4-linux-x64/bin/node",
+        "--max-old-space-size=2048",
+        "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/node_modules/vue-tsc/bin/vue-tsc.js",
+        "--listFilesOnly",
+        "--project",
+        "/home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/tsconfig.json"
+      ],
+      "exitCode": 134,
+      "durationSeconds": 39.823,
+      "timedOut": false,
+      "memoryLimit": true,
+      "log": "dependency-graph.log",
+      "time": "dependency-graph.time.txt"
+    }
+  ],
+  "fullSingleProcessTypecheck": "NOT_RUN",
+  "businessDeployment": "UNCHANGED",
+  "semanticBoundary": "Finite representative experiment only. Root coverage does not establish equivalence to full-program global semantics."
+}

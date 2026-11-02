@@ -1,0 +1,24 @@
+Command terminated by signal 6
+	Command being timed: "/home/ubuntu/print-system/runtime/node/node-v22.23.4-linux-x64/bin/node --max-old-space-size=2048 /home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/node_modules/vue-tsc/bin/vue-tsc.js --listFilesOnly --project /home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/tsconfig.json"
+	User time (seconds): 60.98
+	System time (seconds): 2.48
+	Percent of CPU this job got: 159%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:39.78
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 2237156
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 138
+	Minor (reclaiming a frame) page faults: 609252
+	Voluntary context switches: 29939
+	Involuntary context switches: 18804
+	Swaps: 0
+	File system inputs: 60096
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

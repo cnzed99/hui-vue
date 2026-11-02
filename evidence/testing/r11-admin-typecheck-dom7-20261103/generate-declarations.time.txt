@@ -1,0 +1,23 @@
+	Command being timed: "/home/ubuntu/print-system/runtime/node/node-v22.23.4-linux-x64/bin/node --max-old-space-size=2048 /home/ubuntu/print-system/runtime/worktrees/r11-admin-sharded-typecheck-20261102/scripts/generate-typecheck-declarations.mjs"
+	User time (seconds): 73.26
+	System time (seconds): 5.78
+	Percent of CPU this job got: 127%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:02.13
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1707032
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 80
+	Minor (reclaiming a frame) page faults: 459910
+	Voluntary context switches: 278633
+	Involuntary context switches: 61255
+	Swaps: 0
+	File system inputs: 38616
+	File system outputs: 2072
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

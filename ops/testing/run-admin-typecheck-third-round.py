@@ -78,6 +78,11 @@ try:
         code, limited = run('fixture-' + name, [node, '--max-old-space-size=2048', tsc, '--noEmit', '--project', str(cfg)], 60)
         if code == 0 or limited or expected_code not in (evidence / ('fixture-' + name + '.log')).read_text():
             raise RuntimeError('Fixture failed to detect required diagnostic: ' + name)
+    official_gate = admin / 'scripts/check-dom7-types.cjs'
+    if official_gate.exists():
+        code, limited = run('dom7-official-types', [node, '--max-old-space-size=2048', str(official_gate)], 60)
+        if code or limited:
+            raise RuntimeError('Official dom7 types gate failed')
     code, limited = run('generate-declarations', [node, '--max-old-space-size=2048', str(admin / 'scripts/generate-typecheck-declarations.mjs')])
     if limited:
         status = 'RESOURCE_LIMIT'
