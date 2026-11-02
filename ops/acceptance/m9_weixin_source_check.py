@@ -63,6 +63,14 @@ def main():
         assert rollback.index("systemctl stop print-backend.service") < rollback.index("m9_weixin_cleanup_upload_scratch.py") < rollback.index('atomic_backend_link "$PREVIOUS_BACKEND"') < rollback.index("systemctl restart print-backend.service")
         assert 'if ! python3' in rollback and 'M9_WEIXIN_ROLLBACK_SCRATCH_CLEANUP_FAILED' in rollback
         assert 'failed=1' in rollback and 'rc=70' in rollback
+    deploy=(ROOT/"ops/runtime/deploy-m9-weixin-upload.sh").read_text()
+    gate='python3 "$ENGINEERING/ops/acceptance/m9_weixin_edge_admission_smoke.py"'
+    assert deploy.index('install -o root -g root -m 0644 "$DROPIN_ENABLED"') < deploy.index(gate) < deploy.index("SUCCESS=1")
+    assert "|| true" not in deploy[deploy.index(gate):deploy.index(gate)+260]
+    edge=(ROOT/"ops/acceptance/m9_weixin_edge_admission_smoke.py").read_text()
+    for marker in ['source_address=(source,0)', 'len(statuses)!=11', 'statuses!=[200]*11', 'range(9)',
+        'hold("127.0.0.2",H5)', 'hold("127.0.0.3",PART)', 'request("127.0.0.4"', 'finally:', 'connection.close()']:
+        assert marker in edge
     cleanup=ROOT/"ops/runtime/m9_weixin_cleanup_upload_scratch.py"
     ast.parse(cleanup.read_text(),filename=str(cleanup))
     assert 'fcntl.lockf(descriptor,fcntl.LOCK_EX|fcntl.LOCK_NB)' in cleanup.read_text()
