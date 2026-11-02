@@ -17,7 +17,7 @@ test -e "$miniapp/node_modules"
 export PATH="$root/runtime/node/current/bin:$root/runtime/npm/bin:$PATH"
 export MAVEN_OPTS='-Xmx768m -XX:MaxMetaspaceSize=256m'
 
-(cd "$backend" && mvn -B -ntp -pl yudao-server -am -DskipTests package) \
+(cd "$backend" && mvn -B -ntp -pl yudao-server -am -Dmaven.test.skip=true package) \
   > "$evidence/backend-build.log" 2>&1
 echo BACKEND_BUILD_OK
 
