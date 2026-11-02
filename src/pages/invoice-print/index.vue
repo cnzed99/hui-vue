@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { documentUploadUrl } from '@/domain/documentSource'
+
 const sources = [
-  { label: '微信卡包', description: '从微信卡包选择发票', icon: '▣', tone: 'wallet' },
-  { label: '微信文件', description: '从微信聊天记录中选择发票', icon: '●●', tone: 'wechat' }
+  { id: 'wallet', label: '微信卡包', description: '卡包发票接口待接入', icon: '▣', tone: 'wallet' },
+  { id: 'invoice-file', label: '微信文件', description: '选择聊天中的 PDF 发票', icon: '●●', tone: 'wechat' }
 ]
 
 function goBack() {
@@ -9,8 +11,12 @@ function goBack() {
   uni.reLaunch({ url: '/pages/home/index' })
 }
 
-function showBoundary(label: string) {
-  uni.showToast({ title: `${label}接口待微信资质接入`, icon: 'none' })
+function openSource(id: string) {
+  if (id === 'invoice-file') {
+    uni.navigateTo({ url: documentUploadUrl(id) })
+    return
+  }
+  uni.showToast({ title: '微信卡包发票接口待接入', icon: 'none' })
 }
 </script>
 
@@ -18,13 +24,13 @@ function showBoundary(label: string) {
   <view class="page">
     <view class="header"><view class="status-space" /><view class="title-row"><text class="back" @click="goBack">‹</text><text>发票打印</text><text class="spacer" /></view></view>
     <view class="source-list">
-      <view v-for="source in sources" :key="source.label" class="source-card" @click="showBoundary(source.label)">
+      <view v-for="source in sources" :key="source.id" class="source-card" @click="openSource(source.id)">
         <view class="source-icon" :class="source.tone">{{ source.icon }}</view>
         <view class="source-copy"><text class="source-title">{{ source.label }}</text><text class="source-description">{{ source.description }}</text></view>
         <text class="arrow">›</text>
       </view>
     </view>
-    <view class="boundary">当前不会读取微信卡包或聊天记录，也不会选择、上传发票。</view>
+    <view class="boundary">当前支持 PDF 发票文件，沿用单文件 2MB、20 页、暂存 1 小时限制。微信卡包发票待接入。</view>
   </view>
 </template>
 

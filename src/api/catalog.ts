@@ -5,7 +5,7 @@ export interface MiniappPrintMethod {
   label: string
   description: string
   group: 'COMMON' | 'OTHER'
-  availability: 'LOCAL_ONLY' | 'RESERVED'
+  availability: 'LOCAL_ONLY' | 'PDF_AVAILABLE' | 'RESERVED'
 }
 
 export interface MiniappCatalog {
@@ -27,10 +27,10 @@ export interface CatalogLoadResult {
 }
 
 export const localCatalog: MiniappCatalog = {
-  catalogVersion: 'miniapp-m2-local-2026-10-31',
+  catalogVersion: 'miniapp-pdf-sources-local-2026-11-02',
   methods: [
-    { id: 'wechat-chat', label: '微信聊天文档打印', description: '支持 Word、Excel、PDF、PPT 打印', group: 'COMMON', availability: 'RESERVED' },
-    { id: 'local-document', label: '本地文档打印', description: '从手机本地选择文档一键打印', group: 'OTHER', availability: 'LOCAL_ONLY' },
+    { id: 'wechat-chat', label: '微信聊天文档打印', description: '当前支持 PDF；Word、Excel、PPT 待接入', group: 'COMMON', availability: 'PDF_AVAILABLE' },
+    { id: 'local-document', label: '本地文档打印', description: '选择本地 PDF 文件打印', group: 'OTHER', availability: 'PDF_AVAILABLE' },
     { id: 'archive', label: '压缩包打印', description: '从微信聊天记录选择压缩包打印', group: 'OTHER', availability: 'RESERVED' },
     { id: 'tencent-doc', label: '腾讯文档打印', description: '导入腾讯文档后打印', group: 'OTHER', availability: 'RESERVED' },
     { id: 'kingsoft-doc', label: '金山文档打印', description: '导入金山文档后打印', group: 'OTHER', availability: 'RESERVED' },
@@ -40,9 +40,9 @@ export const localCatalog: MiniappCatalog = {
     { id: 'pdf-unlock', label: 'PDF 解密打印', description: '解密能力待正式接入', group: 'OTHER', availability: 'RESERVED' },
     { id: 'buy-paper', label: '购买 A4 白纸', description: '商品与库存接口待接入', group: 'OTHER', availability: 'RESERVED' }
   ],
-  supportedExtensions: ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'jpg', 'jpeg', 'png'],
+  supportedExtensions: ['pdf'],
   demoLimits: { maxFileBytes: 2 * 1024 * 1024, maxPages: 20, retentionMinutes: 60 },
-  uploadEnabled: false
+  uploadEnabled: true
 }
 
 function catalogUrl(): string | null {
@@ -69,7 +69,7 @@ function isCatalog(value: unknown): value is MiniappCatalog {
       && typeof method.label === 'string' && method.label.length > 0
       && typeof method.description === 'string'
       && ['COMMON', 'OTHER'].includes(method.group)
-      && ['LOCAL_ONLY', 'RESERVED'].includes(method.availability))
+      && ['LOCAL_ONLY', 'PDF_AVAILABLE', 'RESERVED'].includes(method.availability))
     && Array.isArray(item.supportedExtensions) && item.supportedExtensions.length > 0 && item.supportedExtensions.length <= 30
     && item.supportedExtensions.every(extension => typeof extension === 'string' && /^[a-z0-9]+$/.test(extension))
     && typeof item.uploadEnabled === 'boolean'

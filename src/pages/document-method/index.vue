@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { loadMiniappCatalog, localCatalog } from '@/api/catalog'
+import { documentUploadUrl } from '@/domain/documentSource'
 import type { CatalogSource, MiniappCatalog, MiniappPrintMethod } from '@/api/catalog'
 
 const catalog = ref<MiniappCatalog>(localCatalog)
@@ -21,8 +22,8 @@ function goBack() {
 }
 
 function openMethod(method: MiniappPrintMethod) {
-  if (method.id === 'local-document') {
-    uni.navigateTo({ url: '/pages/document-upload/index' })
+  if (method.id === 'local-document' || method.id === 'wechat-chat') {
+    uni.navigateTo({ url: documentUploadUrl(method.id) })
     return
   }
   uni.showToast({ title: `${method.label}暂未接入`, icon: 'none' })
@@ -32,10 +33,10 @@ function openMethod(method: MiniappPrintMethod) {
 <template>
   <view class="method-page">
     <view class="header"><view class="status-space" /><view class="title-row"><text class="back" @click="goBack">‹</text><text>文档打印</text><text class="spacer" /></view></view>
-    <view class="catalog-state" :class="source"><text>{{ loading ? '正在读取打印目录…' : source === 'server' ? '服务端目录已连接' : '本地目录 · 服务暂不可用' }}</text><text>上传功能未开放</text></view>
+    <view class="catalog-state" :class="source"><text>{{ loading ? '正在读取打印目录…' : source === 'server' ? '服务端目录已连接' : '本地目录 · 服务暂不可用' }}</text><text>当前开放 PDF 上传</text></view>
     <view class="section"><view class="section-title"><text class="mark" />常用打印</view><view class="method-list featured"><view v-for="item in commonMethods" :key="item.id" class="method-row" @click="openMethod(item)"><view class="method-icon orange">▤</view><view class="copy"><text class="name">{{ item.label }}</text><text class="description">{{ item.description }}</text></view><text class="arrow">›</text></view></view></view>
     <view class="section"><view class="section-title"><text class="mark" />其它打印</view><view class="method-list"><view v-for="(item,index) in otherMethods" :key="item.id" class="method-row"><view class="method-icon" :class="`tone-${index % 4}`">{{ ['▥','▦','腾','金','百','W','A3','锁','纸'][index] || '▤' }}</view><view class="copy" @click="openMethod(item)"><text class="name">{{ item.label }}</text><text class="description">{{ item.description }}</text></view><text class="arrow" @click="openMethod(item)">›</text></view></view></view>
-    <view class="limit-note">演示约束：单文件不超过 {{ Math.round(catalog.demoLimits.maxFileBytes / 1024 / 1024) }}MB、{{ catalog.demoLimits.maxPages }} 页，暂存 {{ catalog.demoLimits.retentionMinutes }} 分钟；当前不上传。</view>
+    <view class="limit-note">当前可上传 PDF，Word、Excel、PPT 等格式待接入。演示约束：单文件不超过 {{ Math.round(catalog.demoLimits.maxFileBytes / 1024 / 1024) }}MB、{{ catalog.demoLimits.maxPages }} 页，暂存 {{ catalog.demoLimits.retentionMinutes }} 分钟。</view>
   </view>
 </template>
 

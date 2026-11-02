@@ -1,15 +1,27 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
+import { onLoad } from '@dcloudio/uni-app'
 import { localCatalog } from '@/api/catalog'
 import { ensureDemoSession } from '@/api/demoSession'
 import { uploadDemoPdf, waitForDemoFile } from '@/api/demoFiles'
 import { createDraft, saveDraft } from '@/domain/printDraft'
+import { documentSourceCopy, isFileSelectionCancelled, resolveDocumentSource, validateSelectedPdf } from '@/domain/documentSource'
 
 type FileState = 'empty' | 'selected' | 'uploading' | 'ready' | 'failed' | 'demo-ready'
 const state = ref<FileState>('empty')
 const fileName = ref('')
 const fileSize = ref(0)
-const supported = localCatalog.supportedExtensions
+const supported = ['pdf']
+const source = ref(resolveDocumentSource(undefined))
+const sourceCopy = computed(() => documentSourceCopy[source.value])
+const pickerButton = computed(() => {
+  // #ifdef H5
+  return source.value === 'invoice-file' ? '选择本地 PDF 发票' : '选择本地 PDF 文件'
+  // #endif
+  // #ifndef H5
+  return sourceCopy.value.button
+  // #endif
+})
 const sizeText = computed(() => fileSize.value ? `${(fileSize.value / 1024).toFixed(1)} KB` : '')
 const sessionState = ref<'checking' | 'ready' | 'unavailable'>('checking')
 const tempPath = ref('')
@@ -17,11 +29,16 @@ const serverFileId = ref('')
 const parsedPages = ref(0)
 const failureText = ref('')
 
+onLoad(options => {
+  source.value = resolveDocumentSource(options?.source)
+})
+
 onMounted(async () => {
   sessionState.value = await ensureDemoSession() ? 'ready' : 'unavailable'
 })
 
 function acceptSelection(value: unknown) {
+  if (state.value === 'uploading') return
   const tempFiles = Array.isArray(value) ? value : [value]
   const file = tempFiles[0] as { name?: string; size?: number; path?: string } | undefined
   if (!file) return
@@ -30,11 +47,8 @@ function acceptSelection(value: unknown) {
   tempPath.value = file.path || ''
   serverFileId.value = ''
   parsedPages.value = 0
-  failureText.value = ''
+  failureText.value = validateSelectedPdf(file, localCatalog.demoLimits.maxFileBytes)
   state.value = 'selected'
-  if (!fileName.value.toLowerCase().endsWith('.pdf')) failureText.value = 'M3a 当前仅开放 PDF；其它格式仍为预留能力。'
-  else if (fileSize.value > localCatalog.demoLimits.maxFileBytes) failureText.value = '文件超过 2MB 演示限制。'
-  else if (!tempPath.value) failureText.value = '当前设备未返回可上传的临时文件路径。'
 }
 
 function goBack() {
@@ -42,15 +56,20 @@ function goBack() {
 }
 
 function chooseFile() {
+  if (state.value === 'uploading') return
+  const fail = (error: unknown) => {
+    if (!isFileSelectionCancelled(error)) uni.showToast({ title: '文件选择失败，请重试', icon: 'none' })
+  }
   // #ifdef MP-WEIXIN
-  uni.chooseMessageFile({ count: 1, type: 'file', extension: supported, success: result => acceptSelection(result.tempFiles) })
+  uni.chooseMessageFile({ count: 1, type: 'file', extension: supported, success: result => acceptSelection(result.tempFiles), fail })
   // #endif
   // #ifdef H5
-  uni.chooseFile({ count: 1, type: 'all', extension: supported, success: result => acceptSelection(result.tempFiles) })
+  uni.chooseFile({ count: 1, type: 'all', extension: supported, success: result => acceptSelection(result.tempFiles), fail })
   // #endif
 }
 
 function useDemoFile() {
+  if (state.value === 'uploading') return
   fileName.value = '打印演示文档.pdf'
   fileSize.value = 184320
   state.value = 'demo-ready'
@@ -58,13 +77,14 @@ function useDemoFile() {
 
 async function uploadSelected() {
   if (state.value !== 'selected' || failureText.value) return
+  state.value = 'uploading'
   const session = await ensureDemoSession()
   if (!session) {
+    state.value = 'selected'
     sessionState.value = 'unavailable'
     failureText.value = '安全演示会话不可用，请稍后重试。'
     return
   }
-  state.value = 'uploading'
   const uploaded = await uploadDemoPdf(session, tempPath.value)
   const result = uploaded ? await waitForDemoFile(session, uploaded) : null
   if (!result || result.status !== 'READY' || !result.pageCount) {
@@ -91,16 +111,22 @@ function continueToSettings() {
 
 <template>
   <view class="upload-page">
-    <view class="header"><view class="status-space" /><view class="title-row"><text class="back" @click="goBack">‹</text><text>上传本地文件</text><text class="spacer" /></view></view>
+    <view class="header"><view class="status-space" /><view class="title-row"><text class="back" @click="goBack">‹</text><text>{{ sourceCopy.title }}</text><text class="spacer" /></view></view>
     <view class="body">
       <view class="session-state" :class="sessionState">
         {{ sessionState === 'checking' ? '正在建立安全演示会话…' : sessionState === 'ready' ? '安全演示会话已建立' : '演示会话接口待开启；仍可查看本地页面流程' }}
       </view>
       <view class="illustration"><view class="paper back-paper" /><view class="paper front-paper"><text>W</text><text class="paper-lines">≡</text></view><view class="upload-mark">↑</view></view>
-      <text class="support-title">M3a 当前开放 PDF 安全演示上传</text>
-      <text class="boundary">Word、PPT、Excel 和图片仍为预留能力；文件只进入新系统私有开发存储，1 小时内清理。</text>
-      <button class="choose-button" @click="chooseFile">选择本地文件打印</button>
-      <button class="demo-button" @click="useDemoFile">使用演示文件查看解析状态</button>
+      <text class="support-title">当前支持 PDF 文件打印</text>
+      <text class="boundary">Word、PPT、Excel 待接入。选择后点击“上传并安全解析”才会发送文件，暂存 1 小时。</text>
+      <!-- #ifdef H5 -->
+      <text v-if="source !== 'local-document'" class="boundary">当前为网页预览，请从本地选择已保存的 PDF；微信小程序中从聊天文件选择。</text>
+      <!-- #endif -->
+      <!-- #ifdef MP-WEIXIN -->
+      <text class="boundary">请先将 PDF 发送到微信聊天，再从聊天文件中选择。</text>
+      <!-- #endif -->
+      <button class="choose-button" :disabled="state === 'uploading'" @click="chooseFile">{{ pickerButton }}</button>
+      <button class="demo-button" :disabled="state === 'uploading'" @click="useDemoFile">使用演示文件查看解析状态</button>
       <view v-if="state !== 'empty'" class="result-card" :class="state">
         <view class="result-head"><view class="file-icon">PDF</view><view class="file-copy"><text>{{ fileName }}</text><text>{{ sizeText }}</text></view></view>
         <view v-if="state === 'selected'" class="status warning"><text>已在本地选择</text><text>{{ failureText || '尚未上传；点击下方按钮后才会发送到新系统。' }}</text></view>
