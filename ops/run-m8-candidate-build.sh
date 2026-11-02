@@ -35,7 +35,7 @@ echo MINIAPP_BUILD_OK
 
 sha256sum \
   "$backend/yudao-server/target/yudao-server.jar" \
-  "$admin/dist-prod/index.html" \
+  "$admin/dist/index.html" \
   "$miniapp/dist/build/h5/index.html" \
   > "$evidence/artifacts.sha256"
 echo CANDIDATE_ARTIFACTS_HASHED
