@@ -17,6 +17,7 @@ for (const file of declarations) {
 process.argv[3] = 'dev' // Existing vite.config.ts reads the dev mode from argv.
 const server = await createServer({
   mode: 'dev',
+  cacheDir: path.join(process.env.TMPDIR || '.', 'vite-type-declarations-cache'),
   server: { host: '127.0.0.1', open: false, watch: null },
   optimizeDeps: { noDiscovery: true, include: [] },
 })

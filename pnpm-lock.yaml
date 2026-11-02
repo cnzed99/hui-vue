@@ -89,6 +89,9 @@ importers:
       highlight.js:
         specifier: ^11.11.1
         version: 11.11.1
+      inherits:
+        specifier: 2.0.4
+        version: 2.0.4
       jsbarcode:
         specifier: ^3.12.3
         version: 3.12.3
