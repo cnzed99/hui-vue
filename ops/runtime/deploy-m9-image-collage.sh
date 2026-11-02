@@ -23,6 +23,18 @@ BACKUP=$ROOT/runtime/backups/m9-image-collage-$RUN_ID
 MINIAPP_TARGET=/var/www/print-system/releases/miniapp-m9-image-collage-$RUN_ID
 SUCCESS=0
 
+verify_miniapp_tree() {
+  local directory=$1 allow_manifest=${2:-0}
+  local manifest_name=__manifest_not_allowed__
+  [[ $allow_manifest == 1 ]] && manifest_name=SHA256SUMS
+  [[ -d $directory ]] || return 1
+  [[ -z $(find "$directory" -type l -print -quit) ]] || return 1
+  diff -u \
+    <(sed -n 's/^[0-9a-f]\{64\}  \.\///p' "$MINIAPP_MANIFEST" | LC_ALL=C sort) \
+    <(find "$directory" -type f ! -name "$manifest_name" -printf '%P\n' | LC_ALL=C sort) \
+    >/dev/null
+}
+
 exec 9>"$ROOT/runtime/build-tmp/.build.lock"
 flock -n 9 || { echo 'M9_DEPLOY_LOCKED' >&2; exit 75; }
 [[ $(sha256sum "$BACKEND_JAR" | cut -d' ' -f1) == "$EXPECTED_BACKEND" ]]
@@ -32,6 +44,7 @@ flock -n 9 || { echo 'M9_DEPLOY_LOCKED' >&2; exit 75; }
 [[ $(sha256sum "$DROPIN_ENABLED" | cut -d' ' -f1) == "$EXPECTED_DROPIN" ]]
 [[ $(sha256sum "$DROPIN_DISABLED" | cut -d' ' -f1) == "$EXPECTED_DROPIN_DISABLED" ]]
 [[ $(sha256sum "$MINIAPP_MANIFEST" | cut -d' ' -f1) == "$EXPECTED_MINIAPP_MANIFEST" ]]
+verify_miniapp_tree "$MINIAPP_DIST"
 (cd "$MINIAPP_DIST" && sha256sum -c "$MINIAPP_MANIFEST") >/dev/null
 [[ $(df -PB1 "$ROOT" | awk 'NR==2 {print $4}') -ge 10737418240 ]]
 [[ $(stat -c '%a:%U:%G' "$ROOT/runtime/miniapp-demo-multipart") == 700:ubuntu:ubuntu ]]
@@ -142,6 +155,7 @@ cp -a "$MINIAPP_DIST/." "$MINIAPP_TARGET/"
 [[ $(sha256sum "$MINIAPP_TARGET/index.html" | cut -d' ' -f1) == "$EXPECTED_MINIAPP_INDEX" ]]
 (cd "$MINIAPP_TARGET" && sha256sum -c "$MINIAPP_MANIFEST") >/dev/null
 install -m 0644 "$MINIAPP_MANIFEST" "$MINIAPP_TARGET/SHA256SUMS"
+verify_miniapp_tree "$MINIAPP_TARGET" 1
 atomic_miniapp_link "$MINIAPP_TARGET"
 
 sudo -n systemctl reload nginx

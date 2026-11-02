@@ -59,17 +59,30 @@ def ready(token: str, created: dict) -> dict:
     return current
 
 
+def request_with_rate_retry(method: str, path: str, **kwargs):
+    """Retry only the shared edge limiter while preserving the exact request arguments."""
+    for attempt in range(4):
+        response = helper.request(method, path, **kwargs)
+        if response[0] != 429:
+            return response
+        if attempt == 3:
+            raise helper.VerificationFailure("edge_rate_limit_exhausted")
+        time.sleep(7)
+    raise AssertionError("unreachable")
+
+
 def main() -> int:
     session = helper.successful(helper.request("POST", APP + "/sessions")); token = session["accessToken"]
     run = secrets.token_hex(8)
     pdf_body, pdf_type = multipart("file", "pre-enable.pdf", "application/pdf", pdf())
-    pdf_created = helper.successful(helper.request("POST", APP + "/files", token=token, body=pdf_body,
+    pdf_created = helper.successful(request_with_rate_retry("POST", APP + "/files", token=token, body=pdf_body,
         content_type=pdf_type, headers={"Idempotency-Key": "m9-pre-pdf-" + run}))
+    ready(token, pdf_created)
     image_body, image_type = multipart("file", "pre-enable.png", "image/png", png())
-    image_created = helper.successful(helper.request("POST", APP + "/image-files", token=token, body=image_body,
+    image_created = helper.successful(request_with_rate_retry("POST", APP + "/image-files", token=token, body=image_body,
         content_type=image_type, headers={"Idempotency-Key": "m9-pre-image-" + run}))
-    ready(token, pdf_created); ready(token, image_created)
-    disabled = helper.request("POST", APP + "/image-collages", token=token,
+    ready(token, image_created)
+    disabled = request_with_rate_retry("POST", APP + "/image-collages", token=token,
         body=b"", content_type="multipart/form-data; boundary=disabled",
         headers={"Idempotency-Key": "m9-disabled-" + run})
     if disabled[0] != 404 or not isinstance(disabled[1], dict) or disabled[1].get("code") != 1_934_001:
