@@ -2,7 +2,7 @@
 
 Status: CANDIDATE_NOT_DEPLOYED. Native Wechat remains disabled; no AppID is included.
 
-- Backend: `4a34109859f3eddcc53ce5e8d9978f020cd98299`.
+- Backend: `71e22c43606a620bc8ab9f1d100ff3630013e6ad`.
 - Miniapp: `b44e5fa2ab6a404519654f595342cb958981ea40`.
 - Full build evidence: `/home/ubuntu/print-system/evidence/build/m9-weixin-full/`.
 - Source verification: `python3 ops/acceptance/m9_weixin_source_check.py`.
