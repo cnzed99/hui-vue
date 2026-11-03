@@ -39,6 +39,7 @@ await new Promise(done => server.listen(0, '127.0.0.1', done))
 const origin = 'http://127.0.0.1:' + server.address().port
 let browser
 let stage = 'browser_launch'
+let page
 try {
   browser = await chromium.launch({ headless: true, args: ['--disable-dev-shm-usage'] })
   const context = await browser.newContext({ serviceWorkers: 'block' })
@@ -51,7 +52,14 @@ try {
     }
     return route.continue()
   })
-  const page = await context.newPage()
+  page = await context.newPage()
+  await page.addInitScript(() => {
+    window.__cameraCalls = 0
+    if (navigator.mediaDevices) navigator.mediaDevices.getUserMedia = () => {
+      window.__cameraCalls++
+      return Promise.reject(new Error('camera blocked by test'))
+    }
+  })
   page.setDefaultTimeout(10000)
   let pickerEvents = 0
   page.on('filechooser', () => { pickerEvents++ })
@@ -71,9 +79,13 @@ try {
     await page.locator('.page .back[aria-label]').click()
     await page.waitForURL(url => url.hash.includes(catalog))
   }
+  async function waitSizeCount(count) {
+    await page.waitForFunction(count => document.querySelectorAll('.sizes .size').length === count, count, { timeout: 6000 })
+  }
 
   stage = 'smart'
   await enter('智能证件照', 'smart')
+  await waitSizeCount(9)
   const expected = [
     ['教师资格证', '25×35mm'], ['一寸', '25×35mm'], ['二寸', '35×49mm'],
     ['计算机等级', '33×48mm'], ['大一寸', '33×48mm'], ['社保证', '30×40mm'],
@@ -85,14 +97,72 @@ try {
     assert.equal(await row.getByText(name, { exact: true }).count(), 1)
     assert.equal(await row.getByText(size, { exact: true }).count(), 1)
   }
-  await safeClick(page.locator('.search'), '规格搜索尚未接入')
+  const search = page.locator('.search input')
+  await search.fill('资格')
+  await waitSizeCount(1)
+  await label('教师资格证').waitFor()
+  assert.equal(await page.locator('.size').count(), 1)
+  await search.fill('35x45')
+  await waitSizeCount(1)
+  await label('小二寸').waitFor()
+  assert.equal(await page.locator('.size').count(), 1)
+  await search.fill('未收录')
+  await label('没有匹配的规格').waitFor()
+  await label('清空').click()
+  await page.waitForFunction(() => document.querySelector('.search input')?.value === '')
+  await waitSizeCount(9)
+  await label('教师资格证').waitFor()
+  assert.equal(await search.inputValue(), '')
+  assert.equal(await page.locator('.size').count(), 9)
   await safeClick(label('热门规格'), '热门规格尚未接入')
-  await safeClick(label('自定义规格'), '自定义规格尚未接入')
-  await safeClick(label('操作指南'), '操作指南尚未接入')
   await safeClick(page.locator('.size').first(), '智能证件照制作尚未接入')
-  assert.equal(await page.locator('input, textarea').count(), 0)
+  pass('smart_entry_nine_specs_and_local_filter')
+
+  stage = 'custom_sizes'
+  const custom = () => page.locator('.tabs').getByText('自定义规格', { exact: true }).click()
+  const panel = page.locator('.custom-panel')
+  const width = panel.locator('input').nth(0)
+  const height = panel.locator('input').nth(1)
+  await custom()
+  await panel.getByText('最大不能超过100mm×100mm', { exact: true }).waitFor()
+  assert.equal(await panel.getByText('毫米(mm)', { exact: true }).count(), 2)
+  await width.fill('0')
+  await height.fill('100')
+  await safeClick(panel.getByText('确定', { exact: true }), '宽和高须大于0且不超过100mm')
+  await width.fill('100.1')
+  await safeClick(panel.getByText('确定', { exact: true }), '宽和高须大于0且不超过100mm')
+  await panel.getByText('取消', { exact: true }).click()
+  await custom()
+  assert.equal(await width.inputValue(), '')
+  assert.equal(await height.inputValue(), '')
+  await width.fill('100')
+  await height.fill('100')
+  await safeClick(panel.getByText('确定', { exact: true }), '智能证件照制作尚未接入')
+  await panel.waitFor({ state: 'hidden' })
+  await custom()
+  await width.fill('35')
+  await panel.getByText('关闭', { exact: true }).click()
+  await custom()
+  assert.equal(await width.inputValue(), '')
+  await panel.getByText('关闭', { exact: true }).click()
+  pass('custom_sizes_boundary_cancel_and_close_clear_fields')
+
+  stage = 'guide'
+  await label('操作指南').click()
+  await page.waitForURL(url => url.hash.includes('/pages/id-photo-guide/index'))
+  const guideSteps = ['1. 选择证件照规格', '2. 拍摄/上传照片', '3. 十秒生成证件照', '4. 下载/冲印证件照']
+  await label(guideSteps[3]).waitFor()
+  assert.deepEqual(await page.locator('.step-label').allTextContents(), guideSteps)
+  await safeClick(label('我知道了,去拍证件照'), '相机和证件照制作尚未接入')
+  assert.equal(await page.evaluate(() => window.__cameraCalls), 0)
+  await page.locator('.guide-back').click()
+  await page.waitForURL(url => url.hash.includes('/pages/id-photo-smart/index'))
+  await search.fill('社保')
   await back()
-  pass('smart_entry_nine_specs_and_closed_actions')
+  await enter('智能证件照', 'smart')
+  assert.equal(await search.inputValue(), '')
+  await back()
+  pass('guide_four_steps_and_unload_resets_search')
 
   stage = 'marriage'
   await enter('结婚证件照', 'marriage')
@@ -124,6 +194,10 @@ try {
   pass('vehicle_dimensions_three_guides_and_closed_actions')
 
   stage = 'deep_link_and_privacy'
+  await page.goto(origin + '/miniapp/#/pages/id-photo-guide/index')
+  await page.reload()
+  await page.locator('.guide-back').click()
+  await page.waitForURL(url => url.hash.includes('/pages/id-photo-smart/index'))
   for (const mode of ['smart', 'marriage', 'vehicle']) {
     await page.goto(origin + '/miniapp/#/pages/id-photo-' + mode + '/index')
     await page.reload()
@@ -133,8 +207,14 @@ try {
   assert.deepEqual(requests, [])
   assert.deepEqual(await page.evaluate(() => Object.keys(localStorage)), [])
   pass('three_deep_links_return_without_picker_requests_or_storage')
-} catch {
+} catch (error) {
   report.incompleteAt = stage
+  report.failure = error instanceof Error ? error.stack : String(error)
+  if (page) {
+    report.pageUrl = page.url()
+    report.inputs = await page.locator('.search input, .custom-panel input').evaluateAll(inputs =>
+      inputs.map(input => input.value)).catch(() => [])
+  }
   process.exitCode = 1
 } finally {
   await browser?.close()
