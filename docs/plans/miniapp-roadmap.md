@@ -322,6 +322,15 @@
 - 本两页与此前代金红包、我的文库、身份证+户口本组合页累计5个普通页面，固定 `sol_reviewer`（配置 GPT-6.1 Sol High）批量审查最终 `PASS`，未触发 Astra。宿主实际模型与 effort 无独立遥测；末两页原屏未归档，审查只能按字段清单核对，不能独立证明视觉一致性。
 - 真实微信工具/真机、证件上传识别、排版、计价、打印和外部用户验收继续为 `NOT_RUN`。
 
+## 证件复印目录补齐记录
+
+- 原小程序只读观察确认身份证正反2位/1个交换、户口本4位/3个交换、身份证+银行卡4位/3个交换；均在选图前停止，没有读取或传输证件资料。
+- 新系统产品提交 `76bb28bf1704e660dc0c35b19d84c3ed28c9b34a`、验收提交 `30a80b6c066b087601755d46465131445497f068` 已推送分支 `print/phase1-miniapp-certificate-catalog`。三页复用现有证照组件，没有新增后端写入、数据库、权限作用域或业务规则。
+- 标准构建窗口 `certificate-catalog-20261103t1130z` 的类型检查、H5和微信小程序构建通过，`build=0`、`recovery=0`、后端健康、scratch 已清理，四项服务恢复，磁盘剩余约38GiB。
+- 活动 H5 发布为 `/var/www/print-system/releases/miniapp-certificate-catalog-20261103t1132z-76bb28b`，入口摘要 `c6e8950e598a8b11738a3c0b493e41ba4afcd22ad5f2b738c44e3c5918e579bc`；浏览器证据 `evidence/miniapp/certificate-catalog-20261103T111835653Z-5fafd40e/report.json` 为 19/19 PASS，按 URL origin 精确统计且写请求、外部请求均为0。
+- 扫描复印目录的文件复印及六类证件/组合入口现均有对应页面或安全演示结构，形成目录级演示里程碑。固定 `sol_reviewer`（配置 GPT-6.1 Sol High）审查最终 `PASS`，无需 Astra；宿主实际模型与 effort 无独立遥测。
+- 该 PASS 不覆盖原屏独立复验、交换按钮浏览器点击、微信工具/真机、真实证件上传识别、排版、计价、打印或外部用户验收，以上继续保持 `NOT_RUN`。
+
 ## 当前完成度口径
 
 当前后端完整闭环基线仍为 **M11 PDF 来源接入**（2026-11-02）：run `20261102T153807Z-afbb79a0`；后端 `7efd316fb154c65fff089da7a5919284fb1f8cd6`，当时小程序 `27abcbe945ceb567a315f961d8bb50bd3bb2dc87`。上文证件照批次仅更新当前 H5 开发客户端并保持计价/订单关闭，不替代这条后端闭环基线。聊天文档中的PDF和发票聊天文件PDF复用已有上传、解析和设置链；目录公开能力准确为 PDF-only、uploadEnabled=true，Office与卡包发票仍预留。
