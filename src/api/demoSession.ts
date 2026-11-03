@@ -29,13 +29,18 @@ function parseSession(value: unknown): DemoSession | null {
   return data as DemoSession
 }
 
-export function ensureDemoSession(): Promise<DemoSession | null> {
+export function getActiveDemoSession(): DemoSession | null {
   if (!memorySession) {
     const stored = parseSession({ code: 0, data: uni.getStorageSync(storageKey) })
     if (stored) memorySession = stored
     else uni.removeStorageSync(storageKey)
   }
-  if (memorySession && memorySession.expiresAtMs > Date.now() + 30_000) return Promise.resolve(memorySession)
+  return memorySession && memorySession.expiresAtMs > Date.now() ? memorySession : null
+}
+
+export function ensureDemoSession(): Promise<DemoSession | null> {
+  const active = getActiveDemoSession()
+  if (active && active.expiresAtMs > Date.now() + 30_000) return Promise.resolve(active)
   const url = issueUrl()
   if (!url) return Promise.resolve(null)
   return new Promise(resolve => {

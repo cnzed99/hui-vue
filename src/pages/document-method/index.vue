@@ -22,6 +22,10 @@ function goBack() {
 }
 
 function openMethod(method: MiniappPrintMethod) {
+  if (method.id === 'archive') {
+    uni.navigateTo({ url: '/pages/archive-print/index' })
+    return
+  }
   if (method.id === 'local-document' || method.id === 'wechat-chat') {
     uni.navigateTo({ url: documentUploadUrl(method.id) })
     return

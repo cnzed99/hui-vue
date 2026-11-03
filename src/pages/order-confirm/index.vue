@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { onHide, onLoad, onShow, onUnload } from '@dcloudio/uni-app'
-import { ensureDemoSession } from '@/api/demoSession'
+import { ensureDemoSession, getActiveDemoSession } from '@/api/demoSession'
 import { createDemoQuote } from '@/api/demoQuotes'
 import type { DemoQuote } from '@/api/demoQuotes'
 import { createDemoOrder, getDemoOrder } from '@/api/demoOrders'
@@ -10,7 +10,7 @@ import { createDemoPayment, getDemoPayment } from '@/api/demoPayments'
 import type { DemoPayment } from '@/api/demoPayments'
 import { getDemoPrintResult } from '@/api/demoPrintResult'
 import type { DemoPrintTask } from '@/api/demoPrintResult'
-import { loadDraft } from '@/domain/printDraft'
+import { archiveDraftMatchesSession, loadDraft } from '@/domain/printDraft'
 import type { PrintDraft } from '@/domain/printDraft'
 import DemoCancellationPanel from '@/components/DemoCancellationPanel.vue'
 
@@ -246,8 +246,18 @@ async function requestQuote() {
   clearExpiryTimer()
   quoteState.value = 'loading'
   const session = await ensureDemoSession()
+  if (session && !archiveDraftMatchesSession(draft.value, session)) {
+    loadDraft()
+    uni.redirectTo({ url: '/pages/archive-print/index' })
+    return
+  }
   const result = session ? await createDemoQuote(session, draft.value.fileId, draft.value.paper,
     draft.value.color, draft.value.copies, draft.value.side, quoteRound.value) : { kind: 'failed' as const }
+  if (session && !archiveDraftMatchesSession(draft.value, getActiveDemoSession())) {
+    loadDraft()
+    uni.redirectTo({ url: '/pages/archive-print/index' })
+    return
+  }
   if (result.kind === 'ok' && result.quote.status === 'VALID' && result.quote.snapshot.expiresAtMs > Date.now()) {
     quote.value = result.quote
     quoteState.value = 'ready'

@@ -21,7 +21,7 @@ function apiUrl(path: 'files' | 'image-files' | 'file'): string | null {
   return null
 }
 
-function parseEnvelope(value: unknown): DemoFileMetadata | null {
+export function parseDemoFileEnvelope(value: unknown): DemoFileMetadata | null {
   const envelope = value as { code?: number; data?: Partial<DemoFileMetadata> }
   const item = envelope?.data
   if (envelope?.code !== 0 || !item || typeof item.id !== 'string'
@@ -49,7 +49,7 @@ function uploadDemoFile(session: DemoSession, filePath: string, endpoint: 'files
       },
       success: response => {
         if (response.statusCode !== 200 || typeof response.data !== 'string') return resolve(null)
-        try { resolve(parseEnvelope(JSON.parse(response.data))) }
+        try { resolve(parseDemoFileEnvelope(JSON.parse(response.data))) }
         catch { resolve(null) }
       },
       fail: () => resolve(null)
@@ -74,17 +74,20 @@ export function getDemoFile(session: DemoSession, id: string): Promise<DemoFileM
       method: 'GET',
       timeout: 2500,
       header: { Authorization: `Bearer ${session.accessToken}` },
-      success: response => resolve(response.statusCode === 200 ? parseEnvelope(response.data) : null),
+      success: response => resolve(response.statusCode === 200 ? parseDemoFileEnvelope(response.data) : null),
       fail: () => resolve(null)
     })
   })
 }
 
-export async function waitForDemoFile(session: DemoSession, initial: DemoFileMetadata): Promise<DemoFileMetadata | null> {
+export async function waitForDemoFile(session: DemoSession, initial: DemoFileMetadata,
+  isCurrent: () => boolean = () => true): Promise<DemoFileMetadata | null> {
   let current: DemoFileMetadata | null = initial
   for (let attempt = 0; attempt < 20; attempt += 1) {
+    if (!isCurrent()) return null
     if (!current || ['READY', 'FAILED', 'DELETED'].includes(current.status)) return current
     await new Promise(resolve => setTimeout(resolve, 750))
+    if (!isCurrent()) return null
     current = await getDemoFile(session, initial.id)
   }
   return current

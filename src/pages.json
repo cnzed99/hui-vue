@@ -209,6 +209,12 @@
       }
     },
     {
+      "path": "pages/archive-print/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/document-upload/index",
       "style": {
         "navigationStyle": "custom"

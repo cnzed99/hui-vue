@@ -28,7 +28,7 @@ function openPrintEntry(label: string) {
     return
   }
   if (label === '压缩包打印') {
-    chooseArchive()
+    uni.navigateTo({ url: '/pages/archive-print/index' })
     return
   }
   showReserved(label)
@@ -56,29 +56,6 @@ function openTutorial() {
   uni.navigateTo({ url: '/pages/tutorial-list/index' })
 }
 
-function chooseArchive() {
-  // #ifdef MP-WEIXIN
-  uni.chooseMessageFile({
-    count: 1,
-    type: 'file',
-    success(result) {
-      const file = result.tempFiles[0]
-      if (!file) return
-      uni.showModal({
-        title: '压缩包打印',
-        content: `${file.name}（${file.size} 字节）\n尚未上传或解压`,
-        showCancel: false
-      })
-    },
-    fail(error) {
-      if (!error.errMsg.includes('cancel')) uni.showToast({ title: '无法打开微信文件选择器', icon: 'none' })
-    }
-  })
-  // #endif
-  // #ifndef MP-WEIXIN
-  uni.showToast({ title: '请在微信小程序中使用文件选择器', icon: 'none' })
-  // #endif
-}
 </script>
 
 <template>

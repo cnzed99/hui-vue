@@ -1,3 +1,6 @@
+import { getActiveDemoSession } from '@/api/demoSession'
+import type { DemoSession } from '@/api/demoSession'
+
 export type DraftSource = 'LOCAL_SELECTION' | 'FIXTURE' | 'SERVER_UPLOAD'
 export type PrintColor = 'BLACK_WHITE' | 'COLOR'
 export type PrintSide = 'SIMPLEX' | 'DUPLEX'
@@ -9,6 +12,7 @@ export interface PrintDraft {
   sizeBytes: number
   pages: number | null
   fileId: string | null
+  archiveOwner?: Pick<DemoSession, 'sessionId' | 'principalId'>
   paper: 'A4'
   color: PrintColor
   side: PrintSide
@@ -36,8 +40,19 @@ export function saveDraft(draft: PrintDraft) {
   uni.setStorageSync(STORAGE_KEY, draft)
 }
 
+export function archiveDraftMatchesSession(draft: Partial<PrintDraft>, session: DemoSession | null) {
+  if (draft.archiveOwner === undefined) return true
+  const owner = draft.archiveOwner
+  return !!owner && !!session && draft.source === 'SERVER_UPLOAD'
+    && owner.sessionId === session.sessionId && owner.principalId === session.principalId
+}
+
 export function loadDraft(): PrintDraft | null {
   const value = uni.getStorageSync(STORAGE_KEY) as Partial<PrintDraft> | null
+  if (value?.archiveOwner !== undefined && !archiveDraftMatchesSession(value, getActiveDemoSession())) {
+    uni.removeStorageSync(STORAGE_KEY)
+    return null
+  }
   if (!value || value.schemaVersion !== 1 || typeof value.fileName !== 'string' || !value.fileName
     || !Number.isSafeInteger(value.sizeBytes) || Number(value.sizeBytes) <= 0
     || (value.pages !== null && (!Number.isSafeInteger(value.pages) || Number(value.pages) <= 0))
