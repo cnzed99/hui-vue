@@ -10,12 +10,8 @@ const articles = [
 ]
 
 function goBack() { if (getCurrentPages().length > 1) { uni.navigateBack(); return } uni.reLaunch({ url: '/pages/home/index' }) }
-function openArticle(id: string, title: string) {
-  if (id === 'photo-paper') {
-    uni.navigateTo({ url: '/pages/tutorial-detail/index?article=photo-paper' })
-    return
-  }
-  uni.showToast({ title: `${title}内容待继续只读观察`, icon: 'none' })
+function openArticle(id: string) {
+  uni.navigateTo({ url: `/pages/tutorial-detail/index?article=${encodeURIComponent(id)}` })
 }
 </script>
 
@@ -23,11 +19,11 @@ function openArticle(id: string, title: string) {
   <view class="page">
     <view class="header"><view class="status-space" /><view class="title-row"><text class="back" @click="goBack">‹</text><text>用户指南-文章列表</text><text class="spacer" /></view></view>
     <view class="articles">
-      <view v-for="article in articles" :key="article.id" class="article" @click="openArticle(article.id, article.title)">
+      <view v-for="article in articles" :key="article.id" class="article" @click="openArticle(article.id)">
         <text>{{ article.title }}</text><text class="arrow">›</text>
       </view>
     </view>
-    <view class="boundary">教程内容只作只读复刻；不会打开原站链接或提交业务数据。</view>
+    <view class="boundary">教程内容按原页面只读结构复刻；公众号外链仅说明来源，不跳转原站，也不提交业务数据。</view>
   </view>
 </template>
 
