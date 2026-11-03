@@ -6,9 +6,9 @@ import { createRequire } from 'node:module'
 const base = '/home/ubuntu/print-system'
 const runtime = path.join(base, 'runtime/browser-tools')
 const origin = 'http://127.0.0.1:18080'
-const expectedRelease = '/var/www/print-system/releases/miniapp-id-photo-preview-20261103t1024z-4bd5cb9'
-const expectedIndexSha256 = '4dc2e6e10fdef1914b69ddbb8db830fec6193834d85a94775e7703a9c1fdfb08'
-const sourceCommit = '4bd5cb91b25bc3e9af6df06f18816437d4d2a21d'
+const expectedRelease = process.env.EXPECTED_RELEASE
+const expectedIndexSha256 = process.env.EXPECTED_INDEX_SHA256
+const sourceCommit = 'bb85bd4e0f963056106bbbd02873fc3df34f8e32'
 const runId = new Date().toISOString().replace(/[-:.]/g, '') + '-' + crypto.randomBytes(4).toString('hex')
 const out = path.join(base, 'evidence/miniapp', `id-photo-preview-${runId}`)
 const checks = []
@@ -31,12 +31,37 @@ async function chooseSyntheticPhoto(page) {
   const chooserPromise = page.waitForEvent('filechooser')
   await page.locator('.frame').click()
   const chooser = await chooserPromise
+  const synthetic = `<svg xmlns="http://www.w3.org/2000/svg" width="550" height="840" viewBox="0 0 550 840">
+    <rect width="550" height="840" fill="#fff"/><rect width="275" height="420" fill="#ef4444"/>
+    <rect x="275" width="275" height="420" fill="#22c55e"/><rect y="420" width="275" height="420" fill="#3b82f6"/>
+    <rect x="275" y="420" width="275" height="420" fill="#facc15"/><circle cx="275" cy="420" r="92" fill="#111827"/>
+  </svg>`
   await chooser.setFiles({
-    name: 'synthetic-id-photo.png',
-    mimeType: 'image/png',
-    buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=', 'base64')
+    name: 'synthetic-id-photo.svg',
+    mimeType: 'image/svg+xml',
+    buffer: Buffer.from(synthetic)
   })
   await page.getByText('本地预览，点击图片可更换', { exact: true }).waitFor({ state: 'visible' })
+}
+
+async function inspectGeometry(page) {
+  return page.evaluate(() => {
+    const rect = element => {
+      const box = element.getBoundingClientRect()
+      return { left: box.left, top: box.top, right: box.right, bottom: box.bottom, width: box.width, height: box.height }
+    }
+    const sheet = document.querySelector('.sheet')
+    const cell = document.querySelector('.cell')
+    const photo = document.querySelector('.photo')
+    const images = [...document.querySelectorAll('.photo img')]
+    if (!sheet || !cell || !photo) return null
+    return {
+      sheet: rect(sheet),
+      cell: rect(cell),
+      photo: rect(photo),
+      images: images.map(image => ({ complete: image.complete, naturalWidth: image.naturalWidth, naturalHeight: image.naturalHeight, objectFit: getComputedStyle(image).objectFit, rect: rect(image) }))
+    }
+  })
 }
 
 async function screenshot(page, name) {
@@ -69,6 +94,7 @@ const report = {
 }
 
 try {
+  check('expected_deployment_declared', Boolean(expectedRelease && expectedIndexSha256))
   await fs.mkdir(out, { recursive: false, mode: 0o700 })
   const activeRelease = await fs.realpath('/var/www/print-system/miniapp')
   const indexSha256 = crypto.createHash('sha256').update(await fs.readFile('/var/www/print-system/miniapp/index.html')).digest('hex')
@@ -101,9 +127,9 @@ try {
   check('direct_preview_requires_fresh_one_time_selection', true)
 
   const layouts = [
-    { id: 'one', name: '1寸证件照', repeat: 10, rotated: 0 },
-    { id: 'two', name: '2寸证件照', repeat: 4, rotated: 4 },
-    { id: 'three', name: '3寸证件照', repeat: 2, rotated: 0 }
+    { id: 'one', name: '1寸证件照', repeat: 10, rotated: 0, displayWidth: 25, displayHeight: 35 },
+    { id: 'two', name: '2寸证件照', repeat: 4, rotated: 4, displayWidth: 49, displayHeight: 35 },
+    { id: 'three', name: '3寸证件照', repeat: 2, rotated: 0, displayWidth: 55, displayHeight: 84 }
   ]
   for (const item of layouts) {
     await open(page, `/pages/id-photo-upload/index?size=${item.id}`)
@@ -113,6 +139,22 @@ try {
     await page.getByText('拼版预览', { exact: true }).waitFor({ state: 'visible' })
     check(`${item.id}_layout_count`, await page.locator('.cell').count() === item.repeat)
     check(`${item.id}_rotation`, await page.locator('.photo.rotated').count() === item.rotated)
+    await page.locator('.photo img').first().waitFor({ state: 'visible' })
+    const geometry = await inspectGeometry(page)
+    report.geometry ||= {}
+    report.geometry[item.id] = geometry
+    check(`${item.id}_synthetic_image_loaded`, geometry !== null && geometry.images.length === item.repeat
+      && geometry.images.every(image => image.complete && image.naturalWidth === 550 && image.naturalHeight === 840))
+    check(`${item.id}_physical_ratio`, geometry !== null
+      && Math.abs(geometry.photo.width / geometry.photo.height - item.displayWidth / item.displayHeight) < 0.02)
+    check(`${item.id}_sheet_scale`, geometry !== null
+      && Math.abs(geometry.cell.width / geometry.sheet.width - item.displayWidth / 152) < 0.015
+      && Math.abs(geometry.cell.height / geometry.sheet.height - item.displayHeight / 102) < 0.015)
+    check(`${item.id}_photo_stays_in_cell`, geometry !== null
+      && geometry.photo.left >= geometry.cell.left - 1.5 && geometry.photo.top >= geometry.cell.top - 1.5
+      && geometry.photo.right <= geometry.cell.right + 1.5 && geometry.photo.bottom <= geometry.cell.bottom + 1.5)
+    check(`${item.id}_aspect_fit`, geometry !== null
+      && geometry.images.every(image => image.objectFit === 'contain'))
     check(`${item.id}_six_inch_and_size_labels`, await page.getByText('请用六寸相纸打印', { exact: true }).isVisible()
       && await page.getByText(item.name, { exact: true }).isVisible())
     await page.getByText('+', { exact: true }).click()
