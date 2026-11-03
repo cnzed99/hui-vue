@@ -25,15 +25,30 @@ if (!profilePath) throw new Error('SMOKE_PROFILE is required')
     assert.deepEqual(titles.map(title => title.replace('›', '').trim()), [
       '复印（图片去灰底）', '文档打印', '证件照制作', '图片拼版', '身份证打印', '电子发票打印', '照片纸打印'
     ])
-    await page.getByText('文档打印', { exact: true }).click()
-    await page.getByText('文档打印内容待继续只读观察', { exact: true }).waitFor()
-    await page.getByText('照片纸打印', { exact: true }).click()
-    await page.waitForURL(/pages\/tutorial-detail\/index\?article=photo-paper/)
-    await page.getByText('发布日期：2021-03-09 15:24:19', { exact: true }).waitFor()
-    await page.getByText('历史指南仅用于还原页面结构，流程和截图可能已过时；其中展示的旧金额不作为新系统价格。', { exact: true }).waitFor()
-    assert.equal(await page.locator('.step').count(), 4)
-    assert.equal((await page.locator('body').innerText()).includes('1.00元'), false)
-    result = { pages: 2, articles: 7, steps: 4 }
+    const details = [
+      ['复印（图片去灰底）', 'copy-clean-background', '2026-01-30 12:29:48', 'external', 0],
+      ['文档打印', 'document-print', '2026-01-30 12:21:16', 'external', 0],
+      ['证件照制作', 'id-photo', '2026-01-30 12:20:29', 'external', 0],
+      ['图片拼版', 'image-collage', '2026-01-30 12:18:01', 'external', 0],
+      ['身份证打印', 'identity-card', '2026-01-30 12:16:56', 'external', 0],
+      ['电子发票打印', 'invoice', '2021-03-09 15:29:15', 'steps', 5],
+      ['照片纸打印', 'photo-paper', '2021-03-09 15:24:19', 'steps', 4]
+    ]
+    for (const [title, id, publishedAt, kind, stepCount] of details) {
+      await page.getByText(title, { exact: true }).click()
+      await page.waitForURL(new RegExp(`pages/tutorial-detail/index\\?article=${id}`))
+      await page.getByText(`发布日期：${publishedAt}`, { exact: true }).waitFor()
+      if (kind === 'external') {
+        await page.getByText('原版为公众号外链视频教程', { exact: true }).waitFor()
+        assert.equal(await page.locator('.step').count(), 0)
+      } else {
+        assert.equal(await page.locator('.step').count(), stepCount)
+      }
+      assert.equal((await page.locator('body').innerText()).includes('1.00元'), false)
+      await page.locator('.back').click()
+      await page.waitForURL(/pages\/tutorial-list\/index/)
+    }
+    result = { pages: 8, articles: 7, externalVideoArticles: 5, stepArticles: 2, steps: 9 }
   } finally {
     if (context) await context.close()
   }
