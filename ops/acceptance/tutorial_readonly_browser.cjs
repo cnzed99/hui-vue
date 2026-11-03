@@ -50,11 +50,50 @@ if (!profilePath) throw new Error('SMOKE_PROFILE is required')
       await page.locator('.back').click()
       await page.waitForURL(/pages\/tutorial-list\/index/)
     }
-    for (const invalidArticle of ['', 'constructor', '__proto__', 'toString']) {
-      await page.goto(`http://127.0.0.1:18080/miniapp/#/pages/tutorial-detail/index?article=${invalidArticle}`)
-      await page.waitForURL(/pages\/tutorial-list\/index/)
+    const invalidColdPaths = [
+      '/pages/tutorial-detail/index',
+      '/pages/tutorial-detail/index?article=',
+      '/pages/tutorial-detail/index?article=unexpected',
+      '/pages/tutorial-detail/index?article=constructor',
+      '/pages/tutorial-detail/index?article=__proto__',
+      '/pages/tutorial-detail/index?article=toString'
+    ]
+    for (const path of invalidColdPaths) {
+      const coldPage = await context.newPage()
+      coldPage.setDefaultTimeout(10000)
+      try {
+        await coldPage.goto(`http://127.0.0.1:18080/miniapp/#${path}`, { waitUntil: 'networkidle' })
+        await coldPage.waitForURL(/pages\/tutorial-list\/index/)
+        await coldPage.getByText('用户指南-文章列表', { exact: true }).waitFor()
+        assert.equal(await coldPage.locator('.article').count(), 7)
+      } finally {
+        await coldPage.close()
+      }
     }
-    result = { pages: 8, articles: 7, externalVideoArticles: 5, stepArticles: 2, steps: 9, invalidRoutes: 4, historyWarnings: 7 }
+    const validColdPage = await context.newPage()
+    validColdPage.setDefaultTimeout(10000)
+    try {
+      await validColdPage.goto('http://127.0.0.1:18080/miniapp/#/pages/tutorial-detail/index?article=invoice', { waitUntil: 'networkidle' })
+      await validColdPage.getByText('发布日期：2021-03-09 15:29:15', { exact: true }).waitFor()
+      assert.equal(await validColdPage.locator('.step').count(), 5)
+    } finally {
+      await validColdPage.close()
+    }
+    const warmDiagnosticPage = await context.newPage()
+    warmDiagnosticPage.setDefaultTimeout(10000)
+    let warmHashHotSwitch
+    let warmHashDisplayedDefaultArticle
+    try {
+      await warmDiagnosticPage.goto('http://127.0.0.1:18080/miniapp/#/pages/tutorial-detail/index?article=', { waitUntil: 'networkidle' })
+      await warmDiagnosticPage.waitForURL(/pages\/tutorial-list\/index/)
+      await warmDiagnosticPage.goto('http://127.0.0.1:18080/miniapp/#/pages/tutorial-detail/index?article=constructor', { waitUntil: 'networkidle' })
+      await warmDiagnosticPage.waitForTimeout(500)
+      warmHashHotSwitch = /pages\/tutorial-list\/index/.test(warmDiagnosticPage.url()) ? 'RESOLVED' : 'KNOWN_UNRESOLVED_UNI_H5_CACHE'
+      warmHashDisplayedDefaultArticle = (await warmDiagnosticPage.locator('body').innerText()).includes('发布日期：2021-03-09 15:24:19')
+    } finally {
+      await warmDiagnosticPage.close()
+    }
+    result = { pages: 8, articles: 7, externalVideoArticles: 5, stepArticles: 2, steps: 9, invalidColdRoutes: 6, validColdRoutes: 1, historyWarnings: 7, warmHashHotSwitch, warmHashDisplayedDefaultArticle }
   } finally {
     if (context) await context.close()
   }
