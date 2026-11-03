@@ -191,6 +191,12 @@
       }
     },
     {
+      "path": "pages/file-copy-guide/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/certificate-combo/index",
       "style": {
         "navigationStyle": "custom"
