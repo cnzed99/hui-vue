@@ -60,10 +60,16 @@ const record = {
 const keys = []
 let inspected = 0
 let polled = 0
+let quoteCalls = 0
+let holdSelection = false
 let heldReply
 let releaseHeld
 const staleArrived = new Promise(done => { heldReply = done })
 const staleRelease = new Promise(done => { releaseHeld = done })
+let quoteArrived
+let releaseQuote
+const quoteStart = new Promise(done => { quoteArrived = done })
+const quoteRelease = new Promise(done => { releaseQuote = done })
 let browser
 
 function pass(name) { checks.push({ name, passed: true }) }
@@ -85,7 +91,19 @@ try {
         assert.equal(url.searchParams.get('id'), fileId)
         assert.equal(request.headers().authorization, 'Bearer ' + session.accessToken)
         polled++
-        return send({ ...record, status: 'READY', ready: true, pageCount: 4 })
+        return send({ ...record, expiresAtMs: session.expiresAtMs, status: 'READY', ready: true, pageCount: 4 })
+      }
+      if (url.pathname === '/app-api/print/miniapp/demo/quotes') {
+        assert.equal(request.headers().authorization, 'Bearer ' + session.accessToken)
+        assert.equal(request.postDataJSON().fileId, fileId)
+        quoteCalls++
+        quoteArrived()
+        await quoteRelease
+        return send({ id: 'late-quote', status: 'VALID', snapshot: {
+          schemaVersion: 1, mode: 'DEMO', currency: 'CNY', aggregationPolicy: 'PER_FILE_ALL_COPIES',
+          paper: 'A4', color: 'BLACK_WHITE', side: 'SIMPLEX', pagesPerCopy: 4, totalSheets: '4',
+          pricePerSheet: '0.20', totalAmount: '0.80', expiresAtMs: session.expiresAtMs + 60000
+        } })
       }
       const inspection = url.pathname === '/app-api/print/miniapp-demo/archive-inspections'
       const selection = url.pathname === '/app-api/print/miniapp-demo/archive-files'
@@ -113,11 +131,11 @@ try {
       assert.match(key, /^miniapp-archive-/)
       keys.push({ key, ordinal })
       if (keys.length === 1) return route.abort('connectionreset')
-      if (ordinal === '2') {
+      if (ordinal === '2' && holdSelection) {
         heldReply()
         await staleRelease
       }
-      return send(record)
+      return send({ ...record, expiresAtMs: session.expiresAtMs })
     } catch (error) {
       mockErrors.push(String(error))
       return route.abort()
@@ -152,18 +170,24 @@ try {
   await page.getByText('提交结果暂未确认，请重试当前选择。', { exact: true }).waitFor()
   pass('show_unknown_outcome')
 
+  await candidate('first.pdf').click()
+  await extract()
+  await page.getByText('服务端解析完成 · 4 页', { exact: true }).waitFor()
+  assert.equal(keys[1].ordinal, '2')
+  assert.notEqual(keys[1].key, keys[0].key)
   await page.reload()
   await choose('test.zip', bytes)
   await inspect()
   await page.getByText('候选 PDF', { exact: true }).waitFor()
+  await candidate('second.pdf').click()
   await extract()
   await page.getByText('服务端解析完成 · 4 页', { exact: true }).waitFor()
   assert.equal(inspected, 2)
-  assert.equal(polled, 1)
-  assert.equal(keys.length, 2)
+  assert.equal(polled, 2)
+  assert.equal(keys.length, 3)
   assert.equal(keys[0].ordinal, '7')
-  assert.deepEqual(keys[0], keys[1])
-  pass('same_key_and_original_ordinal_after_reload')
+  assert.deepEqual(keys[0], keys[2])
+  pass('same_key_after_unknown_a_switch_to_b_reload_and_return_to_a')
 
   await page.getByText('继续设置打印参数', { exact: true }).click()
   await page.waitForURL(url => url.hash.includes('/pages/document-settings/index'))
@@ -172,6 +196,7 @@ try {
   pass('ready_server_metadata_in_existing_draft')
 
   await page.getByText('‹', { exact: true }).click()
+  holdSelection = true
   await candidate('first.pdf').click()
   await extract()
   let staleTimer
@@ -182,23 +207,21 @@ try {
   const staleResponse = page.waitForResponse(response => response.url().endsWith('/archive-files'))
   releaseHeld()
   await staleResponse
-  assert.equal(keys[2].ordinal, '2')
-  assert.notEqual(keys[0].key, keys[2].key)
+  assert.deepEqual(keys[3], keys[1])
   assert.equal(await page.getByText('继续设置打印参数', { exact: true }).count(), 0)
-  assert.equal(polled, 1)
+  assert.equal(polled, 2)
+  holdSelection = false
   pass('late_selection_response_does_not_apply_after_new_choice')
 
-  await page.evaluate(() => {
-    const key = Object.keys(localStorage).find(name => name.endsWith('miniapp-demo-session-v1'))
-    if (!key) throw new Error('mock session storage missing')
-    localStorage.removeItem(key)
-  })
-  session = { ...session, sessionId: 'replacement-session', principalId: 'replacement-principal', accessToken: 'B'.repeat(43) }
-  await page.goto(origin + '/miniapp/#/pages/document-settings/index')
-  await page.reload()
-  await page.waitForURL(url => url.hash.includes('/pages/document-upload/index'))
+  await extract()
+  await page.getByText('继续设置打印参数', { exact: true }).click()
+  await page.waitForURL(url => url.hash.includes('/pages/document-settings/index'))
+  await page.clock.setFixedTime(session.expiresAtMs - 10000)
+  session = { ...session, sessionId: 'replacement-session', accessToken: 'B'.repeat(43), expiresAtMs: session.expiresAtMs + 3600000 }
+  await page.getByText('确认参数', { exact: true }).click()
+  await page.waitForURL(url => url.hash.includes('/pages/archive-print/index'))
+  assert.equal(quoteCalls, 0)
   assert.equal(await page.evaluate(() => Object.keys(localStorage).some(key => key.endsWith('miniapp-print-draft-v1'))), false)
-  await page.goto(origin + '/miniapp/#/pages/archive-print/index')
   await choose('test.zip', bytes)
   await inspect()
   await page.getByText('候选 PDF', { exact: true }).waitFor()
@@ -206,9 +229,21 @@ try {
   await candidate('first.pdf').click()
   await extract()
   await page.getByText('服务端解析完成 · 4 页', { exact: true }).waitFor()
-  assert.equal(keys[3].ordinal, '2')
-  assert.notEqual(keys[3].key, keys[2].key)
-  pass('new_session_cannot_resume_old_draft_or_selection_key')
+  assert.equal(keys[5].ordinal, '2')
+  assert.notEqual(keys[5].key, keys[1].key)
+  pass('same_spa_same_principal_new_session_blocks_old_settings_draft_and_key')
+
+  await page.getByText('继续设置打印参数', { exact: true }).click()
+  await page.getByText('确认参数', { exact: true }).click()
+  let quoteTimer
+  await Promise.race([quoteStart, new Promise((_, reject) => {
+    quoteTimer = setTimeout(() => reject(new Error('mock quote did not arrive')), 2500)
+  })]).finally(() => clearTimeout(quoteTimer))
+  await page.clock.setFixedTime(session.expiresAtMs + 1)
+  releaseQuote()
+  await page.waitForURL(url => url.hash.includes('/pages/archive-print/index'))
+  assert.equal(await page.getByText('创建模拟订单', { exact: true }).count(), 0)
+  pass('late_quote_discarded_after_session_expiry_in_same_spa')
 
   assert.deepEqual(mockErrors, [])
   pass('only_isolated_origin_and_frozen_fields')
@@ -218,6 +253,7 @@ try {
   process.exitCode = 1
 } finally {
   releaseHeld()
+  releaseQuote()
   await browser?.close()
   await new Promise(done => server.close(done))
   await writeFile(reportPath, JSON.stringify(report, null, 2) + '\n', { mode: 0o600 })
