@@ -24,7 +24,7 @@ function openEntry(entry: Entry) {
     <view class="list"><view v-for="entry in helpEntries" :key="entry.id" class="item" @click="openEntry(entry)"><view class="entry-icon">{{ entry.icon }}</view><view class="copy"><text class="name">{{ entry.label }}</text><text class="description">{{ entry.description }}</text></view><text class="arrow">›</text></view></view>
     <view class="section-title">原版入口（待接入）</view>
     <view class="list"><view v-for="entry in reservedEntries" :key="entry.id" class="item" @click="openEntry(entry)"><view class="entry-icon muted">{{ entry.icon }}</view><view class="copy"><text class="name">{{ entry.label }}</text><text class="description">{{ entry.description }}</text></view><text class="reserved">未接入</text></view></view>
-    <view class="boundary">教程和订单入口仅读取新系统数据；当前不提交反馈，不读取或绑定手机号。</view>
+    <view class="boundary">教程和订单入口只访问新系统演示环境；订单页可能创建隔离演示会话，但不会因此创建订单或付款。当前不提交反馈，不读取或绑定手机号。</view>
   </view>
 </template>
 
