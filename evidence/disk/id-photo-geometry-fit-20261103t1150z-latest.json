@@ -1,0 +1,11 @@
+{
+  "label": "id-photo-geometry-fit-20261103t1150z",
+  "finishedUtc": "2026-11-03T10:47:28.928107+00:00",
+  "freeBeforeBytes": 40908767232,
+  "freeAfterBytes": 40908554240,
+  "minimumFreeBytes": 10737418240,
+  "buildExitCode": 0,
+  "recoveryExitCode": 0,
+  "backendHttpHealthy": true,
+  "scratchRemoved": true
+}

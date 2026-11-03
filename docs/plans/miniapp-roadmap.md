@@ -275,12 +275,14 @@
 
 ## 普通证件照六寸排版预览记录
 
-- 产品提交 `4bd5cb91b25bc3e9af6df06f18816437d4d2a21d`、验收脚本提交 `c403581902754713a15617da9c08fee4e28f5362` 已推送分支 `print/phase1-miniapp-id-photo-preview`。
+- 原产品提交 `4bd5cb91b25bc3e9af6df06f18816437d4d2a21d`、原验收提交 `c403581902754713a15617da9c08fee4e28f5362` 后，经批量审查修正为产品 `bb85bd4e0f963056106bbbd02873fc3df34f8e32`、验收 `e9dee14f594f318ad85579746cf8fab51509a601`，已推送累计分支 `print/phase1-miniapp-account-settings-boundary`。
 - 只实现经用户授权、使用无个人信息合成图观察确认的 1寸、2寸、3寸布局；其余五种尺寸继续关闭在“待观察”边界。没有把原系统上传产生的数据当作新系统业务数据，也未在原系统确认打印、下单或付款。
-- 标准构建窗口第二轮通过：TypeScript、H5、微信小程序构建成功，`build=0`、`recovery=0`、后端健康、scratch 已清理，MySQL、Redis、Nginx、后端四项服务均恢复 active。第一轮仅为两个 TypeScript 收窄错误，窄修复后通过。
-- 当前 H5 活动发布为 `/var/www/print-system/releases/miniapp-id-photo-preview-20261103t1024z-4bd5cb9`，`index.html` SHA-256 为 `4dc2e6e10fdef1914b69ddbb8db830fec6193834d85a94775e7703a9c1fdfb08`。
-- 最终浏览器证据 `evidence/miniapp/id-photo-preview-20261103T102151359Z-b563d69a/report.json` 为 19/19 PASS：覆盖活动发布绑定、一次性交接、1/2/3寸的10/4/2张布局、2寸旋转、份数步进、计价预留提示、未观察尺寸阻断及无报价/订单/支付/打印写入。前两份失败报告是验收脚本选择器和同文档 hash 状态污染，不是业务功能失败，原件仍保留在运行环境但不作为通过证据。
-- 本批未实现或修改计价、支付退款、权限隔离、并发状态和打印防重复规则，因此未触发 Astra High。它与服务中心合计仍不足5个普通页面，且计价/订单闭环被待确认规则阻断，暂不单独发起 Sol High 批量审查。
+- Sol High 批量初审为 `CHANGES_REQUIRED`：旧网格依赖任意百分比且使用 `aspectFill`，不能保持物理尺寸比例；旧 19/19 报告只验证数量、旋转类名和文案，不能支持几何复刻结论。
+- 修正后直接复用 25×35、35×49、55×84 mm 尺寸，并按 152×102 mm 六寸相纸计算排版：1寸 5×2、2寸 2×2 旋转90°、3寸 2×1；H5 使用等比包含显示，不再裁切或拉伸。
+- 最终标准构建窗口 `id-photo-geometry-fit-20261103t1150z` 通过：TypeScript、H5、微信小程序构建成功，`build=0`、`recovery=0`、后端健康、scratch 已清理，四项服务 active，磁盘剩余约38.1GiB。此前一次安全窗口因最小环境未加入项目 Node PATH 在编译前退出，服务正常自动恢复，不是产品修复失败。
+- 当前 H5 活动发布为 `/var/www/print-system/releases/miniapp-id-photo-geometry-20261103t1047z-bb85bd4`，`index.html` SHA-256 为 `b81687b8577b2b93c5b8ae8e35dd80e0d4789f0f790d92558ebd5e07f422f696`。
+- 最终浏览器证据 `evidence/miniapp/id-photo-preview-20261103T104810921Z-b5c34f5a/report.json` 为 35/35 PASS：16张可辨识合成图全部真实加载，并验证物理比例、六寸纸缩放、2寸旋转、等比显示、照片不越界、份数和业务写入关闭。Sol High 最终增量复审 `PASS`。
+- 本批未实现或修改计价、支付退款、权限隔离、并发状态和打印防重复规则，未触发 Astra Medium/High。
 - 下一门禁：用户确认“每份是否固定使用1张六寸相纸、固定10.00元，打印N份总价是否为10.00×N”。确认后必须先由 Astra High 审查计价设计，再由 Sol 接入服务端权威报价、订单和模拟支付。
 
 ## 账户设置隐私关闭页记录
@@ -290,7 +292,7 @@
 - 新系统从“我的”设置入口打开账户设置页，三个个人资料输入禁用，头像、性别与保存保持预留；没有账户资料读取、写入、头像上传、手机号授权、后端接口、数据库字段或权限作用域变更。
 - 标准构建窗口 `account-settings-boundary-20261103t1130z` 为 `build=0`、`recovery=0`、scratch 已清理、后端健康，四项服务 active。活动 H5 发布为 `/var/www/print-system/releases/miniapp-account-settings-boundary-20261103t1039z-51de85f`，入口摘要 `366f3e2aa0ccb5f81f657e2c419abf9e27f7b7a6ec02b707e0596c8774b2111e`。
 - 浏览器证据 `evidence/miniapp/account-settings-boundary-20261103T103934092Z-feaf3e86/report.json` 为 9/9 PASS：覆盖入口、字段、禁用输入、无头像文件控件、隐私边界、保存关闭及零写请求/外部请求。微信开发者工具/真机、真实资料接入和外部验收仍为 `NOT_RUN`。
-- 本页与服务中心、服务平台、普通证件照、加盟申请等普通增量累计达到批量审查门槛，安排一次 Sol High 统一审查；没有设计或修改计价、支付退款、权限隔离、并发状态或打印防重复规则，不触发 Astra High。
+- 本页与服务中心、服务平台、普通证件照、加盟申请等普通增量累计达到批量审查门槛。Sol High 初审只阻断证件照几何证据，修正后整个五项批次最终 `PASS`；没有设计或修改计价、支付退款、权限隔离、并发状态或打印防重复规则，未触发 Astra Medium/High。详情见 `docs/reviews/miniapp-ordinary-pages-batch-20261103.md`。
 
 ## 当前完成度口径
 

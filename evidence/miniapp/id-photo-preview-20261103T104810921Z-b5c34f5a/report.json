@@ -1,0 +1,495 @@
+{
+  "schemaVersion": 1,
+  "scope": "authorized-observation-derived ID photo six-inch preview; no price, order, payment or print",
+  "sourceCommit": "bb85bd4e0f963056106bbbd02873fc3df34f8e32",
+  "runId": "20261103T104810921Z-b5c34f5a",
+  "startedAt": "2026-11-03T10:48:10.922Z",
+  "checks": [
+    {
+      "name": "expected_deployment_declared",
+      "passed": true
+    },
+    {
+      "name": "deployment_matches_candidate",
+      "passed": true
+    },
+    {
+      "name": "direct_preview_requires_fresh_one_time_selection",
+      "passed": true
+    },
+    {
+      "name": "one_layout_count",
+      "passed": true
+    },
+    {
+      "name": "one_rotation",
+      "passed": true
+    },
+    {
+      "name": "one_synthetic_image_loaded",
+      "passed": true
+    },
+    {
+      "name": "one_physical_ratio",
+      "passed": true
+    },
+    {
+      "name": "one_sheet_scale",
+      "passed": true
+    },
+    {
+      "name": "one_photo_stays_in_cell",
+      "passed": true
+    },
+    {
+      "name": "one_aspect_fit",
+      "passed": true
+    },
+    {
+      "name": "one_six_inch_and_size_labels",
+      "passed": true
+    },
+    {
+      "name": "one_copy_stepper",
+      "passed": true
+    },
+    {
+      "name": "one_selection_consumed_once",
+      "passed": true
+    },
+    {
+      "name": "two_layout_count",
+      "passed": true
+    },
+    {
+      "name": "two_rotation",
+      "passed": true
+    },
+    {
+      "name": "two_synthetic_image_loaded",
+      "passed": true
+    },
+    {
+      "name": "two_physical_ratio",
+      "passed": true
+    },
+    {
+      "name": "two_sheet_scale",
+      "passed": true
+    },
+    {
+      "name": "two_photo_stays_in_cell",
+      "passed": true
+    },
+    {
+      "name": "two_aspect_fit",
+      "passed": true
+    },
+    {
+      "name": "two_six_inch_and_size_labels",
+      "passed": true
+    },
+    {
+      "name": "two_copy_stepper",
+      "passed": true
+    },
+    {
+      "name": "two_selection_consumed_once",
+      "passed": true
+    },
+    {
+      "name": "three_layout_count",
+      "passed": true
+    },
+    {
+      "name": "three_rotation",
+      "passed": true
+    },
+    {
+      "name": "three_synthetic_image_loaded",
+      "passed": true
+    },
+    {
+      "name": "three_physical_ratio",
+      "passed": true
+    },
+    {
+      "name": "three_sheet_scale",
+      "passed": true
+    },
+    {
+      "name": "three_photo_stays_in_cell",
+      "passed": true
+    },
+    {
+      "name": "three_aspect_fit",
+      "passed": true
+    },
+    {
+      "name": "three_six_inch_and_size_labels",
+      "passed": true
+    },
+    {
+      "name": "three_copy_stepper",
+      "passed": true
+    },
+    {
+      "name": "three_selection_consumed_once",
+      "passed": true
+    },
+    {
+      "name": "unobserved_size_remains_reserved",
+      "passed": true
+    },
+    {
+      "name": "no_price_order_payment_or_print_write",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "one-layout",
+      "path": "evidence/miniapp/id-photo-preview-20261103T104810921Z-b5c34f5a/one-layout.png",
+      "sha256": "ddff18b2fd21ea0fe8a1bcb3c16f728b7cb28cb2937556bcbc76a6c668fa6641"
+    },
+    {
+      "name": "two-layout",
+      "path": "evidence/miniapp/id-photo-preview-20261103T104810921Z-b5c34f5a/two-layout.png",
+      "sha256": "57de557302a0e6f0a34e2aa712484c9880515b2aa9ca682d64530d89fb39812f"
+    },
+    {
+      "name": "three-layout",
+      "path": "evidence/miniapp/id-photo-preview-20261103T104810921Z-b5c34f5a/three-layout.png",
+      "sha256": "b4e1c96d8a1be8b4e0197f46f81cfb41665170e521c2c51801bbf6bc521b5894"
+    }
+  ],
+  "deployment": {
+    "expectedRelease": "/var/www/print-system/releases/miniapp-id-photo-geometry-20261103t1047z-bb85bd4",
+    "expectedIndexSha256": "b81687b8577b2b93c5b8ae8e35dd80e0d4789f0f790d92558ebd5e07f422f696",
+    "activeRelease": "/var/www/print-system/releases/miniapp-id-photo-geometry-20261103t1047z-bb85bd4",
+    "indexSha256": "b81687b8577b2b93c5b8ae8e35dd80e0d4789f0f790d92558ebd5e07f422f696"
+  },
+  "boundaries": {
+    "originalSystemWrites": "NOT_RUN",
+    "priceCalculation": "NOT_IMPLEMENTED",
+    "orderCreation": "NOT_IMPLEMENTED",
+    "payment": "NOT_IMPLEMENTED",
+    "realPrinting": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "geometry": {
+    "one": {
+      "sheet": {
+        "left": 25.796875,
+        "top": 92.84375,
+        "right": 404.1875,
+        "bottom": 345.109375,
+        "width": 378.390625,
+        "height": 252.265625
+      },
+      "cell": {
+        "left": 59.40625,
+        "top": 132.421875,
+        "right": 121.640625,
+        "bottom": 218.96875,
+        "width": 62.234375,
+        "height": 86.546875
+      },
+      "photo": {
+        "left": 60.40625,
+        "top": 133.421875,
+        "right": 120.640625,
+        "bottom": 217.96875,
+        "width": 60.234375,
+        "height": 84.546875
+      },
+      "images": [
+        {
+          "complete": true,
+          "naturalWidth": 550,
+          "naturalHeight": 840,
+          "objectFit": "contain",
+          "rect": {
+            "left": 60.40625,
+            "top": 133.421875,
+            "right": 120.640625,
+            "bottom": 217.96875,
+            "width": 60.234375,
+            "height": 84.546875
+          }
+        },
+        {
+          "complete": true,
+          "naturalWidth": 550,
+          "naturalHeight": 840,
+          "objectFit": "contain",
+          "rect": {
+            "left": 122.640625,
+            "top": 133.421875,
+            "right": 182.875,
+            "bottom": 217.96875,
+            "width": 60.234375,
+            "height": 84.546875
+          }
+        },
+        {
+          "complete": true,
+          "naturalWidth": 550,
+          "naturalHeight": 840,
+          "objectFit": "contain",
+          "rect": {
+            "left": 184.875,
+            "top": 133.421875,
+            "right": 245.109375,
+            "bottom": 217.96875,
+            "width": 60.234375,
+            "height": 84.546875
+          }
+        },
+        {
+          "complete": true,
+          "naturalWidth": 550,
+          "naturalHeight": 840,
+          "objectFit": "contain",
+          "rect": {
+            "left": 247.109375,
+            "top": 133.421875,
+            "right": 307.34375,
+            "bottom": 217.96875,
+            "width": 60.234375,
+            "height": 84.546875
+          }
+        },
+        {
+          "complete": true,
+          "naturalWidth": 550,
+          "naturalHeight": 840,
+          "objectFit": "contain",
+          "rect": {
+            "left": 309.34375,
+            "top": 133.421875,
+            "right": 369.578125,
+            "bottom": 217.96875,
+            "width": 60.234375,
+            "height": 84.546875
+          }
+        },
+        {
+          "complete": true,
+          "naturalWidth": 550,
+          "naturalHeight": 840,
+          "objectFit": "contain",
+          "rect": {
+            "left": 60.40625,
+            "top": 219.96875,
+            "right": 120.640625,
+            "bottom": 304.53125,
+            "width": 60.234375,
+            "height": 84.5625
+          }
+        },
+        {
+          "complete": true,
+          "naturalWidth": 550,
+          "naturalHeight": 840,
+          "objectFit": "contain",
+          "rect": {
+            "left": 122.640625,
+            "top": 219.96875,
+            "right": 182.875,
+            "bottom": 304.53125,
+            "width": 60.234375,
+            "height": 84.5625
+          }
+        },
+        {
+          "complete": true,
+          "naturalWidth": 550,
+          "naturalHeight": 840,
+          "objectFit": "contain",
+          "rect": {
+            "left": 184.875,
+            "top": 219.96875,
+            "right": 245.109375,
+            "bottom": 304.53125,
+            "width": 60.234375,
+            "height": 84.5625
+          }
+        },
+        {
+          "complete": true,
+          "naturalWidth": 550,
+          "naturalHeight": 840,
+          "objectFit": "contain",
+          "rect": {
+            "left": 247.109375,
+            "top": 219.96875,
+            "right": 307.34375,
+            "bottom": 304.53125,
+            "width": 60.234375,
+            "height": 84.5625
+          }
+        },
+        {
+          "complete": true,
+          "naturalWidth": 550,
+          "naturalHeight": 840,
+          "objectFit": "contain",
+          "rect": {
+            "left": 309.34375,
+            "top": 219.96875,
+            "right": 369.578125,
+            "bottom": 304.53125,
+            "width": 60.234375,
+            "height": 84.5625
+          }
+        }
+      ]
+    },
+    "two": {
+      "sheet": {
+        "left": 25.796875,
+        "top": 92.84375,
+        "right": 404.1875,
+        "bottom": 345.109375,
+        "width": 378.390625,
+        "height": 252.265625
+      },
+      "cell": {
+        "left": 93.015625,
+        "top": 132.421875,
+        "right": 214.984375,
+        "bottom": 218.96875,
+        "width": 121.96875,
+        "height": 86.546875
+      },
+      "photo": {
+        "left": 94.8203125,
+        "top": 132.8515625,
+        "right": 213.1796875,
+        "bottom": 218.5390625,
+        "width": 118.359375,
+        "height": 85.6875
+      },
+      "images": [
+        {
+          "complete": true,
+          "naturalWidth": 550,
+          "naturalHeight": 840,
+          "objectFit": "contain",
+          "rect": {
+            "left": 94.8203125,
+            "top": 132.8515625,
+            "right": 213.1796875,
+            "bottom": 218.5390625,
+            "width": 118.359375,
+            "height": 85.6875
+          }
+        },
+        {
+          "complete": true,
+          "naturalWidth": 550,
+          "naturalHeight": 840,
+          "objectFit": "contain",
+          "rect": {
+            "left": 216.796875,
+            "top": 132.84375,
+            "right": 335.15625,
+            "bottom": 218.546875,
+            "width": 118.359375,
+            "height": 85.703125
+          }
+        },
+        {
+          "complete": true,
+          "naturalWidth": 550,
+          "naturalHeight": 840,
+          "objectFit": "contain",
+          "rect": {
+            "left": 94.8125,
+            "top": 219.40625,
+            "right": 213.1875,
+            "bottom": 305.09375,
+            "width": 118.375,
+            "height": 85.6875
+          }
+        },
+        {
+          "complete": true,
+          "naturalWidth": 550,
+          "naturalHeight": 840,
+          "objectFit": "contain",
+          "rect": {
+            "left": 216.7890625,
+            "top": 219.3984375,
+            "right": 335.1640625,
+            "bottom": 305.1015625,
+            "width": 118.375,
+            "height": 85.703125
+          }
+        }
+      ]
+    },
+    "three": {
+      "sheet": {
+        "left": 25.796875,
+        "top": 92.84375,
+        "right": 404.1875,
+        "bottom": 345.109375,
+        "width": 378.390625,
+        "height": 252.265625
+      },
+      "cell": {
+        "left": 78.078125,
+        "top": 115.109375,
+        "right": 214.984375,
+        "bottom": 322.84375,
+        "width": 136.90625,
+        "height": 207.734375
+      },
+      "photo": {
+        "left": 79.078125,
+        "top": 116.109375,
+        "right": 213.984375,
+        "bottom": 321.84375,
+        "width": 134.90625,
+        "height": 205.734375
+      },
+      "images": [
+        {
+          "complete": true,
+          "naturalWidth": 550,
+          "naturalHeight": 840,
+          "objectFit": "contain",
+          "rect": {
+            "left": 79.078125,
+            "top": 116.109375,
+            "right": 213.984375,
+            "bottom": 321.84375,
+            "width": 134.90625,
+            "height": 205.734375
+          }
+        },
+        {
+          "complete": true,
+          "naturalWidth": 550,
+          "naturalHeight": 840,
+          "objectFit": "contain",
+          "rect": {
+            "left": 215.984375,
+            "top": 116.109375,
+            "right": 350.90625,
+            "bottom": 321.84375,
+            "width": 134.921875,
+            "height": 205.734375
+          }
+        }
+      ]
+    }
+  },
+  "status": "PASS",
+  "finishedAt": "2026-11-03T10:48:13.232Z",
+  "passed": 35,
+  "failed": 0,
+  "businessWrites": []
+}
