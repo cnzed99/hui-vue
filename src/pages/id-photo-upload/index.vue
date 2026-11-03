@@ -3,6 +3,8 @@ import { ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 import { resolveSize } from '@/domain/idPhotoSizes'
 
+const PREVIEW_SELECTION_KEY = 'miniapp-id-photo-preview-selection-v1'
+const observedLayouts = new Set(['one', 'two', 'three'])
 const size = ref<ReturnType<typeof resolveSize>>()
 const photo = ref('')
 
@@ -33,7 +35,24 @@ function choosePhoto() {
 }
 
 function next() {
-  uni.showToast({ title: photo.value ? '当前可预览，排版和报价待接入' : '请先添加证件照', icon: 'none' })
+  if (!photo.value) {
+    uni.showToast({ title: '请先添加证件照', icon: 'none' })
+    return
+  }
+  if (!size.value || !observedLayouts.has(size.value.id)) {
+    uni.showToast({ title: '该尺寸排版待继续观察', icon: 'none' })
+    return
+  }
+  uni.setStorageSync(PREVIEW_SELECTION_KEY, {
+    schemaVersion: 1,
+    path: photo.value,
+    sizeId: size.value.id,
+    createdAtMs: Date.now()
+  })
+  uni.navigateTo({
+    url: `/pages/id-photo-preview/index?size=${encodeURIComponent(size.value.id)}`,
+    fail: () => uni.removeStorageSync(PREVIEW_SELECTION_KEY)
+  })
 }
 </script>
 
