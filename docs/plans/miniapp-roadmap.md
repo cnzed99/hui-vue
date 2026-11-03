@@ -1,8 +1,14 @@
 # 微信小程序复刻路线图
 
-更新时间：2026-11-02
+更新时间：2026-11-03
 
 交付策略：观察一批、记录一批、开发一批、验证一批。
+
+普通证件照尺寸路由与本地预览、微信压缩包原生选择入口已形成开发候选。证件排版与计价、压缩包选后解压及计价继续保留为未接入，照片与扫描选后规则继续采集。原站本批观察和尺寸证据见[复刻记录](../product/miniapp-replication.md)。
+
+运行边界为小程序源码、模拟和编译检查，微信开发者工具和真机体验待验收。
+
+小程序提交 `4d0bba1d8e3baeb91d8e0059d1f1575f6c7ffc8b` 已通过云端 `vue-tsc --noEmit`、`node scripts/check-original-batch1.cjs`、H5 与微信普通编译。编译产物确认微信首页保留原生文件选择调用，H5 首页不含该调用。安全构建窗口记录位于 `/home/ubuntu/print-system/evidence/disk/original-batch1-miniapp-latest.json`。
 
 ## 批次与里程碑
 
