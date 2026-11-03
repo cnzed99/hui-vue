@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "scope": "service center read-only help navigation",
+  "sourceCommit": "2d97b8c966479caea712ffa1a8a59c93766cb369",
+  "startedAt": "2026-11-03T02:19:17.904Z",
+  "checks": [
+    {
+      "name": "deployment_matches_candidate",
+      "passed": true
+    },
+    {
+      "name": "service_center_boundaries",
+      "passed": true
+    },
+    {
+      "name": "tutorial_navigation",
+      "passed": true
+    },
+    {
+      "name": "orders_navigation",
+      "passed": true
+    },
+    {
+      "name": "no_business_writes",
+      "passed": true
+    }
+  ],
+  "boundaries": {
+    "feedbackWrite": "NOT_IMPLEMENTED",
+    "phoneBinding": "NOT_IMPLEMENTED",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "deployment": {
+    "activeRelease": "/var/www/print-system/releases/miniapp-support-hub-fix-20261103T0218Z-2d97b8c",
+    "indexSha256": "71af6f640c32dc3d190090c75468c07052c2c6b7cc8531537d62113f6a4d2212",
+    "expectedRelease": "/var/www/print-system/releases/miniapp-support-hub-fix-20261103T0218Z-2d97b8c",
+    "expectedIndexSha256": "71af6f640c32dc3d190090c75468c07052c2c6b7cc8531537d62113f6a4d2212"
+  },
+  "status": "PASS",
+  "writes": [
+    "POST http://127.0.0.1:18080/app-api/print/miniapp/demo/sessions"
+  ],
+  "finishedAt": "2026-11-03T02:19:18.181Z",
+  "passed": 5,
+  "failed": 0
+}
