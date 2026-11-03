@@ -4,7 +4,7 @@ import { ref } from 'vue'
 const IMAGE_SELECTION_KEY = 'miniapp-image-selection-v1'
 const sourceSheetVisible = ref(false)
 const certificates = [
-  { label: '身份证 / 银行卡', icon: '证', mode: '' }, { label: '户口本复印', icon: '户', mode: '' },
+  { label: '身份证 / 银行卡', icon: '证', mode: 'identity-card' }, { label: '户口本复印', icon: '户', mode: 'household-register' },
   { label: '营业执照', icon: '照', mode: 'business-license' }, { label: '驾驶证 / 行驶证', icon: '驾', mode: 'driver-license' }
 ]
 const combos = [
@@ -23,6 +23,10 @@ function openCertificate(item: { label: string; mode: string }) {
 function openCombo(label: string) {
   if (label === '身份证 + 户口本') {
     uni.navigateTo({ url: '/pages/certificate-combo/index' })
+    return
+  }
+  if (label === '身份证 + 银行卡') {
+    uni.navigateTo({ url: '/pages/certificate-single/index?type=identity-bank' })
     return
   }
   reserve(label)
@@ -65,7 +69,7 @@ function chooseSource(label: '拍照' | '手机相册') {
   <view class="file-card" @click="openFileCopy"><view class="round">文</view><view class="copy"><text class="name">文件复印</text><text class="description">将文件拍照或选择图片打印</text></view><text class="arrow">›</text></view>
   <view class="section-head"><text>证件复印</text><text>常用证件</text></view><view class="cert-grid"><view v-for="item in certificates" :key="item.label" class="cert" @click="openCertificate(item)"><view class="cert-icon">{{ item.icon }}</view><text>{{ item.label }}</text></view></view>
   <view class="combo-list"><view v-for="item in combos" :key="item.label" class="combo" @click="openCombo(item.label)"><view class="combo-icon">{{ item.icon }}</view><view class="copy"><text class="name">{{ item.label }}</text><text class="description">{{ item.description }}</text></view><text class="arrow">›</text></view></view>
-  <view class="boundary">文件复印已开放单张图片安全演示；身份证+户口本、营业执照、驾驶证/行驶证已开放隐私关闭结构，其它证件排版仍待继续观察。</view>
+  <view class="boundary">文件复印已开放单张图片安全演示；六类证件及组合入口均已开放隐私关闭结构，证件上传、识别和排版仍待后续接入。</view>
   <view v-if="sourceSheetVisible" class="sheet-mask" @click="closeSourceSheet">
     <view class="source-sheet" @click.stop>
       <view class="warning">严禁上传反动、色情、暴力、非法及涉密资料</view>
