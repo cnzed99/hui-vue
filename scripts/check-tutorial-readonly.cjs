@@ -44,8 +44,11 @@ assert.equal(detail.tutorials['photo-paper'].steps.length, 4)
 assert.equal(Object.values(detail.tutorials).filter(article => article.kind === 'external-video').length, 5)
 onLoadHandler({ article: 'invoice' })
 assert.equal(detail.selectedArticle.value.id, 'invoice')
-onLoadHandler({ article: 'unexpected' })
-assert.equal(route, '/pages/tutorial-list/index')
+for (const query of [{}, { article: 'unexpected' }, { article: 'constructor' }, { article: '__proto__' }, { article: 'toString' }]) {
+  route = undefined
+  onLoadHandler(query)
+  assert.equal(route, '/pages/tutorial-list/index')
+}
 assert.match(read('src/pages/tutorial-detail/index.vue'), /旧金额不作为新系统价格/)
 assert.match(read('src/pages/tutorial-detail/index.vue'), /不复用原公众号链接或视频/)
 assert.doesNotMatch(read('src/pages/tutorial-detail/index.vue'), /https?:\/\/|1\.00元|uploadFile|request\s*\(/)

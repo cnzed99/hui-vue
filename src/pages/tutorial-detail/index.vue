@@ -41,9 +41,12 @@ const tutorials: Record<string, TutorialArticle> = {
 const selectedArticle = ref<TutorialArticle>(tutorials['photo-paper'])
 function goBack() { if (getCurrentPages().length > 1) { uni.navigateBack(); return } uni.reLaunch({ url: '/pages/tutorial-list/index' }) }
 onLoad(query => {
-  const article = tutorials[String(query?.article || '')]
-  if (!article) { uni.redirectTo({ url: '/pages/tutorial-list/index' }); return }
-  selectedArticle.value = article
+  const articleId = String(query?.article || '')
+  if (!Object.prototype.hasOwnProperty.call(tutorials, articleId)) {
+    uni.redirectTo({ url: '/pages/tutorial-list/index' })
+    return
+  }
+  selectedArticle.value = tutorials[articleId]
 })
 </script>
 
