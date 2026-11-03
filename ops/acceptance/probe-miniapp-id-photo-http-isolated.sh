@@ -314,6 +314,23 @@ wait_up "$app_port"
 issue_session "$app_port" "$scratch/new-session.json"
 token=$(jq -r '.data.accessToken' "$scratch/new-session.json")
 
+# The rollback cleaner must contend with the real Java FileChannel lock, not a
+# separate flock namespace, and must leave tasks untouched while Java owns it.
+mkdir -m 0700 -- "$scratch/storage/id-photo-multipart/task-rollback-orphan" \
+  "$scratch/storage/id-photo-scratch/task-rollback-orphan"
+printf original >"$scratch/storage/id-photo-multipart/task-rollback-orphan/input.bin"
+printf rendered >"$scratch/storage/id-photo-scratch/task-rollback-orphan/output.pdf"
+if python3 "$repo/ops/runtime/cleanup-id-photo-private-tasks.py" "$scratch/storage" \
+  >"$scratch/rollback-cleanup-locked.out" 2>"$scratch/rollback-cleanup-locked.err"; then
+  cleanup_locked_rc=0
+else
+  cleanup_locked_rc=$?
+fi
+[[ $cleanup_locked_rc == 75 ]]
+grep -Fxq ID_PHOTO_PRIVATE_ROLLBACK_CLEANUP_LOCK_BUSY "$scratch/rollback-cleanup-locked.err"
+[[ -f $scratch/storage/id-photo-multipart/task-rollback-orphan/input.bin ]]
+[[ -f $scratch/storage/id-photo-scratch/task-rollback-orphan/output.pdf ]]
+
 # Invalid session and bad envelope fail without creating a multipart task.
 before_tasks=$(find "$scratch/storage/id-photo-multipart" -mindepth 1 -maxdepth 1 -type d -name 'task-*' | wc -l)
 python3 "$scratch/prebody_request.py" "$app_port" AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA invalid-session 401
@@ -331,10 +348,19 @@ create=$(curl -fsS -H "Authorization: Bearer $token" -H "Origin: http://127.0.0.
   -F "file=@$scratch/id-photo.png;type=image/png" -F 'specification=ONE_INCH' \
   "http://127.0.0.1:$app_port/app-api/print/miniapp/demo/id-photo-files")
 id_photo_id=$(jq -er '.data.id' <<<"$create")
-replay=$(curl -fsS -H "Authorization: Bearer $token" -H "Origin: http://127.0.0.1:$app_port" \
-  -H "Host: 127.0.0.1:$app_port" -H 'Idempotency-Key: id-photo-success' \
-  -F "file=@$scratch/id-photo.png;type=image/png" -F 'specification=ONE_INCH' \
-  "http://127.0.0.1:$app_port/app-api/print/miniapp/demo/id-photo-files")
+replay_code=''
+for _ in $(seq 1 20); do
+  replay_code=$(curl -sS -o "$scratch/replay.json" -w '%{http_code}' \
+    -H "Authorization: Bearer $token" -H "Origin: http://127.0.0.1:$app_port" \
+    -H "Host: 127.0.0.1:$app_port" -H 'Idempotency-Key: id-photo-success' \
+    -F "file=@$scratch/id-photo.png;type=image/png" -F 'specification=ONE_INCH' \
+    "http://127.0.0.1:$app_port/app-api/print/miniapp/demo/id-photo-files")
+  [[ $replay_code == 200 ]] && break
+  [[ $replay_code == 429 ]]
+  sleep 0.25
+done
+[[ $replay_code == 200 ]]
+replay=$(<"$scratch/replay.json")
 [[ $(jq -er '.data.id' <<<"$replay") == "$id_photo_id" ]]
 wait_file_ready "$app_port" "$token" "$id_photo_id" "$scratch/id-photo-file.json"
 read -r kind variant <<<"$(mysql "${socket[@]}" id_photo_http -Nse "SELECT source_kind,source_variant FROM print_miniapp_demo_file WHERE id='$id_photo_id'")"
@@ -370,6 +396,34 @@ foreign_code=$(curl -sS -o "$scratch/foreign.json" -w '%{http_code}' \
 
 # Once an ID_PHOTO row exists, the old JAR still cannot quote it because the DB trigger fails closed.
 stop_app
+mkdir -m 0700 -- "$scratch/storage/id-photo-multipart/task-unsafe"
+ln -s -- /etc/passwd "$scratch/storage/id-photo-multipart/task-unsafe/link"
+if python3 "$repo/ops/runtime/cleanup-id-photo-private-tasks.py" "$scratch/storage" \
+  >"$scratch/rollback-cleanup-unsafe.out" 2>"$scratch/rollback-cleanup-unsafe.err"; then
+  cleanup_unsafe_rc=0
+else
+  cleanup_unsafe_rc=$?
+fi
+[[ $cleanup_unsafe_rc == 65 ]]
+grep -Fxq ID_PHOTO_PRIVATE_ROLLBACK_CLEANUP_UNSAFE "$scratch/rollback-cleanup-unsafe.err"
+[[ -L $scratch/storage/id-photo-multipart/task-unsafe/link ]]
+[[ -f $scratch/storage/id-photo-multipart/task-rollback-orphan/input.bin ]]
+[[ -f $scratch/storage/id-photo-scratch/task-rollback-orphan/output.pdf ]]
+rm -- "$scratch/storage/id-photo-multipart/task-unsafe/link"
+rmdir -- "$scratch/storage/id-photo-multipart/task-unsafe"
+ordinary_storage_key=$(mysql "${socket[@]}" id_photo_http -Nse "SELECT storage_key FROM print_miniapp_demo_file WHERE id='$ordinary_id'")
+ordinary_object="$scratch/storage/objects/$ordinary_storage_key.pdf"
+ordinary_hash_before=$(sha256sum "$ordinary_object" | awk '{print $1}')
+file_rows_before_cleanup=$(mysql "${socket[@]}" id_photo_http -Nse 'SELECT COUNT(*) FROM print_miniapp_demo_file')
+quote_rows_before_cleanup=$(mysql "${socket[@]}" id_photo_http -Nse 'SELECT COUNT(*) FROM print_miniapp_demo_quote')
+python3 "$repo/ops/runtime/cleanup-id-photo-private-tasks.py" "$scratch/storage" \
+  | tee "$scratch/rollback-cleanup-unlocked.out"
+grep -Fxq 'ID_PHOTO_PRIVATE_ROLLBACK_CLEANUP_PASS removed=2' "$scratch/rollback-cleanup-unlocked.out"
+[[ ! -e $scratch/storage/id-photo-multipart/task-rollback-orphan ]]
+[[ ! -e $scratch/storage/id-photo-scratch/task-rollback-orphan ]]
+[[ $(sha256sum "$ordinary_object" | awk '{print $1}') == "$ordinary_hash_before" ]]
+[[ $(mysql "${socket[@]}" id_photo_http -Nse 'SELECT COUNT(*) FROM print_miniapp_demo_file') == "$file_rows_before_cleanup" ]]
+[[ $(mysql "${socket[@]}" id_photo_http -Nse 'SELECT COUNT(*) FROM print_miniapp_demo_quote') == "$quote_rows_before_cleanup" ]]
 start_app "$old_jar" "$app_port" 10737418240 disabled-on-old-jar "$scratch/logs/stdout-$app_port.log"
 wait_up "$app_port"
 id_photo_quotes_before=$(mysql "${socket[@]}" id_photo_http -Nse "SELECT COUNT(*) FROM print_miniapp_demo_quote WHERE file_id='$id_photo_id'")
@@ -541,4 +595,4 @@ low_after=$(find "$scratch/storage/id-photo-multipart" -mindepth 1 -maxdepth 1 -
 [[ $low_before == "$low_after" ]]
 stop_app
 
-echo 'ID_PHOTO_HTTP_ISOLATION_PASS partial_migration old_jar_rollback invalid_session low_disk custom_multipart idempotency persistence quote_app_guard quote_db_trigger cross_owner concurrency permit_release double_lock drain cleanup'
+echo 'ID_PHOTO_HTTP_ISOLATION_PASS partial_migration old_jar_rollback rollback_private_cleanup invalid_session low_disk custom_multipart idempotency persistence quote_app_guard quote_db_trigger cross_owner concurrency permit_release double_lock drain cleanup'

@@ -138,7 +138,7 @@ public final class MiniappArchiveMysqlChecks {
 
         Path abandonedMultipart = Files.createDirectory(multipartRoot.resolve("task-disabled-feature-restart"));
         Files.writeString(abandonedMultipart.resolve("upload.bin"), "private");
-        Path abandonedScratch = Files.createDirectory(scratchRoot.resolve("task-rollback-restart"));
+        Path abandonedScratch = Files.createDirectory(scratchRoot.resolve("task-disabled-renderer-restart"));
         Files.writeString(abandonedScratch.resolve("render.bin"), "private");
         var restarted = files(root, new MiniappDemoFileRepository(jdbc), sessions, admission,
                 new DataSourceTransactionManager(dataSource));
@@ -149,7 +149,7 @@ public final class MiniappArchiveMysqlChecks {
         } finally {
             restarted.stop();
         }
-        System.out.println("ID_PHOTO_PRIVATE_CLEANUP_PASS observable_retry disabled_feature_restart rollback_restart");
+        System.out.println("ID_PHOTO_PRIVATE_CLEANUP_PASS observable_retry disabled_feature_restart");
     }
 
     private static Set<PosixFilePermission> ownerOnly() {
