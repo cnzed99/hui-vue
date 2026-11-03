@@ -6,14 +6,19 @@ const entries = [
   { id: 'vehicle', label: '车辆行驶证', note: '', description: '为您的车辆制作证件照', icon: '车', preview: false }
 ]
 function goBack() { if (getCurrentPages().length > 1) { uni.navigateBack(); return } uni.reLaunch({ url: '/pages/home/index' }) }
-function openEntry(id: string, label: string) {
-  if (id === 'normal') { uni.navigateTo({ url: '/pages/id-photo-sizes/index' }); return }
-  uni.showToast({ title: `${label}待继续观察`, icon: 'none' })
+const routes: Record<string, string> = {
+  smart: '/pages/id-photo-smart/index',
+  normal: '/pages/id-photo-sizes/index',
+  marriage: '/pages/id-photo-marriage/index',
+  vehicle: '/pages/id-photo-vehicle/index'
+}
+function openEntry(id: string) {
+  if (routes[id]) uni.navigateTo({ url: routes[id] })
 }
 </script>
 
 <template><view class="page"><view class="header"><view class="status-space" /><view class="title-row"><text class="back" @click="goBack">‹</text><text>证件照</text><text class="spacer" /></view></view>
-  <view class="list"><view v-for="item in entries" :key="item.id" class="card" @click="openEntry(item.id,item.label)"><view class="row"><view class="icon">{{ item.icon }}</view><view class="copy"><view><text class="name">{{ item.label }}</text><text class="note">{{ item.note }}</text></view><text class="description">{{ item.description }}</text></view><text class="arrow">›</text></view><view v-if="item.preview" class="preview"><view v-for="n in item.id==='smart'?4:3" :key="n" class="portrait" :class="`p-${n}`"><view class="head" /><view class="body" /></view><view v-if="item.id==='normal'" class="layout">▦<text>排版</text></view></view></view></view>
+  <view class="list"><view v-for="item in entries" :key="item.id" class="card" @click="openEntry(item.id)"><view class="row"><view class="icon">{{ item.icon }}</view><view class="copy"><view><text class="name">{{ item.label }}</text><text class="note">{{ item.note }}</text></view><text class="description">{{ item.description }}</text></view><text class="arrow">›</text></view><view v-if="item.preview" class="preview"><view v-for="n in item.id==='smart'?4:3" :key="n" class="portrait" :class="`p-${n}`"><view class="head" /><view class="body" /></view><view v-if="item.id==='normal'" class="layout">▦<text>排版</text></view></view></view></view>
   <view class="boundary">示例图形为本地 CSS 占位，不复制原小程序人物照片。</view>
 </view></template>
 

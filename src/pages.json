@@ -167,6 +167,18 @@
       }
     },
     {
+      "path": "pages/id-photo-smart/index",
+      "style": { "navigationStyle": "custom" }
+    },
+    {
+      "path": "pages/id-photo-marriage/index",
+      "style": { "navigationStyle": "custom" }
+    },
+    {
+      "path": "pages/id-photo-vehicle/index",
+      "style": { "navigationStyle": "custom" }
+    },
+    {
       "path": "pages/id-photo-upload/index",
       "style": {
         "navigationStyle": "custom"
