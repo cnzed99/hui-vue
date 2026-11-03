@@ -8,14 +8,50 @@ if (!profilePath) throw new Error('SMOKE_PROFILE is required')
 ;(async () => {
   let context
   const requests = []
+  const blockedRequests = []
   let result
   try {
     context = await chromium.launchPersistentContext(profilePath, {
       executablePath: browserPath,
       headless: true,
-      viewport: { width: 414, height: 896 }
+      viewport: { width: 414, height: 896 },
+      serviceWorkers: 'block'
     })
     context.on('request', request => requests.push({ method: request.method(), url: request.url() }))
+    await context.route('**/*', async route => {
+      const request = route.request()
+      const url = new URL(request.url())
+      const isHttp = url.protocol === 'http:' || url.protocol === 'https:'
+      const isSameOrigin = url.origin === 'http://127.0.0.1:18080'
+      if (request.method() !== 'GET' || (isHttp && !isSameOrigin)) {
+        blockedRequests.push({ method: request.method(), url: request.url() })
+        await route.abort('blockedbyclient')
+        return
+      }
+      await route.continue()
+    })
+    const externalProbePage = await context.newPage()
+    await externalProbePage.goto('https://external-boundary.invalid/tutorial-probe').catch(() => undefined)
+    await externalProbePage.close()
+    const postProbePage = await context.newPage()
+    await postProbePage.setContent('<!doctype html><title>blocked-post-probe</title>')
+    const postProbeResult = await postProbePage.evaluate(async () => {
+      try {
+        await fetch('http://127.0.0.1:18080/miniapp/__blocked_probe__', { method: 'POST' })
+        return 'unexpected-success'
+      } catch {
+        return 'blocked'
+      }
+    })
+    await postProbePage.close()
+    assert.equal(postProbeResult, 'blocked')
+    assert.deepEqual(blockedRequests.map(request => request.method), ['GET', 'POST'])
+    assert.deepEqual(blockedRequests.map(request => request.url), [
+      'https://external-boundary.invalid/tutorial-probe',
+      'http://127.0.0.1:18080/miniapp/__blocked_probe__'
+    ])
+    blockedRequests.length = 0
+    requests.length = 0
     const page = context.pages()[0]
     page.setDefaultTimeout(10000)
     await page.goto('http://127.0.0.1:18080/miniapp/#/', { waitUntil: 'networkidle' })
@@ -106,7 +142,8 @@ if (!profilePath) throw new Error('SMOKE_PROFILE is required')
   assert.deepEqual(nonGet, [])
   assert.deepEqual(externalHttpRequests, [])
   assert.deepEqual(originalRequests, [])
-  console.log(JSON.stringify({ result: 'PASS', ...result, nonGet: 0, externalHttpRequests: 0, originalRequests: 0 }))
+  assert.deepEqual(blockedRequests, [])
+  console.log(JSON.stringify({ result: 'PASS', ...result, nonGet: 0, externalHttpRequests: 0, originalRequests: 0, blockedRequests: 0 }))
 })().catch(error => {
   console.error(error)
   process.exitCode = 1
