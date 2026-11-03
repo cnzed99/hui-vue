@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount } from 'vue'
+import { computed, onBeforeUnmount, ref } from 'vue'
 
 const props = defineProps<{ mode: 'smart' | 'marriage' | 'vehicle' }>()
 const titles = { smart: '智能证件照', marriage: '上传结婚照', vehicle: '行驶证制作' }
@@ -8,6 +8,14 @@ const sizes = [
   ['计算机等级', '33×48'], ['大一寸', '33×48'], ['社保证', '30×40'],
   ['小二寸', '35×45'], ['小一寸', '22×32'], ['简历照片', '25×35']
 ].map(([label, size]) => ({ label, size }))
+const search = ref('')
+const visibleSizes = computed(() => {
+  const query = search.value.trim().toLowerCase().replace(/x/g, '×').replace(/\s+/g, '')
+  return sizes.filter(item => item.label.includes(query) || (item.size + 'mm').includes(query))
+})
+const customOpen = ref(false)
+const width = ref('')
+const height = ref('')
 const backgrounds = [
   { label: '原图', color: '#fff' }, { label: '红色一', color: '#f34e59' },
   { label: '红色二', color: '#db293b' }, { label: '红色三', color: '#b92233' }
@@ -19,10 +27,26 @@ const vehicleTips = [
 ]
 
 function goBack() {
+  if (customOpen.value) { closeCustom(); return }
   if (getCurrentPages().length > 1) uni.navigateBack()
   else uni.reLaunch({ url: '/pages/id-photo/index' })
 }
 function explain(action: string) { uni.showToast({ title: action + '尚未接入', icon: 'none' }) }
+function closeCustom() {
+  customOpen.value = false
+  width.value = ''
+  height.value = ''
+}
+function confirmCustom() {
+  const valid = (value: string) => /^\d+(\.\d+)?$/.test(value) && Number(value) > 0 && Number(value) <= 100
+  if (!valid(width.value) || !valid(height.value)) {
+    uni.showToast({ title: '宽和高须大于0且不超过100mm', icon: 'none' })
+    return
+  }
+  closeCustom()
+  explain('智能证件照制作')
+}
+function openGuide() { uni.navigateTo({ url: '/pages/id-photo-guide/index' }) }
 onBeforeUnmount(() => uni.hideToast())
 </script>
 
@@ -37,18 +61,38 @@ onBeforeUnmount(() => uni.hideToast())
       </view>
     </view>
     <view v-if="props.mode === 'smart'" class="content">
-      <button class="search" @click="explain('规格搜索')">⌕ 搜索证件照规格</button>
+      <view class="search">
+        <input v-model="search" placeholder="搜索证件照规格" aria-label="搜索证件照规格" maxlength="32" />
+        <button v-if="search" class="clear-search" @click="search = ''">清空</button>
+      </view>
       <view class="tabs">
         <button class="tab active" @click="explain('热门规格')">热门规格</button>
-        <button class="tab" @click="explain('自定义规格')">自定义规格</button>
-        <button class="tab" @click="explain('操作指南')">操作指南</button>
+        <button class="tab" @click="customOpen = true">自定义规格</button>
+        <button class="tab" @click="openGuide">操作指南</button>
       </view>
       <view class="sizes">
-        <button v-for="item in sizes" :key="item.label" class="size" @click="explain('智能证件照制作')">
+        <button v-for="item in visibleSizes" :key="item.label" class="size" @click="explain('智能证件照制作')">
           <text>{{ item.label }}</text><text class="dimension">{{ item.size }}mm</text>
         </button>
       </view>
-      <text class="boundary">当前可查看常用规格。搜索、自定义规格和证件照制作暂未接入。</text>
+      <text v-if="!visibleSizes.length" class="boundary">没有匹配的规格</text>
+      <text class="boundary">规格搜索仅匹配此页展示的九种规格，证件照制作暂未接入。</text>
+      <view v-if="customOpen" class="custom-mask" @click="closeCustom">
+        <view class="custom-panel" @click.stop>
+          <view class="custom-heading">
+            <text>自定义规格</text>
+            <button class="close-custom" @click="closeCustom">关闭</button>
+          </view>
+          <text class="custom-note">最大不能超过100mm×100mm</text>
+          <view class="custom-fields">
+            <view class="custom-field"><text>宽</text><input v-model="width" type="digit" placeholder="宽" aria-label="宽" /><text>毫米(mm)</text></view>
+            <view class="custom-field"><text>高</text><input v-model="height" type="digit" placeholder="高" aria-label="高" /><text>毫米(mm)</text></view>
+          </view>
+          <view class="custom-actions">
+            <button @click="closeCustom">取消</button><button class="confirm-custom" @click="confirmCustom">确定</button>
+          </view>
+        </view>
+      </view>
     </view>
     <template v-else>
       <view v-if="props.mode === 'marriage'" class="content">
@@ -98,7 +142,19 @@ onBeforeUnmount(() => uni.hideToast())
 .back { margin: 0; padding: 0; background: transparent; color: #fff; font-size: 54rpx; line-height: 55rpx; }
 button::after { border: 0; }
 .content { padding: 32rpx 28rpx; }
-.search { padding: 0 28rpx; border-radius: 44rpx; background: #f3f3f3; color: #696969; text-align: left; font-size: 26rpx; }
+.search { display: flex; align-items: center; min-height: 72rpx; padding: 0 28rpx; border-radius: 44rpx; background: #f3f3f3; color: #333; font-size: 26rpx; }
+.search input { flex: 1; min-width: 0; }
+.clear-search, .close-custom { margin: 0; padding: 0 10rpx; background: transparent; color: #80501f; font-size: 23rpx; }
+.custom-mask { position: fixed; z-index: 60; inset: 0; display: flex; align-items: flex-end; background: rgba(0, 0, 0, .42); }
+.custom-panel { box-sizing: border-box; width: 100%; padding: 28rpx 28rpx calc(24rpx + env(safe-area-inset-bottom)); border-radius: 28rpx 28rpx 0 0; background: #fff; }
+.custom-heading { display: flex; justify-content: space-between; align-items: center; font-size: 32rpx; font-weight: 650; }
+.custom-note { display: block; margin-top: 14rpx; color: #76634f; font-size: 25rpx; }
+.custom-fields { margin: 22rpx 0; }
+.custom-field { display: flex; align-items: center; gap: 18rpx; min-height: 72rpx; margin-bottom: 10rpx; padding: 0 18rpx; border-radius: 12rpx; background: #f6f6f6; font-size: 25rpx; }
+.custom-field input { min-width: 0; flex: 1; }
+.custom-actions { display: flex; gap: 16rpx; }
+.custom-actions button { width: 50%; border-radius: 44rpx; font-size: 28rpx; }
+.confirm-custom { background: #ff9f3d; color: #302318; }
 .tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12rpx; margin: 26rpx 0; }
 .tab { width: 100%; padding: 0 8rpx; background: #f8f8f8; color: #333; font-size: 24rpx; }
 .tab.active { background: #fff2df; color: #9b4c0b; }

@@ -171,6 +171,10 @@
       "style": { "navigationStyle": "custom" }
     },
     {
+      "path": "pages/id-photo-guide/index",
+      "style": { "navigationStyle": "custom" }
+    },
+    {
       "path": "pages/id-photo-marriage/index",
       "style": { "navigationStyle": "custom" }
     },
