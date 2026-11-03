@@ -24,4 +24,9 @@ button {
 button::after {
   border: 0;
 }
+
+body::after {
+  animation: none !important;
+  background-image: none !important;
+}
 </style>
