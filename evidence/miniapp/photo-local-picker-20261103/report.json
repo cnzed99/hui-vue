@@ -1,0 +1,39 @@
+{
+  "result": "PASS",
+  "scope": "H5 development local single-photo picker and preview",
+  "candidateCommit": "1f8f7eda96612bf0db7c3a3848f6467c637bd9fc",
+  "release": "/var/www/print-system/releases/miniapp-photo-local-picker-20261103T005402Z-1f8f7ed",
+  "indexSha256": "26550bf307ff714614ecf7e6d06f67270fd15c1d9412f829c15f00a5bc5ad5f4",
+  "entry": "VERIFIED_FILECHOOSER",
+  "selected": 1,
+  "preview": {
+    "visible": true,
+    "decoded": true,
+    "naturalWidth": 1,
+    "naturalHeight": 1
+  },
+  "nonGetRequests": 0,
+  "businessApiRequests": 0,
+  "processesRemaining": 0,
+  "services": {
+    "mysql": "active",
+    "redis-server": "active",
+    "nginx": "active",
+    "print-backend.service": "active"
+  },
+  "httpStatus": 200,
+  "review": {
+    "role": "astra_reviewer",
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "conclusion": "PASS"
+  },
+  "notRun": [
+    "WeChat DevTools",
+    "WeChat real device",
+    "30-photo UI exercise",
+    "photo-paper layout",
+    "authoritative photo pricing",
+    "server upload and print loop"
+  ]
+}
