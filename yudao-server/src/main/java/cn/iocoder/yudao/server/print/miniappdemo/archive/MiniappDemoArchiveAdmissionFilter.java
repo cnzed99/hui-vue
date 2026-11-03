@@ -6,6 +6,7 @@ import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoSessionException;
 import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoSessionService;
 import cn.iocoder.yudao.server.print.miniappdemo.file.MiniappDemoFileProperties;
 import cn.iocoder.yudao.server.print.miniappdemo.file.MiniappDemoFileService;
+import jakarta.annotation.PreDestroy;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.TimeUnit;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE + 20)
@@ -39,6 +41,7 @@ public final class MiniappDemoArchiveAdmissionFilter extends OncePerRequestFilte
     private final MiniappDemoFileService files;
     private final Semaphore requests = new Semaphore(2);
     private final Set<Owner> selections = new HashSet<>();
+    private boolean closing;
 
     public MiniappDemoArchiveAdmissionFilter(WebProperties webProperties, MiniappDemoSessionService sessions,
             MiniappDemoFileProperties properties, MiniappDemoFileService files) {
@@ -51,12 +54,16 @@ public final class MiniappDemoArchiveAdmissionFilter extends OncePerRequestFilte
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String route = request.getContextPath() + base;
-        return !request.getRequestURI().equals(route + INSPECT) && !request.getRequestURI().equals(route + SELECT);
+        return !matches(request.getRequestURI(), route) && !matches(request.getServletPath(), base);
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
+        if (!matches(request.getRequestURI(), request.getContextPath() + base)) {
+            reject(response, 404, 1927002);
+            return;
+        }
         if (!properties.isEnabled()) {
             reject(response, 404, 1927001);
             return;
@@ -78,7 +85,7 @@ public final class MiniappDemoArchiveAdmissionFilter extends OncePerRequestFilte
             reject(response, 413, 1927003);
             return;
         }
-        if (!requests.tryAcquire()) {
+        if (!tryAdmit()) {
             reject(response, 429, 1927004);
             return;
         }
@@ -120,6 +127,27 @@ public final class MiniappDemoArchiveAdmissionFilter extends OncePerRequestFilte
             }
             requests.release();
         }
+    }
+
+    private static boolean matches(String path, String prefix) {
+        return (prefix + INSPECT).equals(path) || (prefix + SELECT).equals(path);
+    }
+
+    private synchronized boolean tryAdmit() {
+        return !closing && requests.tryAcquire();
+    }
+
+    @PreDestroy
+    public void drain() {
+        synchronized (this) {
+            closing = true;
+        }
+        try {
+            if (requests.tryAcquire(2, 5, TimeUnit.SECONDS)) return;
+        } catch (InterruptedException failure) {
+            Thread.currentThread().interrupt();
+        }
+        files.retainStorageLockUntilProcessExit();
     }
 
     private static boolean validContentType(String value) {
