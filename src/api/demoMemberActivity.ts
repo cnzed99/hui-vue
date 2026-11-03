@@ -29,7 +29,8 @@ export async function loadDemoMemberActivityPage(session: DemoSession, pageNo: n
   const paid = orders.page.list.filter(order => order.paymentState === 'SUCCEEDED')
   const grouped = await Promise.all(paid.map(async order => {
     const payment = await getDemoPayment(session, order.id)
-    if (!payment || payment.orderId !== order.id || payment.amount !== order.totalAmount) return null
+    if (!payment || payment.orderId !== order.id || payment.amount !== order.totalAmount
+      || !Number.isSafeInteger(payment.createdAtMs) || payment.createdAtMs <= 0) return null
     const rows: DemoMemberActivity[] = [{
       id: `payment:${payment.id}`,
       orderId: order.id,
@@ -41,7 +42,9 @@ export async function loadDemoMemberActivityPage(session: DemoSession, pageNo: n
     if (order.refundState === 'SUCCEEDED') {
       const cancellation = await getDemoCancellation(session, order.id)
       const refund = cancellation.kind === 'ok' ? cancellation.value.cancellation?.refundReceipt : null
-      if (!refund || refund.orderId !== order.id || refund.amount !== order.totalAmount) return null
+      if (!refund || refund.orderId !== order.id || refund.amount !== order.totalAmount
+        || refund.paymentReceiptId !== payment.id
+        || !Number.isSafeInteger(refund.createdAtMs) || refund.createdAtMs <= 0) return null
       rows.push({
         id: `refund:${refund.id}`,
         orderId: order.id,

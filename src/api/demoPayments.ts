@@ -31,6 +31,7 @@ function parseEnvelope(value: unknown): DemoPayment | null {
     || typeof receipt.orderId !== 'string' || receipt.provider !== 'SIMULATED' || receipt.mode !== 'DEMO'
     || receipt.state !== 'SUCCEEDED' || receipt.simulation !== true || receipt.currency !== 'CNY'
     || typeof receipt.amount !== 'string' || !decimal.test(receipt.amount)
+    || typeof receipt.createdAtMs !== 'number' || !Number.isSafeInteger(receipt.createdAtMs) || receipt.createdAtMs <= 0
     || receipt.debit?.side !== 'DEBIT' || receipt.debit?.account !== 'DEMO_CUSTOMER'
     || receipt.credit?.side !== 'CREDIT' || receipt.credit?.account !== 'DEMO_STORE'
     || receipt.debit.amount !== receipt.amount || receipt.credit.amount !== receipt.amount

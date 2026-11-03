@@ -17,7 +17,7 @@ let alive = false
 
 const empty = computed(() => state.value === 'ready' && activities.value.length === 0 && !hasMore.value)
 const footerText = computed(() => loadingMore.value ? '正在加载…'
-  : hasMore.value ? '继续加载较早记录'
+  : hasMore.value ? '加载更多订单记录'
   : activities.value.length > 0 ? '已显示全部模拟收支' : '')
 
 onShow(() => { alive = true; void refresh() })
@@ -90,7 +90,7 @@ async function loadNext() {
   if (!current(request, context, confirmed)) { sessionChanged(request); return }
   if (result.kind !== 'ok') {
     loadingMore.value = false
-    uni.showToast({ title: '较早记录暂时无法加载', icon: 'none' })
+    uni.showToast({ title: '更多订单记录暂时无法加载', icon: 'none' })
     return
   }
   mergeUnique(result.page.list, false)
