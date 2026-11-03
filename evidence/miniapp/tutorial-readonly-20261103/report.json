@@ -1,0 +1,29 @@
+{
+  "result": "PASS",
+  "scope": "H5 read-only tutorial list and historical photo-paper guide",
+  "candidateCommit": "167905a27ece7d1a46be8a50425e7781931a4a62",
+  "release": "/var/www/print-system/releases/miniapp-tutorial-readonly-20261103T010924Z-167905a",
+  "indexSha256": "c460567036fbaffc59d63f6d2f9ccecfb3391daf55b02a2292c27d997c12a548",
+  "pages": 2,
+  "articles": 7,
+  "photoPaperSteps": 4,
+  "nonGetRequests": 0,
+  "originalSystemRequests": 0,
+  "processesRemaining": 0,
+  "services": {
+    "mysql": "active",
+    "redis-server": "active",
+    "nginx": "active",
+    "print-backend.service": "active"
+  },
+  "httpStatus": 200,
+  "priceBoundary": "Observed current price table is documentation-only and was not imported into pricing rules or storage.",
+  "notRun": [
+    "WeChat DevTools",
+    "WeChat real device",
+    "remaining six tutorial article details",
+    "photo-paper layout",
+    "authoritative photo pricing",
+    "photo upload and print loop"
+  ]
+}
