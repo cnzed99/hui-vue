@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "scope": "member card simulated activity using existing scoped reads",
+  "sourceCommit": "e9368feb06130b9398cd8cd941556dcedad339d4",
+  "runId": "20261103T020920230Z-d67cbb83",
+  "startedAt": "2026-11-03T02:09:20.231Z",
+  "checks": [
+    {
+      "name": "deployment_matches_reviewed_candidate",
+      "passed": true,
+      "detail": {
+        "activeRelease": "/var/www/print-system/releases/miniapp-member-activity-fix-20261103T0209Z-e9368fe",
+        "indexSha256": "2db15f3aade330c9151a05b01f2f2e894ac9a64cf473785e5de69f0b57c5f073",
+        "expectedRelease": "/var/www/print-system/releases/miniapp-member-activity-fix-20261103T0209Z-e9368fe",
+        "expectedIndexSha256": "2db15f3aade330c9151a05b01f2f2e894ac9a64cf473785e5de69f0b57c5f073"
+      }
+    },
+    {
+      "name": "fixture_file_ready",
+      "passed": true
+    },
+    {
+      "name": "fixture_has_payment_and_refund",
+      "passed": true
+    },
+    {
+      "name": "member_card_does_not_invent_balance",
+      "passed": true
+    },
+    {
+      "name": "activity_shows_verified_payment_and_refund",
+      "passed": true
+    },
+    {
+      "name": "activity_preserves_money_boundary",
+      "passed": true
+    },
+    {
+      "name": "other_principal_has_empty_activity",
+      "passed": true
+    },
+    {
+      "name": "receipt_failure_is_not_rendered_as_empty_or_zero",
+      "passed": true
+    },
+    {
+      "name": "malformed_payment_time_fails_closed",
+      "passed": true
+    },
+    {
+      "name": "mismatched_refund_receipt_fails_closed",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "paid-and-refunded",
+      "path": "evidence/miniapp/member-activity-20261103T020920230Z-d67cbb83/paid-and-refunded.png",
+      "sha256": "ff5c60df1e1afd8815426692da8ecd91363c4348f692a122c15d7242176aae95"
+    }
+  ],
+  "boundaries": {
+    "balance": "NOT_IMPLEMENTED",
+    "memberLevel": "NOT_IMPLEMENTED",
+    "discount": "NOT_IMPLEMENTED",
+    "realPayment": "NOT_RUN",
+    "realRefund": "NOT_RUN",
+    "wechatDevice": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "deployment": {
+    "activeRelease": "/var/www/print-system/releases/miniapp-member-activity-fix-20261103T0209Z-e9368fe",
+    "indexSha256": "2db15f3aade330c9151a05b01f2f2e894ac9a64cf473785e5de69f0b57c5f073",
+    "expectedRelease": "/var/www/print-system/releases/miniapp-member-activity-fix-20261103T0209Z-e9368fe",
+    "expectedIndexSha256": "2db15f3aade330c9151a05b01f2f2e894ac9a64cf473785e5de69f0b57c5f073"
+  },
+  "status": "PASS",
+  "fixture": {
+    "orderId": "98fdf189-8da7-4707-9328-fac6946feeee",
+    "retained": true,
+    "reason": "Immutable simulated payment and refund retained as isolated development evidence."
+  },
+  "finishedAt": "2026-11-03T02:09:26.514Z",
+  "passed": 10,
+  "failed": 0
+}

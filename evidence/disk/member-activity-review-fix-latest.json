@@ -1,0 +1,11 @@
+{
+  "label": "member-activity-review-fix",
+  "finishedUtc": "2026-11-03T02:08:33.053045+00:00",
+  "freeBeforeBytes": 40856711168,
+  "freeAfterBytes": 40856502272,
+  "minimumFreeBytes": 10737418240,
+  "buildExitCode": 0,
+  "recoveryExitCode": 0,
+  "backendHttpHealthy": true,
+  "scratchRemoved": true
+}
