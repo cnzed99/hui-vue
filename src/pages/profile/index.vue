@@ -6,6 +6,8 @@ function showReserved(label: string) {
   uni.showToast({ title: `${label}接口待接入`, icon: 'none' })
 }
 
+function openSettings() { uni.navigateTo({ url: '/pages/account-settings/index' }) }
+
 function openMenu(label: string) {
   if (label === '我的订单') {
     uni.navigateTo({ url: '/pages/orders/index' })
@@ -36,7 +38,7 @@ function openMenu(label: string) {
       <view class="identity-row">
         <view class="avatar"><text>●</text></view>
         <view class="identity-copy"><text class="nickname">微信用户</text><text class="user-id">用户ID：MYT_******</text></view>
-        <view class="settings" @click="showReserved('设置')">⚙</view>
+        <view class="settings" @click="openSettings">⚙</view>
       </view>
     </view>
 
