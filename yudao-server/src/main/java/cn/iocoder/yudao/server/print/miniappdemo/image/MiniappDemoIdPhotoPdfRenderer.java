@@ -27,6 +27,10 @@ final class MiniappDemoIdPhotoPdfRenderer {
     private static final double PAGE_WIDTH_MM = 152;
     private static final double PAGE_HEIGHT_MM = 102;
     private static final double POINTS_PER_MM = 72.0 / 25.4;
+    static final int MAX_WIDTH = 2400;
+    static final int MAX_HEIGHT = 3394;
+    static final long MAX_PIXELS = (long) MAX_WIDTH * MAX_HEIGHT;
+    static final String INPUT_LIMIT_MESSAGE = "Photo dimensions exceed the normalized RGB limit";
 
     enum Specification {
         ONE_INCH(25, 35, 5, 2, false),
@@ -56,6 +60,11 @@ final class MiniappDemoIdPhotoPdfRenderer {
     static byte[] render(BufferedImage image, Specification specification) throws IOException {
         Objects.requireNonNull(image, "image");
         Objects.requireNonNull(specification, "specification");
+        int width = image.getWidth();
+        int height = image.getHeight();
+        if (width < 1 || height < 1 || width > MAX_WIDTH || height > MAX_HEIGHT || (long) width * height > MAX_PIXELS) {
+            throw new IllegalArgumentException(INPUT_LIMIT_MESSAGE);
+        }
         if (image.getColorModel().hasAlpha() || image.getColorModel().getColorSpace().getType() != ColorSpace.TYPE_RGB) {
             throw new IllegalArgumentException("An opaque RGB photo is required");
         }
