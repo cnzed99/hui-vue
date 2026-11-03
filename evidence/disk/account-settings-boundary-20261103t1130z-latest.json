@@ -1,0 +1,11 @@
+{
+  "label": "account-settings-boundary-20261103t1130z",
+  "finishedUtc": "2026-11-03T10:37:41.131690+00:00",
+  "freeBeforeBytes": 40912248832,
+  "freeAfterBytes": 40911994880,
+  "minimumFreeBytes": 10737418240,
+  "buildExitCode": 0,
+  "recoveryExitCode": 0,
+  "backendHttpHealthy": true,
+  "scratchRemoved": true
+}

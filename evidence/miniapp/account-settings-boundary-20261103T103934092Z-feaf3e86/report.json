@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "scope": "account settings observed-form privacy-closed boundary",
+  "sourceCommit": "51de85faffc48d757f090e3d86009d3873bcd4f1",
+  "runId": "20261103T103934092Z-feaf3e86",
+  "startedAt": "2026-11-03T10:39:34.094Z",
+  "checks": [
+    {
+      "name": "expected_deployment_declared",
+      "passed": true
+    },
+    {
+      "name": "deployment_matches_candidate",
+      "passed": true
+    },
+    {
+      "name": "profile_routes_to_account_settings",
+      "passed": true
+    },
+    {
+      "name": "observed_fields_render",
+      "passed": true
+    },
+    {
+      "name": "all_personal_inputs_disabled",
+      "passed": true
+    },
+    {
+      "name": "no_avatar_file_input",
+      "passed": true
+    },
+    {
+      "name": "privacy_boundary_is_explicit",
+      "passed": true
+    },
+    {
+      "name": "save_is_closed",
+      "passed": true
+    },
+    {
+      "name": "no_writes_or_external_requests",
+      "passed": true
+    }
+  ],
+  "deployment": {
+    "expectedRelease": "/var/www/print-system/releases/miniapp-account-settings-boundary-20261103t1039z-51de85f",
+    "expectedIndexSha256": "366f3e2aa0ccb5f81f657e2c419abf9e27f7b7a6ec02b707e0596c8774b2111e",
+    "activeRelease": "/var/www/print-system/releases/miniapp-account-settings-boundary-20261103t1039z-51de85f",
+    "indexSha256": "366f3e2aa0ccb5f81f657e2c419abf9e27f7b7a6ec02b707e0596c8774b2111e"
+  },
+  "boundaries": {
+    "accountDataRead": "NOT_RUN",
+    "accountDataWrite": "NOT_RUN",
+    "avatarUpload": "NOT_RUN",
+    "phoneAuthorization": "NOT_RUN",
+    "originalSystemWrites": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "screenshot": "account-settings-boundary.png",
+  "status": "PASS",
+  "finishedAt": "2026-11-03T10:39:35.045Z",
+  "passed": 9,
+  "failed": 0,
+  "writes": [],
+  "externalRequests": []
+}
