@@ -4,7 +4,7 @@
 
 ## 不变量
 
-- 证件照文件只进入共用文件存储根目录下的 `id-photo-multipart/task-*` 与 `id-photo-scratch/task-*` 私有临时目录。
+- 应用侧私有原图与渲染中间文件只进入共用文件存储根目录下的 `id-photo-multipart/task-*` 与 `id-photo-scratch/task-*`；生成后的 PDF 进入共用 `objects`。Nginx 准入前会把请求体缓冲到独立的 `print-miniapp-id-photo-body` 目录。
 - 正常运行、迁移、失败回滚和旧版恢复均不得遗留原始照片或中间 PDF。
 - 清理程序必须取得文件服务使用的同一 `.worker.lock` POSIX 记录锁；锁被占用时退出，不得强删。
 - 清理只接受真实目录，拒绝符号链接和特殊文件；只删除两个受管目录直属的 `task-*` 子树。
@@ -25,7 +25,7 @@
 
 1. 停止入口流量，并由 systemd 停止候选服务整个 control-group；确认父 JVM、渲染/PDF 子 JVM及其他存储写入者全部退出。
 2. 执行 `python3 ops/runtime/cleanup-id-photo-private-tasks.py <文件存储根目录>`。
-3. 只接受 `ID_PHOTO_PRIVATE_ROLLBACK_CLEANUP_PASS`；若返回锁占用、非安全目标或其他错误，保持停机并人工核查，不启动旧 JAR。
+3. 只接受 `ID_PHOTO_PRIVATE_ROLLBACK_CLEANUP_PASS`；同时在 Nginx 已停止且确认无写入者后核对专用请求体缓冲目录为空。锁占用、清理失败、非安全目标或代理缓冲残留未安全处置时，保持入口关闭，不启动旧 JAR。
 4. 原子恢复旧后端和旧 H5 符号链接，恢复变更前 Nginx site/include；若本批前不存在 `70-id-photo.conf` 则移除本批文件，否则恢复其原始备份。
 5. 执行 `systemctl daemon-reload` 与 `nginx -t`；任一失败均保持入口关闭。
 6. 启动旧 JAR并等待 catalog 合同连续两次成功；旧 JAR遇到证件照来源行时必须安全拒绝，不能创建报价。随后验证旧 H5 首页哈希与备份一致。
