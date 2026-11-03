@@ -1,0 +1,11 @@
+{
+  "label": "scan-file-copy-fix",
+  "finishedUtc": "2026-11-03T01:55:19.387108+00:00",
+  "freeBeforeBytes": 40863678464,
+  "freeAfterBytes": 40863461376,
+  "minimumFreeBytes": 10737418240,
+  "buildExitCode": 0,
+  "recoveryExitCode": 0,
+  "backendHttpHealthy": true,
+  "scratchRemoved": true
+}

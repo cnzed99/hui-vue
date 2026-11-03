@@ -103,6 +103,12 @@
 - 部署脚本持有与标准构建相同的全窗口锁，快照配置和链接后再切换；失败回滚必须核对旧配置哈希、旧链接、四服务 active 和健康 JSON，无法证明恢复时报告 `ROLLBACK_FAILED`。
 - `evidence/miniapp/m7-image-full-loop-20261102.json` 证明近像素上限 JPEG 经边缘入口到 READY，再复用既有报价、订单、模拟支付、后台任务、模拟回执和结果查询；云端 H5 浏览器 7/7 验证选择预览、上传、READY 和进入共用设置。微信真机、真实支付/退款、真实打印机和外部验收仍为 `NOT_RUN`。
 
+## M7A 文件复印入口复用边界
+
+- “扫描复印 → 文件复印”不新增服务端格式或计价类型。小程序只为来源选择保存 `document-copy` 用途，仍调用现有 `/app-api/print/miniapp/demo/image-files`，在服务端确认单页 `READY` 后进入同一打印设置和订单链。
+- 当前开发候选准确范围为单张文件照片转 A4 纵向 PDF；证件组合、透视矫正、自动裁边、去灰底/阴影和 OCR 均未实现，页面明确提示，不以普通图片能力替代这些业务。
+- 最终提交 `1be1c6d980672afd584664b461c07aa83d137141` 只改来源页、共用上传页上下文及原图片入口的失败清理；临时选择通过一次性 handoff 传递，接收即清，导航失败也清理。M7 后端、报价、订单、支付、任务和回执源码未变。运行证据 `evidence/miniapp/scan-file-copy-20261103T015633174Z-2b9bedae/report.json` 先精确核对活动发布路径与入口摘要，再覆盖真实 H5 filechooser、冷启动拒绝旧图、上传、单页 READY 与进入共用设置。
+
 ## M8 取消、模拟退款与人工核实边界
 
 - `GET /app-api/print/miniapp/demo/cancellation` 始终保留本人只读恢复；`POST /app-api/print/miniapp/demo/cancellations` 由独立功能开关控制，要求有效演示会话、幂等键、严格订单版本和当前主体作用域。

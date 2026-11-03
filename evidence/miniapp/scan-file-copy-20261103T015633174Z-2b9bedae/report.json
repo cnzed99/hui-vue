@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "scope": "scan file-copy H5 selection to shared print settings",
+  "sourceCommit": "1be1c6d980672afd584664b461c07aa83d137141",
+  "runId": "20261103T015633174Z-2b9bedae",
+  "startedAt": "2026-11-03T01:56:33.175Z",
+  "checks": [
+    {
+      "name": "deployment_matches_reviewed_candidate",
+      "passed": true,
+      "detail": {
+        "activeRelease": "/var/www/print-system/releases/miniapp-scan-file-copy-final-20261103T0210Z-1be1c6d",
+        "indexSha256": "a993fc4fc03ee92ce05df2d6e608fdbc8b3c812775eb214cab8be6128b084982",
+        "expectedRelease": "/var/www/print-system/releases/miniapp-scan-file-copy-final-20261103T0210Z-1be1c6d",
+        "expectedIndexSha256": "a993fc4fc03ee92ce05df2d6e608fdbc8b3c812775eb214cab8be6128b084982"
+      }
+    },
+    {
+      "name": "scan_directory_renders",
+      "passed": true
+    },
+    {
+      "name": "file_copy_source_sheet_matches_h5",
+      "passed": true
+    },
+    {
+      "name": "document_copy_context_survives_picker",
+      "passed": true
+    },
+    {
+      "name": "unsupported_processing_is_explicit",
+      "passed": true
+    },
+    {
+      "name": "selection_handoff_is_consumed_once",
+      "passed": true
+    },
+    {
+      "name": "ordinary_image_title_not_leaked_into_copy_flow",
+      "passed": true
+    },
+    {
+      "name": "image_upload_reaches_ready",
+      "passed": true
+    },
+    {
+      "name": "image_endpoint_used",
+      "passed": true
+    },
+    {
+      "name": "enters_shared_settings",
+      "passed": true
+    },
+    {
+      "name": "no_external_or_unexpected_writes",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "source-sheet",
+      "path": "evidence/miniapp/scan-file-copy-20261103T015633174Z-2b9bedae/source-sheet.png",
+      "sha256": "f8290147500a1b82299d981f5c4506f7f20cbbac87d2b849ac0a9ca01b278c89"
+    },
+    {
+      "name": "selected",
+      "path": "evidence/miniapp/scan-file-copy-20261103T015633174Z-2b9bedae/selected.png",
+      "sha256": "6b2917aee9077a01ba085d1897ee129b56f2f84ed50fd603856a3456f8ad1484"
+    },
+    {
+      "name": "shared-settings",
+      "path": "evidence/miniapp/scan-file-copy-20261103T015633174Z-2b9bedae/shared-settings.png",
+      "sha256": "62463045294e4132a657b6c90228651e55a05c39a2dd379eea3e59694be817e1"
+    }
+  ],
+  "boundaries": {
+    "originalSystemWrites": "NOT_RUN",
+    "certificateLayout": "NOT_RUN",
+    "autoCorrection": "NOT_RUN",
+    "downstreamOrderFlow": "REUSED_UNCHANGED_PREVIOUSLY_VERIFIED",
+    "realPayment": "NOT_RUN",
+    "realPrinter": "NOT_RUN",
+    "wechatDevice": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "deployment": {
+    "activeRelease": "/var/www/print-system/releases/miniapp-scan-file-copy-final-20261103T0210Z-1be1c6d",
+    "indexSha256": "a993fc4fc03ee92ce05df2d6e608fdbc8b3c812775eb214cab8be6128b084982",
+    "expectedRelease": "/var/www/print-system/releases/miniapp-scan-file-copy-final-20261103T0210Z-1be1c6d",
+    "expectedIndexSha256": "a993fc4fc03ee92ce05df2d6e608fdbc8b3c812775eb214cab8be6128b084982"
+  },
+  "status": "PASS",
+  "finishedAt": "2026-11-03T01:56:38.064Z",
+  "passed": 11,
+  "failed": 0,
+  "forbiddenRequests": []
+}
