@@ -16,13 +16,14 @@
 1. 停止入口流量并停止后端，确认没有文件任务进程。
 2. 备份数据库与当前 JAR，记录哈希；不修改备份。
 3. 执行增量迁移并核对列、约束和触发器。
-4. 启动候选 JAR，等待 `Started YudaoServerApplication`，再连续两次验证 catalog 合同。
-5. 验证证件照生成文件成功、证件照计价被应用层与数据库层同时拒绝。
-6. 恢复入口流量；持续观察错误率和私有临时目录。
+4. 安装 `ops/runtime/candidates/id-photo/70-id-photo.conf` 与精确 Nginx 路由，创建权限为 `www-data:www-data:700` 的独立请求体临时目录，并通过 `systemd-analyze verify`、`daemon-reload` 与 `nginx -t`。
+5. 启动候选 JAR，等待 `Started YudaoServerApplication`，再连续两次验证 catalog 合同。
+6. 验证证件照生成文件成功、证件照计价被应用层与数据库层同时拒绝。
+7. 发布对应小程序 H5 后恢复入口流量；持续观察错误率和私有临时目录。
 
 ## 失败回滚顺序
 
-1. 停止入口流量并停止候选后端；等待进程完全退出。
+1. 停止入口流量，并由 systemd 停止候选服务整个 control-group；确认父 JVM、渲染/PDF 子 JVM及其他存储写入者全部退出。
 2. 执行 `python3 ops/runtime/cleanup-id-photo-private-tasks.py <文件存储根目录>`。
 3. 只接受 `ID_PHOTO_PRIVATE_ROLLBACK_CLEANUP_PASS`；若返回锁占用、非安全目标或其他错误，保持停机并人工核查，不启动旧 JAR。
 4. 启动旧 JAR并等待 catalog 合同连续两次成功；旧 JAR遇到证件照来源行时必须安全拒绝，不能创建报价。
