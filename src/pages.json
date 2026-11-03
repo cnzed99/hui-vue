@@ -93,6 +93,12 @@
       }
     },
     {
+      "path": "pages/franchise/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/privacy/index",
       "style": {
         "navigationStyle": "custom"

@@ -16,6 +16,7 @@ function openMenu(label: string) {
     '代金红包': '/pages/vouchers/index',
     '我的文库': '/pages/my-library/index',
     '服务中心': '/pages/service-center/index',
+    '我要加盟': '/pages/franchise/index',
     '隐私协议': '/pages/privacy/index'
   }
   const route = routeByLabel[label]
