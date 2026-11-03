@@ -5,6 +5,7 @@ import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoIdentity;
 import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoProcessAdmission;
 import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoSessionException;
 import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoSessionRepository;
+import cn.iocoder.yudao.server.print.miniappdemo.archive.StrictZipPdf;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +31,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.Normalizer;
 import java.util.HexFormat;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Executors;
@@ -122,6 +125,19 @@ public class MiniappDemoFileService {
     }
 
     public MiniappDemoFileMetadata upload(MiniappDemoIdentity identity, MultipartFile file, String idempotencyKey) {
+        return upload(identity, file, idempotencyKey, null);
+    }
+
+    public MiniappDemoFileMetadata uploadFromArchive(MiniappDemoIdentity identity, MultipartFile file,
+            String idempotencyKey, String archiveSha256, int ordinal, long deadline) {
+        if (archiveSha256 == null || !archiveSha256.matches("[0-9a-f]{64}") || ordinal < 0 || ordinal >= 20) {
+            throw new MiniappDemoFileException(INVALID_INPUT);
+        }
+        return upload(identity, file, idempotencyKey, new ArchiveSource(archiveSha256, ordinal, deadline));
+    }
+
+    private MiniappDemoFileMetadata upload(MiniappDemoIdentity identity, MultipartFile file, String idempotencyKey,
+            ArchiveSource source) {
         requireEnabled();
         if (identity == null || file == null || file.isEmpty() || idempotencyKey == null
                 || !idempotencyKey.matches("[!-~]{1,128}")) throw new MiniappDemoFileException(INVALID_INPUT);
@@ -129,7 +145,7 @@ public class MiniappDemoFileService {
         if (!uploadSlots.tryAcquire()) throw new MiniappDemoFileException(QUEUE_FULL);
         try {
             synchronized (uploadMutex) {
-                return uploadSerialized(identity, file, idempotencyKey);
+                return uploadSerialized(identity, file, idempotencyKey, source);
             }
         } finally {
             uploadSlots.release();
@@ -152,20 +168,22 @@ public class MiniappDemoFileService {
         retainStorageLockUntilExit = true;
     }
 
-    private MiniappDemoFileMetadata uploadSerialized(MiniappDemoIdentity identity, MultipartFile file, String idempotencyKey) {
+    private MiniappDemoFileMetadata uploadSerialized(MiniappDemoIdentity identity, MultipartFile file, String idempotencyKey,
+            ArchiveSource source) {
         String keyDigest = digest(idempotencyKey.getBytes(StandardCharsets.UTF_8));
         Path temporary = null;
         Path finalPath = null;
         boolean inserted = false;
+        boolean attemptedCommit = false;
+        boolean commitUnknown = false;
         try {
+            if (source != null) StrictZipPdf.checkDeadline(source.deadline());
             requireActive(identity);
             var prior = repository.findIdempotent(identity, keyDigest);
             if (prior.isPresent()) {
                 Content content = copyAndDigest(file, null);
                 MiniappDemoFileRow old = prior.get();
-                if (!old.contentSha256().equals(content.sha256()) || old.sizeBytes() != content.size()) {
-                    throw new MiniappDemoFileException(IDEMPOTENCY_CONFLICT);
-                }
+                requireSameUpload(old, content, source);
                 requireActive(identity);
                 return metadata(expireIfNeeded(owned(old.id(), identity)));
             }
@@ -181,9 +199,12 @@ public class MiniappDemoFileService {
             temporary = Files.createTempFile(incoming, "upload-", ".part");
             Content content = copyAndDigest(file, temporary);
             String id = UUID.randomUUID().toString();
-            finalPath = objectPath(id);
-            Files.move(temporary, finalPath);
+            Path destination = objectPath(id);
+            Files.move(temporary, destination);
+            finalPath = destination;
             temporary = null;
+            if (source != null) StrictZipPdf.checkDeadline(source.deadline());
+            attemptedCommit = true;
             MiniappDemoFileRow row = transaction.execute(status -> {
                 var locked = sessions.lockIdentity(identity).orElseThrow(MiniappDemoFileService::sessionInvalid);
                 long committedAt = System.currentTimeMillis();
@@ -196,34 +217,45 @@ public class MiniappDemoFileService {
                 if (expiresAt <= committedAt) throw sessionInvalid();
                 MiniappDemoFileRow committed = new MiniappDemoFileRow(id, identity.tenantId(), identity.storeId(), identity.principalId(),
                         keyDigest, content.sha256(), displayName(file.getOriginalFilename()), content.size(), null,
-                        "UPLOADED", null, id, committedAt, committedAt, expiresAt, 0);
+                        "UPLOADED", null, id, committedAt, committedAt, expiresAt, 0,
+                        source == null ? null : source.sha256(), source == null ? null : source.ordinal());
                 repository.insert(committed);
                 return committed;
             });
             inserted = true;
             return metadata(row);
         } catch (DuplicateKeyException ex) {
-            removeTemporary(finalPath);
-            finalPath = null;
             MiniappDemoFileRow existing = repository.findIdempotent(identity, keyDigest)
                     .orElseThrow(() -> new MiniappDemoFileException(STORAGE_UNAVAILABLE));
             try {
                 Content content = copyAndDigest(file, null);
-                if (!existing.contentSha256().equals(content.sha256()) || existing.sizeBytes() != content.size()) {
-                    throw new MiniappDemoFileException(IDEMPOTENCY_CONFLICT);
-                }
+                requireSameUpload(existing, content, source);
                 requireActive(identity);
-                return metadata(existing);
+                return metadata(expireIfNeeded(owned(existing.id(), identity)));
             } catch (IOException failure) {
                 throw new MiniappDemoFileException(STORAGE_UNAVAILABLE);
             }
-        } catch (IOException | DataAccessException ex) {
+        } catch (DataAccessException | TransactionException ex) {
+            commitUnknown = attemptedCommit;
+            throw new MiniappDemoFileException(STORAGE_UNAVAILABLE);
+        } catch (IOException ex) {
             throw new MiniappDemoFileException(STORAGE_UNAVAILABLE);
         } finally {
             removeTemporary(temporary);
-            if (!inserted) removeTemporary(finalPath);
+            if (!inserted && !commitUnknown) removeTemporary(finalPath);
+            if (commitUnknown) LOG.warn("miniapp_demo_upload_reference_unknown");
         }
     }
+
+    private static void requireSameUpload(MiniappDemoFileRow row, Content content, ArchiveSource source) {
+        if (!Objects.equals(row.archiveSha256(), source == null ? null : source.sha256())
+                || !Objects.equals(row.archiveEntryOrdinal(), source == null ? null : source.ordinal())
+                || !row.contentSha256().equals(content.sha256()) || row.sizeBytes() != content.size()) {
+            throw new MiniappDemoFileException(IDEMPOTENCY_CONFLICT);
+        }
+    }
+
+    private record ArchiveSource(String sha256, int ordinal, long deadline) {}
 
     public MiniappDemoFileMetadata get(MiniappDemoIdentity principal, String id) {
         requireEnabled();

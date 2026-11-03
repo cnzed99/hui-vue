@@ -4,4 +4,4 @@ record MiniappDemoFileRow(String id, long tenantId, long storeId, String princip
                           String idempotencySha256, String contentSha256, String displayName,
                           long sizeBytes, Integer pageCount, String status, String failureCode,
                           String storageKey, long createdAtMs, long updatedAtMs, long expiresAtMs,
-                          int processingAttempts) {}
+                          int processingAttempts, String archiveSha256, Integer archiveEntryOrdinal) {}
