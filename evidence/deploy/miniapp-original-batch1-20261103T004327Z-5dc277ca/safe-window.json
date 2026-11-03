@@ -1,0 +1,11 @@
+{
+  "label": "original-batch1-h5-deploy",
+  "finishedUtc": "2026-11-03T00:44:09.687794+00:00",
+  "freeBeforeBytes": 40883642368,
+  "freeAfterBytes": 40882823168,
+  "minimumFreeBytes": 10737418240,
+  "buildExitCode": 0,
+  "recoveryExitCode": 0,
+  "backendHttpHealthy": true,
+  "scratchRemoved": true
+}

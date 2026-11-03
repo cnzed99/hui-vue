@@ -1,0 +1,4 @@
+/home/ubuntu/print-system/runtime/releases/current/backend.jar: OK
+/var/www/print-system/index.html: OK
+/etc/nginx/sites-available/print-system: OK
+/etc/nginx/sites-enabled/print-system: OK

@@ -1,0 +1,4 @@
+4e33980ba88c61a69e61c5a590135c96a54d0973b2ceee8d739eb69036b0dc71  /home/ubuntu/print-system/runtime/releases/current/backend.jar
+33acc866e5674acb0bee7639280addc05cbd4e264f5fe752aa89b2a002411095  /var/www/print-system/index.html
+e728449cb2596ab88ec8951f52a4bee6ae315de0497c3585d14e521c2a1292e7  /etc/nginx/sites-available/print-system
+e728449cb2596ab88ec8951f52a4bee6ae315de0497c3585d14e521c2a1292e7  /etc/nginx/sites-enabled/print-system
