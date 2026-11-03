@@ -13,6 +13,13 @@ const combos = [
 ]
 function goBack() { if (getCurrentPages().length > 1) { uni.navigateBack(); return } uni.reLaunch({ url: '/pages/home/index' }) }
 function reserve(label: string) { uni.showToast({ title: `${label}选图接口待接入`, icon: 'none' }) }
+function openCombo(label: string) {
+  if (label === '身份证 + 户口本') {
+    uni.navigateTo({ url: '/pages/certificate-combo/index' })
+    return
+  }
+  reserve(label)
+}
 function openFileCopy() { sourceSheetVisible.value = true }
 function closeSourceSheet() { sourceSheetVisible.value = false }
 function acceptSelection(value: unknown) {
@@ -50,8 +57,8 @@ function chooseSource(label: '拍照' | '手机相册') {
 <template><view class="page"><view class="header"><view class="status-space" /><view class="title-row"><text class="back" @click="goBack">‹</text><text>扫描复印</text><text class="spacer" /></view></view>
   <view class="file-card" @click="openFileCopy"><view class="round">文</view><view class="copy"><text class="name">文件复印</text><text class="description">将文件拍照或选择图片打印</text></view><text class="arrow">›</text></view>
   <view class="section-head"><text>证件复印</text><text>常用证件</text></view><view class="cert-grid"><view v-for="item in certificates" :key="item.label" class="cert" @click="reserve(item.label)"><view class="cert-icon">{{ item.icon }}</view><text>{{ item.label }}</text></view></view>
-  <view class="combo-list"><view v-for="item in combos" :key="item.label" class="combo" @click="reserve(item.label)"><view class="combo-icon">{{ item.icon }}</view><view class="copy"><text class="name">{{ item.label }}</text><text class="description">{{ item.description }}</text></view><text class="arrow">›</text></view></view>
-  <view class="boundary">文件复印已开放单张图片安全演示；证件组合排版仍待继续观察。</view>
+  <view class="combo-list"><view v-for="item in combos" :key="item.label" class="combo" @click="openCombo(item.label)"><view class="combo-icon">{{ item.icon }}</view><view class="copy"><text class="name">{{ item.label }}</text><text class="description">{{ item.description }}</text></view><text class="arrow">›</text></view></view>
+  <view class="boundary">文件复印已开放单张图片安全演示；身份证+户口本已开放只读结构，其它证件排版仍待继续观察。</view>
   <view v-if="sourceSheetVisible" class="sheet-mask" @click="closeSourceSheet">
     <view class="source-sheet" @click.stop>
       <view class="warning">严禁上传反动、色情、暴力、非法及涉密资料</view>
