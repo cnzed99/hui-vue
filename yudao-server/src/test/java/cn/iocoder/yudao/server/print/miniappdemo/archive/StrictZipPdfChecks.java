@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.CRC32;
+import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -46,6 +47,15 @@ public final class StrictZipPdfChecks {
         byte[] badCrc = zip("print.pdf");
         badCrc[30 + "print.pdf".length() + 7] ^= 1;
         reject(() -> read(badCrc).extract(0), "actual payload CRC");
+        byte[] compressed = zip(true, PDF, "compressed.pdf");
+        check(Arrays.equals(read(compressed).extract(0), PDF), "bounded deflate");
+        byte[] excessOutput = compressed.clone();
+        excessOutput[22] = 5;
+        excessOutput[centralOffset(excessOutput) + 24] = 5;
+        reject(() -> read(excessOutput).extract(0), "actual output exceeds declared size");
+        byte[] highRatio = new byte[65536];
+        System.arraycopy(PDF, 0, highRatio, 0, PDF.length);
+        reject(() -> read(zip(true, highRatio, "ratio.pdf")), "compression ratio bound");
         String[] tooMany = new String[21];
         for (int i = 0; i < tooMany.length; i++) tooMany[i] = i + ".pdf";
         reject(() -> read(zip(tooMany)), "entry bound");
@@ -55,7 +65,7 @@ public final class StrictZipPdfChecks {
         } catch (StrictZipPdf.DeadlineExceeded expected) {
             // Expected.
         }
-        System.out.println("ZIP_PARSER_CHECKS_PASS (16 checks)");
+        System.out.println("ZIP_PARSER_CHECKS_PASS (21 checks)");
     }
 
     private static int centralOffset(byte[] archive) {
@@ -68,22 +78,40 @@ public final class StrictZipPdfChecks {
     }
 
     private static byte[] zip(String... names) throws Exception {
+        return zip(false, PDF, names);
+    }
+
+    private static byte[] zip(boolean compress, byte[] content, String... names) throws Exception {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
+        int compressedSize = compress ? compressedSize(content) : content.length;
         try (ZipOutputStream zip = new ZipOutputStream(output)) {
             for (String name : names) {
                 ZipEntry entry = new ZipEntry(name);
-                entry.setMethod(ZipEntry.STORED);
-                entry.setSize(PDF.length);
-                entry.setCompressedSize(PDF.length);
+                entry.setMethod(compress ? ZipEntry.DEFLATED : ZipEntry.STORED);
+                entry.setSize(content.length);
+                entry.setCompressedSize(compressedSize);
                 CRC32 crc = new CRC32();
-                crc.update(PDF);
+                crc.update(content);
                 entry.setCrc(crc.getValue());
                 zip.putNextEntry(entry);
-                zip.write(PDF);
+                zip.write(content);
                 zip.closeEntry();
             }
         }
         return output.toByteArray();
+    }
+
+    private static int compressedSize(byte[] content) {
+        Deflater deflater = new Deflater(Deflater.DEFAULT_COMPRESSION, true);
+        try {
+            deflater.setInput(content);
+            deflater.finish();
+            int size = deflater.deflate(new byte[content.length + 128]);
+            if (!deflater.finished()) throw new AssertionError("Fixture output buffer was too small");
+            return size;
+        } finally {
+            deflater.end();
+        }
     }
 
     private static void reject(Checked action, String label) throws Exception {
