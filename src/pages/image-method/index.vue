@@ -61,7 +61,10 @@ function acceptImageSelection(value: unknown) {
     name: file?.name || inferredName,
     size: Number(file?.size || 0)
   })
-  uni.navigateTo({ url: '/pages/image-upload/index' })
+  uni.navigateTo({
+    url: '/pages/image-upload/index',
+    fail: () => uni.removeStorageSync(IMAGE_SELECTION_KEY)
+  })
 }
 
 function chooseSource(label: '拍照' | '手机相册' | '微信图片') {

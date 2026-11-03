@@ -24,6 +24,7 @@ const sizeText = computed(() => {
 
 onMounted(async () => {
   const stored = uni.getStorageSync(IMAGE_SELECTION_KEY) as Partial<StoredSelection> | null
+  uni.removeStorageSync(IMAGE_SELECTION_KEY)
   if (!stored || stored.schemaVersion !== 1 || typeof stored.path !== 'string' || !stored.path
     || typeof stored.name !== 'string' || !stored.name || !Number.isFinite(Number(stored.size)) || Number(stored.size) < 0) {
     failureText.value = '图片选择已失效，请返回重新选择。'
@@ -70,7 +71,6 @@ function continueToSettings() {
   if (state.value !== 'ready' || !selection.value || !serverFileId.value) return
   const base = selection.value.name.replace(/\.(jpe?g|png)$/i, '') || '图片打印'
   saveDraft(createDraft('SERVER_UPLOAD', `${base}.pdf`, generatedSize.value, 1, serverFileId.value))
-  uni.removeStorageSync(IMAGE_SELECTION_KEY)
   uni.navigateTo({ url: '/pages/document-settings/index' })
 }
 </script>

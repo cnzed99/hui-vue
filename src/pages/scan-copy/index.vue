@@ -31,7 +31,10 @@ function acceptSelection(value: unknown) {
     size: Number(file?.size || 0),
     purpose: 'document-copy'
   })
-  uni.navigateTo({ url: '/pages/image-upload/index' })
+  uni.navigateTo({
+    url: '/pages/image-upload/index',
+    fail: () => uni.removeStorageSync(IMAGE_SELECTION_KEY)
+  })
 }
 function chooseSource(label: '拍照' | '手机相册') {
   closeSourceSheet()
@@ -52,8 +55,13 @@ function chooseSource(label: '拍照' | '手机相册') {
   <view v-if="sourceSheetVisible" class="sheet-mask" @click="closeSourceSheet">
     <view class="source-sheet" @click.stop>
       <view class="warning">严禁上传反动、色情、暴力、非法及涉密资料</view>
+      <!-- #ifdef MP-WEIXIN -->
       <view class="source-option" @click="chooseSource('拍照')"><text class="source-icon">◉</text><text>拍照</text></view>
       <view class="source-option" @click="chooseSource('手机相册')"><text class="source-icon">▧</text><text>手机相册</text></view>
+      <!-- #endif -->
+      <!-- #ifdef H5 -->
+      <view class="source-option" @click="chooseSource('手机相册')"><text class="source-icon">▧</text><text>选择图片</text></view>
+      <!-- #endif -->
       <view class="sheet-gap" />
       <view class="cancel" @click="closeSourceSheet">取消</view>
     </view>
