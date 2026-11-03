@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "scope": "read-only observed voucher and personal library empty states",
+  "sourceCommit": "6495a55567124e6efcb074fd878f30c0746f33e2",
+  "runId": "20261103T105447091Z-30121c70",
+  "startedAt": "2026-11-03T10:54:47.097Z",
+  "checks": [
+    {
+      "name": "expected_deployment_declared",
+      "passed": true
+    },
+    {
+      "name": "deployment_matches_candidate",
+      "passed": true
+    },
+    {
+      "name": "voucher_profile_route",
+      "passed": true
+    },
+    {
+      "name": "voucher_observed_tabs",
+      "passed": true
+    },
+    {
+      "name": "voucher_未使用_active",
+      "passed": true
+    },
+    {
+      "name": "voucher_未使用_same_empty_copy",
+      "passed": true
+    },
+    {
+      "name": "voucher_已使用_active",
+      "passed": true
+    },
+    {
+      "name": "voucher_已使用_same_empty_copy",
+      "passed": true
+    },
+    {
+      "name": "voucher_已过期_active",
+      "passed": true
+    },
+    {
+      "name": "voucher_已过期_same_empty_copy",
+      "passed": true
+    },
+    {
+      "name": "voucher_local_boundary",
+      "passed": true
+    },
+    {
+      "name": "voucher_observed_illustration",
+      "passed": true
+    },
+    {
+      "name": "library_profile_route",
+      "passed": true
+    },
+    {
+      "name": "library_observed_tabs",
+      "passed": true
+    },
+    {
+      "name": "library_已收藏_active",
+      "passed": true
+    },
+    {
+      "name": "library_已收藏_same_empty_copy",
+      "passed": true
+    },
+    {
+      "name": "library_已收藏_boundary",
+      "passed": true
+    },
+    {
+      "name": "library_已购买_active",
+      "passed": true
+    },
+    {
+      "name": "library_已购买_same_empty_copy",
+      "passed": true
+    },
+    {
+      "name": "library_已购买_boundary",
+      "passed": true
+    },
+    {
+      "name": "library_observed_illustration",
+      "passed": true
+    },
+    {
+      "name": "no_fake_loading",
+      "passed": true
+    },
+    {
+      "name": "no_writes_or_external_requests",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "voucher-empty.png",
+    "library-empty.png"
+  ],
+  "deployment": {
+    "expectedRelease": "/var/www/print-system/releases/miniapp-library-voucher-empty-20261103t1054z-6495a55",
+    "expectedIndexSha256": "24d7ece404d90e220d160b7e7f868df8bea8b5775be285cd942c6c5bb42fc329",
+    "activeRelease": "/var/www/print-system/releases/miniapp-library-voucher-empty-20261103t1054z-6495a55",
+    "indexSha256": "24d7ece404d90e220d160b7e7f868df8bea8b5775be285cd942c6c5bb42fc329"
+  },
+  "boundaries": {
+    "wechatLogin": "NOT_IMPLEMENTED",
+    "voucherEntitlements": "NOT_IMPLEMENTED",
+    "libraryEntitlements": "NOT_IMPLEMENTED",
+    "purchase": "NOT_RUN",
+    "originalSystemWrites": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "status": "PASS",
+  "finishedAt": "2026-11-03T10:54:48.473Z",
+  "passed": 23,
+  "failed": 0,
+  "writes": [],
+  "externalRequests": []
+}

@@ -294,6 +294,15 @@
 - 浏览器证据 `evidence/miniapp/account-settings-boundary-20261103T103934092Z-feaf3e86/report.json` 为 9/9 PASS：覆盖入口、字段、禁用输入、无头像文件控件、隐私边界、保存关闭及零写请求/外部请求。微信开发者工具/真机、真实资料接入和外部验收仍为 `NOT_RUN`。
 - 本页与服务中心、服务平台、普通证件照、加盟申请等普通增量累计达到批量审查门槛。Sol High 初审只阻断证件照几何证据，修正后整个五项批次最终 `PASS`；没有设计或修改计价、支付退款、权限隔离、并发状态或打印防重复规则，未触发 Astra Medium/High。详情见 `docs/reviews/miniapp-ordinary-pages-batch-20261103.md`。
 
+## 代金红包与我的文库空态记录
+
+- Windows 小程序窗口只读确认：代金红包为未使用、已使用、已过期三个页签，当前账号下都显示“暂无代金红包”；我的文库为已收藏、已购买两个页签，均显示“暂无文件哦~”。只切换页签，没有领取、使用、收藏、购买、打开或打印数据。
+- 新系统修正红包页签切换后的错误空态文案，两个页面共用本地空态插画；没有实现虚假的接口加载。真实红包、收藏和购买继续依赖微信登录、权益规则和服务端接口。
+- 产品提交 `6495a55567124e6efcb074fd878f30c0746f33e2`、验收提交 `f1aa103174116b5a5b410d5c5682d9de550597c0` 已推送分支 `print/phase1-miniapp-library-voucher-empty-states`。
+- 标准构建窗口 `library-voucher-empty-20261103t1200z` 的类型检查、H5、微信小程序构建通过，`build=0`、`recovery=0`、后端健康、scratch 已清理，四服务 active。活动 H5 发布为 `/var/www/print-system/releases/miniapp-library-voucher-empty-20261103t1054z-6495a55`，入口摘要 `24d7ece404d90e220d160b7e7f868df8bea8b5775be285cd942c6c5bb42fc329`。
+- 浏览器证据 `evidence/miniapp/library-voucher-empty-20261103T105447091Z-30121c70/report.json` 为 23/23 PASS：覆盖个人页入口、五个页签、统一空态、本地权益边界、插画和零写请求/外部请求。真实登录、红包、收藏、购买、微信真机和外部用户验收继续为 `NOT_IMPLEMENTED/NOT_RUN`。
+- 本批新增两个普通只读页面增量，尚未达到下一次5–10页或演示里程碑的 Sol High 批量审查门槛；没有后端写入、权限作用域、计价、支付退款或打印规则变更，不触发 Astra Medium/High。
+
 ## 当前完成度口径
 
 当前后端完整闭环基线仍为 **M11 PDF 来源接入**（2026-11-02）：run `20261102T153807Z-afbb79a0`；后端 `7efd316fb154c65fff089da7a5919284fb1f8cd6`，当时小程序 `27abcbe945ceb567a315f961d8bb50bd3bb2dc87`。上文证件照批次仅更新当前 H5 开发客户端并保持计价/订单关闭，不替代这条后端闭环基线。聊天文档中的PDF和发票聊天文件PDF复用已有上传、解析和设置链；目录公开能力准确为 PDF-only、uploadEnabled=true，Office与卡包发票仍预留。
