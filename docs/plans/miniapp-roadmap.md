@@ -4,7 +4,7 @@
 
 交付策略：观察一批、记录一批、开发一批、验证一批。
 
-普通证件照尺寸路由与本地预览已形成开发候选。ZIP-PDF 已完成候选检查、选中解析、既有报价/订单/模拟回执的隔离全链，Astra High 允许开发候选部署，但三次部署均被安全门禁停止，活动环境仍保持旧版，不能标记为已部署。文件复印已补齐原版独立引导并复用既有 A4 单图闭环。证件照专用计价、照片与试卷处理规则继续待确认。原站本批观察和尺寸证据见[复刻记录](../product/miniapp-replication.md)。
+普通证件照尺寸路由与本地预览已形成开发候选。ZIP-PDF 在前三次安全停止并恢复旧环境后，以新部署批次修正门禁、通过 Astra High 增量复审，并已部署到开发演示候选；活动环境完成 ZIP 检查、选中 PDF、权威报价、模拟订单/支付、后台处理、模拟回执和小程序结果查询。随后累计 H5 又合入文件复印引导、智能证件照搜索/自定义规格/指南、结婚照和车辆行驶证首层页面。证件照专用计价、照片与试卷处理规则继续待确认。原站本批观察和尺寸证据见[复刻记录](../product/miniapp-replication.md)。
 
 运行边界为小程序源码、模拟和编译检查，微信开发者工具和真机体验待验收。
 
@@ -330,6 +330,13 @@
 - 活动 H5 发布为 `/var/www/print-system/releases/miniapp-certificate-catalog-20261103t1132z-76bb28b`，入口摘要 `c6e8950e598a8b11738a3c0b493e41ba4afcd22ad5f2b738c44e3c5918e579bc`；浏览器证据 `evidence/miniapp/certificate-catalog-20261103T111835653Z-5fafd40e/report.json` 为 19/19 PASS，按 URL origin 精确统计且写请求、外部请求均为0。
 - 扫描复印目录的文件复印及六类证件/组合入口现均有对应页面或安全演示结构，形成目录级演示里程碑。固定 `sol_reviewer`（配置 GPT-6.1 Sol High）审查最终 `PASS`，无需 Astra；宿主实际模型与 effort 无独立遥测。
 - 该 PASS 不覆盖原屏独立复验、交换按钮浏览器点击、微信工具/真机、真实证件上传识别、排版、计价、打印或外部用户验收，以上继续保持 `NOT_RUN`。
+
+## ZIP 与普通页面累计候选发布
+
+- ZIP 后端 JAR `1372b69126036c2f2c84289d697e1c468d2aedea5244cf0234a883dcb9142314` 与候选 Nginx 路由已部署，开发边缘入口的真实 API 闭环 12 项通过；真实支付、微信和打印机仍为 `NOT_RUN`。
+- 当前活动 H5 由 `print/phase1-miniapp-id-photo-entry-batch` 的产品提交 `5b5c302535164086acb93c0f7c2a4b18df52cc61` 构建，验收提交为 `a044e30cb19886382d4b2aa4fa877fc052cd61e1`；该提交是 ZIP H5 `8cab60db4c0ea753a8fcc62ac2ab7f514315878d` 的后代，API 客户端、store 和共享类型没有增量变化。
+- 累计 H5 发布目录为 `/var/www/print-system/releases/miniapp-zip-id-photo-entry-20261103-a044e30`，入口 SHA-256 为 `989d78ac3fd165625b0ba3cacc874f28adee25fb7e4dbb8ea06717bffba042fd`。发布前复用既有 Sol High `PASS` 的 6项页面验收，活动地址再验证 ZIP 入口/限制、智能证件照搜索及零写请求，3/3通过。
+- 本次只切换不可变 H5 目录，没有重建后端、修改数据库、计价、支付退款、权限作用域、并发状态或打印防重复规则，因此未触发新的 Astra High；部署失败会原子恢复前一 ZIP H5。
 
 ## 当前完成度口径
 
