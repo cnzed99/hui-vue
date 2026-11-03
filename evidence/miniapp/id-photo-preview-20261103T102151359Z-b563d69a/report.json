@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "scope": "authorized-observation-derived ID photo six-inch preview; no price, order, payment or print",
+  "sourceCommit": "4bd5cb91b25bc3e9af6df06f18816437d4d2a21d",
+  "runId": "20261103T102151359Z-b563d69a",
+  "startedAt": "2026-11-03T10:21:51.359Z",
+  "checks": [
+    {
+      "name": "deployment_matches_candidate",
+      "passed": true
+    },
+    {
+      "name": "direct_preview_requires_fresh_one_time_selection",
+      "passed": true
+    },
+    {
+      "name": "one_layout_count",
+      "passed": true
+    },
+    {
+      "name": "one_rotation",
+      "passed": true
+    },
+    {
+      "name": "one_six_inch_and_size_labels",
+      "passed": true
+    },
+    {
+      "name": "one_copy_stepper",
+      "passed": true
+    },
+    {
+      "name": "one_selection_consumed_once",
+      "passed": true
+    },
+    {
+      "name": "two_layout_count",
+      "passed": true
+    },
+    {
+      "name": "two_rotation",
+      "passed": true
+    },
+    {
+      "name": "two_six_inch_and_size_labels",
+      "passed": true
+    },
+    {
+      "name": "two_copy_stepper",
+      "passed": true
+    },
+    {
+      "name": "two_selection_consumed_once",
+      "passed": true
+    },
+    {
+      "name": "three_layout_count",
+      "passed": true
+    },
+    {
+      "name": "three_rotation",
+      "passed": true
+    },
+    {
+      "name": "three_six_inch_and_size_labels",
+      "passed": true
+    },
+    {
+      "name": "three_copy_stepper",
+      "passed": true
+    },
+    {
+      "name": "three_selection_consumed_once",
+      "passed": true
+    },
+    {
+      "name": "unobserved_size_remains_reserved",
+      "passed": true
+    },
+    {
+      "name": "no_price_order_payment_or_print_write",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "one-layout",
+      "path": "evidence/miniapp/id-photo-preview-20261103T102151359Z-b563d69a/one-layout.png",
+      "sha256": "e985b9c3f7c353bf3045899cbde6237f10d570df9c6826eddbccc2eef6889525"
+    },
+    {
+      "name": "two-layout",
+      "path": "evidence/miniapp/id-photo-preview-20261103T102151359Z-b563d69a/two-layout.png",
+      "sha256": "640ed831ec89463dc49e0dbe05ef90a377641136751cd532ea77852fdd91deac"
+    },
+    {
+      "name": "three-layout",
+      "path": "evidence/miniapp/id-photo-preview-20261103T102151359Z-b563d69a/three-layout.png",
+      "sha256": "1c068fe2c79b4eb82be900d5a7fcb9909f3878de41ad452cf99d931d564cf1ce"
+    }
+  ],
+  "deployment": {
+    "expectedRelease": "/var/www/print-system/releases/miniapp-id-photo-preview-20261103t1024z-4bd5cb9",
+    "expectedIndexSha256": "4dc2e6e10fdef1914b69ddbb8db830fec6193834d85a94775e7703a9c1fdfb08",
+    "activeRelease": "/var/www/print-system/releases/miniapp-id-photo-preview-20261103t1024z-4bd5cb9",
+    "indexSha256": "4dc2e6e10fdef1914b69ddbb8db830fec6193834d85a94775e7703a9c1fdfb08"
+  },
+  "boundaries": {
+    "originalSystemWrites": "NOT_RUN",
+    "priceCalculation": "NOT_IMPLEMENTED",
+    "orderCreation": "NOT_IMPLEMENTED",
+    "payment": "NOT_IMPLEMENTED",
+    "realPrinting": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "status": "PASS",
+  "finishedAt": "2026-11-03T10:21:53.578Z",
+  "passed": 19,
+  "failed": 0,
+  "businessWrites": []
+}
