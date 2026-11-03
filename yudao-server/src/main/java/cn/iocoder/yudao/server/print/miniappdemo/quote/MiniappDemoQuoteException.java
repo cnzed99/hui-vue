@@ -14,7 +14,8 @@ public class MiniappDemoQuoteException extends RuntimeException {
         QUOTE_NOT_FOUND(1_928_008, HttpStatus.NOT_FOUND, "Miniapp demo quote was not found"),
         QUOTE_EXPIRED(1_928_009, HttpStatus.GONE, "Miniapp demo quote has expired"),
         CONFIGURATION_INVALID(1_928_010, HttpStatus.SERVICE_UNAVAILABLE, "Miniapp demo quote configuration is invalid"),
-        STORAGE_UNAVAILABLE(1_928_011, HttpStatus.SERVICE_UNAVAILABLE, "Miniapp demo quote storage is unavailable");
+        STORAGE_UNAVAILABLE(1_928_011, HttpStatus.SERVICE_UNAVAILABLE, "Miniapp demo quote storage is unavailable"),
+        FILE_KIND_NOT_QUOTABLE(1_928_012, HttpStatus.CONFLICT, "This file type is not open for pricing");
 
         private final int code;
         private final HttpStatus status;

@@ -125,7 +125,7 @@ public class MiniappDemoFileService {
     }
 
     public MiniappDemoFileMetadata upload(MiniappDemoIdentity identity, MultipartFile file, String idempotencyKey) {
-        return upload(identity, file, idempotencyKey, null);
+        return upload(identity, file, idempotencyKey, null, MiniappDemoFileKind.DOCUMENT, null);
     }
 
     public MiniappDemoFileMetadata uploadFromArchive(MiniappDemoIdentity identity, MultipartFile file,
@@ -133,19 +133,28 @@ public class MiniappDemoFileService {
         if (archiveSha256 == null || !archiveSha256.matches("[0-9a-f]{64}") || ordinal < 0 || ordinal >= 20) {
             throw new MiniappDemoFileException(INVALID_INPUT);
         }
-        return upload(identity, file, idempotencyKey, new ArchiveSource(archiveSha256, ordinal, deadline));
+        return upload(identity, file, idempotencyKey, new ArchiveSource(archiveSha256, ordinal, deadline),
+                MiniappDemoFileKind.DOCUMENT, null);
+    }
+
+    public MiniappDemoFileMetadata uploadGeneratedIdPhoto(MiniappDemoIdentity identity, MultipartFile file,
+            String idempotencyKey, MiniappDemoFileVariant variant) {
+        if (variant == null) throw new MiniappDemoFileException(INVALID_INPUT);
+        return upload(identity, file, idempotencyKey, null, MiniappDemoFileKind.ID_PHOTO, variant);
     }
 
     private MiniappDemoFileMetadata upload(MiniappDemoIdentity identity, MultipartFile file, String idempotencyKey,
-            ArchiveSource source) {
+            ArchiveSource source, MiniappDemoFileKind kind, MiniappDemoFileVariant variant) {
         requireEnabled();
         if (identity == null || file == null || file.isEmpty() || idempotencyKey == null
-                || !idempotencyKey.matches("[!-~]{1,128}")) throw new MiniappDemoFileException(INVALID_INPUT);
+                || !idempotencyKey.matches("[!-~]{1,128}") || !validSource(kind, variant)) {
+            throw new MiniappDemoFileException(INVALID_INPUT);
+        }
         if (file.getSize() > properties.getMaxBytes()) throw new MiniappDemoFileException(TOO_LARGE);
         if (!uploadSlots.tryAcquire()) throw new MiniappDemoFileException(QUEUE_FULL);
         try {
             synchronized (uploadMutex) {
-                return uploadSerialized(identity, file, idempotencyKey, source);
+                return uploadSerialized(identity, file, idempotencyKey, source, kind, variant);
             }
         } finally {
             uploadSlots.release();
@@ -169,7 +178,7 @@ public class MiniappDemoFileService {
     }
 
     private MiniappDemoFileMetadata uploadSerialized(MiniappDemoIdentity identity, MultipartFile file, String idempotencyKey,
-            ArchiveSource source) {
+            ArchiveSource source, MiniappDemoFileKind kind, MiniappDemoFileVariant variant) {
         String keyDigest = digest(idempotencyKey.getBytes(StandardCharsets.UTF_8));
         Path temporary = null;
         Path finalPath = null;
@@ -183,7 +192,7 @@ public class MiniappDemoFileService {
             if (prior.isPresent()) {
                 Content content = copyAndDigest(file, null);
                 MiniappDemoFileRow old = prior.get();
-                requireSameUpload(old, content, source);
+                requireSameUpload(old, content, source, kind, variant);
                 requireActive(identity);
                 return metadata(expireIfNeeded(owned(old.id(), identity)));
             }
@@ -218,6 +227,7 @@ public class MiniappDemoFileService {
                 MiniappDemoFileRow committed = new MiniappDemoFileRow(id, identity.tenantId(), identity.storeId(), identity.principalId(),
                         keyDigest, content.sha256(), displayName(file.getOriginalFilename()), content.size(), null,
                         "UPLOADED", null, id, committedAt, committedAt, expiresAt, 0,
+                        kind.name(), variant == null ? null : variant.name(),
                         source == null ? null : source.sha256(), source == null ? null : source.ordinal());
                 repository.insert(committed);
                 return committed;
@@ -229,7 +239,7 @@ public class MiniappDemoFileService {
                     .orElseThrow(() -> new MiniappDemoFileException(STORAGE_UNAVAILABLE));
             try {
                 Content content = copyAndDigest(file, null);
-                requireSameUpload(existing, content, source);
+                requireSameUpload(existing, content, source, kind, variant);
                 requireActive(identity);
                 return metadata(expireIfNeeded(owned(existing.id(), identity)));
             } catch (IOException failure) {
@@ -247,12 +257,20 @@ public class MiniappDemoFileService {
         }
     }
 
-    private static void requireSameUpload(MiniappDemoFileRow row, Content content, ArchiveSource source) {
+    private static void requireSameUpload(MiniappDemoFileRow row, Content content, ArchiveSource source,
+            MiniappDemoFileKind kind, MiniappDemoFileVariant variant) {
         if (!Objects.equals(row.archiveSha256(), source == null ? null : source.sha256())
                 || !Objects.equals(row.archiveEntryOrdinal(), source == null ? null : source.ordinal())
+                || !Objects.equals(row.sourceKind(), kind.name())
+                || !Objects.equals(row.sourceVariant(), variant == null ? null : variant.name())
                 || !row.contentSha256().equals(content.sha256()) || row.sizeBytes() != content.size()) {
             throw new MiniappDemoFileException(IDEMPOTENCY_CONFLICT);
         }
+    }
+
+    private static boolean validSource(MiniappDemoFileKind kind, MiniappDemoFileVariant variant) {
+        return kind == MiniappDemoFileKind.DOCUMENT ? variant == null
+                : kind == MiniappDemoFileKind.ID_PHOTO && variant != null;
     }
 
     private record ArchiveSource(String sha256, int ordinal, long deadline) {}

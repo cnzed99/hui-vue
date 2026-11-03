@@ -11,7 +11,8 @@ import java.util.Optional;
 public class MiniappDemoQuoteRepository {
     record Profile(String id, String key, String version, String mode, String currency,
                    String simplex, String duplex, String tierJson) {}
-    record File(String id, String sha256, Integer pages, String status, long expiresAtMs) {}
+    record File(String id, String sha256, Integer pages, String status, long expiresAtMs,
+                String sourceKind, String sourceVariant) {}
     record Quote(String id, String fileId, String profileId, String inputHash,
                  String snapshotJson, long createdAtMs, long expiresAtMs) {}
 
@@ -37,10 +38,11 @@ public class MiniappDemoQuoteRepository {
     }
 
     Optional<File> fileForUpdate(MiniappDemoIdentity identity, String id) {
-        return jdbc.query("SELECT id,content_sha256,page_count,status,expires_at_ms FROM print_miniapp_demo_file "
+        return jdbc.query("SELECT id,content_sha256,page_count,status,expires_at_ms,source_kind,source_variant FROM print_miniapp_demo_file "
                         + "WHERE tenant_id=? AND store_id=? AND principal_id=? AND id=? FOR UPDATE",
                 (rs, rowNum) -> new File(rs.getString("id"), rs.getString("content_sha256"),
-                        rs.getObject("page_count", Integer.class), rs.getString("status"), rs.getLong("expires_at_ms")),
+                        rs.getObject("page_count", Integer.class), rs.getString("status"), rs.getLong("expires_at_ms"),
+                        rs.getString("source_kind"), rs.getString("source_variant")),
                 identity.tenantId(), identity.storeId(), identity.principalId(), id).stream().findFirst();
     }
 

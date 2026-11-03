@@ -76,6 +76,8 @@ public class MiniappDemoQuoteService {
                 throw failure(QUOTE_EXPIRED);
             }
             MiniappDemoQuoteRepository.File file = requireFile(identity, input.fileId());
+            requireDocument(file);
+            requireReady(file, System.currentTimeMillis());
             MiniappDemoQuoteRepository.Profile profile = repository.profileForUpdate(identity, profileId)
                     .orElseThrow(() -> failure(PROFILE_UNAVAILABLE));
             PaperPriceSchedule schedule = schedule(profile);
@@ -161,6 +163,12 @@ public class MiniappDemoQuoteService {
     private static void requireReady(MiniappDemoQuoteRepository.File file, long now) {
         if (!"READY".equals(file.status()) || file.expiresAtMs() <= now || file.pages() == null
                 || file.pages() <= 0 || file.pages() > 20) throw failure(FILE_NOT_READY);
+    }
+
+    private static void requireDocument(MiniappDemoQuoteRepository.File file) {
+        if (!"DOCUMENT".equals(file.sourceKind()) || file.sourceVariant() != null) {
+            throw failure(FILE_KIND_NOT_QUOTABLE);
+        }
     }
 
     private Input parse(JsonNode body) {

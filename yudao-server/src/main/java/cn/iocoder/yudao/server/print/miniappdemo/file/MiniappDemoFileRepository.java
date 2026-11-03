@@ -12,7 +12,7 @@ import java.util.Optional;
 public class MiniappDemoFileRepository {
     private static final String FIELDS = "id,tenant_id,store_id,principal_id,idempotency_sha256,content_sha256,display_name,"
             + "size_bytes,page_count,status,failure_code,storage_key,created_at_ms,updated_at_ms,expires_at_ms,processing_attempts,"
-            + "archive_sha256,archive_entry_ordinal";
+            + "source_kind,source_variant,archive_sha256,archive_entry_ordinal";
     private static final String OWNER = "id=? AND tenant_id=? AND store_id=? AND principal_id=?";
     private static final RowMapper<MiniappDemoFileRow> MAPPER = (rs, n) -> new MiniappDemoFileRow(
             rs.getString("id"), rs.getLong("tenant_id"), rs.getLong("store_id"), rs.getString("principal_id"),
@@ -20,6 +20,7 @@ public class MiniappDemoFileRepository {
             rs.getLong("size_bytes"), rs.getObject("page_count", Integer.class), rs.getString("status"),
             rs.getString("failure_code"), rs.getString("storage_key"), rs.getLong("created_at_ms"),
             rs.getLong("updated_at_ms"), rs.getLong("expires_at_ms"), rs.getInt("processing_attempts"),
+            rs.getString("source_kind"), rs.getString("source_variant"),
             rs.getString("archive_sha256"), rs.getObject("archive_entry_ordinal", Integer.class));
     private final JdbcTemplate jdbc;
     public MiniappDemoFileRepository(JdbcTemplate jdbc) { this.jdbc = jdbc; }
@@ -48,11 +49,11 @@ public class MiniappDemoFileRepository {
     }
     void insert(MiniappDemoFileRow row) {
         jdbc.update("INSERT INTO print_miniapp_demo_file(id,tenant_id,store_id,principal_id,idempotency_sha256,content_sha256,display_name,"
-                        + "size_bytes,status,storage_key,created_at_ms,updated_at_ms,expires_at_ms,archive_sha256,archive_entry_ordinal)"
-                        + " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                        + "size_bytes,status,storage_key,created_at_ms,updated_at_ms,expires_at_ms,source_kind,source_variant,archive_sha256,archive_entry_ordinal)"
+                        + " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 row.id(), row.tenantId(), row.storeId(), row.principalId(), row.idempotencySha256(), row.contentSha256(),
                 row.displayName(), row.sizeBytes(), row.status(), row.storageKey(), row.createdAtMs(), row.updatedAtMs(),
-                row.expiresAtMs(), row.archiveSha256(), row.archiveEntryOrdinal());
+                row.expiresAtMs(), row.sourceKind(), row.sourceVariant(), row.archiveSha256(), row.archiveEntryOrdinal());
     }
     void recoverInterrupted(long now) {
         jdbc.update("UPDATE print_miniapp_demo_file SET status='UPLOADED',processing_started_at_ms=NULL,updated_at_ms=? WHERE status='PROCESSING'", now);
