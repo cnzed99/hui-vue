@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
+import { ensureDemoSession } from '@/api/demoSession'
+import { waitForDemoFile } from '@/api/demoFiles'
+import type { DemoFileMetadata } from '@/api/demoFiles'
+import { uploadIdPhotoFile } from '@/api/demoIdPhotoFiles'
+import type { IdPhotoSpecification } from '@/api/demoIdPhotoFiles'
 import { resolveSize } from '@/domain/idPhotoSizes'
 
 const PREVIEW_SELECTION_KEY = 'miniapp-id-photo-preview-selection-v1'
@@ -20,6 +25,9 @@ const photo = ref('')
 const layoutId = ref<LayoutId>('one')
 const copies = ref(1)
 const ready = ref(false)
+const submitting = ref(false)
+const generatedFile = ref<DemoFileMetadata | null>(null)
+const idempotencyKey = `miniapp-id-photo-file-v1-${Date.now()}-${Math.random().toString(36).slice(2, 14)}`
 const layout = computed(() => layouts[layoutId.value])
 const cells = computed(() => Array.from({ length: layout.value.repeat }, (_, index) => index))
 const physicalSize = computed(() => resolveSize(layoutId.value))
@@ -73,7 +81,34 @@ function goBack() {
   uni.reLaunch({ url: '/pages/id-photo-sizes/index' })
 }
 function changeCopies(delta: number) { copies.value = Math.min(99, Math.max(1, copies.value + delta)) }
-function reservedConfirm() { uni.showToast({ title: '演示计价规则待确认', icon: 'none' }) }
+function specification(): IdPhotoSpecification {
+  return ({ one: 'ONE_INCH', two: 'TWO_INCH', three: 'THREE_INCH' } as const)[layoutId.value]
+}
+async function generateFile() {
+  if (submitting.value || generatedFile.value) return
+  submitting.value = true
+  try {
+    const session = await ensureDemoSession()
+    if (!session) {
+      uni.showToast({ title: '无法建立演示会话', icon: 'none' })
+      return
+    }
+    const reply = await uploadIdPhotoFile(session, photo.value, specification(), idempotencyKey)
+    if (reply.kind === 'rejected') {
+      uni.showToast({ title: '图片或请求不符合限制', icon: 'none' })
+      return
+    }
+    if (reply.kind === 'unknown') {
+      uni.showToast({ title: '结果未知，请保留当前页后重试', icon: 'none' })
+      return
+    }
+    const finalFile = await waitForDemoFile(session, reply.data) || reply.data
+    generatedFile.value = finalFile
+    uni.showToast({ title: finalFile.status === 'READY' ? '打印文件已生成' : '文件已提交', icon: 'success' })
+  } finally {
+    submitting.value = false
+  }
+}
 </script>
 
 <template>
@@ -93,12 +128,18 @@ function reservedConfirm() { uni.showToast({ title: '演示计价规则待确认
       <view class="row"><text class="label">打印尺寸</text><text>{{ layout.label }}</text></view>
       <view class="row"><text class="label">打印份数</text><view class="stepper"><button @click="changeCopies(-1)">-</button><text>{{ copies }}</text><button @click="changeCopies(1)">+</button></view></view>
       <view class="tip">温馨提示：打印机将按以上排版效果打印，默认打印1份即可</view>
-      <view class="boundary">当前仅复刻已观察的1寸、2寸、3寸六寸相纸排版；未接入价格、订单、支付或真实打印。</view>
+      <view class="boundary">当前可生成服务端六寸相纸 PDF；价格、订单、支付和真实打印仍未开放。</view>
+      <view v-if="generatedFile" class="file-result">
+        <text>文件：{{ generatedFile.displayName }}</text>
+        <text>状态：{{ generatedFile.status === 'READY' ? '已就绪' : '已提交' }}</text>
+      </view>
     </view>
-    <view class="footer"><button @click="reservedConfirm">计价规则待确认</button></view>
+    <view class="footer"><button :disabled="submitting || !!generatedFile" @click="generateFile">
+      {{ generatedFile ? '打印文件已生成' : (submitting ? '生成中…' : '生成打印文件') }}
+    </button></view>
   </view>
 </template>
 
 <style scoped lang="scss">
-.page{min-height:100vh;padding-bottom:130rpx;background:#fff}.header{color:#fff;background:#ff9f3d}.status{height:var(--status-bar-height);min-height:36rpx}.title{display:flex;align-items:center;justify-content:space-between;height:86rpx;padding:0 26rpx;font-size:34rpx;font-weight:600}.title text:first-child,.title text:last-child{width:56rpx}.title text:first-child{font-size:56rpx}.preview-area{display:flex;align-items:center;justify-content:center;min-height:520rpx;padding:36rpx 24rpx}.sheet{position:relative;display:flex;align-items:center;justify-content:center;box-sizing:border-box;width:660rpx;height:440rpx;overflow:hidden;background:#fff;box-shadow:0 6rpx 30rpx rgba(39,84,126,.15)}.layout-grid{display:grid}.cell{display:flex;align-items:center;justify-content:center;box-sizing:border-box;overflow:hidden;border:1rpx solid #999}.photo{display:block}.photo :deep(img){object-fit:contain!important}.photo.rotated{transform:rotate(90deg)}.paper-note{position:absolute;right:12rpx;bottom:8rpx;color:#555;font-size:13rpx}.settings{border-top:1rpx solid #eee}.row{display:flex;align-items:center;justify-content:space-between;min-height:96rpx;padding:0 24rpx;border-bottom:1rpx solid #eee;font-size:27rpx}.label{color:#999}.stepper{display:flex;align-items:center}.stepper button{width:58rpx;height:52rpx;margin:0;padding:0;border-radius:6rpx;background:#f4f4f4;font-size:28rpx;line-height:52rpx}.stepper button::after{border:0}.stepper text{display:flex;align-items:center;justify-content:center;width:66rpx;height:50rpx;border:1rpx solid #ffad63}.tip{padding:22rpx 24rpx;color:#999;font-size:22rpx;line-height:34rpx}.boundary{margin:0 24rpx;padding:18rpx 22rpx;color:#9a6a21;background:#fff7e7;border-radius:12rpx;font-size:21rpx;line-height:33rpx}.footer{position:fixed;right:0;bottom:0;left:0;padding:16rpx 24rpx calc(16rpx + env(safe-area-inset-bottom));background:#fff;border-top:1rpx solid #eee}.footer button{height:86rpx;color:#fff;background:#ff9f3d;border-radius:44rpx;font-size:29rpx;line-height:86rpx}.footer button::after{border:0}
+.page{min-height:100vh;padding-bottom:130rpx;background:#fff}.header{color:#fff;background:#ff9f3d}.status{height:var(--status-bar-height);min-height:36rpx}.title{display:flex;align-items:center;justify-content:space-between;height:86rpx;padding:0 26rpx;font-size:34rpx;font-weight:600}.title text:first-child,.title text:last-child{width:56rpx}.title text:first-child{font-size:56rpx}.preview-area{display:flex;align-items:center;justify-content:center;min-height:520rpx;padding:36rpx 24rpx}.sheet{position:relative;display:flex;align-items:center;justify-content:center;box-sizing:border-box;width:660rpx;height:440rpx;overflow:hidden;background:#fff;box-shadow:0 6rpx 30rpx rgba(39,84,126,.15)}.layout-grid{display:grid}.cell{display:flex;align-items:center;justify-content:center;box-sizing:border-box;overflow:hidden;border:1rpx solid #999}.photo{display:block}.photo :deep(img){object-fit:contain!important}.photo.rotated{transform:rotate(90deg)}.paper-note{position:absolute;right:12rpx;bottom:8rpx;color:#555;font-size:13rpx}.settings{border-top:1rpx solid #eee}.row{display:flex;align-items:center;justify-content:space-between;min-height:96rpx;padding:0 24rpx;border-bottom:1rpx solid #eee;font-size:27rpx}.label{color:#999}.stepper{display:flex;align-items:center}.stepper button{width:58rpx;height:52rpx;margin:0;padding:0;border-radius:6rpx;background:#f4f4f4;font-size:28rpx;line-height:52rpx}.stepper button::after{border:0}.stepper text{display:flex;align-items:center;justify-content:center;width:66rpx;height:50rpx;border:1rpx solid #ffad63}.tip{padding:22rpx 24rpx;color:#999;font-size:22rpx;line-height:34rpx}.boundary{margin:0 24rpx;padding:18rpx 22rpx;color:#9a6a21;background:#fff7e7;border-radius:12rpx;font-size:21rpx;line-height:33rpx}.file-result{display:flex;justify-content:space-between;margin:14rpx 24rpx 0;padding:18rpx 22rpx;color:#28754b;background:#eefaf3;border-radius:12rpx;font-size:21rpx}.footer{position:fixed;right:0;bottom:0;left:0;padding:16rpx 24rpx calc(16rpx + env(safe-area-inset-bottom));background:#fff;border-top:1rpx solid #eee}.footer button{height:86rpx;color:#fff;background:#ff9f3d;border-radius:44rpx;font-size:29rpx;line-height:86rpx}.footer button[disabled]{opacity:.65}.footer button::after{border:0}
 </style>
