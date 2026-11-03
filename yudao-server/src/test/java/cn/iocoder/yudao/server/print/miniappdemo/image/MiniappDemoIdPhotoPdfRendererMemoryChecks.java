@@ -1,8 +1,13 @@
 package cn.iocoder.yudao.server.print.miniappdemo.image;
 
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.cos.COSName;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.lang.management.ManagementFactory;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -35,17 +40,54 @@ public final class MiniappDemoIdPhotoPdfRendererMemoryChecks {
                 seed ^= seed << 5;
                 pixels[i] = seed & 0x00ffffff;
             }
-            byte[] pdf = render(image, Specification.ONE_INCH);
-            if (pdf.length < 5 || pdf[0] != '%' || pdf[1] != 'P' || pdf[2] != 'D' || pdf[3] != 'F' || pdf[4] != '-') {
-                throw new AssertionError("Invalid PDF output");
+            verify(image, Specification.ONE_INCH, 25, 35);
+            verify(image, Specification.TWO_INCH, 35, 49);
+            verify(image, Specification.THREE_INCH, 55, 84);
+            var lowResolution = new BufferedImage(80, 120, BufferedImage.TYPE_INT_RGB);
+            try (var document = Loader.loadPDF(render(lowResolution, Specification.ONE_INCH))) {
+                var photo = imageResource(document.getPage(0));
+                if (photo.getWidth() != 80 || photo.getHeight() != 120) throw new AssertionError("low resolution upscaled");
             }
             sampledPeak.accumulateAndGet(heap.getHeapMemoryUsage().getUsed(), Math::max);
-            System.out.printf("ID_PHOTO_HEAP_BOUND_PASS width=%d height=%d pixels=%d layout=ONE_INCH pdf_bytes=%d sampled_peak_heap_bytes=%d max_heap_bytes=%d%n",
-                    image.getWidth(), image.getHeight(), MAX_PIXELS, pdf.length, sampledPeak.get(), Runtime.getRuntime().maxMemory());
+            System.out.printf("ID_PHOTO_HEAP_BOUND_PASS width=%d height=%d pixels=%d sampled_peak_heap_bytes=%d max_heap_bytes=%d%n",
+                    image.getWidth(), image.getHeight(), MAX_PIXELS, sampledPeak.get(), Runtime.getRuntime().maxMemory());
         } finally {
             finished.set(true);
             sampler.join();
         }
+    }
+
+    private static void verify(BufferedImage input, Specification specification, int widthMm, int heightMm) throws Exception {
+        byte[] pdf = render(input, specification);
+        if (pdf.length >= MAX_PDF_BYTES || !Arrays.equals(pdf, render(input, specification))) {
+            throw new AssertionError("Output limit or determinism failed for " + specification);
+        }
+        try (var document = Loader.loadPDF(pdf)) {
+            var photo = imageResource(document.getPage(0));
+            if (!COSName.DCT_DECODE.equals(photo.getCOSObject().getDictionaryObject(COSName.FILTER))) {
+                throw new AssertionError("Embedded image is not JPEG");
+            }
+            double millimetresPerSourcePixel = Math.min((double) widthMm / input.getWidth(), (double) heightMm / input.getHeight());
+            double dpi = Math.min(photo.getWidth() * 25.4 / (input.getWidth() * millimetresPerSourcePixel),
+                    photo.getHeight() * 25.4 / (input.getHeight() * millimetresPerSourcePixel));
+            if (dpi < 300 || photo.getWidth() > Math.ceil(widthMm * 300 / 25.4)
+                    || photo.getHeight() > Math.ceil(heightMm * 300 / 25.4)) throw new AssertionError("Unexpected DPI");
+            String producer = document.getDocumentInformation().getProducer();
+            if (!producer.matches("id-photo-6in-v2/jpeg-(92|88|84)/" + photo.getWidth() + "x" + photo.getHeight())) {
+                throw new AssertionError("Missing encoder configuration");
+            }
+            System.out.printf("ID_PHOTO_JPEG_PASS spec=%s image=%dx%d effective_dpi=%.2f pdf_bytes=%d producer=%s%n",
+                    specification, photo.getWidth(), photo.getHeight(), dpi, pdf.length, producer);
+        }
+    }
+
+    private static PDImageXObject imageResource(org.apache.pdfbox.pdmodel.PDPage page) throws Exception {
+        var resources = page.getResources();
+        var names = resources.getXObjectNames().iterator();
+        if (!names.hasNext() || !(resources.getXObject(names.next()) instanceof PDImageXObject image) || names.hasNext()) {
+            throw new AssertionError("Expected one shared image XObject");
+        }
+        return image;
     }
 
     private static void expectRejected(int width, int height, String label) throws Exception {

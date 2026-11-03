@@ -6,15 +6,17 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory;
+import org.apache.pdfbox.pdmodel.graphics.image.JPEGFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.apache.pdfbox.pdfwriter.compress.CompressParameters;
 import org.apache.pdfbox.util.Matrix;
 
+import java.awt.RenderingHints;
 import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -27,6 +29,11 @@ final class MiniappDemoIdPhotoPdfRenderer {
     private static final double PAGE_WIDTH_MM = 152;
     private static final double PAGE_HEIGHT_MM = 102;
     private static final double POINTS_PER_MM = 72.0 / 25.4;
+    private static final int TARGET_DPI = 300;
+    private static final String RENDER_VERSION = "id-photo-6in-v2";
+    private static final int[] JPEG_QUALITY_PERCENT = {92, 88, 84};
+    static final int MAX_PDF_BYTES = 2 * 1024 * 1024;
+    static final String OUTPUT_LIMIT_MESSAGE = "Photo PDF exceeds the output limit";
     static final int MAX_WIDTH = 2400;
     static final int MAX_HEIGHT = 3394;
     static final long MAX_PIXELS = (long) MAX_WIDTH * MAX_HEIGHT;
@@ -68,35 +75,72 @@ final class MiniappDemoIdPhotoPdfRenderer {
         if (image.getColorModel().hasAlpha() || image.getColorModel().getColorSpace().getType() != ColorSpace.TYPE_RGB) {
             throw new IllegalArgumentException("An opaque RGB photo is required");
         }
+        BufferedImage embedded = fitToTargetDpi(image, specification);
+        for (int quality : JPEG_QUALITY_PERCENT) {
+            try {
+                return encode(embedded, image.getWidth(), image.getHeight(), specification, quality);
+            } catch (PdfLimitExceeded ignored) {
+                // Retry the same bounded pixels with the next fixed quality setting.
+            }
+        }
+        throw new IllegalArgumentException(OUTPUT_LIMIT_MESSAGE);
+    }
+
+    private static BufferedImage fitToTargetDpi(BufferedImage source, Specification specification) {
+        int maxWidth = (int) Math.ceil(specification.photoWidth * TARGET_DPI / 25.4);
+        int maxHeight = (int) Math.ceil(specification.photoHeight * TARGET_DPI / 25.4);
+        int width = source.getWidth();
+        int height = source.getHeight();
+        if (width <= maxWidth && height <= maxHeight) return source;
+        double scale = Math.min((double) maxWidth / width, (double) maxHeight / height);
+        int targetWidth = Math.min(maxWidth, (int) Math.ceil(width * scale));
+        int targetHeight = Math.min(maxHeight, (int) Math.ceil(height * scale));
+        var result = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+        var graphics = result.createGraphics();
+        try {
+            graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+            graphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            graphics.drawImage(source, 0, 0, targetWidth, targetHeight, null);
+        } finally {
+            graphics.dispose();
+        }
+        return result;
+    }
+
+    private static byte[] encode(BufferedImage image, int sourceWidth, int sourceHeight,
+            Specification specification, int quality) throws IOException {
         double cellWidth = specification.cellWidth();
         double cellHeight = specification.cellHeight();
         double left = (PAGE_WIDTH_MM - cellWidth * specification.columns) / 2;
         double bottom = (PAGE_HEIGHT_MM - cellHeight * specification.rows) / 2;
 
         try (PDDocument document = new PDDocument()) {
-            setStableDocumentId(document, image, specification);
+            setStableDocumentId(document, image, sourceWidth, sourceHeight, specification, quality);
+            document.getDocumentInformation().setProducer(RENDER_VERSION + "/jpeg-" + quality + "/"
+                    + image.getWidth() + "x" + image.getHeight());
             PDPage page = new PDPage(new PDRectangle(points(PAGE_WIDTH_MM), points(PAGE_HEIGHT_MM)));
             page.setRotation(0);
             document.addPage(page);
-            PDImageXObject photo = LosslessFactory.createFromImage(document, image);
+            PDImageXObject photo = JPEGFactory.createFromImage(document, image, quality / 100f, TARGET_DPI);
             try (PDPageContentStream stream = new PDPageContentStream(document, page)) {
                 for (int row = 0; row < specification.rows; row++) {
                     for (int column = 0; column < specification.columns; column++) {
-                        drawPhoto(stream, photo, specification, left + column * cellWidth, bottom + row * cellHeight);
+                        drawPhoto(stream, photo, sourceWidth, sourceHeight, specification,
+                                left + column * cellWidth, bottom + row * cellHeight);
                     }
                 }
                 drawCutLines(stream, specification, left, bottom);
             }
-            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            var output = new BoundedOutput();
             document.save(output, CompressParameters.NO_COMPRESSION);
             return output.toByteArray();
         }
     }
 
-    private static void drawPhoto(PDPageContentStream stream, PDImageXObject photo, Specification specification,
-            double cellX, double cellY) throws IOException {
-        int orientedWidth = specification.rotateClockwise ? photo.getHeight() : photo.getWidth();
-        int orientedHeight = specification.rotateClockwise ? photo.getWidth() : photo.getHeight();
+    private static void drawPhoto(PDPageContentStream stream, PDImageXObject photo, int sourceWidth, int sourceHeight,
+            Specification specification, double cellX, double cellY) throws IOException {
+        int orientedWidth = specification.rotateClockwise ? sourceHeight : sourceWidth;
+        int orientedHeight = specification.rotateClockwise ? sourceWidth : sourceHeight;
         double scale = Math.min(specification.cellWidth() / orientedWidth, specification.cellHeight() / orientedHeight);
         double width = orientedWidth * scale;
         double height = orientedHeight * scale;
@@ -132,11 +176,13 @@ final class MiniappDemoIdPhotoPdfRenderer {
         return (float) (millimetres * POINTS_PER_MM);
     }
 
-    private static void setStableDocumentId(PDDocument document, BufferedImage image, Specification specification) {
+    private static void setStableDocumentId(PDDocument document, BufferedImage image, int sourceWidth, int sourceHeight,
+            Specification specification, int quality) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            digest.update(("id-photo-6in-v1:" + specification.name()).getBytes(StandardCharsets.US_ASCII));
-            digest.update(ByteBuffer.allocate(8).putInt(image.getWidth()).putInt(image.getHeight()).array());
+            digest.update((RENDER_VERSION + ":" + specification.name()).getBytes(StandardCharsets.US_ASCII));
+            digest.update(ByteBuffer.allocate(20).putInt(sourceWidth).putInt(sourceHeight)
+                    .putInt(image.getWidth()).putInt(image.getHeight()).putInt(quality).array());
             int[] row = new int[image.getWidth()];
             ByteBuffer pixels = ByteBuffer.allocate(row.length * Integer.BYTES);
             for (int y = 0; y < image.getHeight(); y++) {
@@ -155,4 +201,26 @@ final class MiniappDemoIdPhotoPdfRenderer {
             throw new IllegalStateException("SHA-256 unavailable", ex);
         }
     }
+
+    private static final class BoundedOutput extends OutputStream {
+        private final ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+
+        @Override public void write(int value) throws IOException {
+            checkSize(1);
+            bytes.write(value);
+        }
+
+        @Override public void write(byte[] value, int offset, int length) throws IOException {
+            checkSize(length);
+            bytes.write(value, offset, length);
+        }
+
+        private void checkSize(int length) throws IOException {
+            if (length > MAX_PDF_BYTES - bytes.size()) throw new PdfLimitExceeded();
+        }
+
+        byte[] toByteArray() { return bytes.toByteArray(); }
+    }
+
+    private static final class PdfLimitExceeded extends IOException { }
 }
