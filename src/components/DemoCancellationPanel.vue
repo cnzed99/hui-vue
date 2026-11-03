@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
-import { ensureDemoSession } from '@/api/demoSession'
+import { ensureDemoSession, getActiveDemoSession } from '@/api/demoSession'
 import type { DemoSession } from '@/api/demoSession'
 import type { DemoOrder } from '@/api/demoOrders'
 import { clearPendingCancellation, getDemoCancellation, loadPendingCancellation, postDemoCancellation, savePendingCancellation } from '@/api/demoCancellations'
 import type { CancellationRead, PendingCancellation } from '@/api/demoCancellations'
 
-const props = withDefaults(defineProps<{ orderId: string; active?: boolean }>(), { active: true })
+const props = withDefaults(defineProps<{ orderId: string; active?: boolean; archiveOwner?: Pick<DemoSession, 'sessionId' | 'principalId'> }>(), { active: true })
 const emit = defineEmits<{ updated: [order: DemoOrder] }>()
 const value = ref<CancellationRead | null>(null)
 const state = ref<'loading' | 'ready' | 'unknown' | 'sending'>('loading')
@@ -26,8 +26,13 @@ const resultText = computed(() => {
   }
 })
 const context = (session: DemoSession, orderId: string) => `${session.sessionId}:${session.principalId}:${orderId}`
+function archiveOwnerMatches(session: DemoSession | null) {
+  return !props.archiveOwner || (session?.sessionId === props.archiveOwner.sessionId
+    && session.principalId === props.archiveOwner.principalId)
+}
 function valid(request: number, expected: string, session: DemoSession | null, id: string) {
-  return mounted && props.active && request === generation && props.orderId === id && session !== null && context(session, id) === expected
+  return mounted && props.active && request === generation && props.orderId === id && session !== null
+    && archiveOwnerMatches(session) && archiveOwnerMatches(getActiveDemoSession()) && context(session, id) === expected
 }
 function invalidate() { generation += 1; value.value = null; pending.value = null; message.value = ''; state.value = 'loading'; sessionContext = '' }
 onBeforeUnmount(() => { mounted = false; invalidate() })
@@ -39,7 +44,8 @@ async function refresh() {
   const request = ++generation
   value.value = null; state.value = 'loading'; message.value = ''
   const session = await ensureDemoSession()
-  if (!session || !mounted || !props.active || request !== generation || id !== props.orderId) {
+  if (!session || !archiveOwnerMatches(session) || !archiveOwnerMatches(getActiveDemoSession())
+    || !mounted || !props.active || request !== generation || id !== props.orderId) {
     if (mounted && props.active && request === generation) state.value = 'unknown'
     return
   }

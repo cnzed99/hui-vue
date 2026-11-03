@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { onHide, onLoad, onShow, onUnload } from '@dcloudio/uni-app'
-import { ensureDemoSession, getActiveDemoSession } from '@/api/demoSession'
+import { ensureDemoSession, getActiveDemoSession, watchDemoSession } from '@/api/demoSession'
+import type { DemoSession } from '@/api/demoSession'
 import { createDemoQuote } from '@/api/demoQuotes'
 import type { DemoQuote } from '@/api/demoQuotes'
 import { createDemoOrder, getDemoOrder } from '@/api/demoOrders'
@@ -84,6 +85,38 @@ const progressText = computed(() => order.value?.orderState === 'CANCELLED'
           : '固定演示文件未上传，不能生成真实报价。')
 let expiryTimer: ReturnType<typeof setTimeout> | null = null
 let printTimer: ReturnType<typeof setInterval> | null = null
+let unloaded = false
+let pageShown = false
+let archiveInvalidated = false
+
+function invalidateArchive() {
+  if (!draft.value?.archiveOwner) return
+  uni.removeStorageSync(roundStorageKey(draft.value))
+  clearPendingOrder()
+  draft.value = null
+  quote.value = null
+  order.value = null
+  payment.value = null
+  printTask.value = null
+  visible.value = false
+  orderGeneration += 1
+  clearExpiryTimer()
+  clearPrintTimer()
+  loadDraft()
+  archiveInvalidated = true
+  if (pageShown && !unloaded) uni.redirectTo({ url: '/pages/archive-print/index' })
+}
+
+function archiveCurrent(expected = draft.value, session = getActiveDemoSession()) {
+  if (!expected?.archiveOwner) return true
+  if (unloaded || draft.value !== expected) return false
+  if (archiveDraftMatchesSession(expected, getActiveDemoSession())) {
+    return archiveDraftMatchesSession(expected, session)
+  }
+  invalidateArchive()
+  return false
+}
+watchDemoSession(() => { archiveCurrent() })
 
 onLoad(async () => {
   draft.value = loadDraft()
@@ -108,10 +141,18 @@ onLoad(async () => {
   }
 })
 onShow(async () => {
+  pageShown = true
+  if (archiveInvalidated) {
+    uni.redirectTo({ url: '/pages/archive-print/index' })
+    return
+  }
+  if (!archiveCurrent()) return
+  const current = draft.value
   const request = ++orderGeneration
   visible.value = false
   if (order.value) {
     const session = await ensureDemoSession()
+    if (!archiveCurrent(current, session)) return
     if (request !== orderGeneration) return
     if (!session || pendingOrderPrincipalId.value !== session.principalId) {
       order.value = null; payment.value = null; printTask.value = null
@@ -121,27 +162,36 @@ onShow(async () => {
   visible.value = true
   if (order.value) void refreshCurrentOrder()
 })
-onHide(() => { visible.value = false; orderGeneration += 1; orderRefreshing.value = false; clearPrintTimer() })
-onUnload(() => { visible.value = false; orderGeneration += 1; clearExpiryTimer(); clearPrintTimer() })
+onHide(() => { pageShown = false; visible.value = false; orderGeneration += 1; orderRefreshing.value = false; clearPrintTimer() })
+onUnload(() => { unloaded = true; visible.value = false; orderGeneration += 1; clearExpiryTimer(); clearPrintTimer() })
 
 function goBack() { uni.navigateBack() }
 function updateCancellationOrder(updated: DemoOrder) {
-  if (!visible.value || updated.id !== order.value?.id) return
+  if (!archiveCurrent() || !visible.value || updated.id !== order.value?.id) return
   order.value = updated
   if (updated.orderState === 'CANCELLED') { orderGeneration += 1; orderRefreshing.value = false; clearPrintTimer(); printTask.value = null; printResultState.value = 'idle' }
 }
 async function refreshCurrentOrder(): Promise<boolean> {
-  if (!order.value || !visible.value) return false
+  if (!archiveCurrent() || !order.value || !visible.value) return false
+  const current = draft.value
   const id = order.value.id
   const request = ++orderGeneration
   orderRefreshing.value = true
   const session = await ensureDemoSession()
+  if (!archiveCurrent(current, session)) {
+    if (request === orderGeneration) orderRefreshing.value = false
+    return false
+  }
   if (!session || pendingOrderPrincipalId.value !== session.principalId) {
     if (request === orderGeneration) { orderRefreshing.value = false; printResultIssue.value = 'principal-changed' }
     return false
   }
   const loaded = await getDemoOrder(session, id)
   const confirmed = await ensureDemoSession()
+  if (!archiveCurrent(current, confirmed)) {
+    if (request === orderGeneration) orderRefreshing.value = false
+    return false
+  }
   if (!visible.value || request !== orderGeneration || id !== order.value?.id) return false
   orderRefreshing.value = false
   if (!confirmed || confirmed.sessionId !== session.sessionId || confirmed.principalId !== session.principalId) {
@@ -152,25 +202,36 @@ async function refreshCurrentOrder(): Promise<boolean> {
   return true
 }
 function roundStorageKey(value: PrintDraft) {
-  return `miniapp-quote-round-v1:${value.fileId}:${value.paper}:${value.color}:${value.copies}:${value.side}`
+  const owner = value.archiveOwner
+  const prefix = owner
+    ? `miniapp-archive-quote-round-v1:${owner.sessionId}:${owner.principalId}`
+    : 'miniapp-quote-round-v1'
+  return `${prefix}:${value.fileId}:${value.paper}:${value.color}:${value.copies}:${value.side}`
 }
-function pendingOrderStorageKey(value: PrintDraft) { return `miniapp-order-pending-v1:${value.fileId}` }
+function pendingOrderStorageKey(value: PrintDraft) {
+  const owner = value.archiveOwner
+  return owner
+    ? `miniapp-archive-order-pending-v1:${owner.sessionId}:${owner.principalId}:${value.fileId}`
+    : `miniapp-order-pending-v1:${value.fileId}`
+}
 function loadPendingOrder(value: PrintDraft) {
   const stored = uni.getStorageSync(pendingOrderStorageKey(value)) as unknown
+  const record = stored as { quoteId?: unknown; principalId?: unknown; sessionId?: unknown } | null
+  if (value.archiveOwner && (record?.sessionId !== value.archiveOwner.sessionId
+    || record.principalId !== value.archiveOwner.principalId)) return
   if (typeof stored === 'string') {
     pendingOrderQuoteId.value = stored
     pendingOrderPrincipalId.value = ''
     return
   }
-  const record = stored as { quoteId?: unknown; principalId?: unknown } | null
   pendingOrderQuoteId.value = typeof record?.quoteId === 'string' ? record.quoteId : ''
   pendingOrderPrincipalId.value = typeof record?.principalId === 'string' ? record.principalId : ''
 }
-function savePendingOrder(quoteId: string, principalId: string) {
+function savePendingOrder(quoteId: string, session: DemoSession) {
   if (!draft.value) return
   pendingOrderQuoteId.value = quoteId
-  pendingOrderPrincipalId.value = principalId
-  uni.setStorageSync(pendingOrderStorageKey(draft.value), { quoteId, principalId })
+  pendingOrderPrincipalId.value = session.principalId
+  uni.setStorageSync(pendingOrderStorageKey(draft.value), { quoteId, principalId: session.principalId, sessionId: session.sessionId })
 }
 function clearPendingOrder() {
   if (draft.value) uni.removeStorageSync(pendingOrderStorageKey(draft.value))
@@ -197,12 +258,17 @@ function schedulePrintRefresh() {
   }
 }
 async function refreshPrintResult(showFailure = true) {
-  if (!order.value || !visible.value || order.value.orderState !== 'OPEN' || printResultState.value === 'loading') return
+  if (!archiveCurrent() || !order.value || !visible.value || order.value.orderState !== 'OPEN' || printResultState.value === 'loading') return
+  const current = draft.value
   const id = order.value.id
   const request = orderGeneration
   printResultState.value = 'loading'
   printResultIssue.value = 'none'
   const session = await ensureDemoSession()
+  if (!archiveCurrent(current, session)) {
+    if (request === orderGeneration) printResultState.value = 'failed'
+    return
+  }
   if (session && pendingOrderPrincipalId.value && pendingOrderPrincipalId.value !== session.principalId) {
     clearPrintTimer()
     printTask.value = null
@@ -213,6 +279,10 @@ async function refreshPrintResult(showFailure = true) {
   }
   const result = session ? await getDemoPrintResult(session, order.value.id) : { kind: 'unknown' as const }
   const confirmed = await ensureDemoSession()
+  if (!archiveCurrent(current, confirmed)) {
+    if (request === orderGeneration) printResultState.value = 'failed'
+    return
+  }
   if (!visible.value || request !== orderGeneration || id !== order.value?.id || order.value.orderState !== 'OPEN') return
   if (!session || !confirmed || session.sessionId !== confirmed.sessionId || session.principalId !== confirmed.principalId) {
     clearPrintTimer(); printTask.value = null; printResultState.value = 'failed'; printResultIssue.value = 'principal-changed'; return
@@ -238,26 +308,21 @@ function scheduleExpiry(expiresAtMs: number) {
   expiryTimer = setTimeout(() => { quoteState.value = 'expired' }, remaining + 50)
 }
 async function requestQuote() {
-  if (!draft.value?.fileId || quoteState.value === 'loading') return
-  if (draft.value.paper !== 'A4' || draft.value.color !== 'BLACK_WHITE') {
+  const current = draft.value
+  if (!current?.fileId || !archiveCurrent(current) || quoteState.value === 'loading') return
+  if (current.paper !== 'A4' || current.color !== 'BLACK_WHITE') {
     quoteState.value = 'failed'
     return
   }
   clearExpiryTimer()
   quoteState.value = 'loading'
   const session = await ensureDemoSession()
-  if (session && !archiveDraftMatchesSession(draft.value, session)) {
-    loadDraft()
-    uni.redirectTo({ url: '/pages/archive-print/index' })
-    return
-  }
-  const result = session ? await createDemoQuote(session, draft.value.fileId, draft.value.paper,
-    draft.value.color, draft.value.copies, draft.value.side, quoteRound.value) : { kind: 'failed' as const }
-  if (session && !archiveDraftMatchesSession(draft.value, getActiveDemoSession())) {
-    loadDraft()
-    uni.redirectTo({ url: '/pages/archive-print/index' })
-    return
-  }
+  if (!archiveCurrent(current)) return
+  const result = session && archiveCurrent(current, session)
+    ? await createDemoQuote(session, current.fileId, current.paper,
+      current.color, current.copies, current.side, quoteRound.value)
+    : { kind: 'failed' as const }
+  if (!archiveCurrent(current)) return
   if (result.kind === 'ok' && result.quote.status === 'VALID' && result.quote.snapshot.expiresAtMs > Date.now()) {
     quote.value = result.quote
     quoteState.value = 'ready'
@@ -269,7 +334,7 @@ async function requestQuote() {
   }
 }
 async function retryOrRenew() {
-  if (!draft.value) return
+  if (!draft.value || !archiveCurrent()) return
   if (pendingOrderQuoteId.value) {
     const outcome = await recoverOrder(pendingOrderQuoteId.value)
     if (outcome === 'rejected') {
@@ -289,6 +354,7 @@ async function retryOrRenew() {
   await requestQuote()
 }
 async function createOrder() {
+  if (!archiveCurrent()) return
   if (quoteState.value !== 'ready') {
     uni.showToast({ title: '请先完成真实文件上传和服务端报价', icon: 'none' })
     return
@@ -300,9 +366,11 @@ async function createOrder() {
   }
 }
 async function recoverOrder(quoteId: string): Promise<'ok' | 'rejected' | 'unknown'> {
+  const current = draft.value
+  if (!archiveCurrent(current)) return 'unknown'
   orderState.value = 'creating'
   const session = await ensureDemoSession()
-  if (!session) {
+  if (!session || !archiveCurrent(current, session)) {
     orderState.value = 'failed'
     return 'unknown'
   }
@@ -311,9 +379,9 @@ async function recoverOrder(quoteId: string): Promise<'ok' | 'rejected' | 'unkno
     uni.showToast({ title: '原会话已变化，订单结果仍待恢复', icon: 'none' })
     return 'unknown'
   }
-  if (!pendingOrderQuoteId.value) savePendingOrder(quoteId, session.principalId)
-  else if (!pendingOrderPrincipalId.value) savePendingOrder(quoteId, session.principalId)
+  if (!pendingOrderQuoteId.value || !pendingOrderPrincipalId.value) savePendingOrder(quoteId, session)
   const result = await createDemoOrder(session, quoteId)
+  if (!archiveCurrent(current)) return 'unknown'
   if (result.kind !== 'ok') {
     orderState.value = 'failed'
     uni.showToast({ title: result.kind === 'rejected' ? '原报价未落单，可重新报价' : '订单结果待恢复，请重试', icon: 'none' })
@@ -325,6 +393,7 @@ async function recoverOrder(quoteId: string): Promise<'ok' | 'rejected' | 'unkno
   if (result.order.paymentState === 'SUCCEEDED' && session) {
     paymentState.value = 'creating'
     const receipt = await getDemoPayment(session, result.order.id)
+    if (!archiveCurrent(current)) return 'unknown'
     if (receipt) {
       payment.value = receipt
       paymentState.value = 'ready'
@@ -334,8 +403,9 @@ async function recoverOrder(quoteId: string): Promise<'ok' | 'rejected' | 'unkno
   return 'ok'
 }
 async function confirmPayment() {
-  if (!order.value || orderRefreshing.value || paymentState.value === 'creating' || paymentState.value === 'ready') return
-  if (!await refreshCurrentOrder() || order.value.orderState !== 'OPEN') return
+  const current = draft.value
+  if (!archiveCurrent(current) || !order.value || orderRefreshing.value || paymentState.value === 'creating' || paymentState.value === 'ready') return
+  if (!await refreshCurrentOrder() || !archiveCurrent(current) || order.value?.orderState !== 'OPEN') return
   if (order.value.paymentState === 'SUCCEEDED') {
     void recoverPaymentReceipt()
     return
@@ -344,14 +414,17 @@ async function confirmPayment() {
     title: '确认模拟支付',
     content: `本操作仅生成演示收据，不调用微信支付、不扣真实资金。模拟金额 ¥${order.value.totalAmount}，是否继续？`,
     confirmText: '模拟支付',
-    success: result => { if (result.confirm) void payOrder() }
+    success: result => { if (result.confirm && archiveCurrent(current)) void payOrder() }
   })
 }
 async function recoverPaymentReceipt() {
-  if (!order.value) return
+  const current = draft.value
+  const id = order.value?.id
+  if (!id || !archiveCurrent(current)) return
   paymentState.value = 'creating'
   const session = await ensureDemoSession()
-  const receipt = session ? await getDemoPayment(session, order.value.id) : null
+  const receipt = session && archiveCurrent(current, session) ? await getDemoPayment(session, id) : null
+  if (!archiveCurrent(current)) return
   if (!receipt) {
     paymentState.value = 'failed'
     uni.showToast({ title: '模拟支付已完成，收据暂未恢复', icon: 'none' })
@@ -362,10 +435,14 @@ async function recoverPaymentReceipt() {
   await refreshPrintResult(false)
 }
 async function payOrder() {
-  if (!order.value || !visible.value || !await refreshCurrentOrder() || order.value.orderState !== 'OPEN') return
+  const current = draft.value
+  if (!archiveCurrent(current) || !order.value || !visible.value || !await refreshCurrentOrder()
+    || !archiveCurrent(current) || order.value?.orderState !== 'OPEN') return
+  const id = order.value.id
   paymentState.value = 'creating'
   const session = await ensureDemoSession()
-  const receipt = session ? await createDemoPayment(session, order.value.id) : null
+  const receipt = session && archiveCurrent(current, session) ? await createDemoPayment(session, id) : null
+  if (!archiveCurrent(current)) return
   if (!receipt) {
     paymentState.value = 'failed'
     uni.showToast({ title: '模拟支付失败，请重试', icon: 'none' })
@@ -387,7 +464,7 @@ async function payOrder() {
       <view v-if="order" class="card result-card"><text>{{ order.orderState === 'CANCELLED' ? '模拟订单已取消' : '模拟订单' }}</text><text>{{ order.orderNo }}</text><text>金额 ¥{{ order.totalAmount }} · {{ order.refundState === 'SUCCEEDED' ? '已全额模拟退款' : payment ? '模拟支付成功' : order.paymentState === 'SUCCEEDED' ? '已模拟支付，收据待恢复' : '未支付' }}</text><text>打印状态：{{ order.orderState === 'CANCELLED' ? '订单已取消，不再处理' : printStatusText }}</text><text v-if="printTask">Job {{ printTask.jobId }}</text></view>
       <view v-if="payment" class="receipt"><text>SIMULATED</text><text>模拟支付成功，不涉及真实资金</text><text>收据 {{ payment.id }}</text></view>
       <view v-if="printTask?.receipt" class="print-receipt"><text>{{ printTask.receipt.result === 'SIMULATED_SUCCESS' ? '模拟成功回执' : '模拟失败回执' }}</text><text>完成 {{ printTask.receipt.completedCopies }} 份 / {{ printTask.receipt.completedSheets }} 张</text><text v-if="printTask.receipt.reason">原因：{{ printTask.receipt.reason }}</text><text>仅为系统模拟，不代表真实出纸</text></view>
-      <DemoCancellationPanel v-if="order" :order-id="order.id" :active="visible" @updated="updateCancellationOrder" />
+      <DemoCancellationPanel v-if="order" :order-id="order.id" :active="visible" :archive-owner="draft.archiveOwner" @updated="updateCancellationOrder" />
       <button v-if="order?.orderState === 'CANCELLED'" class="disabled">订单已取消</button>
       <button v-else-if="order && paymentState !== 'ready'" :class="paymentState === 'creating' || orderRefreshing ? 'disabled' : 'retry'" @click="confirmPayment">{{ orderRefreshing ? '正在确认订单状态…' : paymentState === 'creating' ? '正在恢复支付结果…' : paymentState === 'failed' && order.paymentState === 'SUCCEEDED' ? '重试恢复模拟收据' : paymentState === 'failed' ? '重试模拟支付' : '模拟支付（不扣真实资金）' }}</button>
       <button v-else-if="order && paymentState === 'ready' && printResultIssue === 'principal-changed'" class="disabled">会话已变化 · 旧订单进度不可查询</button>

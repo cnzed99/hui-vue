@@ -1,13 +1,18 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { onLoad } from '@dcloudio/uni-app'
-import { loadDraft, saveDraft } from '@/domain/printDraft'
+import { onHide, onLoad, onShow, onUnload } from '@dcloudio/uni-app'
+import { ensureDemoSession, getActiveDemoSession, watchDemoSession } from '@/api/demoSession'
+import { archiveDraftMatchesSession, loadDraft, saveDraft } from '@/domain/printDraft'
 import type { PrintColor, PrintDraft, PrintSide } from '@/domain/printDraft'
 
 const draft = ref<PrintDraft | null>(null)
 const copies = ref(1)
 const color = ref<PrintColor>('BLACK_WHITE')
 const side = ref<PrintSide>('SIMPLEX')
+const confirming = ref(false)
+let unloaded = false
+let shown = false
+let invalidated = false
 const sizeText = computed(() => draft.value ? `${(draft.value.sizeBytes / 1024).toFixed(1)} KB` : '')
 
 onLoad(() => {
@@ -20,12 +25,38 @@ onLoad(() => {
   }
 })
 
+function validateArchive() {
+  if (!draft.value?.archiveOwner || archiveDraftMatchesSession(draft.value, getActiveDemoSession())) return
+  draft.value = null
+  invalidated = true
+  loadDraft()
+  if (shown && !unloaded) uni.redirectTo({ url: '/pages/archive-print/index' })
+}
+onShow(() => {
+  shown = true
+  if (invalidated) uni.redirectTo({ url: '/pages/archive-print/index' })
+  else validateArchive()
+})
+onHide(() => { shown = false })
+onUnload(() => { unloaded = true })
+watchDemoSession(validateArchive)
+
 function goBack() { uni.navigateBack() }
 function changeCopies(delta: number) { copies.value = Math.min(99, Math.max(1, copies.value + delta)) }
 function explainColor() { uni.showToast({ title: '彩色价格待确认，本批仅开放黑白报价', icon: 'none' }) }
-function continueToConfirm() {
-  if (!draft.value) return
-  const next = { ...draft.value, copies: copies.value, color: color.value, side: side.value }
+async function continueToConfirm() {
+  const current = draft.value
+  if (!current || confirming.value) return
+  if (current.archiveOwner) {
+    validateArchive()
+    if (draft.value !== current) return
+    confirming.value = true
+    const session = await ensureDemoSession()
+    confirming.value = false
+    validateArchive()
+    if (!shown || unloaded || draft.value !== current || !archiveDraftMatchesSession(current, session)) return
+  }
+  const next = { ...current, copies: copies.value, color: color.value, side: side.value }
   saveDraft(next)
   uni.navigateTo({ url: '/pages/order-confirm/index' })
 }

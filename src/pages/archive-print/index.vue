@@ -3,7 +3,7 @@ import { ref, shallowRef } from 'vue'
 import { onShow, onUnload } from '@dcloudio/uni-app'
 import { ARCHIVE_DIGEST, inspectDemoArchive, MAX_ARCHIVE_BYTES, selectDemoArchiveFile } from '@/api/demoArchives'
 import type { ArchiveCandidate, ArchiveInput, ArchiveInspection } from '@/api/demoArchives'
-import { ensureDemoSession, getActiveDemoSession } from '@/api/demoSession'
+import { ensureDemoSession, getActiveDemoSession, watchDemoSession } from '@/api/demoSession'
 import type { DemoSession } from '@/api/demoSession'
 import { waitForDemoFile } from '@/api/demoFiles'
 import type { DemoFileMetadata } from '@/api/demoFiles'
@@ -19,6 +19,7 @@ interface Selection {
 }
 
 const storageKey = 'miniapp-archive-selection-v1'
+const ledgerKey = 'miniapp-archive-selections-v2'
 const archive = shallowRef<ArchiveInput | null>(null)
 const inspection = ref<ArchiveInspection | null>(null)
 const selected = ref<number | null>(null)
@@ -33,17 +34,23 @@ function sameOwner(a: Pick<DemoSession, 'sessionId' | 'principalId'>, b: DemoSes
   return a.sessionId === b.sessionId && a.principalId === b.principalId
 }
 
-function restoreSelection(session: DemoSession): Selection | null {
-  const stored = uni.getStorageSync(storageKey) as Partial<Selection> | null
-  if (!stored) return null
-  if (stored.sessionId !== session.sessionId || stored.principalId !== session.principalId
-    || typeof stored.digest !== 'string' || !ARCHIVE_DIGEST.test(stored.digest)
-    || typeof stored.ordinal !== 'number' || !Number.isInteger(stored.ordinal) || stored.ordinal < 0 || stored.ordinal >= 20
-    || typeof stored.key !== 'string' || !/^miniapp-archive-[A-Za-z0-9-]{1,80}$/.test(stored.key)) {
-    uni.removeStorageSync(storageKey)
-    return null
+function isSelection(value: Partial<Selection> | null, session: DemoSession): value is Selection {
+  return !!value && value.sessionId === session.sessionId && value.principalId === session.principalId
+    && typeof value.digest === 'string' && ARCHIVE_DIGEST.test(value.digest)
+    && typeof value.ordinal === 'number' && Number.isInteger(value.ordinal) && value.ordinal >= 0 && value.ordinal < 20
+    && typeof value.key === 'string' && /^miniapp-archive-[A-Za-z0-9-]{1,80}$/.test(value.key)
+}
+
+function restoreSelections(session: DemoSession): Selection[] {
+  const stored = uni.getStorageSync(ledgerKey) as { sessionId?: string; principalId?: string; selections?: Partial<Selection>[] } | null
+  if (stored?.sessionId === session.sessionId && stored.principalId === session.principalId && Array.isArray(stored.selections)) {
+    return stored.selections.filter(selection => isSelection(selection, session)) as Selection[]
   }
-  return stored as Selection
+  const legacy = uni.getStorageSync(storageKey) as Partial<Selection> | null
+  if (stored) uni.removeStorageSync(ledgerKey)
+  if (isSelection(legacy, session)) return [legacy]
+  uni.removeStorageSync(storageKey)
+  return []
 }
 
 function resetForSession() {
@@ -55,6 +62,7 @@ function resetForSession() {
   readyFile.value = null
   phase.value = 'idle'
   uni.removeStorageSync(storageKey)
+  uni.removeStorageSync(ledgerKey)
   loadDraft()
   message.value = '演示会话已变化，请重新选择 ZIP。'
 }
@@ -86,10 +94,12 @@ async function sessionFor(request: number) {
   return session
 }
 
-onShow(() => {
+function validateOwner() {
   const active = getActiveDemoSession()
   if (owner && (!active || !sameOwner(owner, active))) resetForSession()
-})
+}
+onShow(validateOwner)
+watchDemoSession(validateOwner)
 
 onUnload(() => {
   ++epoch
@@ -171,9 +181,9 @@ async function checkArchive() {
     return
   }
   inspection.value = result.data
-  const previous = restoreSelection(session)
-  if (previous?.digest === result.data.archiveSha256
-    && result.data.candidates.some(candidate => candidate.ordinal === previous.ordinal)) selected.value = previous.ordinal
+  const previous = restoreSelections(session).reverse().find(selection => selection.digest === result.data.archiveSha256
+    && result.data.candidates.some(candidate => candidate.ordinal === selection.ordinal))
+  if (previous) selected.value = previous.ordinal
   if (!result.data.candidates.length) message.value = '未找到可供选择的 PDF 文件。'
 }
 
@@ -196,14 +206,16 @@ async function extractCandidate() {
   message.value = ''
   const session = await sessionFor(request)
   if (!session) return
-  const existing = restoreSelection(session)
-  const selection: Selection = existing?.digest === digest && existing.ordinal === ordinal
-    ? existing
-    : { sessionId: session.sessionId, principalId: session.principalId, digest, ordinal,
+  const ledger = restoreSelections(session)
+  const existing = ledger.find(selection => selection.digest === digest && selection.ordinal === ordinal)
+  const selection: Selection = existing
+    ?? { sessionId: session.sessionId, principalId: session.principalId, digest, ordinal,
         key: 'miniapp-archive-' + Date.now() + '-' + Math.random().toString(36).slice(2) }
   try {
     // Keep the binding before sending any request whose commit result may be lost.
-    uni.setStorageSync(storageKey, selection)
+    uni.setStorageSync(ledgerKey, { sessionId: session.sessionId, principalId: session.principalId,
+      selections: [...ledger.filter(item => item !== existing), selection] })
+    uni.removeStorageSync(storageKey)
   } catch {
     phase.value = 'idle'
     message.value = '无法保存本次提交记录，请检查存储空间后重试。'

@@ -1,3 +1,5 @@
+import { shallowRef, watch } from 'vue'
+
 export interface DemoSession {
   accessToken: string
   sessionId: string
@@ -6,7 +8,8 @@ export interface DemoSession {
   actorType: 'MINIAPP_DEMO'
 }
 
-let memorySession: DemoSession | null = null
+const memorySession = shallowRef<DemoSession | null>(null)
+let issuing: Promise<DemoSession | null> | null = null
 const storageKey = 'miniapp-demo-session-v1'
 
 function issueUrl(): string | null {
@@ -30,12 +33,17 @@ function parseSession(value: unknown): DemoSession | null {
 }
 
 export function getActiveDemoSession(): DemoSession | null {
-  if (!memorySession) {
+  if (!memorySession.value) {
     const stored = parseSession({ code: 0, data: uni.getStorageSync(storageKey) })
-    if (stored) memorySession = stored
+    if (stored) memorySession.value = stored
     else uni.removeStorageSync(storageKey)
   }
-  return memorySession && memorySession.expiresAtMs > Date.now() ? memorySession : null
+  const current = memorySession.value
+  return current && current.expiresAtMs > Date.now() ? current : null
+}
+
+export function watchDemoSession(onChange: () => void) {
+  return watch(memorySession, onChange)
 }
 
 export function ensureDemoSession(): Promise<DemoSession | null> {
@@ -43,22 +51,28 @@ export function ensureDemoSession(): Promise<DemoSession | null> {
   if (active && active.expiresAtMs > Date.now() + 30_000) return Promise.resolve(active)
   const url = issueUrl()
   if (!url) return Promise.resolve(null)
-  return new Promise(resolve => {
+  if (issuing) return issuing
+  issuing = new Promise<DemoSession | null>(resolve => {
     uni.request({
       url,
       method: 'POST',
       timeout: 2500,
       success: response => {
         const session = response.statusCode === 200 ? parseSession(response.data) : null
-        memorySession = session
-        if (session) uni.setStorageSync(storageKey, session)
+        if (session) {
+          try { uni.setStorageSync(storageKey, session) }
+          catch { resolve(null); return }
+          memorySession.value = session
+        }
         resolve(session)
       },
       fail: () => resolve(null)
     })
-  })
+  }).finally(() => { issuing = null })
+  return issuing
 }
 
 export function demoAuthorization(): string | null {
-  return memorySession && memorySession.expiresAtMs > Date.now() ? `Bearer ${memorySession.accessToken}` : null
+  const current = memorySession.value
+  return current && current.expiresAtMs > Date.now() ? `Bearer ${current.accessToken}` : null
 }
