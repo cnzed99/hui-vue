@@ -2,11 +2,14 @@ package cn.iocoder.yudao.server.print.miniappdemo.file;
 
 import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoIdentity;
 import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoProcessAdmission;
+import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoSessionException;
 import cn.iocoder.yudao.server.print.miniappdemo.MiniappDemoSessionRepository;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.TransactionSystemException;
+import org.springframework.transaction.support.DefaultTransactionStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
@@ -15,12 +18,15 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.MessageDigest;
+import java.util.HexFormat;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /** Run against an explicitly isolated MySQL instance provisioned by the candidate probe. */
 public final class MiniappArchiveMysqlChecks {
@@ -93,9 +99,123 @@ public final class MiniappArchiveMysqlChecks {
             } finally {
                 restarted.stop();
             }
+            failurePaths(storage, jdbc, sessions, admission, dataSource);
         }
         System.out.println("ZIP_MYSQL_DDL_IDEMPOTENCY_PASS");
     }
+
+    private static void failurePaths(Path storage, JdbcTemplate jdbc, MiniappDemoSessionRepository sessions,
+            MiniappDemoProcessAdmission admission, DriverManagerDataSource dataSource) throws Exception {
+        var repository = new MiniappDemoFileRepository(jdbc);
+        var owner = identity(sessions, "c".repeat(64));
+        var invalidated = identity(sessions, "d".repeat(64));
+        Path root = Files.createDirectory(storage.resolve("faults"));
+        AtomicBoolean failInsert = new AtomicBoolean(true);
+        var failingRepository = new MiniappDemoFileRepository(jdbc) {
+            @Override void insert(MiniappDemoFileRow row) {
+                super.insert(row);
+                if (failInsert.compareAndSet(true, false)) throw new PreCommitFailure();
+            }
+        };
+        var files = files(root, failingRepository, sessions, admission, new DataSourceTransactionManager(dataSource));
+        files.start();
+        try {
+            try {
+                upload(files, owner, "before-commit", SHA_A, 0);
+                throw new AssertionError("pre-commit failure did not escape");
+            } catch (PreCommitFailure expected) {
+                check(binding(repository, owner, "before-commit").isEmpty(), "pre-commit rollback leaves no row");
+                check(blobCount(root) == 0, "pre-commit rollback leaves no blob");
+            }
+            var retried = upload(files, owner, "before-commit", SHA_A, 0);
+            check(binding(repository, owner, "before-commit").orElseThrow().id().equals(retried.id()),
+                    "pre-commit retry succeeds");
+            long blobs = blobCount(root);
+            MultipartFile revokeDuringCopy = new FixturePdf() {
+                @Override public InputStream getInputStream() {
+                    check(jdbc.update("UPDATE print_miniapp_demo_session SET status='REVOKED' WHERE id=?",
+                            invalidated.sessionId()) == 1, "fixture session revoked after initial admission");
+                    return super.getInputStream();
+                }
+            };
+            try {
+                files.uploadFromArchive(invalidated, revokeDuringCopy, "revoke-during-copy", SHA_A, 0,
+                        System.nanoTime() + TimeUnit.SECONDS.toNanos(10));
+                throw new AssertionError("revoked session accepted in commit");
+            } catch (MiniappDemoSessionException expected) {
+                check(expected.code() == new MiniappDemoSessionException(MiniappDemoSessionException.Reason.SESSION_INVALID).code(),
+                        "commit rejects revoked session");
+                check(binding(repository, invalidated, "revoke-during-copy").isEmpty() && blobCount(root) == blobs,
+                        "commit rejection leaves no row or blob");
+            }
+
+            var ordinary = files.upload(owner, PDF, "ordinary-regression");
+            var ordinaryRow = binding(repository, owner, "ordinary-regression").orElseThrow();
+            check(ordinaryRow.archiveSha256() == null && ordinaryRow.archiveEntryOrdinal() == null
+                    && ordinary.id().equals(files.upload(owner, PDF, "ordinary-regression").id()), "ordinary PDF replay unchanged");
+            conflict(() -> upload(files, owner, "ordinary-regression", SHA_A, 0));
+
+            for (String state : new String[] {"FAILED", "DELETED", "EXPIRED"}) {
+                String key = "terminal-" + state;
+                var initial = upload(files, owner, key, SHA_A, 0);
+                if ("EXPIRED".equals(state)) {
+                    long now = System.currentTimeMillis();
+                    jdbc.update("UPDATE print_miniapp_demo_file SET created_at_ms=?,updated_at_ms=?,expires_at_ms=? WHERE id=?",
+                            now - 10000, now - 1000, now - 1, initial.id());
+                } else {
+                    jdbc.update("UPDATE print_miniapp_demo_file SET status=? WHERE id=?", state, initial.id());
+                }
+                var replay = upload(files, owner, key, SHA_A, 0);
+                String expected = "EXPIRED".equals(state) ? "DELETED" : state;
+                check(initial.id().equals(replay.id()) && expected.equals(replay.status()), state + " binding is never replaced");
+                if ("EXPIRED".equals(state)) check("EXPIRED".equals(replay.failureCode()), "expiry is explicit");
+            }
+        } finally {
+            files.stop();
+        }
+
+        Path uncertainRoot = Files.createDirectory(storage.resolve("commit-unknown"));
+        AtomicInteger commits = new AtomicInteger();
+        var uncertainTx = new DataSourceTransactionManager(dataSource) {
+            @Override protected void doCommit(DefaultTransactionStatus status) {
+                super.doCommit(status);
+                if (commits.incrementAndGet() == 2) throw new TransactionSystemException("fixture lost commit response");
+            }
+        };
+        var uncertain = files(uncertainRoot, repository, sessions, admission, uncertainTx);
+        uncertain.start();
+        try {
+            try {
+                upload(uncertain, owner, "commit-unknown", SHA_A, 0);
+                throw new AssertionError("lost commit response was not exposed");
+            } catch (MiniappDemoFileException expected) {
+                check(expected.status().value() == 503, "lost commit response reported as retryable unavailable");
+            }
+            var committed = binding(repository, owner, "commit-unknown").orElseThrow();
+            check(Files.isRegularFile(uncertainRoot.resolve("objects").resolve(committed.id() + ".pdf")),
+                    "ambiguous commit retains referenced PDF");
+            var replay = upload(uncertain, owner, "commit-unknown", SHA_A, 0);
+            check(committed.id().equals(replay.id()) && committed.status().equals(replay.status()) && blobCount(uncertainRoot) == 1,
+                    "lost commit response replays same file and current state");
+        } finally {
+            uncertain.stop();
+        }
+        System.out.println("ZIP_MYSQL_FAILURE_PATHS_PASS precommit_rollback session_revoked terminal_replays ordinary_upload postcommit_unknown");
+    }
+
+    private static Optional<MiniappDemoFileRow> binding(MiniappDemoFileRepository repository, MiniappDemoIdentity owner, String key)
+            throws Exception {
+        String digest = HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(key.getBytes(StandardCharsets.UTF_8)));
+        return repository.findIdempotent(owner, digest);
+    }
+
+    private static long blobCount(Path root) throws Exception {
+        try (var blobs = Files.list(root.resolve("objects")); var incoming = Files.list(root.resolve("incoming"))) {
+            return blobs.count() + incoming.count();
+        }
+    }
+
+    private static final class PreCommitFailure extends RuntimeException { }
 
     private static void rejectBrokenConstraint(JdbcTemplate jdbc, String id) {
         try {
@@ -126,6 +246,8 @@ public final class MiniappArchiveMysqlChecks {
         properties.setMaxBytes(2097152);
         properties.setMaxPages(20);
         properties.setRetentionSeconds(120);
+        properties.setQueueCapacity(20);
+        properties.setMaxActiveFilesPerPrincipal(10);
         return new MiniappDemoFileService(properties, repo, sessions, null, admission, tx);
     }
 
@@ -175,7 +297,7 @@ public final class MiniappArchiveMysqlChecks {
         }
     }
 
-    private static final class FixturePdf implements MultipartFile {
+    private static class FixturePdf implements MultipartFile {
         private final byte[] bytes = "%PDF-1.4\nfixture\n".getBytes(StandardCharsets.US_ASCII);
         public String getName() { return "file"; }
         public String getOriginalFilename() { return "fixture.pdf"; }
