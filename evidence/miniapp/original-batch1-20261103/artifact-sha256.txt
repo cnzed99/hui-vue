@@ -1,0 +1,4 @@
+44dd932d8fd14f3b9bc23b92d48561ccb2364ad0d088fd0ff94f0db4969ec764  /home/ubuntu/print-system/runtime/build-tmp/original-batch1-evidence-dzSYsVgi/h5/index.html
+d38e2c41b158a43945ef5c88b11de1ca2c88f0c82519703a1a5357918feae2e7  /home/ubuntu/print-system/runtime/build-tmp/original-batch1-evidence-dzSYsVgi/h5/assets/pages-home-index.Cg6Hszum.js
+5dc1d31a7f2de3a10140cbd308efa1b16c2a3c50c13cd885e5828a81890fed1e  /home/ubuntu/print-system/runtime/build-tmp/original-batch1-evidence-dzSYsVgi/mp/pages/home/index.js
+05467f8c2fe493fc10393ca325756cf56cb4ee8a9708b6f7683a4a75d95f367f  /home/ubuntu/print-system/runtime/build-tmp/original-batch1-evidence-dzSYsVgi/mp/pages/id-photo-upload/index.js
