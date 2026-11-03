@@ -91,8 +91,9 @@ let archiveInvalidated = false
 
 function invalidateArchive() {
   if (!draft.value?.archiveOwner) return
-  uni.removeStorageSync(roundStorageKey(draft.value))
-  clearPendingOrder()
+  // The server may have committed an in-flight write. Keep the original owner's recovery record.
+  pendingOrderQuoteId.value = ''
+  pendingOrderPrincipalId.value = ''
   draft.value = null
   quote.value = null
   order.value = null

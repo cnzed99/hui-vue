@@ -51,7 +51,8 @@ async function refresh() {
   }
   const expected = context(session, id)
   sessionContext = expected
-  pending.value = loadPendingCancellation(session.principalId, id)
+  const archiveSessionId = props.archiveOwner?.sessionId
+  pending.value = loadPendingCancellation(session.principalId, id, archiveSessionId)
   const loaded = await getDemoCancellation(session, id)
   const confirmed = await ensureDemoSession()
   if (!valid(request, expected, confirmed, id)) {
@@ -61,7 +62,7 @@ async function refresh() {
   if (loaded.kind !== 'ok') { state.value = 'unknown'; message.value = '取消结果暂不可确认，请先恢复查询。'; return }
   value.value = loaded.value
   if (loaded.value.cancellation) {
-    clearPendingCancellation(session.principalId, id); pending.value = null
+    clearPendingCancellation(session.principalId, id, archiveSessionId); pending.value = null
   }
   state.value = 'ready'
   emit('updated', loaded.value.currentOrder)
@@ -73,7 +74,8 @@ async function submit(saved: PendingCancellation) {
   const request = ++generation
   state.value = 'sending'; message.value = ''
   const session = await ensureDemoSession()
-  if (!session || !valid(request, sessionContext, session, id) || saved.principalId !== session.principalId) {
+  if (!session || !valid(request, sessionContext, session, id) || saved.principalId !== session.principalId
+    || saved.archiveSessionId !== props.archiveOwner?.sessionId) {
     if (request === generation) { invalidate(); state.value = 'unknown' }
     return
   }
@@ -91,7 +93,7 @@ async function submit(saved: PendingCancellation) {
   }
   if (result.kind === 'rejected' && result.reason !== 'ALREADY_RECORDED') {
     if (result.reason === 'STALE_VERSION' || result.reason === 'DISABLED' || result.reason === 'INVALID_INPUT') {
-      clearPendingCancellation(session.principalId, id); pending.value = null
+      clearPendingCancellation(session.principalId, id, saved.archiveSessionId); pending.value = null
     }
     state.value = 'ready'
     const rejectedMessage = result.reason === 'STALE_VERSION' ? '订单状态已经变化，请重新确认新的操作。'
@@ -118,6 +120,7 @@ function confirmAction() {
     const principalId = expected.split(':')[1]
     if (!principalId) return
     void submit({ schemaVersion: 1, principalId, orderId: id, expectedVersion: snapshot.capability.expectedVersion,
+      archiveSessionId: props.archiveOwner?.sessionId,
       idempotencyKey: `miniapp-cancel-v1-${Date.now()}-${Math.random().toString(36).slice(2, 14)}` })
   } })
 }

@@ -30,7 +30,7 @@ export interface CancellationRead {
   capability: { action: 'CANCEL_UNPAID' | 'CANCEL_AND_REFUND' | 'REQUEST_REVIEW' | 'NONE'; reason: string; expectedVersion: number }
   cancellation: CancellationAction | null
 }
-export interface PendingCancellation { schemaVersion: 1; principalId: string; orderId: string; expectedVersion: number; idempotencyKey: string }
+export interface PendingCancellation { schemaVersion: 1; principalId: string; orderId: string; expectedVersion: number; idempotencyKey: string; archiveSessionId?: string }
 export type CancellationWrite = { kind: 'ok'; result: CancellationAction }
   | { kind: 'rejected'; reason: 'STALE_VERSION' | 'ALREADY_RECORDED' | 'DISABLED' | 'INVALID_INPUT' | 'IDEMPOTENCY_CONFLICT' }
   | { kind: 'unknown' }
@@ -129,7 +129,8 @@ export function getDemoCancellation(session: DemoSession, orderId: string): Prom
 }
 export function postDemoCancellation(session: DemoSession, pending: PendingCancellation): Promise<CancellationWrite> {
   const url = endpoint('cancellations')
-  if (!url || pending.principalId !== session.principalId) return Promise.resolve({ kind: 'unknown' })
+  if (!url || pending.principalId !== session.principalId
+    || (pending.archiveSessionId !== undefined && pending.archiveSessionId !== session.sessionId)) return Promise.resolve({ kind: 'unknown' })
   return new Promise(resolve => uni.request({
     url, method: 'POST', timeout: 6000, header: { Authorization: `Bearer ${session.accessToken}`, 'Idempotency-Key': pending.idempotencyKey },
     data: { orderId: pending.orderId, expectedVersion: pending.expectedVersion },
@@ -146,11 +147,18 @@ export function postDemoCancellation(session: DemoSession, pending: PendingCance
     }, fail: () => resolve({ kind: 'unknown' })
   }))
 }
-const pendingKey = (principal: string, order: string) => `miniapp-cancellation-pending-v1:${principal}:${order}`
-export function loadPendingCancellation(principalId: string, orderId: string): PendingCancellation | null {
-  const row = uni.getStorageSync(pendingKey(principalId, orderId)) as Partial<PendingCancellation> | null
-  return row?.schemaVersion === 1 && row.principalId === principalId && row.orderId === orderId && positive(row.expectedVersion)
+const pendingKey = (principal: string, order: string, archiveSessionId?: string) => archiveSessionId === undefined
+  ? `miniapp-cancellation-pending-v1:${principal}:${order}`
+  : `miniapp-archive-cancellation-pending-v1:${archiveSessionId}:${principal}:${order}`
+export function loadPendingCancellation(principalId: string, orderId: string, archiveSessionId?: string): PendingCancellation | null {
+  const row = uni.getStorageSync(pendingKey(principalId, orderId, archiveSessionId)) as Partial<PendingCancellation> | null
+  return row?.schemaVersion === 1 && row.principalId === principalId && row.orderId === orderId
+    && row.archiveSessionId === archiveSessionId && positive(row.expectedVersion)
     && typeof row.idempotencyKey === 'string' && /^[!-~]{1,128}$/.test(row.idempotencyKey) ? row as PendingCancellation : null
 }
-export function savePendingCancellation(value: PendingCancellation) { uni.setStorageSync(pendingKey(value.principalId, value.orderId), value) }
-export function clearPendingCancellation(principalId: string, orderId: string) { uni.removeStorageSync(pendingKey(principalId, orderId)) }
+export function savePendingCancellation(value: PendingCancellation) {
+  uni.setStorageSync(pendingKey(value.principalId, value.orderId, value.archiveSessionId), value)
+}
+export function clearPendingCancellation(principalId: string, orderId: string, archiveSessionId?: string) {
+  uni.removeStorageSync(pendingKey(principalId, orderId, archiveSessionId))
+}
