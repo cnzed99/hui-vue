@@ -25,6 +25,18 @@
       }
     },
     {
+      "path": "pages/tutorial-list/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/tutorial-detail/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/invoice-print/index",
       "style": {
         "navigationStyle": "custom"

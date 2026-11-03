@@ -52,6 +52,10 @@ function openMoreEntry(label: string) {
   showReserved(label)
 }
 
+function openTutorial() {
+  uni.navigateTo({ url: '/pages/tutorial-list/index' })
+}
+
 function chooseArchive() {
   // #ifdef MP-WEIXIN
   uni.chooseMessageFile({
@@ -111,7 +115,7 @@ function chooseArchive() {
         </view>
       </view>
 
-      <view class="tutorial" @click="showReserved('新手教程')">
+      <view class="tutorial" @click="openTutorial">
         <view class="entry-icon tone-orange">?</view>
         <view><text class="tutorial-title">新手教程</text><text class="tutorial-copy">第一次使用？从这里开始</text></view>
         <text class="tutorial-arrow">›</text>
