@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import BottomNav from '@/components/BottomNav.vue'
 import { commonPrintEntries, morePrintEntries } from '@/data/fixtures'
-
-const archiveSheetVisible = ref(false)
 
 function showReserved(label: string) {
   uni.showToast({ title: `${label}接口待接入`, icon: 'none' })
@@ -31,7 +28,7 @@ function openPrintEntry(label: string) {
     return
   }
   if (label === '压缩包打印') {
-    archiveSheetVisible.value = true
+    chooseArchive()
     return
   }
   showReserved(label)
@@ -55,13 +52,28 @@ function openMoreEntry(label: string) {
   showReserved(label)
 }
 
-function closeArchiveSheet() {
-  archiveSheetVisible.value = false
-}
-
-function showArchiveBoundary() {
-  closeArchiveSheet()
-  uni.showToast({ title: '微信聊天文件接口待接入', icon: 'none' })
+function chooseArchive() {
+  // #ifdef MP-WEIXIN
+  uni.chooseMessageFile({
+    count: 1,
+    type: 'file',
+    success(result) {
+      const file = result.tempFiles[0]
+      if (!file) return
+      uni.showModal({
+        title: '压缩包打印',
+        content: `${file.name}（${file.size} 字节）\n尚未上传或解压`,
+        showCancel: false
+      })
+    },
+    fail(error) {
+      if (!error.errMsg.includes('cancel')) uni.showToast({ title: '无法打开微信文件选择器', icon: 'none' })
+    }
+  })
+  // #endif
+  // #ifndef MP-WEIXIN
+  uni.showToast({ title: '请在微信小程序中使用文件选择器', icon: 'none' })
+  // #endif
 }
 </script>
 
@@ -107,15 +119,6 @@ function showArchiveBoundary() {
     </view>
 
     <BottomNav active="home" />
-
-    <view v-if="archiveSheetVisible" class="archive-mask" @click="closeArchiveSheet">
-      <view class="archive-sheet" @click.stop>
-        <text class="archive-title">压缩包打印</text>
-        <text class="archive-copy">原小程序会直接打开微信聊天文件选择器。当前演示不读取聊天记录，也不会选择或上传文件。</text>
-        <view class="archive-action" @click="showArchiveBoundary">微信聊天压缩包（接口待接入）</view>
-        <view class="archive-cancel" @click="closeArchiveSheet">取消</view>
-      </view>
-    </view>
   </view>
 </template>
 
@@ -140,8 +143,4 @@ function showArchiveBoundary() {
 .tone-pink { color: #ff6e93; background: #fff0f5; }.tone-blue { color: #31aeea; background: #eaf8ff; }.tone-green { color: #28c997; background: #e8fbf5; }.tone-cyan { color: #22c6bc; background: #e6fbfa; }
 .more-title { margin-top: 32rpx; }.more-grid { display: grid; grid-template-columns: repeat(4, 1fr); padding: 10rpx 4rpx 26rpx; }.more-item { display: flex; align-items: center; flex-direction: column; gap: 12rpx; color: #555; font-size: 23rpx; }.entry-icon.large { width: 74rpx; height: 74rpx; font-size: 32rpx; }
 .tutorial { display: flex; align-items: center; gap: 18rpx; margin: 6rpx 4rpx; padding: 22rpx 24rpx; background: #fff; border-radius: 14rpx; }.tutorial > view:nth-child(2) { display: flex; flex: 1; flex-direction: column; }.tutorial-title { font-size: 29rpx; font-weight: 600; }.tutorial-copy { margin-top: 5rpx; color: #999; font-size: 22rpx; }.tutorial-arrow { color: #bbb; font-size: 42rpx; }
-.archive-mask { position: fixed; z-index: 80; inset: 0; display: flex; align-items: flex-end; background: rgba(0, 0, 0, .46); }
-.archive-sheet { box-sizing: border-box; width: 100%; padding: 30rpx 28rpx calc(18rpx + env(safe-area-inset-bottom)); background: #f4f4f4; border-radius: 24rpx 24rpx 0 0; }
-.archive-title, .archive-copy { display: block; }.archive-title { color: #222; text-align: center; font-size: 32rpx; font-weight: 650; }.archive-copy { margin: 20rpx 10rpx 28rpx; color: #888; font-size: 24rpx; line-height: 38rpx; }
-.archive-action, .archive-cancel { min-height: 98rpx; background: #fff; text-align: center; font-size: 28rpx; line-height: 98rpx; }.archive-action { color: #ff8d31; border-radius: 14rpx 14rpx 0 0; }.archive-cancel { margin-top: 14rpx; color: #333; border-radius: 14rpx; }
 </style>

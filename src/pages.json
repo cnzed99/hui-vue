@@ -135,6 +135,12 @@
       }
     },
     {
+      "path": "pages/id-photo-upload/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/id-photo-sizes/index",
       "style": {
         "navigationStyle": "custom"
