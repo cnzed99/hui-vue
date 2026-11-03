@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "scope": "franchise application observed-form privacy-closed boundary",
+  "sourceCommit": "c8493bdadb2e249a1e1af734372eb7b7e6e70662",
+  "runId": "20261103T103413345Z-4ed5e230",
+  "startedAt": "2026-11-03T10:34:13.346Z",
+  "checks": [
+    {
+      "name": "deployment_matches_candidate",
+      "passed": true
+    },
+    {
+      "name": "profile_routes_to_franchise_boundary",
+      "passed": true
+    },
+    {
+      "name": "observed_two_steps_render",
+      "passed": true
+    },
+    {
+      "name": "observed_fields_render",
+      "passed": true
+    },
+    {
+      "name": "all_personal_inputs_disabled",
+      "passed": true
+    },
+    {
+      "name": "privacy_boundary_is_explicit",
+      "passed": true
+    },
+    {
+      "name": "submit_is_closed",
+      "passed": true
+    },
+    {
+      "name": "no_writes_or_external_requests",
+      "passed": true
+    }
+  ],
+  "deployment": {
+    "expectedRelease": "/var/www/print-system/releases/miniapp-franchise-boundary-20261103t1035z-c8493bd",
+    "expectedIndexSha256": "21b2a510a826ae5b2faebbd5f38013c719519a18eb1df377e1ec2a00fedd8986",
+    "activeRelease": "/var/www/print-system/releases/miniapp-franchise-boundary-20261103t1035z-c8493bd",
+    "indexSha256": "21b2a510a826ae5b2faebbd5f38013c719519a18eb1df377e1ec2a00fedd8986"
+  },
+  "boundaries": {
+    "applicationSubmission": "NOT_IMPLEMENTED",
+    "personalDataCollection": "NOT_RUN",
+    "locationAccess": "NOT_RUN",
+    "photoUpload": "NOT_RUN",
+    "originalSystemWrites": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "screenshot": "franchise-boundary.png",
+  "status": "PASS",
+  "finishedAt": "2026-11-03T10:34:14.593Z",
+  "passed": 8,
+  "failed": 0,
+  "writes": [],
+  "externalRequests": []
+}

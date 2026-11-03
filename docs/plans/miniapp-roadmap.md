@@ -256,6 +256,15 @@
 - 浏览器/产物证据 `evidence/miniapp/service-platform-20261103T102912789Z-6053b286/report.json` 为 8/8 PASS，覆盖发布绑定、微信官方 feedback 产物、H5反馈边界、手机号提示、无敏感输入及零写请求/外部请求。微信开发者工具、真机反馈和手机号授权继续为 `NOT_RUN`。
 - 本增量仍是普通页面窄修，和本批其它普通页面一起累计到5–10页或演示里程碑后再做 Sol High 批量审查；没有新增后端写入、权限作用域或关键业务规则，不触发 Astra High。
 
+## 加盟申请隐私关闭页记录
+
+- 只读观察原“我要加盟”两步页及字段后，在提交前停止；未填写姓名/电话、未获取定位、未上传门店照片、未提交申请。该页面明确要求手机微信操作。
+- 产品提交 `c8493bdadb2e249a1e1af734372eb7b7e6e70662`、验收脚本提交 `22fa3f9ce1b52c034bf5374c069d28e31aec2fcf` 已推送分支 `print/phase1-miniapp-franchise-boundary`。
+- 新系统新增可从“我的”进入的申请开通页，准确展示两步和六类字段，但所有个人输入禁用，定位、照片和提交均关闭；没有新建后端写入、数据库表、审核后台或权限作用域。
+- 标准构建窗口 `franchise-boundary-20261103t1118z` 为 `build=0`、`recovery=0`、scratch 已清理、后端健康，四项服务 active。活动 H5 发布为 `/var/www/print-system/releases/miniapp-franchise-boundary-20261103t1035z-c8493bd`，入口摘要 `21b2a510a826ae5b2faebbd5f38013c719519a18eb1df377e1ec2a00fedd8986`。
+- 浏览器证据 `evidence/miniapp/franchise-boundary-20261103T103413345Z-4ed5e230/report.json` 为 8/8 PASS，覆盖个人页跳转、两步结构、六类字段、三个禁用输入、隐私说明、提交关闭及零写请求/外部请求。
+- 真实加盟申请需先确认运营主体、隐私告知、数据保留、位置/图片用途、审核权限和公众号账号发放流程；当前保持 `NOT_IMPLEMENTED/NOT_RUN`。本批继续并入后续普通页面 Sol High 批量审查，不触发 Astra High。
+
 ## 普通证件照只读前置调研
 
 - 首次通过 Windows 小程序窗口只读进入原“云途智印”的证件照目录、普通证件照尺寸、上传页和门店价目表，并在选图前停止；后续上传仅在用户明确授权后执行。全程未下单、未付款。

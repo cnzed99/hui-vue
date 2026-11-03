@@ -1,0 +1,11 @@
+{
+  "label": "franchise-boundary-20261103t1118z",
+  "finishedUtc": "2026-11-03T10:33:30.870783+00:00",
+  "freeBeforeBytes": 40914018304,
+  "freeAfterBytes": 40913780736,
+  "minimumFreeBytes": 10737418240,
+  "buildExitCode": 0,
+  "recoveryExitCode": 0,
+  "backendHttpHealthy": true,
+  "scratchRemoved": true
+}
