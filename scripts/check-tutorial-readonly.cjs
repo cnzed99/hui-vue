@@ -37,7 +37,7 @@ let onLoadHandler
 const detail = load(script('tutorial-detail') + '\nexport { tutorials, selectedArticle }', {
   '@dcloudio/uni-app': { onLoad(handler) { onLoadHandler = handler } },
   vue: { ref(value) { return { value } } }
-}, { redirectTo(options) { route = options.url } })
+}, { reLaunch(options) { route = options.url } })
 assert.equal(Object.keys(detail.tutorials).length, 7)
 assert.equal(detail.tutorials.invoice.steps.length, 5)
 assert.equal(detail.tutorials['photo-paper'].steps.length, 4)

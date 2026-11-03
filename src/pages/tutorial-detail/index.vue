@@ -43,7 +43,7 @@ function goBack() { if (getCurrentPages().length > 1) { uni.navigateBack(); retu
 onLoad(query => {
   const articleId = String(query?.article || '')
   if (!Object.prototype.hasOwnProperty.call(tutorials, articleId)) {
-    uni.redirectTo({ url: '/pages/tutorial-list/index' })
+    uni.reLaunch({ url: '/pages/tutorial-list/index' })
     return
   }
   selectedArticle.value = tutorials[articleId]
