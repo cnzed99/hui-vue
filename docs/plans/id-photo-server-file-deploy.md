@@ -14,7 +14,7 @@
 ## 部署顺序
 
 1. 停止入口流量并停止后端，确认没有文件任务进程。
-2. 备份数据库与当前 JAR，记录哈希；不修改备份。
+2. 备份数据库与当前 JAR并记录哈希；同时记录旧后端与旧 H5 的符号链接目标，备份当前 Nginx site/include，并记录 `70-id-photo.conf` 是否原已存在。备份只读保存。
 3. 执行增量迁移并核对列、约束和触发器。
 4. 安装 `ops/runtime/candidates/id-photo/70-id-photo.conf` 与精确 Nginx 路由，创建权限为 `www-data:www-data:700` 的独立请求体临时目录，并通过 `systemd-analyze verify`、`daemon-reload` 与 `nginx -t`。
 5. 启动候选 JAR，等待 `Started YudaoServerApplication`，再连续两次验证 catalog 合同。
@@ -26,9 +26,11 @@
 1. 停止入口流量，并由 systemd 停止候选服务整个 control-group；确认父 JVM、渲染/PDF 子 JVM及其他存储写入者全部退出。
 2. 执行 `python3 ops/runtime/cleanup-id-photo-private-tasks.py <文件存储根目录>`。
 3. 只接受 `ID_PHOTO_PRIVATE_ROLLBACK_CLEANUP_PASS`；若返回锁占用、非安全目标或其他错误，保持停机并人工核查，不启动旧 JAR。
-4. 启动旧 JAR并等待 catalog 合同连续两次成功；旧 JAR遇到证件照来源行时必须安全拒绝，不能创建报价。
-5. 数据库新增列和保护触发器默认保留；未经新的 Astra High 审查不得撤除或放宽触发器。
-6. 核对两个私有目录无 `task-*`，再恢复入口流量。
+4. 原子恢复旧后端和旧 H5 符号链接，恢复变更前 Nginx site/include；若本批前不存在 `70-id-photo.conf` 则移除本批文件，否则恢复其原始备份。
+5. 执行 `systemctl daemon-reload` 与 `nginx -t`；任一失败均保持入口关闭。
+6. 启动旧 JAR并等待 catalog 合同连续两次成功；旧 JAR遇到证件照来源行时必须安全拒绝，不能创建报价。随后验证旧 H5 首页哈希与备份一致。
+7. 数据库新增列和保护触发器默认保留；未经新的 Astra High 审查不得撤除或放宽触发器。
+8. 核对两个私有目录无 `task-*`、旧后端与旧 H5 健康、证件照精确路由已回到变更前状态后，才恢复入口流量。
 
 ## 验证证据
 
