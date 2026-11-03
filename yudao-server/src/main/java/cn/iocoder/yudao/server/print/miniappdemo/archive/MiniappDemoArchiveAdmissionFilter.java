@@ -13,8 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.InvalidMediaTypeException;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -39,6 +37,8 @@ public final class MiniappDemoArchiveAdmissionFilter extends OncePerRequestFilte
     private final MiniappDemoSessionService sessions;
     private final MiniappDemoFileProperties properties;
     private final MiniappDemoFileService files;
+    // At most 24 MiB per admitted request including the multipart part, ZIP and PDF
+    // accumulator/copy peaks, inflater buffer and file service streaming scratch.
     private final Semaphore requests = new Semaphore(2);
     private final Set<Owner> selections = new HashSet<>();
     private boolean closing;
@@ -116,8 +116,18 @@ public final class MiniappDemoArchiveAdmissionFilter extends OncePerRequestFilte
                 reject(response, 507, 1927006);
                 return;
             }
-            request.setAttribute(ADMITTED, identity);
-            chain.doFilter(request, response);
+            ArchiveMultipartRequest multipart;
+            try {
+                multipart = ArchiveMultipartRequest.parse(request, selectionHeld);
+            } catch (ArchiveMultipartRequest.PartTooLarge failure) {
+                reject(response, 413, 1927003);
+                return;
+            } catch (IllegalArgumentException | ServletException | IOException failure) {
+                reject(response, 400, 1927002);
+                return;
+            }
+            multipart.setAttribute(ADMITTED, identity);
+            chain.doFilter(multipart, response);
         } finally {
             request.removeAttribute(ADMITTED);
             if (selectionHeld) {
@@ -153,10 +163,9 @@ public final class MiniappDemoArchiveAdmissionFilter extends OncePerRequestFilte
     private static boolean validContentType(String value) {
         if (value == null) return false;
         try {
-            MediaType type = MediaType.parseMediaType(value);
-            return MediaType.MULTIPART_FORM_DATA.equalsTypeAndSubtype(type)
-                    && type.getParameter("boundary") != null && !type.getParameter("boundary").isBlank();
-        } catch (InvalidMediaTypeException failure) {
+            ArchiveMultipartRequest.boundary(value);
+            return true;
+        } catch (IllegalArgumentException failure) {
             return false;
         }
     }
