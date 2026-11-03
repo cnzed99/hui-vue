@@ -67,6 +67,14 @@
       }
     },
     {
+      "path": "pages/member-activity/index",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true,
+        "backgroundTextStyle": "dark"
+      }
+    },
+    {
       "path": "pages/vouchers/index",
       "style": {
         "navigationStyle": "custom"

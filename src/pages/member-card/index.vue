@@ -4,18 +4,19 @@ function goBack() {
   uni.reLaunch({ url: '/pages/profile/index' })
 }
 function showReserved(label: string) { uni.showToast({ title: `${label}需微信身份与资金接口`, icon: 'none' }) }
+function openActivity() { uni.navigateTo({ url: '/pages/member-activity/index' }) }
 </script>
 
 <template>
   <view class="page">
     <view class="header"><view class="status-space" /><view class="title-row"><text class="back" @click="goBack">‹</text><text>会员卡</text><text class="spacer" /></view></view>
     <view class="card">
-      <view class="card-top"><text>普通会员</text><view><text class="balance-label">余额：</text><text class="balance">0元</text></view></view>
+      <view class="card-top"><text>普通会员（演示）</text><view><text class="balance-label">余额能力：</text><text class="balance">未开通</text></view></view>
       <view class="store"><view class="tag">◇</view><text>板栗打印工作室</text></view>
       <view class="actions"><text @click="showReserved('购买折扣')">购买折扣</text><text @click="showReserved('余额充值')">余额充值 ›</text></view>
     </view>
-    <view class="detail-link" @click="showReserved('消费明细')">消费明细 <text>›</text></view>
-    <view class="boundary">页面使用本地空余额展示，不读取原系统会员编号、余额或消费记录。</view>
+    <view class="detail-link" @click="openActivity">模拟消费明细 <text>›</text></view>
+    <view class="boundary">不读取原系统会员编号或余额；明细只查询当前演示主体在新系统中的模拟支付与模拟退款。</view>
   </view>
 </template>
 
