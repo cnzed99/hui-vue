@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "scope": "WeChat official feedback entry and phone authorization boundary",
+  "sourceCommit": "253f608b88ef018be6aa25255bbf8b741c50e2c0",
+  "runId": "20261103T102912789Z-6053b286",
+  "startedAt": "2026-11-03T10:29:12.791Z",
+  "checks": [
+    {
+      "name": "deployment_matches_candidate",
+      "passed": true
+    },
+    {
+      "name": "weixin_build_uses_official_feedback_only",
+      "passed": true
+    },
+    {
+      "name": "h5_marks_feedback_as_wechat_platform",
+      "passed": true
+    },
+    {
+      "name": "h5_feedback_does_not_fake_submission",
+      "passed": true
+    },
+    {
+      "name": "phone_notice_states_consent_and_not_connected",
+      "passed": true
+    },
+    {
+      "name": "phone_notice_has_no_sensitive_input",
+      "passed": true
+    },
+    {
+      "name": "phone_action_remains_reserved",
+      "passed": true
+    },
+    {
+      "name": "no_writes_or_external_requests",
+      "passed": true
+    }
+  ],
+  "deployment": {
+    "expectedRelease": "/var/www/print-system/releases/miniapp-service-platform-20261103t1030z-253f608",
+    "expectedIndexSha256": "a6611de40a22c92271447a34e8f4713adc302aa34e93153191bdc545f1274de2",
+    "activeRelease": "/var/www/print-system/releases/miniapp-service-platform-20261103t1030z-253f608",
+    "indexSha256": "a6611de40a22c92271447a34e8f4713adc302aa34e93153191bdc545f1274de2"
+  },
+  "boundaries": {
+    "originalSystemWrites": "NOT_RUN",
+    "feedbackSubmission": "NOT_RUN",
+    "phoneAuthorization": "NOT_RUN",
+    "phoneDataReadOrUpload": "NOT_RUN",
+    "wechatDeveloperTools": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "screenshot": "service-platform.png",
+  "status": "PASS",
+  "finishedAt": "2026-11-03T10:29:13.729Z",
+  "passed": 8,
+  "failed": 0,
+  "writes": [],
+  "externalRequests": []
+}

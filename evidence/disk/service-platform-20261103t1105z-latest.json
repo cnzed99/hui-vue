@@ -1,0 +1,11 @@
+{
+  "label": "service-platform-20261103t1105z",
+  "finishedUtc": "2026-11-03T10:28:21.936013+00:00",
+  "freeBeforeBytes": 40924258304,
+  "freeAfterBytes": 40924037120,
+  "minimumFreeBytes": 10737418240,
+  "buildExitCode": 0,
+  "recoveryExitCode": 0,
+  "backendHttpHealthy": true,
+  "scratchRemoved": true
+}
