@@ -1,0 +1,11 @@
+{
+  "label": "id-household-boundary-20261103t1215z",
+  "finishedUtc": "2026-11-03T10:59:36.129380+00:00",
+  "freeBeforeBytes": 40904613888,
+  "freeAfterBytes": 40904364032,
+  "minimumFreeBytes": 10737418240,
+  "buildExitCode": 0,
+  "recoveryExitCode": 0,
+  "backendHttpHealthy": true,
+  "scratchRemoved": true
+}

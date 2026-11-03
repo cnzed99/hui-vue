@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "scope": "observed ID card and household register combination privacy-closed page",
+  "sourceCommit": "e3d414c95e22d1033ad468acfa62b08fa63d8a78",
+  "runId": "20261103T110032826Z-22b9fe7c",
+  "startedAt": "2026-11-03T11:00:32.826Z",
+  "checks": [
+    {
+      "name": "expected_deployment_declared",
+      "passed": true
+    },
+    {
+      "name": "deployment_matches_candidate",
+      "passed": true
+    },
+    {
+      "name": "scan_copy_routes_to_observed_combo",
+      "passed": true
+    },
+    {
+      "name": "observed_hint_and_sections",
+      "passed": true
+    },
+    {
+      "name": "four_observed_upload_positions",
+      "passed": true
+    },
+    {
+      "name": "id_front_and_back_actions",
+      "passed": true
+    },
+    {
+      "name": "two_household_actions",
+      "passed": true
+    },
+    {
+      "name": "edge_recognition_copy",
+      "passed": true
+    },
+    {
+      "name": "no_file_input_or_sensitive_controls",
+      "passed": true
+    },
+    {
+      "name": "privacy_boundary_explicit",
+      "passed": true
+    },
+    {
+      "name": "image_selection_closed",
+      "passed": true
+    },
+    {
+      "name": "next_step_closed",
+      "passed": true
+    },
+    {
+      "name": "no_writes_or_external_requests",
+      "passed": true
+    }
+  ],
+  "deployment": {
+    "expectedRelease": "/var/www/print-system/releases/miniapp-id-household-boundary-20261103t1100z-e3d414c",
+    "expectedIndexSha256": "849fedaf4df5fe4c47eaf5fd1978b05b57245056db32e2fd6bce38e4243ce3b2",
+    "activeRelease": "/var/www/print-system/releases/miniapp-id-household-boundary-20261103t1100z-e3d414c",
+    "indexSha256": "849fedaf4df5fe4c47eaf5fd1978b05b57245056db32e2fd6bce38e4243ce3b2"
+  },
+  "boundaries": {
+    "cameraAccess": "NOT_RUN",
+    "albumAccess": "NOT_RUN",
+    "wechatImageAccess": "NOT_RUN",
+    "documentUpload": "NOT_RUN",
+    "edgeRecognition": "NOT_IMPLEMENTED",
+    "layoutAndPricing": "NOT_IMPLEMENTED",
+    "originalSystemWrites": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "screenshot": "id-household-boundary.png",
+  "status": "PASS",
+  "finishedAt": "2026-11-03T11:00:33.845Z",
+  "passed": 13,
+  "failed": 0,
+  "writes": [],
+  "externalRequests": []
+}

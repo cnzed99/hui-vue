@@ -303,6 +303,15 @@
 - 浏览器证据 `evidence/miniapp/library-voucher-empty-20261103T105447091Z-30121c70/report.json` 为 23/23 PASS：覆盖个人页入口、五个页签、统一空态、本地权益边界、插画和零写请求/外部请求。真实登录、红包、收藏、购买、微信真机和外部用户验收继续为 `NOT_IMPLEMENTED/NOT_RUN`。
 - 本批新增两个普通只读页面增量，尚未达到下一次5–10页或演示里程碑的 Sol High 批量审查门槛；没有后端写入、权限作用域、计价、支付退款或打印规则变更，不触发 Astra Medium/High。
 
+## 身份证与户口本组合复印边界记录
+
+- Windows 小程序窗口只读确认：组合页包含身份证正面、身份证反面、两张户口本内页共4个位置，以及背景颜色提示、边缘识别文案和下一步。来源弹层包含拍照、手机相册、微信图片及违法/涉密资料警示；本次只取消弹层，没有选择或上传文件。
+- 新系统从扫描复印目录接通该页，但4个图片位置和下一步均保持关闭；不打开来源、不读取或保存证件资料，不伪造自动识别、排版、计价、订单或打印。
+- 产品提交 `e3d414c95e22d1033ad468acfa62b08fa63d8a78`、验收提交 `a5197d4661837c8f97ddc92285d4404c5200a34d` 已推送分支 `print/phase1-miniapp-id-household-boundary`。
+- 标准构建窗口 `id-household-boundary-20261103t1215z` 的类型检查、H5、微信小程序构建通过，`build=0`、`recovery=0`、后端健康、scratch 已清理，四服务 active。活动 H5 发布为 `/var/www/print-system/releases/miniapp-id-household-boundary-20261103t1100z-e3d414c`，入口摘要 `849fedaf4df5fe4c47eaf5fd1978b05b57245056db32e2fd6bce38e4243ce3b2`。
+- 浏览器证据 `evidence/miniapp/id-household-boundary-20261103T110032826Z-22b9fe7c/report.json` 为 13/13 PASS：覆盖路由、4个位置、文案、无敏感控件、选择/下一步关闭和零写请求/外部请求。真实上传、识别、组合排版、计价、微信真机与外部验收为 `NOT_IMPLEMENTED/NOT_RUN`。
+- 自上一批 Sol High 批量审查后累计普通页面增量为3页（代金红包、我的文库、该组合页），继续并入下一批审查；没有后端写入、权限作用域或关键业务规则变更，不触发 Astra Medium/High。
+
 ## 当前完成度口径
 
 当前后端完整闭环基线仍为 **M11 PDF 来源接入**（2026-11-02）：run `20261102T153807Z-afbb79a0`；后端 `7efd316fb154c65fff089da7a5919284fb1f8cd6`，当时小程序 `27abcbe945ceb567a315f961d8bb50bd3bb2dc87`。上文证件照批次仅更新当前 H5 开发客户端并保持计价/订单关闭，不替代这条后端闭环基线。聊天文档中的PDF和发票聊天文件PDF复用已有上传、解析和设置链；目录公开能力准确为 PDF-only、uploadEnabled=true，Office与卡包发票仍预留。
