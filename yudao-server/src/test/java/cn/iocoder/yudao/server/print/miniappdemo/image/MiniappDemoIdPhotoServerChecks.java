@@ -13,6 +13,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
+import java.util.zip.CRC32;
 
 /** Isolated child-JVM checks for the server-side id-photo decoder and PDF renderer. */
 public final class MiniappDemoIdPhotoServerChecks {
@@ -28,6 +29,7 @@ public final class MiniappDemoIdPhotoServerChecks {
             Path alpha = image(scratch.resolve("alpha.png"), "PNG", BufferedImage.TYPE_INT_ARGB, 360, 480);
             Path gif = image(scratch.resolve("unsupported.gif"), "GIF", BufferedImage.TYPE_INT_RGB, 64, 64);
             Path wide = image(scratch.resolve("wide.png"), "PNG", BufferedImage.TYPE_INT_RGB, 2401, 1);
+            Path animated = animatedPng(png, scratch.resolve("animated.png"));
 
             Result jpegResult = run(jar, scratch, jpeg, "jpeg-output.pdf", "ONE_INCH");
             check(jpegResult.exitCode == 0 && jpegResult.output.matches(
@@ -43,12 +45,31 @@ public final class MiniappDemoIdPhotoServerChecks {
                     "alpha input rejected");
             check(run(jar, scratch, gif, "gif-output.pdf", "ONE_INCH").exitCode == 21,
                     "unsupported format rejected");
+            check(run(jar, scratch, animated, "animated-output.pdf", "ONE_INCH").exitCode == 21,
+                    "animated PNG rejected");
             check(run(jar, scratch, wide, "wide-output.pdf", "ONE_INCH").exitCode == 22,
                     "dimension limit enforced");
-            System.out.println("ID_PHOTO_SERVER_CHILD_PROCESS_PASS jpeg png alpha gif dimensions");
+            System.out.println("ID_PHOTO_SERVER_CHILD_PROCESS_PASS jpeg png alpha gif apng dimensions");
         } finally {
             deleteTree(scratch);
         }
+    }
+
+    private static Path animatedPng(Path source, Path target) throws Exception {
+        byte[] png = Files.readAllBytes(source);
+        check(png.length > 33, "PNG fixture length");
+        byte[] type = "acTL".getBytes(StandardCharsets.US_ASCII);
+        byte[] data = {0, 0, 0, 2, 0, 0, 0, 0};
+        CRC32 crc = new CRC32();
+        crc.update(type); crc.update(data);
+        var chunk = java.nio.ByteBuffer.allocate(20).order(java.nio.ByteOrder.BIG_ENDIAN);
+        chunk.putInt(data.length).put(type).put(data).putInt((int) crc.getValue());
+        byte[] result = new byte[png.length + chunk.capacity()];
+        System.arraycopy(png, 0, result, 0, 33);
+        System.arraycopy(chunk.array(), 0, result, 33, chunk.capacity());
+        System.arraycopy(png, 33, result, 33 + chunk.capacity(), png.length - 33);
+        Files.write(target, result);
+        return target;
     }
 
     private static Path image(Path path, String format, int type, int width, int height) throws Exception {

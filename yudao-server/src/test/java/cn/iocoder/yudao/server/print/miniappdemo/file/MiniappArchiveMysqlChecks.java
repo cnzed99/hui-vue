@@ -18,9 +18,11 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.PosixFilePermission;
 import java.security.MessageDigest;
 import java.util.HexFormat;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Executors;
@@ -100,8 +102,59 @@ public final class MiniappArchiveMysqlChecks {
                 restarted.stop();
             }
             failurePaths(storage, jdbc, sessions, admission, dataSource);
+            privateCleanupLifecycle(storage, jdbc, sessions, admission, dataSource);
         }
         System.out.println("ZIP_MYSQL_DDL_IDEMPOTENCY_PASS");
+    }
+
+    private static void privateCleanupLifecycle(Path storage, JdbcTemplate jdbc,
+            MiniappDemoSessionRepository sessions, MiniappDemoProcessAdmission admission,
+            DriverManagerDataSource dataSource) throws Exception {
+        Path root = Files.createDirectory(storage.resolve("private-cleanup"));
+        var files = files(root, new MiniappDemoFileRepository(jdbc), sessions, admission,
+                new DataSourceTransactionManager(dataSource));
+        Path multipartRoot = null;
+        Path scratchRoot = null;
+        files.start();
+        try {
+            multipartRoot = files.idPhotoMultipartRoot();
+            scratchRoot = files.idPhotoScratchRoot();
+            Path pending = Files.createDirectory(multipartRoot.resolve("task-retry"));
+            Files.writeString(pending.resolve("source.bin"), "private");
+            Files.setPosixFilePermissions(multipartRoot, Set.of(
+                    PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_EXECUTE));
+            check(!files.cleanupIdPhotoMultipartTask(pending), "failed private cleanup is observable and queued");
+            check(Files.isDirectory(pending), "failed private cleanup retains evidence for retry");
+            Files.setPosixFilePermissions(multipartRoot, ownerOnly());
+            long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(5);
+            while (Files.exists(pending) && System.nanoTime() < deadline) Thread.sleep(100);
+            check(!Files.exists(pending), "maintenance retries private cleanup");
+        } finally {
+            if (multipartRoot != null && Files.exists(multipartRoot)) {
+                Files.setPosixFilePermissions(multipartRoot, ownerOnly());
+            }
+            files.stop();
+        }
+
+        Path abandonedMultipart = Files.createDirectory(multipartRoot.resolve("task-disabled-feature-restart"));
+        Files.writeString(abandonedMultipart.resolve("upload.bin"), "private");
+        Path abandonedScratch = Files.createDirectory(scratchRoot.resolve("task-rollback-restart"));
+        Files.writeString(abandonedScratch.resolve("render.bin"), "private");
+        var restarted = files(root, new MiniappDemoFileRepository(jdbc), sessions, admission,
+                new DataSourceTransactionManager(dataSource));
+        restarted.start();
+        try {
+            check(!Files.exists(abandonedMultipart) && !Files.exists(abandonedScratch),
+                    "base file worker cleans id-photo private roots without renderer startup");
+        } finally {
+            restarted.stop();
+        }
+        System.out.println("ID_PHOTO_PRIVATE_CLEANUP_PASS observable_retry disabled_feature_restart rollback_restart");
+    }
+
+    private static Set<PosixFilePermission> ownerOnly() {
+        return Set.of(PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE,
+                PosixFilePermission.OWNER_EXECUTE);
     }
 
     private static void failurePaths(Path storage, JdbcTemplate jdbc, MiniappDemoSessionRepository sessions,

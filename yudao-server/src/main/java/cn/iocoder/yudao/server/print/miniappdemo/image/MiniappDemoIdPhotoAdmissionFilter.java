@@ -18,10 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
 import java.nio.file.Path;
-import java.nio.file.attribute.PosixFilePermission;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -37,8 +34,6 @@ public final class MiniappDemoIdPhotoAdmissionFilter extends OncePerRequestFilte
     public static final String ADMITTED_KEY = MiniappDemoIdPhotoAdmissionFilter.class.getName() + ".key";
     private static final String ROUTE = "/print/miniapp/demo/id-photo-files";
     private static final long PEAK_RESERVE = 8L * 1024 * 1024;
-    private static final Set<PosixFilePermission> PRIVATE_DIRECTORY = Set.of(
-            PosixFilePermission.OWNER_READ, PosixFilePermission.OWNER_WRITE, PosixFilePermission.OWNER_EXECUTE);
     private final MiniappDemoIdPhotoProperties properties;
     private final MiniappDemoSessionService sessions;
     private final MiniappDemoFileProperties fileProperties;
@@ -56,14 +51,11 @@ public final class MiniappDemoIdPhotoAdmissionFilter extends OncePerRequestFilte
     }
 
     @PostConstruct
-    public void initialize() throws IOException {
+    public void initialize() {
         properties.validateEnabled();
-        if (!properties.isEnabled()) return;
+        if (!fileProperties.isEnabled()) return;
         files.requireStorageLockHeld();
-        multipartRoot = privateDirectory(fileProperties.getStorageRoot().normalize().resolve("id-photo-multipart"));
-        try (var paths = Files.newDirectoryStream(multipartRoot, "task-*")) {
-            for (Path path : paths) MiniappDemoIdPhotoMultipartRequest.deleteTaskDirectory(path, multipartRoot);
-        }
+        multipartRoot = files.idPhotoMultipartRoot();
     }
 
     @Override
@@ -111,14 +103,15 @@ public final class MiniappDemoIdPhotoAdmissionFilter extends OncePerRequestFilte
             try {
                 reserve = Math.addExact(fileProperties.getMinFreeBytes(),
                         Math.addExact(properties.getMaxMultipartBytes(), PEAK_RESERVE));
-                if (Files.getFileStore(fileProperties.getStorageRoot()).getUsableSpace() < reserve) {
+                if (java.nio.file.Files.getFileStore(fileProperties.getStorageRoot()).getUsableSpace() < reserve) {
                     reject(response, 507, 1_936_010); return;
                 }
             } catch (ArithmeticException | IOException failure) {
                 reject(response, 503, 1_936_008); return;
             }
             try {
-                multipart = MiniappDemoIdPhotoMultipartRequest.parse(request, multipartRoot, properties.getMaxInputBytes());
+                multipart = MiniappDemoIdPhotoMultipartRequest.parse(request, multipartRoot,
+                        properties.getMaxInputBytes(), files);
             } catch (MiniappDemoIdPhotoMultipartRequest.PartTooLarge failure) {
                 reject(response, 413, 1_936_003); return;
             } catch (MiniappDemoIdPhotoMultipartRequest.UnsupportedPart failure) {
@@ -132,7 +125,7 @@ public final class MiniappDemoIdPhotoAdmissionFilter extends OncePerRequestFilte
             multipart.setAttribute(ADMITTED_KEY, keys.get(0));
             chain.doFilter(multipart, response);
         } finally {
-            if (multipart != null) multipart.cleanup(multipartRoot);
+            if (multipart != null && !multipart.cleanup(files)) files.retainStorageLockUntilProcessExit();
             if (ownerHeld) {
                 synchronized (owners) { owners.remove(owner); }
             }
@@ -149,17 +142,6 @@ public final class MiniappDemoIdPhotoAdmissionFilter extends OncePerRequestFilte
         try { drained = requests.tryAcquire(1, properties.getRenderTimeoutSeconds() + 5L, TimeUnit.SECONDS); }
         catch (InterruptedException failure) { Thread.currentThread().interrupt(); }
         if (!drained) files.retainStorageLockUntilProcessExit();
-    }
-
-    private static Path privateDirectory(Path path) throws IOException {
-        if (!Files.exists(path, LinkOption.NOFOLLOW_LINKS)) {
-            Files.createDirectories(path); Files.setPosixFilePermissions(path, PRIVATE_DIRECTORY);
-        }
-        if (Files.isSymbolicLink(path) || !Files.isDirectory(path, LinkOption.NOFOLLOW_LINKS)
-                || !Files.getPosixFilePermissions(path).equals(PRIVATE_DIRECTORY)) {
-            throw new IOException("Unsafe id photo multipart directory");
-        }
-        return path.toRealPath();
     }
 
     private static String normalizePrefix(String prefix) {

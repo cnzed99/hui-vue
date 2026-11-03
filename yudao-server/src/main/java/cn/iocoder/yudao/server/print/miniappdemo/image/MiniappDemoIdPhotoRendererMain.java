@@ -94,6 +94,7 @@ public final class MiniappDemoIdPhotoRendererMain {
                 reader.setInput(input, false, true);
                 String format = reader.getFormatName().toUpperCase(Locale.ROOT);
                 if (!("JPEG".equals(format) || "JPG".equals(format) || "PNG".equals(format))) throw new UnsupportedImage();
+                if ("PNG".equals(format)) rejectAnimatedPng(bytes);
                 if (reader.getNumImages(true) != 1) throw new UnsupportedImage();
                 int encodedWidth = reader.getWidth(0), encodedHeight = reader.getHeight(0);
                 if (encodedWidth < 1 || encodedHeight < 1 || encodedWidth > Math.max(maxWidth, maxHeight)
@@ -115,6 +116,27 @@ public final class MiniappDemoIdPhotoRendererMain {
                 return new Decoded(normalized, format.startsWith("JP") ? "JPEG" : "PNG");
             } finally { reader.dispose(); }
         }
+    }
+
+    private static void rejectAnimatedPng(byte[] bytes) {
+        byte[] signature = {(byte) 0x89, 'P', 'N', 'G', 13, 10, 26, 10};
+        if (bytes.length < signature.length || !java.util.Arrays.equals(signature,
+                java.util.Arrays.copyOf(bytes, signature.length))) throw new InvalidImage();
+        int offset = signature.length;
+        boolean ended = false;
+        while (offset < bytes.length) {
+            if (offset > bytes.length - 12) throw new InvalidImage();
+            long length = Integer.toUnsignedLong(ByteBuffer.wrap(bytes, offset, 4).order(ByteOrder.BIG_ENDIAN).getInt());
+            if (length > Integer.MAX_VALUE || length > bytes.length - offset - 12L) throw new InvalidImage();
+            String type = new String(bytes, offset + 4, 4, java.nio.charset.StandardCharsets.US_ASCII);
+            if ("acTL".equals(type) || "fcTL".equals(type) || "fdAT".equals(type)) throw new UnsupportedImage();
+            offset = Math.toIntExact(offset + 12L + length);
+            if ("IEND".equals(type)) {
+                ended = true;
+                break;
+            }
+        }
+        if (!ended || offset != bytes.length) throw new InvalidImage();
     }
 
     private static BufferedImage orient(BufferedImage source, int orientation) {

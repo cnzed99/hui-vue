@@ -17,14 +17,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PushbackInputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardOpenOption;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.Arrays;
 import java.util.Collections;
@@ -49,7 +44,8 @@ final class MiniappDemoIdPhotoMultipartRequest extends DefaultMultipartHttpServl
         this.image = image; this.specification = specification; this.task = task;
     }
 
-    static MiniappDemoIdPhotoMultipartRequest parse(HttpServletRequest request, Path root, long maximum)
+    static MiniappDemoIdPhotoMultipartRequest parse(HttpServletRequest request, Path root, long maximum,
+            cn.iocoder.yudao.server.print.miniappdemo.file.MiniappDemoFileService files)
             throws IOException, ServletException {
         String boundary = boundary(request.getContentType());
         Path task = Files.createTempDirectory(root, "task-");
@@ -98,14 +94,16 @@ final class MiniappDemoIdPhotoMultipartRequest extends DefaultMultipartHttpServl
             if (!seen.equals(Set.of("file", "specification")) || file == null || specification == null) throw invalid();
             return new MiniappDemoIdPhotoMultipartRequest(request, file, specification, task);
         } catch (IOException | ServletException | RuntimeException failure) {
-            deleteTaskDirectory(task, root);
+            if (!files.cleanupIdPhotoMultipartTask(task)) files.retainStorageLockUntilProcessExit();
             throw failure;
         }
     }
 
     MultipartFile image() { return image; }
     String specification() { return specification; }
-    void cleanup(Path root) { deleteTaskDirectory(task, root); }
+    boolean cleanup(cn.iocoder.yudao.server.print.miniappdemo.file.MiniappDemoFileService files) {
+        return files.cleanupIdPhotoMultipartTask(task);
+    }
 
     static String boundary(String contentType) {
         MediaType type = MediaType.parseMediaType(contentType);
@@ -157,23 +155,6 @@ final class MiniappDemoIdPhotoMultipartRequest extends DefaultMultipartHttpServl
     @Override public Map<String, String[]> getParameterMap() { return Map.of(); }
 
     private static ServletException invalid() { return new ServletException("Invalid id photo multipart body"); }
-
-    static void deleteTaskDirectory(Path task, Path root) {
-        try {
-            Path realRoot = root.toRealPath();
-            Path candidate = task.toAbsolutePath().normalize();
-            if (!candidate.getParent().equals(realRoot) || !candidate.getFileName().toString().startsWith("task-")
-                    || Files.isSymbolicLink(candidate)) return;
-            Files.walkFileTree(candidate, new SimpleFileVisitor<>() {
-                @Override public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    Files.deleteIfExists(file); return FileVisitResult.CONTINUE;
-                }
-                @Override public FileVisitResult postVisitDirectory(Path directory, IOException failure) throws IOException {
-                    if (failure != null) throw failure; Files.deleteIfExists(directory); return FileVisitResult.CONTINUE;
-                }
-            });
-        } catch (NoSuchFileException ignored) { } catch (IOException ignored) { }
-    }
 
     static final class PartTooLarge extends IOException { }
     static final class UnsupportedPart extends IOException { }

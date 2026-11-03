@@ -14,14 +14,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardOpenOption;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.PosixFilePermission;
 import java.security.MessageDigest;
 import java.util.Arrays;
@@ -59,19 +55,19 @@ public final class MiniappDemoIdPhotoProcessRenderer {
     @PostConstruct
     public void initialize() throws IOException {
         properties.validateEnabled();
+        if (!fileProperties.isEnabled()) return;
+        fileService.requireStorageLockHeld();
+        scratch = fileService.idPhotoScratchRoot();
         if (!properties.isEnabled()) return;
         if (!fileProperties.isEnabled() || properties.getMaxInputBytes() > fileProperties.getMaxBytes()
                 || properties.getMaxPdfBytes() > fileProperties.getMaxBytes()) {
             throw new IOException("Id photo renderer limits must fit the miniapp demo file limits");
         }
-        fileService.requireStorageLockHeld();
         runtimeJar = fileProperties.getRuntimeJar().toRealPath();
         if (!Files.isRegularFile(runtimeJar, LinkOption.NOFOLLOW_LINKS) || Files.isSymbolicLink(runtimeJar)
                 || !runtimeJar.getFileName().toString().endsWith(".jar")) {
             throw new IOException("Id photo renderer requires an immutable executable jar");
         }
-        scratch = privateDirectory(fileProperties.getStorageRoot().normalize().resolve("id-photo-scratch"));
-        cleanupAbandoned();
     }
 
     @PreDestroy
@@ -167,7 +163,9 @@ public final class MiniappDemoIdPhotoProcessRenderer {
             if (process != null && process.isAlive()) terminateUninterruptibly(process);
             joinUninterruptibly(collectorThread, process == null ? null : process.getInputStream());
             if (lease != null) lease.close();
-            if (task != null) deleteTaskDirectory(task, scratch);
+            if (task != null && !fileService.cleanupIdPhotoScratchTask(task)) {
+                fileService.retainStorageLockUntilProcessExit();
+            }
         }
     }
 
@@ -224,23 +222,6 @@ public final class MiniappDemoIdPhotoProcessRenderer {
         return new MiniappDemoIdPhotoException(reason);
     }
 
-    private static Path privateDirectory(Path path) throws IOException {
-        if (!Files.exists(path, LinkOption.NOFOLLOW_LINKS)) {
-            Files.createDirectories(path); Files.setPosixFilePermissions(path, PRIVATE_DIRECTORY);
-        }
-        if (Files.isSymbolicLink(path) || !Files.isDirectory(path, LinkOption.NOFOLLOW_LINKS)
-                || !Files.getPosixFilePermissions(path).equals(PRIVATE_DIRECTORY)) {
-            throw new IOException("Unsafe id photo scratch directory");
-        }
-        return path.toRealPath();
-    }
-
-    private void cleanupAbandoned() throws IOException {
-        try (var paths = Files.newDirectoryStream(scratch, "task-*")) {
-            for (Path path : paths) deleteTaskDirectory(path, scratch);
-        }
-    }
-
     private static void terminate(Process process) throws InterruptedException {
         process.destroy();
         if (!process.waitFor(1, TimeUnit.SECONDS)) { process.destroyForcibly(); process.waitFor(); }
@@ -267,23 +248,6 @@ public final class MiniappDemoIdPhotoProcessRenderer {
         }
         if (thread.isAlive()) try { if (input != null) input.close(); } catch (IOException ignored) { }
         if (interrupted) Thread.currentThread().interrupt();
-    }
-
-    static void deleteTaskDirectory(Path task, Path root) {
-        try {
-            Path realRoot = root.toRealPath();
-            Path candidate = task.toAbsolutePath().normalize();
-            if (!candidate.getParent().equals(realRoot) || !candidate.getFileName().toString().startsWith("task-")
-                    || Files.isSymbolicLink(candidate)) return;
-            Files.walkFileTree(candidate, new SimpleFileVisitor<>() {
-                @Override public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    Files.deleteIfExists(file); return FileVisitResult.CONTINUE;
-                }
-                @Override public FileVisitResult postVisitDirectory(Path directory, IOException failure) throws IOException {
-                    if (failure != null) throw failure; Files.deleteIfExists(directory); return FileVisitResult.CONTINUE;
-                }
-            });
-        } catch (NoSuchFileException ignored) { } catch (IOException ignored) { }
     }
 
     private static final class Collector implements Runnable {

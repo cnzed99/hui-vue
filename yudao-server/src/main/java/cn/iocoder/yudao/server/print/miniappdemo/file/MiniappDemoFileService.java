@@ -34,6 +34,7 @@ import java.util.HexFormat;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.ScheduledExecutorService;
@@ -58,6 +59,9 @@ public class MiniappDemoFileService {
     private Path objects;
     private Path incoming;
     private Path scratch;
+    private Path idPhotoMultipart;
+    private Path idPhotoScratch;
+    private final Set<Path> privateCleanupPending = ConcurrentHashMap.newKeySet();
     private ScheduledExecutorService worker;
     private java.nio.channels.FileChannel lockChannel;
     private java.nio.channels.FileLock workerLock;
@@ -83,6 +87,8 @@ public class MiniappDemoFileService {
         objects = privateDirectory(root.resolve("objects"));
         incoming = privateDirectory(root.resolve("incoming"));
         scratch = privateDirectory(root.resolve("parser-scratch"));
+        idPhotoMultipart = privateDirectory(root.resolve("id-photo-multipart"));
+        idPhotoScratch = privateDirectory(root.resolve("id-photo-scratch"));
         lockChannel = java.nio.channels.FileChannel.open(root.resolve(".worker.lock"), StandardOpenOption.CREATE,
                 StandardOpenOption.WRITE, LinkOption.NOFOLLOW_LINKS);
         workerLock = lockChannel.tryLock();
@@ -175,6 +181,24 @@ public class MiniappDemoFileService {
     /** Keep the OS lock open when a dependent renderer cannot drain safely during shutdown. */
     public void retainStorageLockUntilProcessExit() {
         retainStorageLockUntilExit = true;
+    }
+
+    public Path idPhotoMultipartRoot() {
+        requireStorageLockHeld();
+        return idPhotoMultipart;
+    }
+
+    public Path idPhotoScratchRoot() {
+        requireStorageLockHeld();
+        return idPhotoScratch;
+    }
+
+    public boolean cleanupIdPhotoMultipartTask(Path task) {
+        return cleanupPrivateTaskOrQueue(task, idPhotoMultipart);
+    }
+
+    public boolean cleanupIdPhotoScratchTask(Path task) {
+        return cleanupPrivateTaskOrQueue(task, idPhotoScratch);
     }
 
     private MiniappDemoFileMetadata uploadSerialized(MiniappDemoIdentity identity, MultipartFile file, String idempotencyKey,
@@ -313,6 +337,7 @@ public class MiniappDemoFileService {
 
     private void maintenance() {
         try {
+            retryPrivateCleanup();
             repository.recoverInterrupted(System.currentTimeMillis());
             for (MiniappDemoFileRow row : repository.cleanupCandidates(System.currentTimeMillis(), 16)) {
                 row = expireIfNeeded(row);
@@ -384,6 +409,74 @@ public class MiniappDemoFileService {
                         && !repository.storageReferenced(key)) Files.delete(path);
             }
         }
+        cleanupPrivateRoot(idPhotoMultipart);
+        cleanupPrivateRoot(idPhotoScratch);
+    }
+
+    private void cleanupPrivateRoot(Path directory) throws IOException {
+        try (var tasks = Files.newDirectoryStream(directory, "task-*")) {
+            for (Path task : tasks) deletePrivateTask(task, directory);
+        }
+    }
+
+    private boolean cleanupPrivateTaskOrQueue(Path task, Path expectedRoot) {
+        try {
+            requireStorageLockHeld();
+            deletePrivateTask(task, expectedRoot);
+            privateCleanupPending.remove(task.toAbsolutePath().normalize());
+            return true;
+        } catch (IOException | RuntimeException failure) {
+            if (task != null) privateCleanupPending.add(task.toAbsolutePath().normalize());
+            LOG.warn("miniapp_demo_id_photo_private_cleanup_pending errorType={}",
+                    failure.getClass().getSimpleName());
+            return false;
+        }
+    }
+
+    private void retryPrivateCleanup() {
+        for (Path task : Set.copyOf(privateCleanupPending)) {
+            Path parent = task.getParent();
+            Path expected = idPhotoMultipart != null && idPhotoMultipart.equals(parent) ? idPhotoMultipart
+                    : idPhotoScratch != null && idPhotoScratch.equals(parent) ? idPhotoScratch : null;
+            if (expected == null) {
+                privateCleanupPending.remove(task);
+                continue;
+            }
+            try {
+                deletePrivateTask(task, expected);
+                privateCleanupPending.remove(task);
+                LOG.info("miniapp_demo_id_photo_private_cleanup_recovered");
+            } catch (IOException failure) {
+                LOG.warn("miniapp_demo_id_photo_private_cleanup_retry errorType={}",
+                        failure.getClass().getSimpleName());
+            }
+        }
+    }
+
+    private static void deletePrivateTask(Path task, Path expectedRoot) throws IOException {
+        if (task == null || expectedRoot == null) throw new IOException("Missing private cleanup target");
+        Path candidate = task.toAbsolutePath().normalize();
+        if (!candidate.getParent().equals(expectedRoot) || !candidate.getFileName().toString().startsWith("task-")) {
+            throw new IOException("Private cleanup target is outside the owned root");
+        }
+        if (!Files.exists(candidate, LinkOption.NOFOLLOW_LINKS)) return;
+        if (Files.isSymbolicLink(candidate) || !Files.isDirectory(candidate, LinkOption.NOFOLLOW_LINKS)) {
+            throw new IOException("Unsafe private cleanup target");
+        }
+        Files.walkFileTree(candidate, new java.nio.file.SimpleFileVisitor<>() {
+            @Override public java.nio.file.FileVisitResult visitFile(Path file,
+                    java.nio.file.attribute.BasicFileAttributes attributes) throws IOException {
+                if (Files.isSymbolicLink(file)) throw new IOException("Symlink in private cleanup target");
+                Files.delete(file);
+                return java.nio.file.FileVisitResult.CONTINUE;
+            }
+            @Override public java.nio.file.FileVisitResult postVisitDirectory(Path directory, IOException failure)
+                    throws IOException {
+                if (failure != null) throw failure;
+                Files.delete(directory);
+                return java.nio.file.FileVisitResult.CONTINUE;
+            }
+        });
     }
     private static Path privateDirectory(Path path) throws IOException {
         if (!Files.exists(path, LinkOption.NOFOLLOW_LINKS)) {
