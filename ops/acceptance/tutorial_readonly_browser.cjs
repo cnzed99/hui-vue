@@ -38,8 +38,10 @@ if (!profilePath) throw new Error('SMOKE_PROFILE is required')
       await page.getByText(title, { exact: true }).click()
       await page.waitForURL(new RegExp(`pages/tutorial-detail/index\\?article=${id}`))
       await page.getByText(`发布日期：${publishedAt}`, { exact: true }).waitFor()
+      await page.getByText('历史指南仅用于还原页面结构，流程和截图可能已过时；其中展示的旧金额不作为新系统价格。', { exact: true }).waitFor()
       if (kind === 'external') {
         await page.getByText('原版为公众号外链视频教程', { exact: true }).waitFor()
+        await page.getByText(/不复用原公众号链接或视频/).waitFor()
         assert.equal(await page.locator('.step').count(), 0)
       } else {
         assert.equal(await page.locator('.step').count(), stepCount)
@@ -48,15 +50,24 @@ if (!profilePath) throw new Error('SMOKE_PROFILE is required')
       await page.locator('.back').click()
       await page.waitForURL(/pages\/tutorial-list\/index/)
     }
-    result = { pages: 8, articles: 7, externalVideoArticles: 5, stepArticles: 2, steps: 9 }
+    for (const invalidArticle of ['', 'constructor', '__proto__', 'toString']) {
+      await page.goto(`http://127.0.0.1:18080/miniapp/#/pages/tutorial-detail/index?article=${invalidArticle}`)
+      await page.waitForURL(/pages\/tutorial-list\/index/)
+    }
+    result = { pages: 8, articles: 7, externalVideoArticles: 5, stepArticles: 2, steps: 9, invalidRoutes: 4, historyWarnings: 7 }
   } finally {
     if (context) await context.close()
   }
   const nonGet = requests.filter(request => request.method !== 'GET')
-  const originalRequests = requests.filter(request => request.url.includes('youfan.iyint.com'))
+  const externalHttpRequests = requests.filter(request => {
+    const url = new URL(request.url)
+    return (url.protocol === 'http:' || url.protocol === 'https:') && url.origin !== 'http://127.0.0.1:18080'
+  })
+  const originalRequests = requests.filter(request => request.url.includes('youfan.iyint.com') || request.url.includes('mp.weixin.qq.com'))
   assert.deepEqual(nonGet, [])
+  assert.deepEqual(externalHttpRequests, [])
   assert.deepEqual(originalRequests, [])
-  console.log(JSON.stringify({ result: 'PASS', ...result, nonGet: 0, originalRequests: 0 }))
+  console.log(JSON.stringify({ result: 'PASS', ...result, nonGet: 0, externalHttpRequests: 0, originalRequests: 0 }))
 })().catch(error => {
   console.error(error)
   process.exitCode = 1
