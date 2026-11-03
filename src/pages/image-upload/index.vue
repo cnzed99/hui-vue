@@ -6,7 +6,8 @@ import { createDraft, saveDraft } from '@/domain/printDraft'
 
 const IMAGE_SELECTION_KEY = 'miniapp-image-selection-v1'
 type ImageState = 'selected' | 'uploading' | 'ready' | 'failed'
-interface StoredSelection { schemaVersion: 1; path: string; name: string; size: number }
+type SelectionPurpose = 'image-print' | 'document-copy'
+interface StoredSelection { schemaVersion: 1; path: string; name: string; size: number; purpose?: SelectionPurpose }
 
 const state = ref<ImageState>('selected')
 const selection = ref<StoredSelection | null>(null)
@@ -14,6 +15,8 @@ const serverFileId = ref('')
 const generatedSize = ref(0)
 const failureText = ref('')
 const sessionState = ref<'checking' | 'ready' | 'unavailable'>('checking')
+const isDocumentCopy = computed(() => selection.value?.purpose === 'document-copy')
+const pageTitle = computed(() => isDocumentCopy.value ? '文件复印' : '图片打印')
 const sizeText = computed(() => {
   const bytes = state.value === 'ready' ? generatedSize.value : selection.value?.size || 0
   return bytes ? `${(bytes / 1024).toFixed(1)} KB` : '大小将在上传时校验'
@@ -74,7 +77,7 @@ function continueToSettings() {
 
 <template>
   <view class="upload-page">
-    <view class="header"><view class="status-space" /><view class="title-row"><text class="back" @click="goBack">‹</text><text>图片打印</text><text class="spacer" /></view></view>
+    <view class="header"><view class="status-space" /><view class="title-row"><text class="back" @click="goBack">‹</text><text>{{ pageTitle }}</text><text class="spacer" /></view></view>
     <view class="body">
       <view class="session-state" :class="sessionState">
         {{ sessionState === 'checking' ? '正在建立安全演示会话…' : sessionState === 'ready' ? '安全演示会话已建立' : '安全演示会话暂不可用' }}
@@ -85,9 +88,11 @@ function continueToSettings() {
         <text class="file-size">{{ sizeText }}</text>
       </view>
       <view class="rule-card">
-        <text>本批转换规则</text>
-        <text>单张图片 · A4 纵向 · 等比完整显示 · 不裁剪 · 透明区域白底</text>
+        <text>{{ isDocumentCopy ? '文件复印规则' : '本批转换规则' }}</text>
+        <text v-if="isDocumentCopy">单张文件照片 · A4 纵向 · 等比完整显示 · 不裁剪</text>
+        <text v-else>单张图片 · A4 纵向 · 等比完整显示 · 不裁剪 · 透明区域白底</text>
         <text>生成 1 页 PDF 后复用现有单双面、份数与按纸张计价。</text>
+        <text v-if="isDocumentCopy">证件组合、自动矫正和去阴影仍未开放。</text>
       </view>
       <view v-if="state === 'uploading'" class="status warning"><text>正在安全转换</text><text>图片解码在受限子进程中完成，请保持页面打开。</text></view>
       <view v-else-if="state === 'ready'" class="status success"><text>转换完成</text><text>已生成 1 页 A4 PDF，原图与中间文件将在 1 小时内清理。</text></view>
