@@ -312,6 +312,16 @@
 - 浏览器证据 `evidence/miniapp/id-household-boundary-20261103T110032826Z-22b9fe7c/report.json` 为 13/13 PASS：覆盖路由、4个位置、文案、无敏感控件、选择/下一步关闭和零写请求/外部请求。真实上传、识别、组合排版、计价、微信真机与外部验收为 `NOT_IMPLEMENTED/NOT_RUN`。
 - 自上一批 Sol High 批量审查后累计普通页面增量为3页（代金红包、我的文库、该组合页），继续并入下一批审查；没有后端写入、权限作用域或关键业务规则变更，不触发 Astra Medium/High。
 
+## 营业执照与驾驶证/行驶证复印边界记录
+
+- Windows 原小程序只读观察到营业执照单图片位，以及驾驶证/行驶证正反两个图片位和交换顺序；均在选图前停止，未读取、上传、识别、保存或提交个人证件资料。
+- 新系统产品提交 `14f7b2e521f1ed58213bd4aea4f7c4a8d97d571b`、验收提交 `dd1f9187fcf23a6ff457149a4031d58c6e766294` 已推送分支 `print/phase1-miniapp-certificate-boundaries`。页面只展示已观察结构，图片位置、交换顺序与下一步全部关闭，没有新建后端写入、数据库、权限作用域或业务规则。
+- 第一次标准构建窗口在代码编译前因工作树没有连接共享 `node_modules`，类型检查报告缺少 `@dcloudio/types` 后退出；窗口自动恢复四项服务并清理 scratch。连接既有锁定依赖后，`certificate-boundaries-20261103t1920z` 的类型检查、H5和微信小程序构建通过，`build=0`、`recovery=0`、后端健康，四服务 active，磁盘剩余约38GiB。
+- 活动 H5 发布为 `/var/www/print-system/releases/miniapp-certificate-boundaries-20261103t1112z-14f7b2e`，`index.html` SHA-256 为 `b03fec69994635cc5ddb8d169856f9736751fcf87ff9b6ace9bf0d0ca62c9500`；本机 `127.0.0.1:18080` 隧道读取摘要一致。
+- 浏览器证据 `evidence/miniapp/certificate-boundaries-20261103T111012178Z-9c0900df/report.json` 为 17/17 PASS，覆盖两页路由、精确文案、1/2个图片位置、交换和下一步关闭、无敏感输入、零写请求及零外部请求。
+- 本两页与此前代金红包、我的文库、身份证+户口本组合页累计5个普通页面，固定 `sol_reviewer`（配置 GPT-6.1 Sol High）批量审查最终 `PASS`，未触发 Astra。宿主实际模型与 effort 无独立遥测；末两页原屏未归档，审查只能按字段清单核对，不能独立证明视觉一致性。
+- 真实微信工具/真机、证件上传识别、排版、计价、打印和外部用户验收继续为 `NOT_RUN`。
+
 ## 当前完成度口径
 
 当前后端完整闭环基线仍为 **M11 PDF 来源接入**（2026-11-02）：run `20261102T153807Z-afbb79a0`；后端 `7efd316fb154c65fff089da7a5919284fb1f8cd6`，当时小程序 `27abcbe945ceb567a315f961d8bb50bd3bb2dc87`。上文证件照批次仅更新当前 H5 开发客户端并保持计价/订单关闭，不替代这条后端闭环基线。聊天文档中的PDF和发票聊天文件PDF复用已有上传、解析和设置链；目录公开能力准确为 PDF-only、uploadEnabled=true，Office与卡包发票仍预留。
