@@ -70,6 +70,29 @@ let quoteArrived
 let releaseQuote
 const quoteStart = new Promise(done => { quoteArrived = done })
 const quoteRelease = new Promise(done => { releaseQuote = done })
+const orderId = '00000000-0000-4000-8000-000000000008'
+const deferred = new Map()
+const writes = []
+let paidOrder = false
+function defer(kind) {
+  const started = Promise.withResolvers()
+  const release = Promise.withResolvers()
+  deferred.set(kind, { started, release })
+  return { started: started.promise, release: release.resolve }
+}
+async function hold(kind) {
+  const gate = deferred.get(kind)
+  if (!gate) return
+  gate.started.resolve()
+  await gate.release.promise
+  deferred.delete(kind)
+}
+async function waitForMock(promise) {
+  let timer
+  await Promise.race([promise, new Promise((_, reject) => {
+    timer = setTimeout(() => reject(new Error('Expected mock request did not arrive')), 5000)
+  })]).finally(() => clearTimeout(timer))
+}
 let browser
 
 function pass(name) { checks.push({ name, passed: true }) }
@@ -93,17 +116,66 @@ try {
         polled++
         return send({ ...record, expiresAtMs: session.expiresAtMs, status: 'READY', ready: true, pageCount: 4 })
       }
+      const quoteId = 'quote-' + session.sessionId
+      const snapshot = {
+        schemaVersion: 1, mode: 'DEMO', currency: 'CNY', aggregationPolicy: 'PER_FILE_ALL_COPIES',
+        paper: 'A4', color: 'BLACK_WHITE', side: 'SIMPLEX', pagesPerCopy: 4, totalSheets: '4',
+        pricePerSheet: '0.20', totalAmount: '0.80', expiresAtMs: session.expiresAtMs + 60000
+      }
+      const order = {
+        id: orderId, orderNo: 'old-owner-order', source: 'MINIAPP_DEMO', simulation: true, currency: 'CNY',
+        totalAmount: '0.80', orderState: 'OPEN', paymentState: paidOrder ? 'SUCCEEDED' : 'UNPAID',
+        refundState: 'NONE', cancellationOutcome: null, printState: 'NOT_CREATED', version: paidOrder ? 2 : 1,
+        item: { id: 'item', quoteId, fileId, amount: '0.80', quoteSnapshot: snapshot }
+      }
       if (url.pathname === '/app-api/print/miniapp/demo/quotes') {
         assert.equal(request.headers().authorization, 'Bearer ' + session.accessToken)
         assert.equal(request.postDataJSON().fileId, fileId)
         quoteCalls++
         quoteArrived()
         await quoteRelease
-        return send({ id: 'late-quote', status: 'VALID', snapshot: {
-          schemaVersion: 1, mode: 'DEMO', currency: 'CNY', aggregationPolicy: 'PER_FILE_ALL_COPIES',
-          paper: 'A4', color: 'BLACK_WHITE', side: 'SIMPLEX', pagesPerCopy: 4, totalSheets: '4',
-          pricePerSheet: '0.20', totalAmount: '0.80', expiresAtMs: session.expiresAtMs + 60000
-        } })
+        return send({ id: quoteId, status: 'VALID', snapshot })
+      }
+      if (url.pathname === '/app-api/print/miniapp/demo/orders' && request.method() === 'POST') {
+        assert.equal(request.headers().authorization, 'Bearer ' + session.accessToken)
+        assert.equal(request.postDataJSON().quoteId, quoteId)
+        assert.equal(request.headers()['idempotency-key'], 'miniapp-order-v1-' + quoteId)
+        writes.push('order:' + session.sessionId)
+        await hold('order')
+        return send(order)
+      }
+      if (url.pathname === '/app-api/print/miniapp/demo/payment') {
+        assert.equal(url.searchParams.get('orderId'), orderId)
+        assert.equal(request.headers().authorization, 'Bearer ' + session.accessToken)
+        await hold('receipt')
+        return send({
+          id: 'late-receipt', orderId, provider: 'SIMULATED', mode: 'DEMO', state: 'SUCCEEDED', simulation: true,
+          currency: 'CNY', amount: '0.80', createdAtMs: Date.now(),
+          debit: { side: 'DEBIT', account: 'DEMO_CUSTOMER', currency: 'CNY', amount: '0.80' },
+          credit: { side: 'CREDIT', account: 'DEMO_STORE', currency: 'CNY', amount: '0.80' }
+        })
+      }
+      if (url.pathname === '/app-api/print/miniapp/demo/cancellation') {
+        assert.equal(url.searchParams.get('orderId'), orderId)
+        return send({ currentOrder: order, cancellation: null, capability: paidOrder
+          ? { action: 'NONE', reason: 'WRITE_DISABLED', expectedVersion: 2 }
+          : { action: 'CANCEL_UNPAID', reason: 'UNPAID', expectedVersion: 1 } })
+      }
+      if (url.pathname === '/app-api/print/miniapp/demo/cancellations') {
+        assert.equal(request.headers().authorization, 'Bearer ' + session.accessToken)
+        assert.deepEqual(request.postDataJSON(), { orderId, expectedVersion: 1 })
+        writes.push('cancel:' + session.sessionId)
+        await hold('cancel')
+        return send({
+          originalResult: {
+            id: '00000000-0000-4000-8000-000000000009', orderId, outcome: 'CANCELLED_UNPAID', reason: 'UNPAID',
+            orderVersionBefore: 1, orderVersionAfter: 2, createdAtMs: Date.now(), simulation: true,
+            taskId: null, taskStateBefore: null, taskStateAfter: null, taskVersionBefore: null, taskVersionAfter: null,
+            taskFenceBefore: null, taskFenceAfter: null
+          },
+          currentOrder: { ...order, orderState: 'CANCELLED', version: 2, cancellationOutcome: 'CANCELLED_UNPAID' },
+          refundReceipt: null, reviewSummary: null
+        })
       }
       const inspection = url.pathname === '/app-api/print/miniapp-demo/archive-inspections'
       const selection = url.pathname === '/app-api/print/miniapp-demo/archive-files'
@@ -245,6 +317,77 @@ try {
   assert.equal(await page.getByText('创建模拟订单', { exact: true }).count(), 0)
   pass('late_quote_discarded_after_session_expiry_in_same_spa')
 
+  async function openFreshOrder(sessionId) {
+    if (session.sessionId !== sessionId) session = {
+      ...session, sessionId, accessToken: Buffer.from(sessionId).toString('base64url').padEnd(43, 'A'),
+      expiresAtMs: session.expiresAtMs + 3600000
+    }
+    await choose('test.zip', bytes)
+    await inspect()
+    await candidate('first.pdf').click()
+    await extract()
+    await page.getByText('继续设置打印参数', { exact: true }).click()
+    await page.getByText('确认参数', { exact: true }).click()
+    await page.getByText('创建模拟订单', { exact: true }).waitFor()
+    assert.equal(await page.getByText('恢复原模拟订单', { exact: true }).count(), 0)
+  }
+  const recoveryRecord = prefix => page.evaluate(prefix => {
+    const key = Object.keys(localStorage).find(key => key.includes(prefix))
+    return key ? localStorage.getItem(key) : null
+  }, prefix)
+  async function expireAndRelease(gate) {
+    await page.clock.setFixedTime(session.expiresAtMs + 1)
+    gate.release()
+    await page.waitForURL(url => url.hash.includes('/pages/archive-print/index'))
+  }
+
+  await openFreshOrder('old-write-session')
+  const orderGate = defer('order')
+  await page.getByText('创建模拟订单', { exact: true }).click()
+  await waitForMock(orderGate.started)
+  const oldOrderRecord = 'miniapp-archive-order-pending-v1:old-write-session:'
+  const oldOrderSaved = await recoveryRecord(oldOrderRecord)
+  assert.ok(oldOrderSaved?.includes('quote-old-write-session'))
+  await expireAndRelease(orderGate)
+  assert.equal(await recoveryRecord(oldOrderRecord), oldOrderSaved)
+  pass('late_order_keeps_original_pending_record_after_same_spa_session_change')
+
+  paidOrder = true
+  await openFreshOrder('old-receipt-session')
+  const receiptGate = defer('receipt')
+  await page.getByText('创建模拟订单', { exact: true }).click()
+  await waitForMock(receiptGate.started)
+  await page.getByText('old-owner-order', { exact: true }).waitFor()
+  await expireAndRelease(receiptGate)
+  assert.equal(await page.getByText('收据 late-receipt', { exact: true }).count(), 0)
+  assert.ok((await recoveryRecord('miniapp-archive-order-pending-v1:old-receipt-session:'))?.includes('quote-old-receipt-session'))
+  pass('late_receipt_discarded_while_original_order_recovery_remains')
+
+  paidOrder = false
+  await openFreshOrder('old-cancel-session')
+  const cancelGate = defer('cancel')
+  await page.getByText('创建模拟订单', { exact: true }).click()
+  await page.locator('.cancel-panel .action').filter({ hasText: /^取消订单$/ }).click()
+  await page.getByText('确认', { exact: true }).click()
+  await waitForMock(cancelGate.started)
+  const oldCancelRecord = 'miniapp-archive-cancellation-pending-v1:old-cancel-session:'
+  const oldCancelSaved = await recoveryRecord(oldCancelRecord)
+  assert.ok(oldCancelSaved?.includes('miniapp-cancel-v1-'))
+  // Let the expired cancel handler observe a new same-principal session when it checks ownership.
+  await page.clock.setFixedTime(session.expiresAtMs + 1)
+  session = { ...session, sessionId: 'new-after-cancel', accessToken: 'C'.repeat(43), expiresAtMs: session.expiresAtMs + 3600000 }
+  cancelGate.release()
+  await page.waitForURL(url => url.hash.includes('/pages/archive-print/index'))
+  assert.equal(await recoveryRecord(oldCancelRecord), oldCancelSaved)
+  await openFreshOrder('new-after-cancel')
+  await page.getByText('创建模拟订单', { exact: true }).click()
+  await page.locator('.cancel-panel .action').filter({ hasText: /^取消订单$/ }).waitFor()
+  assert.equal(await page.getByText('重试原取消请求', { exact: true }).count(), 0)
+  assert.equal(await recoveryRecord(oldCancelRecord), oldCancelSaved)
+  assert.deepEqual(writes, ['order:old-write-session', 'order:old-receipt-session', 'order:old-cancel-session',
+    'cancel:old-cancel-session', 'order:new-after-cancel'])
+  pass('late_cancel_preserves_old_key_and_new_session_cannot_inherit_or_resend_it')
+
   assert.deepEqual(mockErrors, [])
   pass('only_isolated_origin_and_frozen_fields')
 } catch (error) {
@@ -254,6 +397,7 @@ try {
 } finally {
   releaseHeld()
   releaseQuote()
+  for (const gate of deferred.values()) gate.release.resolve()
   await browser?.close()
   await new Promise(done => server.close(done))
   await writeFile(reportPath, JSON.stringify(report, null, 2) + '\n', { mode: 0o600 })
