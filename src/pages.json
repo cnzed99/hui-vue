@@ -197,6 +197,12 @@
       }
     },
     {
+      "path": "pages/certificate-single/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
       "path": "pages/paper-renewal/index",
       "style": {
         "navigationStyle": "custom"
