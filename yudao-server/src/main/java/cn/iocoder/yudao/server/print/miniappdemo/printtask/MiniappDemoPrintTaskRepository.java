@@ -14,7 +14,7 @@ public class MiniappDemoPrintTaskRepository {
     record Order(String id, String principalId, String currency, String totalAmount,
                  String orderState, String paymentState, String refundState, String printState, long version) {}
     record Item(String id, String fileId, String fileSha256, String snapshotJson, String amount) {}
-    record File(String id, String sha256, Integer pages, String status, long expiresAtMs) {}
+    record File(String id, String sha256, Integer pages, String status, long expiresAtMs, String sourceKind, String sourceVariant, String storageKey) {}
     record Task(String id, String jobId, String orderId, String orderItemId, String principalId,
                 String fileId, String fileSha256, String plannedCopies, String plannedSheets,
                 String state, long version, long fence, String leaseId, Long leaseUntilMs,
@@ -99,10 +99,10 @@ public class MiniappDemoPrintTaskRepository {
     }
 
     Optional<File> fileForUpdate(PrintScope scope, String principalId, String id) {
-        return jdbc.query("SELECT id,content_sha256,page_count,status,expires_at_ms FROM print_miniapp_demo_file "
+        return jdbc.query("SELECT id,content_sha256,page_count,status,expires_at_ms,source_kind,source_variant,storage_key FROM print_miniapp_demo_file "
                         + "WHERE tenant_id=? AND store_id=? AND principal_id=? AND id=? FOR UPDATE",
                 (rs, n) -> new File(rs.getString("id"), rs.getString("content_sha256"),
-                        rs.getObject("page_count", Integer.class), rs.getString("status"), rs.getLong("expires_at_ms")),
+                        rs.getObject("page_count", Integer.class), rs.getString("status"), rs.getLong("expires_at_ms"), rs.getString("source_kind"), rs.getString("source_variant"), rs.getString("storage_key")),
                 scope.tenantId(), scope.storeId(), principalId, id).stream().findFirst();
     }
 
@@ -154,6 +154,10 @@ public class MiniappDemoPrintTaskRepository {
                 scope.tenantId(), scope.storeId(), task.principalId(), task.id(), keyHash).stream().findFirst();
     }
 
+    record Frozen(String itemFile,String itemHash,String snapshot,String amount,String fileHash,String kind,String variant) {}
+    Optional<Frozen> frozen(long tenant,long store,String principal,String taskId) {
+        return jdbc.query("SELECT i.file_id,i.file_content_sha256,i.quote_snapshot_json,i.amount,f.content_sha256,f.source_kind,f.source_variant FROM print_miniapp_demo_print_task t JOIN print_miniapp_demo_order_item i ON i.id=t.order_item_id AND i.tenant_id=t.tenant_id AND i.store_id=t.store_id AND i.principal_id=t.principal_id JOIN print_miniapp_demo_file f ON f.id=i.file_id AND f.tenant_id=i.tenant_id AND f.store_id=i.store_id AND f.principal_id=i.principal_id WHERE t.tenant_id=? AND t.store_id=? AND t.principal_id=? AND t.id=?",(rs,n)->new Frozen(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7)),tenant,store,principal,taskId).stream().findFirst();
+    }
     Optional<Receipt> receipt(PrintScope scope, Task task) {
         return receipt(scope.tenantId(), scope.storeId(), task.principalId(), task.id());
     }

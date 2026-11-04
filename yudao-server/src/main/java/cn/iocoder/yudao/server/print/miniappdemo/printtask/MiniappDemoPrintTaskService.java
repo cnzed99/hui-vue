@@ -27,6 +27,8 @@ public class MiniappDemoPrintTaskService {
     private static final Set<String> ACTIONS = Set.of("CLAIM", "REQUEUE_EXPIRED_CLAIM", "ACCEPT", "START",
             "SUCCEED", "FAIL", "LOSE_RECEIPT", "MARK_TIMEOUT_UNKNOWN", "ABORT_FILE_UNAVAILABLE");
     private final MiniappDemoPrintTaskProperties properties;
+    @org.springframework.beans.factory.annotation.Autowired
+    private cn.iocoder.yudao.server.print.miniappdemo.file.MiniappDemoFileObjectAdmission objectAdmission;
     private final MiniappDemoPrintTaskRepository repository;
     private final PrintScopeService scopes;
     private final ObjectMapper mapper;
@@ -188,7 +190,9 @@ public class MiniappDemoPrintTaskService {
             }
             case "START" -> {
                 requireState(task, "ACCEPTED"); requireLease(task, input, now);
-                yield new Transition("EXECUTING", task.fence(), task.leaseId(), now + leaseMs, null, now);
+                long checkedAt = requireFileAvailable(scope, order, task);
+                requireLease(task,input,checkedAt);
+                yield new Transition("EXECUTING", task.fence(), task.leaseId(), checkedAt + leaseMs, null, checkedAt);
             }
             case "SUCCEED" -> {
                 requireState(task, "EXECUTING"); requireLease(task, input, now); requireReceiptSeq(input);
@@ -249,27 +253,41 @@ public class MiniappDemoPrintTaskService {
         }
     }
 
-    private static boolean available(Evidence evidence, MiniappDemoPrintTaskRepository.Item item,
+    private boolean available(Evidence evidence, MiniappDemoPrintTaskRepository.Item item,
                                      MiniappDemoPrintTaskRepository.File file, long now) {
         var snapshot = evidence.snapshot();
         return file != null && "READY".equals(file.status()) && file.expiresAtMs() > now
                 && file.id().equals(item.fileId()) && file.sha256().equals(item.fileSha256())
-                && file.pages() != null && file.pages() == snapshot.pagesPerCopy();
+                && file.pages() != null && file.pages() == snapshot.pagesPerCopy()
+                && MiniappDemoQuoteVerifier.matchesSource(snapshot,file.sourceKind(),file.sourceVariant())
+                && objectAdmission.available(file.storageKey(),file.sha256());
     }
 
-    private static void requireAvailable(Evidence evidence, MiniappDemoPrintTaskRepository.Item item,
+    private void requireAvailable(Evidence evidence, MiniappDemoPrintTaskRepository.Item item,
                                          MiniappDemoPrintTaskRepository.File file, long now) {
         if (!available(evidence, item, file, now)) throw failure(FILE_UNAVAILABLE);
     }
 
     private MiniappDemoPrintTaskView view(PrintScope scope, MiniappDemoPrintTaskRepository.Task task) {
+        frozen(scope.tenantId(),scope.storeId(),task);
         var receipt = repository.receipt(scope, task).map(MiniappDemoPrintTaskService::viewReceipt).orElse(null);
         return view(task, receipt);
     }
     private MiniappDemoPrintTaskView view(MiniappDemoIdentity identity, MiniappDemoPrintTaskRepository.Task task) {
+        frozen(identity.tenantId(),identity.storeId(),task);
         var receipt = repository.receipt(identity.tenantId(), identity.storeId(), identity.principalId(), task.id())
                 .map(MiniappDemoPrintTaskService::viewReceipt).orElse(null);
         return view(task, receipt);
+    }
+    private void frozen(long tenant,long store,MiniappDemoPrintTaskRepository.Task task) {
+        var f=repository.frozen(tenant,store,task.principalId(),task.id()).orElseThrow(() -> failure(SNAPSHOT_INVALID));
+        try{
+            var snapshot=mapper.readValue(f.snapshot(),MiniappDemoQuoteSnapshot.class);var verified=MiniappDemoQuoteVerifier.verify(snapshot);
+            if(!task.fileId().equals(f.itemFile())||!task.fileSha256().equals(f.itemHash())||!f.itemHash().equals(f.fileHash())
+                    ||!snapshot.fileId().equals(f.itemFile())||!snapshot.fileSha256().equals(f.itemHash())||!verified.totalAmount().equals(f.amount())
+                    ||!snapshot.copies().equals(task.plannedCopies())||!snapshot.totalSheets().equals(task.plannedSheets())
+                    ||!MiniappDemoQuoteVerifier.matchesSource(snapshot,f.kind(),f.variant()))throw failure(SNAPSHOT_INVALID);
+        }catch(JsonProcessingException|IllegalArgumentException e){throw failure(SNAPSHOT_INVALID);}
     }
     private static MiniappDemoPrintTaskView view(MiniappDemoPrintTaskRepository.Task task,
                                                   MiniappDemoPrintTaskView.Receipt receipt) {

@@ -13,6 +13,7 @@ public class MiniappDemoFileProperties {
     private Path runtimeJar;
     private long maxBytes;
     private int maxPages;
+    private int photoMaxPages = 30;
     private long retentionSeconds;
     private int queueCapacity = 8;
     private int maxActiveFilesPerPrincipal = 3;
@@ -25,6 +26,7 @@ public class MiniappDemoFileProperties {
         if (!enabled) return;
         if (storageRoot == null || !storageRoot.isAbsolute() || runtimeJar == null || !runtimeJar.isAbsolute()
                 || maxBytes <= 0 || maxBytes > 2L * 1024 * 1024
+                || photoMaxPages < 1 || photoMaxPages > 30
                 || maxPages <= 0 || maxPages > 20 || retentionSeconds <= 0 || retentionSeconds > 3600
                 || queueCapacity <= 0 || queueCapacity > 32 || maxActiveFilesPerPrincipal <= 0 || maxActiveFilesPerPrincipal > 10
                 || maxProcessingAttempts <= 0 || maxProcessingAttempts > 5 || parserTimeoutSeconds <= 0 || parserTimeoutSeconds > 30
@@ -41,6 +43,8 @@ public class MiniappDemoFileProperties {
     public void setRuntimeJar(Path value) { runtimeJar = value; }
     public long getMaxBytes() { return maxBytes; }
     public void setMaxBytes(long value) { maxBytes = value; }
+    public int getPhotoMaxPages() { return photoMaxPages; }
+    public void setPhotoMaxPages(int value) { photoMaxPages = value; }
     public int getMaxPages() { return maxPages; }
     public void setMaxPages(int value) { maxPages = value; }
     public long getRetentionSeconds() { return retentionSeconds; }

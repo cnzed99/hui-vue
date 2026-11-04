@@ -56,6 +56,13 @@ public class MiniappDemoQuoteRepository {
                 identity.tenantId(), identity.storeId(), id).stream().findFirst();
     }
 
+    record Binding(String profileId, long revision, boolean enabled) {}
+    Optional<Binding> bindingForUpdate(MiniappDemoIdentity identity) {
+        return jdbc.query("SELECT active_profile_id,revision,quote_enabled FROM print_photo_price_binding "
+                + "WHERE tenant_id=? AND store_id=? FOR UPDATE", (rs,n) -> new Binding(rs.getString(1),rs.getLong(2),rs.getBoolean(3)),
+                identity.tenantId(), identity.storeId()).stream().findFirst();
+    }
+
     int activeCount(MiniappDemoIdentity identity, long now) {
         Integer count = jdbc.queryForObject("SELECT COUNT(*) FROM print_miniapp_demo_quote "
                         + "WHERE tenant_id=? AND store_id=? AND principal_id=? AND expires_at_ms>?",

@@ -119,6 +119,8 @@ public class MiniappDemoOrderService {
                 || !item.fileId().equals(snapshot.fileId()) || !item.fileSha256().equals(snapshot.fileSha256())) {
             throw failure(STORAGE_UNAVAILABLE);
         }
+        var currentFile = repository.fileOwned(identity,item.fileId()).orElseThrow(() -> failure(FILE_NOT_FOUND));
+        if (!currentFile.sha256().equals(item.fileSha256()) || !MiniappDemoQuoteVerifier.matchesSource(snapshot,currentFile.sourceKind(),currentFile.sourceVariant())) throw failure(SNAPSHOT_INVALID);
         return new MiniappDemoOrderView(order.id(), order.orderNo(), order.source(), order.simulation(),
                 order.currency(), order.totalAmount(), order.orderState(), order.paymentState(), order.refundState(),
                 order.printState(), order.version(), order.createdAtMs(), order.updatedAtMs(),
@@ -153,7 +155,8 @@ public class MiniappDemoOrderService {
     private static void requireFile(MiniappDemoQuoteSnapshot snapshot, MiniappDemoOrderRepository.File file, long now) {
         if (!"READY".equals(file.status()) || file.expiresAtMs() <= now || file.pages() == null
                 || file.pages() <= 0 || !file.id().equals(snapshot.fileId())
-                || !file.sha256().equals(snapshot.fileSha256()) || file.pages() != snapshot.pagesPerCopy()) {
+                || !file.sha256().equals(snapshot.fileSha256()) || file.pages() != snapshot.pagesPerCopy()
+                || !MiniappDemoQuoteVerifier.matchesSource(snapshot,file.sourceKind(),file.sourceVariant())) {
             throw failure(FILE_NOT_READY);
         }
     }

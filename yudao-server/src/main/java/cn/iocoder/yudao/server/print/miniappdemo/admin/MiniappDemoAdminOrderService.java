@@ -85,6 +85,8 @@ public class MiniappDemoAdminOrderService {
                 || printTask != null && (!order.id().equals(printTask.orderId())
                 || !order.printState().equals(printTask.state()))) throw failure(STORAGE_UNAVAILABLE);
         if (("SUCCEEDED".equals(order.paymentState())) != (payment != null)) throw failure(STORAGE_UNAVAILABLE);
+        var source = repository.source(scope,item.fileId()).orElseThrow(() -> failure(SNAPSHOT_INVALID));
+        if (!source.sha256().equals(item.fileSha256()) || !MiniappDemoQuoteVerifier.matchesSource(snapshot,source.kind(),source.variant())) throw failure(SNAPSHOT_INVALID);
         return new MiniappDemoAdminOrderView(order.id(), order.orderNo(), order.source(), order.simulation(),
                 order.currency(), order.totalAmount(), order.orderState(), order.paymentState(), order.refundState(),
                 order.printState(), order.version(), order.principalId(), order.createdAtMs(), order.updatedAtMs(),

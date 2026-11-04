@@ -149,6 +149,11 @@ public class MiniappDemoFileService {
         return upload(identity, file, idempotencyKey, null, MiniappDemoFileKind.ID_PHOTO, variant);
     }
 
+    public MiniappDemoFileMetadata uploadGeneratedPhoto(MiniappDemoIdentity identity, MultipartFile file,
+            String idempotencyKey, MiniappDemoFileVariant variant) {
+        return upload(identity, file, idempotencyKey, null, MiniappDemoFileKind.PHOTO, variant);
+    }
+
     private MiniappDemoFileMetadata upload(MiniappDemoIdentity identity, MultipartFile file, String idempotencyKey,
             ArchiveSource source, MiniappDemoFileKind kind, MiniappDemoFileVariant variant) {
         requireEnabled();
@@ -293,8 +298,7 @@ public class MiniappDemoFileService {
     }
 
     private static boolean validSource(MiniappDemoFileKind kind, MiniappDemoFileVariant variant) {
-        return kind == MiniappDemoFileKind.DOCUMENT ? variant == null
-                : kind == MiniappDemoFileKind.ID_PHOTO && variant != null;
+        return kind != null && MiniappDemoSourceRules.valid(kind.name(), variant == null ? null : variant.name());
     }
 
     private record ArchiveSource(String sha256, int ordinal, long deadline) {}
@@ -357,8 +361,9 @@ public class MiniappDemoFileService {
                         if (!Files.isRegularFile(path, LinkOption.NOFOLLOW_LINKS) || Files.isSymbolicLink(path)) {
                             repository.failed(row, "FILE_MISSING", System.currentTimeMillis());
                         } else {
-                            int pages = inspector.inspect(path, scratch, properties.getMaxBytes(), properties.getMaxPages(),
+                            int pages = inspector.inspect(path, scratch, properties.getMaxBytes(), pageLimit(row),
                                     properties.getParserTimeoutSeconds());
+                            if (!MiniappDemoSourceRules.pages(row.sourceKind(), row.sourceVariant(), pages)) throw new PdfInspection.Failure("PDF_PAGE_LIMIT");
                             repository.ready(row, pages, System.currentTimeMillis());
                         }
                     } catch (PdfInspection.Failure failure) {
@@ -374,6 +379,11 @@ public class MiniappDemoFileService {
         } catch (Exception failure) {
             LOG.warn("miniapp_demo_file_worker_retry errorType={}", failure.getClass().getSimpleName());
         }
+    }
+
+    private int pageLimit(MiniappDemoFileRow row) {
+        int sourceLimit = MiniappDemoSourceRules.maxPages(row.sourceKind(), row.sourceVariant());
+        return sourceLimit == 30 ? properties.getPhotoMaxPages() : sourceLimit == 20 ? properties.getMaxPages() : 1;
     }
 
     private void purge(MiniappDemoFileRow row) {

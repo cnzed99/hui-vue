@@ -16,7 +16,7 @@ public class MiniappDemoOrderRepository {
                  String printState, long version, String inputHash, long createdAtMs, long updatedAtMs) {}
     record Quote(String id, String fileId, String profileId, String snapshotJson,
                  long createdAtMs, long expiresAtMs) {}
-    record File(String id, String sha256, Integer pages, String status, long expiresAtMs) {}
+    record File(String id, String sha256, Integer pages, String status, long expiresAtMs, String sourceKind, String sourceVariant, String storageKey) {}
     record Item(String id, String quoteId, String fileId, String fileSha256,
                 String amount, String snapshotJson) {}
 
@@ -60,10 +60,18 @@ public class MiniappDemoOrderRepository {
     }
 
     Optional<File> fileForUpdate(MiniappDemoIdentity identity, String id) {
-        return jdbc.query("SELECT id,content_sha256,page_count,status,expires_at_ms "
+        return jdbc.query("SELECT id,content_sha256,page_count,status,expires_at_ms,source_kind,source_variant,storage_key "
                         + "FROM print_miniapp_demo_file WHERE " + OWNER + " AND id=? FOR UPDATE",
                 (rs, n) -> new File(rs.getString("id"), rs.getString("content_sha256"),
-                        rs.getObject("page_count", Integer.class), rs.getString("status"), rs.getLong("expires_at_ms")),
+                        rs.getObject("page_count", Integer.class), rs.getString("status"), rs.getLong("expires_at_ms"), rs.getString("source_kind"), rs.getString("source_variant"), rs.getString("storage_key")),
+                identity.tenantId(), identity.storeId(), identity.principalId(), id).stream().findFirst();
+    }
+
+    Optional<File> fileOwned(MiniappDemoIdentity identity, String id) {
+        return jdbc.query("SELECT id,content_sha256,page_count,status,expires_at_ms,source_kind,source_variant,storage_key "
+                        + "FROM print_miniapp_demo_file WHERE " + OWNER + " AND id=?",
+                (rs, n) -> new File(rs.getString("id"), rs.getString("content_sha256"),
+                        rs.getObject("page_count", Integer.class), rs.getString("status"), rs.getLong("expires_at_ms"), rs.getString("source_kind"), rs.getString("source_variant"), rs.getString("storage_key")),
                 identity.tenantId(), identity.storeId(), identity.principalId(), id).stream().findFirst();
     }
 

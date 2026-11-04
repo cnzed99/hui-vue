@@ -28,6 +28,10 @@ public class MiniappDemoAdminOrderRepository {
             rs.getLong("version"), rs.getString("principal_id"), rs.getLong("created_at_ms"),
             rs.getLong("updated_at_ms"));
 
+    public record Source(String sha256,String kind,String variant) {}
+    java.util.Optional<Source> source(cn.iocoder.yudao.server.print.scope.PrintScope scope,String fileId) {
+        return jdbc.query("SELECT content_sha256,source_kind,source_variant FROM print_miniapp_demo_file WHERE tenant_id=? AND store_id=? AND id=?",(rs,n)->new Source(rs.getString(1),rs.getString(2),rs.getString(3)),scope.tenantId(),scope.storeId(),fileId).stream().findFirst();
+    }
     private final JdbcTemplate jdbc;
     public MiniappDemoAdminOrderRepository(JdbcTemplate jdbc) { this.jdbc = jdbc; }
 

@@ -8,6 +8,18 @@ public record MiniappDemoQuoteSnapshot(int schemaVersion, String mode, String cu
         int pagesPerCopy, String side, String copies, String sheetsPerCopy, String totalSheets,
         String simplexPricePerSheet, String duplexPricePerSheet, Tier tier,
         String pricePerSheet, String totalAmount, boolean tierApplied,
-        String appliedTierThreshold, long createdAtMs, long expiresAtMs) {
+        String appliedTierThreshold, long createdAtMs, long expiresAtMs,
+        @com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) String sourceKind,
+        @com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) String sourceVariant,
+        @com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL) String pricingMode) {
+    public MiniappDemoQuoteSnapshot(int schemaVersion, String mode, String currency, String aggregationPolicy,
+            String fileId, String fileSha256, String paper, String color, String priceProfileId, String priceProfileKey,
+            String priceProfileVersion, int pagesPerCopy, String side, String copies, String sheetsPerCopy, String totalSheets,
+            String simplexPricePerSheet, String duplexPricePerSheet, Tier tier, String pricePerSheet, String totalAmount,
+            boolean tierApplied, String appliedTierThreshold, long createdAtMs, long expiresAtMs) {
+        this(schemaVersion, mode, currency, aggregationPolicy, fileId, fileSha256, paper, color, priceProfileId, priceProfileKey,
+                priceProfileVersion, pagesPerCopy, side, copies, sheetsPerCopy, totalSheets, simplexPricePerSheet,
+                duplexPricePerSheet, tier, pricePerSheet, totalAmount, tierApplied, appliedTierThreshold, createdAtMs, expiresAtMs, null, null, null);
+    }
     public record Tier(String strictlyMoreThanSheets, String simplexPricePerSheet, String duplexPricePerSheet) {}
 }

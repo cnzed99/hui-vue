@@ -30,6 +30,8 @@ import static cn.iocoder.yudao.server.print.miniappdemo.quote.MiniappDemoQuoteEx
 public class MiniappDemoQuoteService {
     private static final Set<String> INPUT_FIELDS = Set.of("fileId", "paper", "color", "copies", "side");
     private static final Set<String> TIER_FIELDS = Set.of("strictlyMoreThanSheets", "simplexPricePerSheet", "duplexPricePerSheet");
+    @org.springframework.beans.factory.annotation.Value("${PRINT_MINIAPP_DEMO_PHOTO_QUOTE_ENABLED:false}")
+    private boolean photoQuoteEnabled;
     private static final String PAPER = "A4";
     private static final String COLOR = "BLACK_WHITE";
     private static final String AGGREGATION = "PER_FILE_ALL_COPIES";
@@ -60,37 +62,50 @@ public class MiniappDemoQuoteService {
         }
         String profileId = properties.getPriceProfileId();
         String keyHash = hash(idempotencyKey);
-        String inputHash = hash("quote-v1\n" + input.fileId() + "\n" + input.paper() + "\n" + input.color()
+        String documentHash = hash("quote-v1\n" + input.fileId() + "\n" + input.paper() + "\n" + input.color()
                 + "\n" + input.copies() + "\n" + input.side().name() + "\n" + profileId);
 
+        String stableHash = hash("quote-photo-v1\n" + input.fileId() + "\n" + input.paper() + "\n" + input.color()
+                + "\n" + input.copies() + "\n" + input.side().name());
         return transaction.execute(status -> {
             var locked = sessions.lockIdentity(identity).orElseThrow(MiniappDemoQuoteService::sessionInvalid);
             long now = System.currentTimeMillis();
             if (!locked.activeAt(now)) throw sessionInvalid();
 
             var existing = repository.idempotentForUpdate(identity, keyHash);
-            if (existing.isPresent() && !existing.get().inputHash().equals(inputHash)) {
-                throw failure(IDEMPOTENCY_CONFLICT);
-            }
-            if (existing.isPresent() && existing.get().expiresAtMs() <= System.currentTimeMillis()) {
-                throw failure(QUOTE_EXPIRED);
+            if (existing.isPresent()) {
+                MiniappDemoQuoteSnapshot prior;
+                try { prior = mapper.readValue(existing.get().snapshotJson(), MiniappDemoQuoteSnapshot.class); }
+                catch (JsonProcessingException ex) { throw failure(STORAGE_UNAVAILABLE); }
+                String expectedHash = prior.schemaVersion() == 1 ? documentHash : stableHash;
+                if (!existing.get().inputHash().equals(expectedHash)) throw failure(IDEMPOTENCY_CONFLICT);
+                if (existing.get().expiresAtMs() <= now) throw failure(QUOTE_EXPIRED);
+                return view(existing.get(), now);
             }
             MiniappDemoQuoteRepository.File file = requireFile(identity, input.fileId());
-            requireDocument(file);
-            requireReady(file, System.currentTimeMillis());
-            MiniappDemoQuoteRepository.Profile profile = repository.profileForUpdate(identity, profileId)
+            boolean photo = cn.iocoder.yudao.server.print.miniappdemo.file.MiniappDemoSourceRules.photo(file.sourceKind(), file.sourceVariant());
+            if (!cn.iocoder.yudao.server.print.miniappdemo.file.MiniappDemoSourceRules.valid(file.sourceKind(), file.sourceVariant())) throw failure(FILE_KIND_NOT_QUOTABLE);
+            if (photo ? !"PHOTO_6IN".equals(input.paper()) || !"COLOR".equals(input.color()) || input.side() != PrintSide.SIMPLEX
+                    : !PAPER.equals(input.paper()) || !COLOR.equals(input.color())) throw failure(INVALID_INPUT);
+            requireReady(file, now);
+            String selectedProfile = profileId;
+            if (photo) {
+                if (!photoQuoteEnabled) throw failure(DISABLED);
+                var binding = repository.bindingForUpdate(identity).orElseThrow(() -> failure(PROFILE_UNAVAILABLE));
+                if (!binding.enabled()) throw failure(DISABLED);
+                selectedProfile = binding.profileId();
+            }
+            MiniappDemoQuoteRepository.Profile profile = repository.profileForUpdate(identity, selectedProfile)
                     .orElseThrow(() -> failure(PROFILE_UNAVAILABLE));
+            if (photo && (!"MINIAPP_DEMO_PHOTO_6IN".equals(profile.key()) || profile.tierJson() != null
+                    || !profile.version().matches("[1-9][0-9]*") || !profile.simplex().equals(profile.duplex())
+                    || !profile.simplex().matches("(0|[1-9][0-9]*)\\.[0-9]{2}")
+                    || new BigDecimal(profile.simplex()).compareTo(new BigDecimal("0.01")) < 0
+                    || new BigDecimal(profile.simplex()).compareTo(new BigDecimal("999.00")) > 0)) throw failure(PROFILE_UNAVAILABLE);
             PaperPriceSchedule schedule = schedule(profile);
             now = System.currentTimeMillis();
             if (!locked.activeAt(now)) throw sessionInvalid();
             requireReady(file, now);
-
-            if (existing.isPresent()) {
-                MiniappDemoQuoteRepository.Quote row = existing.get();
-                if (!row.profileId().equals(profileId)) throw failure(STORAGE_UNAVAILABLE);
-                if (row.expiresAtMs() <= now) throw failure(QUOTE_EXPIRED);
-                return view(row, now);
-            }
             if (repository.activeCount(identity, now) >= properties.getMaxActiveQuotesPerPrincipal()) {
                 throw failure(PRINCIPAL_LIMIT);
             }
@@ -112,14 +127,15 @@ public class MiniappDemoQuoteService {
             MiniappDemoQuoteSnapshot.Tier tierSnapshot = tier == null ? null : new MiniappDemoQuoteSnapshot.Tier(
                     Long.toString(tier.strictlyMoreThanSheets()), tier.simplexPricePerSheet().toPlainString(),
                     tier.duplexPricePerSheet().toPlainString());
-            MiniappDemoQuoteSnapshot snapshot = new MiniappDemoQuoteSnapshot(1, "DEMO", profile.currency(), AGGREGATION,
-                    file.id(), file.sha256(), PAPER, COLOR, profile.id(), profile.key(), profile.version(), file.pages(),
+            MiniappDemoQuoteSnapshot snapshot = new MiniappDemoQuoteSnapshot(photo ? 2 : 1, "DEMO", profile.currency(), AGGREGATION,
+                    file.id(), file.sha256(), input.paper(), input.color(), profile.id(), profile.key(), profile.version(), file.pages(),
                     input.side().name(), Long.toString(input.copies()), Long.toString(calculation.sheetsPerCopy()),
                     Long.toString(calculation.totalSheets()), schedule.simplexPricePerSheet().toPlainString(),
                     schedule.duplexPricePerSheet().toPlainString(), tierSnapshot,
                     calculation.pricePerSheet().toPlainString(), calculation.totalAmount().toPlainString(),
                     calculation.tierApplied(), calculation.appliedTierThreshold() == null ? null
-                    : calculation.appliedTierThreshold().toString(), now, expiresAt);
+                    : calculation.appliedTierThreshold().toString(), now, expiresAt,
+                    photo ? file.sourceKind() : null, photo ? file.sourceVariant() : null, photo ? "PHOTO_SHEET" : null);
             String snapshotJson;
             try {
                 snapshotJson = mapper.writeValueAsString(snapshot);
@@ -127,7 +143,7 @@ public class MiniappDemoQuoteService {
                 throw failure(STORAGE_UNAVAILABLE);
             }
             String id = UUID.randomUUID().toString();
-            repository.insert(identity, id, file.id(), profile.id(), keyHash, inputHash, snapshotJson, now, expiresAt);
+            repository.insert(identity, id, file.id(), profile.id(), keyHash, photo ? stableHash : documentHash, snapshotJson, now, expiresAt);
             return new MiniappDemoQuoteView(id, "VALID", snapshot);
         });
     }
@@ -143,13 +159,10 @@ public class MiniappDemoQuoteService {
     private MiniappDemoQuoteView view(MiniappDemoQuoteRepository.Quote row, long now) {
         try {
             MiniappDemoQuoteSnapshot snapshot = mapper.readValue(row.snapshotJson(), MiniappDemoQuoteSnapshot.class);
-            if (snapshot == null || snapshot.schemaVersion() != 1 || !"DEMO".equals(snapshot.mode())
-                    || !"CNY".equals(snapshot.currency()) || !AGGREGATION.equals(snapshot.aggregationPolicy())
-                    || !row.fileId().equals(snapshot.fileId()) || !row.profileId().equals(snapshot.priceProfileId())
-                    || !PAPER.equals(snapshot.paper()) || !COLOR.equals(snapshot.color())
-                    || snapshot.createdAtMs() != row.createdAtMs() || snapshot.expiresAtMs() != row.expiresAtMs()) {
-                throw failure(STORAGE_UNAVAILABLE);
-            }
+            try { MiniappDemoQuoteVerifier.verify(snapshot); }
+            catch (IllegalArgumentException ex) { throw failure(STORAGE_UNAVAILABLE); }
+            if (!row.fileId().equals(snapshot.fileId()) || !row.profileId().equals(snapshot.priceProfileId())
+                    || snapshot.createdAtMs() != row.createdAtMs() || snapshot.expiresAtMs() != row.expiresAtMs()) throw failure(STORAGE_UNAVAILABLE);
             return new MiniappDemoQuoteView(row.id(), row.expiresAtMs() > now ? "VALID" : "EXPIRED", snapshot);
         } catch (JsonProcessingException ex) {
             throw failure(STORAGE_UNAVAILABLE);
@@ -162,7 +175,7 @@ public class MiniappDemoQuoteService {
 
     private static void requireReady(MiniappDemoQuoteRepository.File file, long now) {
         if (!"READY".equals(file.status()) || file.expiresAtMs() <= now || file.pages() == null
-                || file.pages() <= 0 || file.pages() > 20) throw failure(FILE_NOT_READY);
+                || !cn.iocoder.yudao.server.print.miniappdemo.file.MiniappDemoSourceRules.pages(file.sourceKind(), file.sourceVariant(), file.pages())) throw failure(FILE_NOT_READY);
     }
 
     private static void requireDocument(MiniappDemoQuoteRepository.File file) {
@@ -180,7 +193,7 @@ public class MiniappDemoQuoteService {
         String paper = body.get("paper").textValue();
         String color = body.get("color").textValue();
         long copies = body.get("copies").longValue();
-        if (!isUuid(fileId) || !PAPER.equals(paper) || !COLOR.equals(color) || copies < 1 || copies > 99) {
+        if (!isUuid(fileId) || !(PAPER.equals(paper) && COLOR.equals(color) || "PHOTO_6IN".equals(paper) && "COLOR".equals(color)) || copies < 1 || copies > 99) {
             throw failure(INVALID_INPUT);
         }
         PrintSide side;

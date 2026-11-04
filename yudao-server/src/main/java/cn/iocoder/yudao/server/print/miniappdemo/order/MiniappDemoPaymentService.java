@@ -24,6 +24,8 @@ import static cn.iocoder.yudao.server.print.miniappdemo.order.MiniappDemoPayment
 @Service
 public class MiniappDemoPaymentService {
     private final MiniappDemoPaymentProperties properties;
+    @org.springframework.beans.factory.annotation.Autowired
+    private cn.iocoder.yudao.server.print.miniappdemo.file.MiniappDemoFileObjectAdmission objectAdmission;
     private final MiniappDemoOrderRepository orders;
     private final MiniappDemoPaymentRepository payments;
     private final MiniappDemoSessionRepository sessions;
@@ -94,6 +96,13 @@ public class MiniappDemoPaymentService {
                 || !"DEMO".equals(receipt.mode()) || !"SUCCEEDED".equals(receipt.state())
                 || !receipt.simulation() || !receipt.currency().equals(order.currency())
                 || !receipt.amount().equals(order.totalAmount())) throw failure(STORAGE_UNAVAILABLE);
+        var item = orders.item(identity,order.id()).orElseThrow(() -> failure(STORAGE_UNAVAILABLE));
+        var snapshot = readSnapshot(item.snapshotJson());
+        var verified = verifySnapshot(snapshot);
+        var file = orders.fileOwned(identity,item.fileId()).orElseThrow(() -> failure(FILE_NOT_FOUND));
+        if (!item.amount().equals(verified.totalAmount()) || !item.fileId().equals(snapshot.fileId())
+                || !item.fileSha256().equals(snapshot.fileSha256()) || !file.sha256().equals(item.fileSha256())
+                || !MiniappDemoQuoteVerifier.matchesSource(snapshot,file.sourceKind(),file.sourceVariant())) throw failure(SNAPSHOT_INVALID);
         List<MiniappDemoPaymentRepository.Journal> journals = payments.journals(identity, receipt.id());
         if (journals.size() != 2) throw failure(STORAGE_UNAVAILABLE);
         MiniappDemoPaymentRepository.Journal debit = journal(journals, "DEBIT", "DEMO_CUSTOMER", receipt);
@@ -126,7 +135,7 @@ public class MiniappDemoPaymentService {
                 || order.version() != 1) throw failure(INVALID_ORDER_STATE);
     }
 
-    private static void requirePaymentEvidence(MiniappDemoOrderRepository.Order order,
+    private void requirePaymentEvidence(MiniappDemoOrderRepository.Order order,
             MiniappDemoOrderRepository.Item item, MiniappDemoQuoteSnapshot snapshot,
             MiniappDemoQuoteVerifier.Verified verified, MiniappDemoOrderRepository.File file, long now) {
         if (!order.currency().equals(verified.currency()) || !order.totalAmount().equals(verified.totalAmount())
@@ -134,7 +143,8 @@ public class MiniappDemoPaymentService {
                 || !item.fileSha256().equals(snapshot.fileSha256()) || !file.id().equals(snapshot.fileId())
                 || !file.sha256().equals(snapshot.fileSha256()) || file.pages() == null
                 || file.pages() != snapshot.pagesPerCopy() || !"READY".equals(file.status())
-                || file.expiresAtMs() <= now) throw failure(FILE_NOT_READY);
+                || file.expiresAtMs() <= now || !MiniappDemoQuoteVerifier.matchesSource(snapshot,file.sourceKind(),file.sourceVariant())
+                || !objectAdmission.available(file.storageKey(),file.sha256())) throw failure(FILE_NOT_READY);
     }
 
     private MiniappDemoQuoteSnapshot readSnapshot(String json) {
