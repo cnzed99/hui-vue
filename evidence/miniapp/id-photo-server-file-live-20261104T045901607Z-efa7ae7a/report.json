@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "scope": "deployed H5 ID-photo local selection, preview and new-system server file generation",
+  "sourceCommit": "ff741ea1e68c4e44f8f1833bbbd8949dedb40697",
+  "runId": "20261104T045901607Z-efa7ae7a",
+  "startedAt": "2026-11-04T04:59:01.607Z",
+  "checks": [
+    {
+      "name": "deployed_h5_exact_candidate",
+      "passed": true
+    },
+    {
+      "name": "one_inch_upload_page_visible",
+      "passed": true
+    },
+    {
+      "name": "synthetic_png_within_limit",
+      "passed": true
+    },
+    {
+      "name": "local_preview_visible",
+      "passed": true
+    },
+    {
+      "name": "ten_one_inch_cells",
+      "passed": true
+    },
+    {
+      "name": "server_file_boundary_visible",
+      "passed": true
+    },
+    {
+      "name": "upload_http_200",
+      "passed": true
+    },
+    {
+      "name": "generated_file_ready_in_ui",
+      "passed": true
+    },
+    {
+      "name": "one_generated_button",
+      "passed": true
+    },
+    {
+      "name": "button_locked_after_generation",
+      "passed": true
+    },
+    {
+      "name": "upload_response_valid",
+      "passed": true
+    },
+    {
+      "name": "ready_response_matches_upload",
+      "passed": true
+    },
+    {
+      "name": "one_id_photo_post",
+      "passed": true
+    },
+    {
+      "name": "no_quote_order_payment_or_print_task_write",
+      "passed": true
+    },
+    {
+      "name": "new_system_origin_only",
+      "passed": true
+    }
+  ],
+  "writes": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:18080/app-api/print/miniapp/demo/sessions"
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:18080/app-api/print/miniapp/demo/id-photo-files"
+    }
+  ],
+  "boundaries": {
+    "originalSystem": "NOT_ACCESSED",
+    "quote": "NOT_RUN",
+    "order": "NOT_RUN",
+    "payment": "NOT_RUN",
+    "realPrinting": "NOT_RUN",
+    "wechatDevice": "NOT_RUN"
+  },
+  "deployment": {
+    "activeRelease": "/var/www/print-system/releases/miniapp-id-photo-server-file-20261103-69d93c1",
+    "indexSha256": "69d93c169fed9249f57b24e016f6d9add92a37273afe855be81bc7781b7da968",
+    "expectedRelease": "/var/www/print-system/releases/miniapp-id-photo-server-file-20261103-69d93c1",
+    "expectedIndexSha256": "69d93c169fed9249f57b24e016f6d9add92a37273afe855be81bc7781b7da968"
+  },
+  "generatedFileId": "2bdef33a-ca26-43d6-9b76-7165b87898fe",
+  "screenshot": {
+    "path": "evidence/miniapp/id-photo-server-file-live-20261104T045901607Z-efa7ae7a/one-inch-server-file-ready.png",
+    "sha256": "5b3ee2f42cb915384fab4a858196f0eee01dfb6aab59c5974e5c189d133fef8f"
+  },
+  "status": "PASS",
+  "finishedAt": "2026-11-04T04:59:06.439Z",
+  "passed": 15,
+  "failed": 0,
+  "upload": {
+    "code": 0,
+    "id": "2bdef33a-ca26-43d6-9b76-7165b87898fe",
+    "status": "UPLOADED",
+    "ready": false,
+    "pageCount": null,
+    "sizeBytes": 4976,
+    "failureCode": null
+  },
+  "ready": {
+    "code": 0,
+    "id": "2bdef33a-ca26-43d6-9b76-7165b87898fe",
+    "status": "READY",
+    "ready": true,
+    "pageCount": 1,
+    "sizeBytes": 4976,
+    "failureCode": null
+  }
+}
