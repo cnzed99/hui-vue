@@ -17,11 +17,11 @@ import java.util.List;
 public class PrintMiniappCatalogController {
 
     private static final PrintMiniappCatalogRespVO CATALOG = new PrintMiniappCatalogRespVO(
-            "miniapp-pdf-sources-2026-11-02",
+            "miniapp-pdf-sources-2026-11-04",
             List.of(
                     method("wechat-chat", "微信聊天文档打印", "当前支持 PDF；Word、Excel、PPT 待接入", "COMMON", "PDF_AVAILABLE"),
                     method("local-document", "本地文档打印", "选择本地 PDF 文件打印", "OTHER", "PDF_AVAILABLE"),
-                    method("archive", "压缩包打印", "从微信聊天记录选择压缩包打印", "OTHER", "RESERVED"),
+                    method("archive", "压缩包打印", "上传 ZIP 并选择其中的 PDF 打印", "OTHER", "PDF_AVAILABLE"),
                     method("tencent-doc", "腾讯文档打印", "导入腾讯文档后打印", "OTHER", "RESERVED"),
                     method("kingsoft-doc", "金山文档打印", "导入金山文档后打印", "OTHER", "RESERVED"),
                     method("baidu-drive", "百度网盘文档打印", "从百度网盘选择文档", "OTHER", "RESERVED"),

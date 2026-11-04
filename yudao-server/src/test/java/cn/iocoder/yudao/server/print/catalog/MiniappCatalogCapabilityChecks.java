@@ -15,10 +15,11 @@ public final class MiniappCatalogCapabilityChecks {
                 || catalog.demoLimits().retentionMinutes() != 60) throw new AssertionError("existing limits");
         if (catalog.methods().size() != 10) throw new AssertionError("preserve directory");
         for (var method : catalog.methods()) {
-            boolean pdfSource = method.id().equals("wechat-chat") || method.id().equals("local-document");
+            boolean pdfSource = method.id().equals("wechat-chat") || method.id().equals("local-document")
+                    || method.id().equals("archive");
             if (!method.availability().equals(pdfSource ? "PDF_AVAILABLE" : "RESERVED"))
                 throw new AssertionError("source capability " + method.id());
         }
-        System.out.println("PASS PDF-only public catalog, two PDF sources, unchanged limits, reserved other capabilities");
+        System.out.println("PASS public catalog, two direct PDF sources plus ZIP-contained PDF, unchanged limits");
     }
 }
