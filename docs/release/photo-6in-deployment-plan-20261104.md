@@ -1,6 +1,6 @@
 # 六寸照片纸分阶段发布候选方案
 
-状态：`PREPARED_ONLY / RELEASE_ASTRA_HIGH_REVIEW_REQUIRED / NOT_EXECUTED`。本文件和候选配置不授权执行。实施配置 GPT-6.1 Sol High，运行 effort 未独立核验。源码、迁移与发布三项均须取得绑定准确版本的 Astra High PASS；没有自动执行器，每阶段验收后才允许下一阶段。
+状态：`STAGE_C_BLOCKED_COLLATION / FORWARD_REPAIR_PREPARED_NOT_EXECUTED / ASTRA_HIGH_INCREMENT_REVIEW_REQUIRED`。本文件和候选配置不授权执行。实施配置 GPT-6.1 Sol High，运行 effort 未独立核验。源码、迁移与发布三项均须取得绑定准确版本的 Astra High PASS；没有自动执行器，每阶段验收后才允许下一阶段。
 
 ## 准确版本与现行基线
 
@@ -41,7 +41,7 @@
 
 parts使用HTTP/1.1和request_buffering off，避免应用身份准入前将原图spool至Nginx。执行者须在批准窗口创建 `/var/lib/nginx/print-photo-6in-body` 为www-data:www-data、0700；应用photo-multipart/photo-upload-objects由持OS lock的JAR创建为ubuntu、0700。新zone全局2/单IP1并发、120r/m+burst35，支持30次顺序parts；应用单许可和>=10GiB门禁独立保留。UUID路由不写access_log，证据不保留Token/原图。
 
-## 分阶段执行顺序（以下均未执行）
+## 分阶段执行顺序（历史执行以主任务原件为准；当前Stage C阻断）
 
 ### A. 预检/备份
 
@@ -55,7 +55,11 @@ parts使用HTTP/1.1和request_buffering off，避免应用身份准入前将原�
 
 start脚本会source私有runtime.env，因此不能只凭drop-in认定有效flag，也不得读取秘密文件来判断。用回环parts无身份请求应返回功能关闭404而非401，验证PHOTO_ENABLED=false；用当前主体已READY合法ID_PHOTO文件创建PHOTO_6IN报价，应为1928001/DISABLED，不能是缺binding/storage错误，验证PHOTO_QUOTE_ENABLED=false。无可用文件时只在兼容JAR已保全且健康后用既有证件照入口生成一份。关闭行为或历史兼容不符则停止，不迁移，配置优先级修复须另审。
 
-### C. 迁移gate0
+### C. 迁移gate0：当前阻断，不得继续D–G
+
+主任务报告旧SQL SHA `28889a04225006e6a5186f1e63a1e96996b3e521577b1d01ab355d69448df8dd` 已执行，collation回归阻断；此历史hash及e0816daf提交记录不变。本增量不能冒充该旧SQL未执行，也不能将新hash反写旧执行记录。当前文件已修正为新库首次安装候选，SHA `a5bba439bcb6d2c48aa0622ec0f33baca137a0c38480d2ac5a6574f801de68a3`。现库禁止重跑首次安装DDL，应只使用 `print-miniapp-demo-photo-6in-trigger-collation-forward.sql`（SHA `327b6cb5c1073477886d047093d1ec0c8700ca6a5db75801af45d742eaa9380e`）及另附Stage C修复计划；仅重建同名quote trigger，保留gate0和全部新保护。初审CHANGES_REQUIRED，精确增量复审通过前不执行，D–G停止。
+
+以下保留原首次安装流程和**已执行旧版hash**供核对，不作为现库重跑指令：
 
 再次停Nginx/后端并排空、验证备份。SQL `ops/db/print-miniapp-demo-photo-6in.sql` SHA `28889a04225006e6a5186f1e63a1e96996b3e521577b1d01ab355d69448df8dd`；现有迁移脚本SHA `f2eca0e0e64ba02ff46decfa361af802b3358ec71134263f4d4dd3a39080f151`。其局部两个PASS环境门禁不替代本计划release PASS；执行者还须先核release审查。该脚本成功/失败均保持写入口停止，不自动部署。
 
@@ -89,4 +93,4 @@ HTTP和候选界面私有预览完成照片/证件照→v2报价→订单→模�
 
 首条PHOTO或v2后禁止旧JAR；保留新CHECK/trigger/binding/不可变版本/权限/数据，不删表列或来源行，不还原document-only trigger，不全库回滚覆盖已创建订单/支付/回执。没有兼容JAR或保护缺失时保持停写；UI回退不授权重复计费、第二任务或重复打印。
 
-本轮仅配置/方案准备，隔离Nginx语法检查PASS；真实启动、迁移、flags切换、开闸、HTTP闭环、静态发布、回退演练全部NOT_RUN。隔离检查使用准确enabled基线及旧includes，仅将临时目录改至本批target；未加载/重启现网。非root探针默认error-log权限告警不影响nginx -t返回0；配置syntax/test均successful。本机不支持-e选项的探针尝试未更改现网。所有候选准确hash见同目录release-hashes JSON，随发布资料commit交审。
+旧版材料准备阶段的隔离Nginx语法检查PASS仍是原证据；主任务已报告Stage C执行旧迁移后阻断。本Worker本轮只准备forward修复及隔离验证，未访问生产DB/服务；修复生产执行和后续D–G全部待复审，不把历史执行状态重写为NOT_RUN。隔离检查使用准确enabled基线及旧includes，仅将临时目录改至本批target；未加载/重启现网。非root探针默认error-log权限告警不影响nginx -t返回0；配置syntax/test均successful。本机不支持-e选项的探针尝试未更改现网。所有候选准确hash见同目录release-hashes JSON，随发布资料commit交审。

@@ -1,14 +1,21 @@
 {
-  "status": "PREPARED_ONLY_NOT_EXECUTED",
+  "status": "STAGE_C_BLOCKED_COLLATION_FORWARD_REPAIR_PREPARED_NOT_EXECUTED",
   "sourceCommit": "3f4019b62f4a3a2384ad83946a4643eaab881966",
   "backendJarSha256": "101a55e53b06f08d4f5521ab0efe11547ad8cce0b30b99e1795e91935a4b3208",
   "files": {
     "ops/runtime/print-photo-6in.service.conf": "37b903d32f526187cc5fc679717bb50b41f99f6a75862f56387281bd9f660410",
     "ops/runtime/print-photo-6in-limits.conf": "b170b1bbf295f3046d5d9005fb969cd8d62f5bc4c26a2b3d5675ea5331b4b53a",
     "ops/runtime/print-photo-6in-nginx.conf": "1f0a0cf60b26b5da4f5c8ea051c82f48abd770b400345d426390258515ac1dbb",
-    "ops/db/print-miniapp-demo-photo-6in.sql": "28889a04225006e6a5186f1e63a1e96996b3e521577b1d01ab355d69448df8dd",
+    "ops/db/print-miniapp-demo-photo-6in.sql": "a5bba439bcb6d2c48aa0622ec0f33baca137a0c38480d2ac5a6574f801de68a3",
     "ops/db/apply-photo-6in-reviewed-migration.sh": "f2eca0e0e64ba02ff46decfa361af802b3358ec71134263f4d4dd3a39080f151",
-    "docs/release/photo-6in-deployment-plan-20261104.md": "d0afd388f39a29027ef39bbfd11b0b3798a1570dc8ab6b5ad134be0e6397161f"
+    "docs/release/photo-6in-deployment-plan-20261104.md": "5b3e48599e620b390587f28ac8874bcfb2a7903838cce64833912508a2aa5747",
+    "ops/db/print-miniapp-demo-photo-6in-trigger-collation-forward.sql": "327b6cb5c1073477886d047093d1ec0c8700ca6a5db75801af45d742eaa9380e",
+    "ops/db/apply-photo-6in-collation-reviewed-forward.sh": "0ca7c26ccf53a47a9bafba83587bc7156984cd783df621127095725a7c36c607",
+    "ops/acceptance/photo-6in-collation-fixture.sql": "54949f7b99be0f8f53a150d6101a53c5ef9eb0d6222530aa78d2c21a097d9584",
+    "ops/acceptance/probe-photo-6in-collation-forward.py": "42a47e0ff42189385bdaaa63019ad5e44abd7c5bf4e1d6260151e7fd25c8cb71",
+    "ops/acceptance/probe-photo-6in-collation-forward.sh": "e0a36991885fdbcc82fe18519f1d1c349f783b4bd00c06df1ee68e009c1d8561",
+    "docs/release/photo-6in-stage-c-collation-forward-repair-20261104.md": "75d52fb899bb4d6686d8ea3c4e3c3ea6140eedc83b14d050d22131f30dc29aca",
+    "docs/reviews/photo-6in-stage-c-collation-forward-implementation-20261104.md": "1e730291cb21496b4f6f8d7e19f9c98b5dad7c5bbb81b8fa6f33099e22f754b5"
   },
   "stageDropins": {
     "initial": {
@@ -23,5 +30,20 @@
       "content": "[Service]\nEnvironment=\"PRINT_MINIAPP_DEMO_PHOTO_ENABLED=true\"\nEnvironment=\"PRINT_MINIAPP_DEMO_PHOTO_QUOTE_ENABLED=true\"\n",
       "sha256": "5ef08b05865c10a1faff741a1f8dd4aa8882193106879256b63bcaa9f933595f"
     }
+  },
+  "historicalExecutions": [
+    {
+      "releaseCommit": "e0816dafad22d7619decf9b17c3807860e278d48",
+      "migrationSqlSha256": "28889a04225006e6a5186f1e63a1e96996b3e521577b1d01ab355d69448df8dd",
+      "migrationScriptSha256": "f2eca0e0e64ba02ff46decfa361af802b3358ec71134263f4d4dd3a39080f151",
+      "status": "EXECUTED_STAGE_C_COLLATION_BLOCKED_REPORTED_BY_ROOT",
+      "workerProductionVerification": "NOT_RUN"
+    }
+  ],
+  "repairReview": {
+    "initialConclusion": "CHANGES_REQUIRED",
+    "incrementReview": "REQUIRED_NOT_RUN",
+    "productionExecution": "NOT_RUN",
+    "remotePush": "NOT_AUTHORIZED"
   }
 }

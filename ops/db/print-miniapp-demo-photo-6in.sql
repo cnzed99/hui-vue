@@ -1,3 +1,6 @@
+-- Current locking reads remain file -> binding -> profile; no consistent read.
+-- First-install candidate corrected after Stage C; executed historical SHA remains 28889a04225006e6a5186f1e63a1e96996b3e521577b1d01ab355d69448df8dd.
+SET NAMES utf8mb4 COLLATE utf8mb4_bin;
 -- DRAFT. Requires final Astra High review and a stopped/drained write window.
 -- Explicit single-store seed. A different scope needs a newly reviewed seed, never reuse a profile UUID.
 DELIMITER //
@@ -101,11 +104,17 @@ DROP TRIGGER trg_print_demo_quote_document_only;
 DELIMITER //
 CREATE TRIGGER trg_print_demo_quote_document_only BEFORE INSERT ON print_miniapp_demo_quote FOR EACH ROW
 BEGIN
- DECLARE k VARCHAR(24); DECLARE v VARCHAR(24); DECLARE active_id CHAR(36); DECLARE enabled_flag TINYINT;
- DECLARE profile_key_value VARCHAR(64); DECLARE profile_version_value VARCHAR(64); DECLARE revision_value BIGINT;
- DECLARE profile_mode VARCHAR(16); DECLARE profile_currency CHAR(3); DECLARE missing INT DEFAULT 0;
+ DECLARE k VARCHAR(24) CHARACTER SET ascii COLLATE ascii_bin;
+ DECLARE v VARCHAR(24) CHARACTER SET ascii COLLATE ascii_bin;
+ DECLARE active_id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin;
+ DECLARE enabled_flag TINYINT;
+ DECLARE profile_key_value VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+ DECLARE profile_version_value VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+ DECLARE revision_value BIGINT;
+ DECLARE profile_mode VARCHAR(16) CHARACTER SET ascii COLLATE ascii_bin;
+ DECLARE profile_currency CHAR(3) CHARACTER SET ascii COLLATE ascii_bin;
+ DECLARE missing INT DEFAULT 0;
  DECLARE CONTINUE HANDLER FOR NOT FOUND SET missing=1;
- -- Current locking reads, file -> binding -> profile. No consistent read, even in a pre-existing RR snapshot.
  SELECT source_kind,source_variant INTO k,v FROM print_miniapp_demo_file
   WHERE id=NEW.file_id AND tenant_id=NEW.tenant_id AND store_id=NEW.store_id AND principal_id=NEW.principal_id FOR UPDATE;
  IF missing=1 OR k IS NULL THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='Quote file source or owner rejected'; END IF;
@@ -120,7 +129,7 @@ BEGIN
  SELECT profile_key,version,mode,currency INTO profile_key_value,profile_version_value,profile_mode,profile_currency FROM print_price_profile
   WHERE id=NEW.price_profile_id AND tenant_id=NEW.tenant_id AND store_id=NEW.store_id FOR UPDATE;
  IF missing=1 OR profile_mode<>'DEMO' OR profile_currency<>'CNY' THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='Quote profile scope rejected'; END IF;
- IF k<>'DOCUMENT' AND (profile_key_value<>'MINIAPP_DEMO_PHOTO_6IN' OR profile_version_value<>CAST(revision_value AS CHAR)) THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='Photo profile series rejected'; END IF;
+ IF k<>'DOCUMENT' AND (profile_key_value<>'MINIAPP_DEMO_PHOTO_6IN' OR profile_version_value<>(CAST(revision_value AS CHAR CHARACTER SET utf8mb4) COLLATE utf8mb4_bin)) THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='Photo profile series rejected'; END IF;
 END//
 DELIMITER ;
 SHOW CREATE TRIGGER trg_print_demo_quote_document_only;
