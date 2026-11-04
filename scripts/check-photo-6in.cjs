@@ -18,7 +18,7 @@ function fixture(options={}) {
   let lostCreate=!!options.lostCreate, lostPart=!!options.lostPart, lostComplete=!!options.lostComplete, blocked=false
   const view=()=>({uploadId:uuid,state:remote.state,variant:remote.variant,fileCount:remote.count,uploadedIndexes:[...remote.uploaded],expiresAtMs:Date.now()+900000,result:remote.state==='COMPLETE'?file:null})
   const send=(opts, body)=>queueMicrotask(()=>opts.success({statusCode:200,data:{code:0,data:body}}))
-  const uni={getStorageSync:key=>storage.get(key), setStorageSync:(key,value)=>storage.set(key,structuredClone(value)),removeStorageSync:key=>storage.delete(key),
+  const uni={getStorageSync:key=>storage.get(key), setStorageSync:(key,value)=>storage.set(key,JSON.parse(JSON.stringify(value))),removeStorageSync:key=>storage.delete(key),
     request(opts){calls.push(opts);assert.equal(opts.header.Origin,undefined)
       if(!opts.url.endsWith('/complete') && opts.method==='POST') {
         if(!remote)remote={variant:opts.data.variant,count:opts.data.fileCount,uploaded:new Set(),state:'OPEN'}
@@ -44,11 +44,61 @@ function fixture(options={}) {
   const draft=load('src/domain/printDraft.ts',{uni},deps)
   const record=api.newPhotoUpload(session,options.variant||'PHOTO_6IN',Array(options.count||2).fill('temp-path'),3)
   let current=true
-  return {api,draft,record,uni,files,storage,calls,selections,remote:()=>remote,changeOwner:()=>{activeSession={...session,sessionId:'other'}},hide:()=>{current=false},run:()=>api.continuePhotoUpload(session,record,()=>current,()=>{})}
+  return {api,draft,record,uni,files,storage,calls,selections,getSession:()=>activeSession,remote:()=>remote,changeOwner:()=>{activeSession={...session,sessionId:'other'}},hide:()=>{current=false},run:()=>api.continuePhotoUpload(session,record,()=>current,()=>{})}
+}
+// Execute the real setup script with Vue's actual ref/reactive proxy semantics.
+function photoPage(f) {
+  const hooks={}, navigations=[]; let sessionChanged=()=>{}
+  f.storage.clear(); f.selections.choosePhotoSpecification('PHOTO_6IN')
+  const source=fs.readFileSync('src/pages/photo-upload/index.vue','utf8').match(/<script setup lang="ts">([^]*?)<\/script>/)[1]
+    + '\nexports.page={submit,photos,pending,busy,issue,view};'
+  const code=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText
+  const exports={}
+  const uni={...f.uni,navigateTo:args=>navigations.push(args.url),redirectTo:args=>navigations.push(args.url)}
+  const deps=name=>{
+    if(name==='vue')return require('vue')
+    if(name==='@dcloudio/uni-app')return Object.fromEntries(['onLoad','onShow','onHide','onUnload'].map(name=>[name,callback=>{hooks[name]=callback}]))
+    if(name.includes('demoSession'))return {ensureDemoSession:()=>Promise.resolve(f.getSession()),getActiveDemoSession:f.getSession,watchDemoSession:callback=>{sessionChanged=callback}}
+    if(name.includes('demoPhotoFiles'))return f.api
+    if(name.includes('photoSelection'))return f.selections
+    if(name.includes('printDraft'))return f.draft
+    if(name.includes('demoFiles'))return f.files
+    throw Error('unexpected page dependency '+name)
+  }
+  vm.runInNewContext(code,{exports,require:deps,uni,Date,Promise,Math})
+  hooks.onLoad();hooks.onShow();exports.page.photos.value=['temp-a','temp-b']
+  return {...exports.page,navigations,hide:()=>hooks.onHide(),show:()=>hooks.onShow(),changeOwner:()=>{f.changeOwner();sessionChanged()}}
 }
 let passed=0
 async function test(name,run){await run();passed++;console.log('PASS '+name)}
 async function main(){
+  await test('real Vue page first click sends create and uploads without a second click',async()=>{
+    const f=fixture(),page=photoPage(f);await page.submit()
+    assert.equal(f.calls.filter(call=>call.data).length,1,'the first click must create the upload session')
+    assert.equal(f.calls.filter(call=>call.filePath).length,2)
+    assert.equal(page.navigations[0],'/pages/order-confirm/index')
+  })
+  await test('real Vue page unknown recovery retains one upload key and resumes on next click',async()=>{
+    const f=fixture({lostComplete:true}),page=photoPage(f);await page.submit()
+    const key=page.pending.value.key;assert.match(page.issue.value,/结果暂不可确认/);assert.equal(page.navigations.length,0)
+    await page.submit();assert.equal(page.navigations[0],'/pages/order-confirm/index')
+    assert.equal(f.calls.filter(call=>call.data).length,1);assert.ok(f.calls.every(call=>call.header['Idempotency-Key']===key))
+    assert.equal(f.calls.filter(call=>call.filePath).length,2)
+  })
+  await test('real Vue page hide blocks late results, then resumes the original upload',async()=>{
+    let page,hidden=false;const f=fixture({hideOnPart:()=>{if(!hidden){hidden=true;page.hide()}}});page=photoPage(f);await page.submit()
+    const key=page.pending.value.key;assert.equal(f.calls.filter(call=>call.filePath).length,1);assert.equal(page.navigations.length,0)
+    // Only the first request hides this page; restoring it can finish the original session.
+    const count=f.calls.length;page.show();await page.submit()
+    assert.ok(f.calls.length>count);assert.equal(f.calls.filter(call=>call.data).length,1)
+    assert.ok(f.calls.every(call=>call.header['Idempotency-Key']===key));assert.equal(page.navigations[0],'/pages/order-confirm/index')
+  })
+  await test('real Vue page subject change invalidates old pending state and drops late response',async()=>{
+    let page;const f=fixture({hideOnPart:()=>page.changeOwner()});page=photoPage(f);await page.submit()
+    assert.equal(page.pending.value,null);assert.equal(page.photos.value.length,0);assert.equal(page.navigations.length,0)
+    assert.equal(f.calls.filter(call=>call.filePath).length,1);assert.equal(f.calls.filter(call=>call.data).length,1)
+    await page.submit();assert.equal(f.calls.filter(call=>call.data).length,1)
+  })
   await test('30 photos upload serially and create once; repeated complete returns same file',async()=>{
     const f=fixture({count:30});assert.equal((await f.run()).view.result.id,uuid);assert.equal((await f.run()).view.result.id,uuid)
     assert.equal(f.calls.filter(x=>x.data).length,1);assert.equal(f.calls.filter(x=>x.filePath).length,30)

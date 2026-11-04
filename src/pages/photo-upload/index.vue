@@ -74,7 +74,8 @@ async function submit() {
     let record = pending.value
     if (record && !photoOwnerMatches(record, session)) { issue.value = '原会话已变化，不能恢复旧文件'; return }
     if (!record) { record = newPhotoUpload(session, variant.value, photos.value, copies.value); pending.value = record }
-    const target = record
+    const target = pending.value
+    if (!target) return
     const current = () => active() && pending.value === target && photoOwnerMatches(target, getActiveDemoSession())
     const reply = await continuePhotoUpload(session, target, current, value => { view.value = value })
     if (!current()) return
