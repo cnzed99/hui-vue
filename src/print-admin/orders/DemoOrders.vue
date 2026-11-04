@@ -5,6 +5,7 @@ import { classifyOrderError, getMiniappOrders, getOrders, orderFailure } from '.
 import type { MiniappOrderSummary, OrderFailure, OrderPage, OrderSummary } from './api'
 import { DEMO_ORDERS, displayTime, parsePage, statusLabel, paymentStatusLabel, printStatusLabel, useOrderAccess } from './view'
 import OrderState from './OrderState.vue'
+import PhotoPriceCard from './photo-price/PhotoPriceCard.vue'
 import './orders.css'
 
 defineOptions({ name: 'PrintDemoOrders' })
@@ -59,6 +60,7 @@ const switchMode = (miniapp: boolean) => {
 <template>
   <section class="orders" data-testid="demo-orders" :aria-busy="loading || (!access.ready.value && !visibleFailure)">
     <header class="orders-title"><h1>订单处理</h1><RouterLink to="/print/workbench">返回工作台</RouterLink></header>
+    <PhotoPriceCard v-if="miniappMode" />
     <div class="orders-card">
       <nav class="orders-source-tabs" aria-label="订单来源">
         <button type="button" :class="{ active: !miniappMode }" @click="switchMode(false)">后台演示订单</button>
