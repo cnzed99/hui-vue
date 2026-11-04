@@ -1,0 +1,27 @@
+{
+  "status": "PREPARED_ONLY_NOT_EXECUTED",
+  "sourceCommit": "3f4019b62f4a3a2384ad83946a4643eaab881966",
+  "backendJarSha256": "101a55e53b06f08d4f5521ab0efe11547ad8cce0b30b99e1795e91935a4b3208",
+  "files": {
+    "ops/runtime/print-photo-6in.service.conf": "37b903d32f526187cc5fc679717bb50b41f99f6a75862f56387281bd9f660410",
+    "ops/runtime/print-photo-6in-limits.conf": "b170b1bbf295f3046d5d9005fb969cd8d62f5bc4c26a2b3d5675ea5331b4b53a",
+    "ops/runtime/print-photo-6in-nginx.conf": "1f0a0cf60b26b5da4f5c8ea051c82f48abd770b400345d426390258515ac1dbb",
+    "ops/db/print-miniapp-demo-photo-6in.sql": "28889a04225006e6a5186f1e63a1e96996b3e521577b1d01ab355d69448df8dd",
+    "ops/db/apply-photo-6in-reviewed-migration.sh": "f2eca0e0e64ba02ff46decfa361af802b3358ec71134263f4d4dd3a39080f151",
+    "docs/release/photo-6in-deployment-plan-20261104.md": "d0afd388f39a29027ef39bbfd11b0b3798a1570dc8ab6b5ad134be0e6397161f"
+  },
+  "stageDropins": {
+    "initial": {
+      "content": "[Service]\nEnvironment=\"PRINT_MINIAPP_DEMO_PHOTO_ENABLED=false\"\nEnvironment=\"PRINT_MINIAPP_DEMO_PHOTO_QUOTE_ENABLED=false\"\n",
+      "sha256": "37b903d32f526187cc5fc679717bb50b41f99f6a75862f56387281bd9f660410"
+    },
+    "files_only": {
+      "content": "[Service]\nEnvironment=\"PRINT_MINIAPP_DEMO_PHOTO_ENABLED=true\"\nEnvironment=\"PRINT_MINIAPP_DEMO_PHOTO_QUOTE_ENABLED=false\"\n",
+      "sha256": "648816bff31ce61b137137356e2bfde23d76e5cc36f02ab0b78bba48ce1dc1d5"
+    },
+    "quotes_open": {
+      "content": "[Service]\nEnvironment=\"PRINT_MINIAPP_DEMO_PHOTO_ENABLED=true\"\nEnvironment=\"PRINT_MINIAPP_DEMO_PHOTO_QUOTE_ENABLED=true\"\n",
+      "sha256": "5ef08b05865c10a1faff741a1f8dd4aa8882193106879256b63bcaa9f933595f"
+    }
+  }
+}
