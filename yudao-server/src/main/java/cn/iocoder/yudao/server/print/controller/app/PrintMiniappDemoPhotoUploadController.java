@@ -36,14 +36,11 @@ public class PrintMiniappDemoPhotoUploadController {
     @PostMapping(value="/{uploadId}/parts/{index}",consumes=MediaType.MULTIPART_FORM_DATA_VALUE) @PermitAll
     @ApiAccessLog(requestEnable=false,responseEnable=false,operateModule="print-miniapp-demo-collage-upload",operateName="part")
     public ResponseEntity<CommonResult<MiniappDemoPhotoUploadService.View>> part(
-            @PathVariable String uploadId,@PathVariable int index,
-            @RequestPart(value="file",required=false) MultipartFile file,HttpServletRequest request)throws Exception {
+            @PathVariable String uploadId,@PathVariable int index,HttpServletRequest request) {
         noQuery(request);
-        var identity=identity(request);
-        Collection<Part> parts=request.getParts();
-        if(parts.size()!=1||file==null||file.isEmpty())throw invalid();
-        Part part=parts.iterator().next();
-        if(!"file".equals(part.getName())||part.getSubmittedFileName()==null||part.getSize()!=file.getSize())throw invalid();
+        Object actor=request.getAttribute(MiniappDemoPhotoAdmissionFilter.ADMITTED_IDENTITY);
+        Object image=request.getAttribute(MiniappDemoPhotoAdmissionFilter.ADMITTED_IMAGE);
+        if(!(actor instanceof MiniappDemoIdentity identity) || !(image instanceof MultipartFile file))throw invalid();
         return ok(uploads.upload(identity,uploadId,index,file));
     }
     @PostMapping("/{uploadId}/complete") @PermitAll

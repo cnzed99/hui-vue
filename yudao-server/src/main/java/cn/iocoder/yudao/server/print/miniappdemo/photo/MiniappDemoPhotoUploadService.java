@@ -19,7 +19,12 @@ import java.util.*;
 
 /** Durable ordered manifest. A lost response or JVM restart never creates a new generation domain. */
 @Service
-public final class MiniappDemoPhotoUploadService {
+public class MiniappDemoPhotoUploadService {
+    private static final org.slf4j.Logger LOG=org.slf4j.LoggerFactory.getLogger(MiniappDemoPhotoUploadService.class);
+    private final Object lifecycle=new Object();
+    private boolean stopping;
+    private int activeOperations;
+    private final java.util.Set<Path> cleanupPending=java.util.concurrent.ConcurrentHashMap.newKeySet();
     private static final String VERSION="photo-6in-v1";
     private final JdbcTemplate jdbc;private final TransactionTemplate tx;private final MiniappDemoSessionRepository sessions;
     private final MiniappDemoFileService files;private final MiniappDemoFileProperties config;private final MiniappDemoPhotoProcessRenderer renderer;
@@ -31,35 +36,75 @@ public final class MiniappDemoPhotoUploadService {
         this.jdbc=jdbc;this.tx=new TransactionTemplate(manager);this.sessions=sessions;this.files=files;this.config=config;this.renderer=renderer;
     }
     @PostConstruct public void initialize()throws IOException{
-        if(!enabled)return;files.requireStorageLockHeld();root=config.getStorageRoot().toRealPath().resolve("photo-upload-objects");
+        if(config.getStorageRoot()==null){if(enabled)throw new IOException("Missing photo storage root");return;}
+        files.requireStorageLockHeld();root=config.getStorageRoot().toRealPath().resolve("photo-upload-objects");
         if(!Files.exists(root,LinkOption.NOFOLLOW_LINKS)){Files.createDirectory(root);Files.setPosixFilePermissions(root,PosixFilePermissions.fromString("rwx------"));}
         if(Files.isSymbolicLink(root)||!Files.isDirectory(root,LinkOption.NOFOLLOW_LINKS)||!Files.getPosixFilePermissions(root).equals(PosixFilePermissions.fromString("rwx------")))throw new IOException("Unsafe photo root");
         cleaner=java.util.concurrent.Executors.newSingleThreadScheduledExecutor(r->{Thread t=new Thread(r,"photo-upload-cleanup");t.setDaemon(true);return t;});
+        cleanup();
         cleaner.scheduleWithFixedDelay(this::cleanup,60,60,java.util.concurrent.TimeUnit.SECONDS);
     }
     @jakarta.annotation.PreDestroy public void stop(){
-        if(cleaner!=null){cleaner.shutdownNow();try{if(!cleaner.awaitTermination(5,java.util.concurrent.TimeUnit.SECONDS))files.retainStorageLockUntilProcessExit();}catch(InterruptedException e){files.retainStorageLockUntilProcessExit();Thread.currentThread().interrupt();}}
+        boolean interrupted=false;
+        synchronized(lifecycle){stopping=true;}
+        if(cleaner!=null)cleaner.shutdownNow();
+        long end=System.nanoTime()+java.util.concurrent.TimeUnit.SECONDS.toNanos(drainSeconds());
+        synchronized(lifecycle){
+            while(activeOperations>0&&System.nanoTime()<end){
+                try{java.util.concurrent.TimeUnit.NANOSECONDS.timedWait(lifecycle,end-System.nanoTime());}
+                catch(InterruptedException e){interrupted=true;break;}
+            }
+            if(activeOperations>0){files.retainStorageLockUntilProcessExit();LOG.warn("photo_upload_shutdown_pending active={}",activeOperations);}
+        }
+        if(cleaner!=null){try{if(!cleaner.awaitTermination(1,java.util.concurrent.TimeUnit.SECONDS))files.retainStorageLockUntilProcessExit();}catch(InterruptedException e){interrupted=true;files.retainStorageLockUntilProcessExit();}}
+        if(!cleanupPending.isEmpty()){files.retainStorageLockUntilProcessExit();LOG.warn("photo_upload_cleanup_pending count={}",cleanupPending.size());}
+        if(interrupted)Thread.currentThread().interrupt();
     }
-    private void cleanup(){
-        try{
-            files.requireStorageLockHeld();long safeBefore=System.currentTimeMillis()-720_000L;
+    protected int drainSeconds(){return 35;}
+    private Operation begin(boolean requireFeature){
+        synchronized(lifecycle){
+            if(stopping)throw MiniappDemoPhotoException.unavailable();
+            if(requireFeature)requireEnabled();else files.requireStorageLockHeld();
+            activeOperations++;return new Operation();
+        }
+    }
+    private final class Operation implements AutoCloseable{
+        private boolean closed;
+        @Override public void close(){synchronized(lifecycle){if(!closed){closed=true;activeOperations--;lifecycle.notifyAll();}}}
+    }
+    void cleanup(){
+        if(root==null)return;
+        try(var operation=begin(false)){
+            retryCleanup();long safeBefore=System.currentTimeMillis()-720_000L;
             try(var entries=Files.newDirectoryStream(root)){
                 for(Path p:entries){
                     if(Files.isSymbolicLink(p)||!Files.isRegularFile(p,LinkOption.NOFOLLOW_LINKS)||Files.getLastModifiedTime(p,LinkOption.NOFOLLOW_LINKS).toMillis()>safeBefore)continue;
                     String name=p.getFileName().toString();
-                    if(name.matches("incoming-[A-Za-z0-9-]+\\.part")){Files.deleteIfExists(p);continue;}
+                    if(name.matches("incoming-[A-Za-z0-9-]+\\.part")){deleteOrQueue(p);continue;}
                     if(!name.matches("[0-9a-f-]{36}\\.bin"))continue;
                     String key=name.substring(0,36);
                     Long live=jdbc.queryForObject("SELECT COUNT(*) FROM print_photo_upload_item i JOIN print_photo_upload_session s ON s.id=i.session_id AND s.tenant_id=i.tenant_id AND s.store_id=i.store_id AND s.principal_id=i.principal_id WHERE i.storage_key=? AND s.expires_at_ms>?",Long.class,key,System.currentTimeMillis());
-                    if(live!=null&&live==0)Files.deleteIfExists(p);
+                    if(live!=null&&live==0)deleteOrQueue(p);
                 }
             }
-        }catch(Exception ignored){/* Keep objects on any uncertain database or filesystem result. */}
+        }catch(Exception failure){LOG.warn("photo_upload_cleanup_retry errorType={}",failure.getClass().getSimpleName());}
     }
+    protected void deletePrivateObject(Path path)throws IOException{Files.deleteIfExists(path);}
+    private void deleteOrQueue(Path path){
+        try{
+            if(root==null||!path.toAbsolutePath().normalize().getParent().equals(root)||Files.isSymbolicLink(path))throw new IOException("Unsafe cleanup path");
+            deletePrivateObject(path);if(cleanupPending.remove(path))LOG.info("photo_upload_cleanup_recovered");
+        }catch(IOException failure){cleanupPending.add(path);LOG.warn("photo_upload_cleanup_pending count={} errorType={}",cleanupPending.size(),failure.getClass().getSimpleName());}
+    }
+    private void retryCleanup(){for(Path path:java.util.Set.copyOf(cleanupPending))deleteOrQueue(path);}
+    int pendingCleanupCount(){return cleanupPending.size();}
     public record View(String uploadId,String state,String variant,int fileCount,List<Integer> uploadedIndexes,long expiresAtMs,MiniappDemoFileMetadata result){}
     private record Session(String id,String variant,int count,String state,long expiry,String manifest,String finalId){}
     private record Item(int ordinal,long size,String digest,String key){}
     public View create(MiniappDemoIdentity identity,JsonNode body,String key){
+        try(var operation=begin(true)){return createActive(identity,body,key);}
+    }
+    private View createActive(MiniappDemoIdentity identity,JsonNode body,String key){
         requireEnabled();if(identity==null||key==null||!key.matches("[!-~]{1,128}")||body==null||!body.isObject()||body.size()!=2
             ||!body.has("variant")||!body.get("variant").isTextual()||!body.has("fileCount")||!body.get("fileCount").isIntegralNumber()||!body.get("fileCount").canConvertToInt())throw MiniappDemoPhotoException.input();
         String variant=body.get("variant").textValue();int count=body.get("fileCount").intValue();
@@ -79,8 +124,11 @@ public final class MiniappDemoPhotoUploadService {
             return view(identity,locked(identity,id));
         });
     }
-    public View get(MiniappDemoIdentity identity,String id){requireEnabled();return tx.execute(s->{active(identity);return view(identity,locked(identity,id));});}
+    public View get(MiniappDemoIdentity identity,String id){try(var operation=begin(true)){return tx.execute(s->{active(identity);return view(identity,locked(identity,id));});}}
     public View upload(MiniappDemoIdentity identity,String id,int ordinal,MultipartFile file){
+        try(var operation=begin(true)){return uploadActive(identity,id,ordinal,file);}
+    }
+    private View uploadActive(MiniappDemoIdentity identity,String id,int ordinal,MultipartFile file){
         requireEnabled();if(file==null||file.isEmpty()||file.getSize()>2L*1024*1024)throw MiniappDemoPhotoException.input();
         Path temporary=null;try{
             capacity();temporary=Files.createTempFile(root,"incoming-",".part");Files.setPosixFilePermissions(temporary,PosixFilePermissions.fromString("rw-------"));
@@ -106,9 +154,12 @@ public final class MiniappDemoPhotoUploadService {
                 return view(identity,session);
             });
         }catch(MiniappDemoPhotoException e){throw e;}catch(Exception e){throw MiniappDemoPhotoException.unavailable();}
-        finally{if(temporary!=null)try{Files.deleteIfExists(temporary);}catch(IOException ignored){}}
+        finally{if(temporary!=null)deleteOrQueue(temporary);}
     }
     public View complete(MiniappDemoIdentity identity,String id){
+        try(var operation=begin(true)){return completeActive(identity,id);}
+    }
+    private View completeActive(MiniappDemoIdentity identity,String id){
         requireEnabled();Session frozen=tx.execute(status->{
             active(identity);Session session=locked(identity,id);available(session);if(session.finalId!=null)return session;
             List<Item> items=items(identity,id);if(items.size()!=session.count)throw conflict();

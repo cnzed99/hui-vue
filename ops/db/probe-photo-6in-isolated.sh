@@ -33,4 +33,7 @@ SQL
 mysql "${socket[@]}" photo_candidate < ops/db/print-miniapp-demo-photo-6in.sql > target/photo-6in-checks/db-migration-readback.log
 cp=$(cat target/photo-6in-checks/classpath.txt)
 java -Xmx128m -cp "$cp" cn.iocoder.yudao.server.print.miniappdemo.photo.MiniappDemoPhotoMysqlChecks "$port" "$scratch/storage"
+if [[ ${PHOTO_6IN_SPRING_CHECKS:-0} == 1 ]];then
+  java -Xmx192m -Dorg.springframework.boot.logging.LoggingSystem=none -cp "$cp" cn.iocoder.yudao.server.print.miniappdemo.photo.MiniappDemoPhotoSpringChecks "$port"
+fi
 echo PHOTO_MYSQL_ISOLATED_PASS

@@ -59,6 +59,7 @@ public class MiniappDemoFileService {
     private Path objects;
     private Path incoming;
     private Path scratch;
+    private Path photoMultipart;
     private Path idPhotoMultipart;
     private Path idPhotoScratch;
     private final Set<Path> privateCleanupPending = ConcurrentHashMap.newKeySet();
@@ -87,6 +88,7 @@ public class MiniappDemoFileService {
         objects = privateDirectory(root.resolve("objects"));
         incoming = privateDirectory(root.resolve("incoming"));
         scratch = privateDirectory(root.resolve("parser-scratch"));
+        photoMultipart = privateDirectory(root.resolve("photo-multipart"));
         idPhotoMultipart = privateDirectory(root.resolve("id-photo-multipart"));
         idPhotoScratch = privateDirectory(root.resolve("id-photo-scratch"));
         lockChannel = java.nio.channels.FileChannel.open(root.resolve(".worker.lock"), StandardOpenOption.CREATE,
@@ -186,6 +188,14 @@ public class MiniappDemoFileService {
     /** Keep the OS lock open when a dependent renderer cannot drain safely during shutdown. */
     public void retainStorageLockUntilProcessExit() {
         retainStorageLockUntilExit = true;
+    }
+
+    public Path photoMultipartRoot() {
+        requireStorageLockHeld();
+        return photoMultipart;
+    }
+    public boolean cleanupPhotoMultipartTask(Path task) {
+        return cleanupPrivateTaskOrQueue(task, photoMultipart);
     }
 
     public Path idPhotoMultipartRoot() {
@@ -419,6 +429,7 @@ public class MiniappDemoFileService {
                         && !repository.storageReferenced(key)) Files.delete(path);
             }
         }
+        cleanupPrivateRoot(photoMultipart);
         cleanupPrivateRoot(idPhotoMultipart);
         cleanupPrivateRoot(idPhotoScratch);
     }
@@ -446,7 +457,8 @@ public class MiniappDemoFileService {
     private void retryPrivateCleanup() {
         for (Path task : Set.copyOf(privateCleanupPending)) {
             Path parent = task.getParent();
-            Path expected = idPhotoMultipart != null && idPhotoMultipart.equals(parent) ? idPhotoMultipart
+            Path expected = photoMultipart != null && photoMultipart.equals(parent) ? photoMultipart
+                    : idPhotoMultipart != null && idPhotoMultipart.equals(parent) ? idPhotoMultipart
                     : idPhotoScratch != null && idPhotoScratch.equals(parent) ? idPhotoScratch : null;
             if (expected == null) {
                 privateCleanupPending.remove(task);
