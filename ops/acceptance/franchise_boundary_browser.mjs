@@ -6,8 +6,8 @@ import { createRequire } from 'node:module'
 const base = '/home/ubuntu/print-system'
 const runtime = path.join(base, 'runtime/browser-tools')
 const origin = 'http://127.0.0.1:18080'
-const expectedRelease = '/var/www/print-system/releases/miniapp-franchise-boundary-20261103t1035z-c8493bd'
-const expectedIndexSha256 = '21b2a510a826ae5b2faebbd5f38013c719519a18eb1df377e1ec2a00fedd8986'
+const expectedRelease = process.env.EXPECTED_RELEASE
+const expectedIndexSha256 = process.env.EXPECTED_INDEX_SHA256
 const sourceCommit = 'c8493bdadb2e249a1e1af734372eb7b7e6e70662'
 const runId = new Date().toISOString().replace(/[-:.]/g, '') + '-' + crypto.randomBytes(4).toString('hex')
 const out = path.join(base, 'evidence/miniapp', `franchise-boundary-${runId}`)
@@ -41,6 +41,7 @@ const report = {
 }
 
 try {
+  check('expected_deployment_declared', Boolean(expectedRelease && expectedIndexSha256))
   await fs.mkdir(out, { recursive: false, mode: 0o700 })
   const activeRelease = await fs.realpath('/var/www/print-system/miniapp')
   const indexSha256 = crypto.createHash('sha256').update(await fs.readFile('/var/www/print-system/miniapp/index.html')).digest('hex')
