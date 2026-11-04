@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "scope": "service center read-only help navigation",
+  "sourceCommit": "ff741ea",
+  "startedAt": "2026-11-04T05:07:23.358Z",
+  "checks": [
+    {
+      "name": "deployment_matches_candidate",
+      "passed": true
+    },
+    {
+      "name": "service_center_boundaries",
+      "passed": true
+    },
+    {
+      "name": "tutorial_navigation",
+      "passed": true
+    },
+    {
+      "name": "orders_navigation",
+      "passed": true
+    },
+    {
+      "name": "no_business_writes",
+      "passed": true
+    }
+  ],
+  "boundaries": {
+    "feedbackWrite": "NOT_IMPLEMENTED",
+    "phoneBinding": "NOT_IMPLEMENTED",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "deployment": {
+    "activeRelease": "/var/www/print-system/releases/miniapp-id-photo-server-file-20261103-69d93c1",
+    "indexSha256": "69d93c169fed9249f57b24e016f6d9add92a37273afe855be81bc7781b7da968",
+    "expectedRelease": "/var/www/print-system/releases/miniapp-id-photo-server-file-20261103-69d93c1",
+    "expectedIndexSha256": "69d93c169fed9249f57b24e016f6d9add92a37273afe855be81bc7781b7da968"
+  },
+  "status": "PASS",
+  "writes": [
+    "POST http://127.0.0.1:18080/app-api/print/miniapp/demo/sessions"
+  ],
+  "finishedAt": "2026-11-04T05:07:23.677Z",
+  "passed": 5,
+  "failed": 0
+}
