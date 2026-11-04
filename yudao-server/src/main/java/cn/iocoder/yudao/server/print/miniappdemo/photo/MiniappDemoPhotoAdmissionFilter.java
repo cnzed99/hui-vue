@@ -45,15 +45,24 @@ public class MiniappDemoPhotoAdmissionFilter extends OncePerRequestFilter {
         if(!config.isEnabled())return;
         files.requireStorageLockHeld();multipartRoot=files.photoMultipartRoot();
     }
+    private String containerPath(HttpServletRequest request){
+        // Servlet containers already decode this mapping path. Never URL-decode it again.
+        String servlet=request.getServletPath();
+        String info=request.getPathInfo();
+        return (servlet==null?"":servlet)+(info==null?"":info);
+    }
     @Override protected boolean shouldNotFilter(HttpServletRequest request){
-        String target=request.getContextPath()+prefix;
-        String uri=request.getRequestURI();
-        boolean namespace=uri.equals(target)||uri.startsWith(target+"/");
-        boolean multipart=request.getContentType()!=null&&request.getContentType().toLowerCase(java.util.Locale.ROOT).startsWith("multipart/");
-        return !namespace || !(multipart||uri.contains("/parts"));
+        String path=containerPath(request);
+        return !(path.equals(prefix)||path.startsWith(prefix+"/"));
     }
     @Override protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response,FilterChain chain)throws IOException,ServletException{
-        String suffix=request.getRequestURI().substring((request.getContextPath()+prefix).length());
+        String path=containerPath(request);
+        if(!request.getRequestURI().equals(request.getContextPath()+path)){
+            reject(response,400,43200);return;
+        }
+        boolean multipartBody=request.getContentType()!=null&&request.getContentType().toLowerCase(java.util.Locale.ROOT).startsWith("multipart/");
+        if(!multipartBody&&!path.contains("/parts")){chain.doFilter(request,response);return;}
+        String suffix=path.substring(prefix.length());
         if(!enabled||multipartRoot==null){reject(response,404,43202);return;}
         if(!"POST".equals(request.getMethod())||!suffix.matches("/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/parts/(?:[0-9]|[12][0-9])")){reject(response,404,43201);return;}
         long length=request.getContentLengthLong();var lengths=Collections.list(request.getHeaders("Content-Length"));

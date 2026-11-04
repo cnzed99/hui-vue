@@ -38,7 +38,7 @@ public final class MiniappDemoPhotoLifecycleChecks {
     static MiniappDemoFileProperties config(Path root){var p=new MiniappDemoFileProperties();p.setStorageRoot(root);p.setEnabled(true);p.setMinFreeBytes(10L*1024*1024*1024);return p;}
     static class Request extends MockHttpServletRequest {
         int reads;
-        Request(byte[] body){setMethod("POST");setRequestURI("/app-api/print/miniapp/demo/photo-upload-sessions/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa/parts/0");setContentType("multipart/form-data; boundary=photo-boundary");setContent(body);addHeader("Content-Length",Integer.toString(body.length));}
+        Request(byte[] body){setMethod("POST");setRequestURI("/app-api/print/miniapp/demo/photo-upload-sessions/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa/parts/0");setServletPath(getRequestURI());setContentType("multipart/form-data; boundary=photo-boundary");setContent(body);addHeader("Content-Length",Integer.toString(body.length));}
         @Override public ServletInputStream getInputStream(){reads++;return super.getInputStream();}
         @Override public Collection<jakarta.servlet.http.Part> getParts(){throw new AssertionError("Container multipart parser was invoked");}
     }
