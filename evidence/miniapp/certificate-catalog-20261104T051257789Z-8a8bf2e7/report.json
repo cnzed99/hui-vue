@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "scope": "observed identity card, household register and identity-bank privacy-closed pages",
+  "sourceCommit": "76bb28bf1704e660dc0c35b19d84c3ed28c9b34a",
+  "runId": "20261104T051257789Z-8a8bf2e7",
+  "startedAt": "2026-11-04T05:12:57.790Z",
+  "checks": [
+    {
+      "name": "expected_deployment_declared",
+      "passed": true
+    },
+    {
+      "name": "deployment_matches_candidate",
+      "passed": true
+    },
+    {
+      "name": "identity_observed_hint",
+      "passed": true
+    },
+    {
+      "name": "identity_two_positions",
+      "passed": true
+    },
+    {
+      "name": "identity_actions_and_sides",
+      "passed": true
+    },
+    {
+      "name": "identity_one_swap",
+      "passed": true
+    },
+    {
+      "name": "identity_no_sensitive_controls",
+      "passed": true
+    },
+    {
+      "name": "identity_selection_closed",
+      "passed": true
+    },
+    {
+      "name": "household_observed_hint",
+      "passed": true
+    },
+    {
+      "name": "household_four_positions",
+      "passed": true
+    },
+    {
+      "name": "household_three_swaps",
+      "passed": true
+    },
+    {
+      "name": "household_no_sensitive_controls",
+      "passed": true
+    },
+    {
+      "name": "identity_bank_observed_hint",
+      "passed": true
+    },
+    {
+      "name": "identity_bank_four_positions",
+      "passed": true
+    },
+    {
+      "name": "identity_bank_exact_actions",
+      "passed": true
+    },
+    {
+      "name": "identity_bank_three_swaps",
+      "passed": true
+    },
+    {
+      "name": "identity_bank_no_sensitive_controls",
+      "passed": true
+    },
+    {
+      "name": "catalog_next_step_closed",
+      "passed": true
+    },
+    {
+      "name": "no_writes_or_external_requests",
+      "passed": true
+    }
+  ],
+  "screenshots": [
+    "identity-card-boundary.png",
+    "household-register-boundary.png",
+    "identity-bank-boundary.png"
+  ],
+  "deployment": {
+    "expectedRelease": "/var/www/print-system/releases/miniapp-id-photo-server-file-20261103-69d93c1",
+    "expectedIndexSha256": "69d93c169fed9249f57b24e016f6d9add92a37273afe855be81bc7781b7da968",
+    "activeRelease": "/var/www/print-system/releases/miniapp-id-photo-server-file-20261103-69d93c1",
+    "indexSha256": "69d93c169fed9249f57b24e016f6d9add92a37273afe855be81bc7781b7da968"
+  },
+  "boundaries": {
+    "cameraAccess": "NOT_RUN",
+    "albumAccess": "NOT_RUN",
+    "wechatImageAccess": "NOT_RUN",
+    "documentUpload": "NOT_RUN",
+    "edgeRecognition": "NOT_IMPLEMENTED",
+    "layoutAndPricing": "NOT_IMPLEMENTED",
+    "originalSystemWrites": "NOT_RUN",
+    "externalAcceptance": "NOT_RUN"
+  },
+  "status": "PASS",
+  "finishedAt": "2026-11-04T05:12:59.217Z",
+  "passed": 19,
+  "failed": 0,
+  "writes": [],
+  "externalRequests": []
+}
