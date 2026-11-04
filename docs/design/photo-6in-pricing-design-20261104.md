@@ -1,7 +1,7 @@
 # 六寸照片纸文件、计价与订单闭环设计（Astra High 审查稿）
 
 日期：2026-11-04  
-状态：`REVISION_2 / DESIGN_REVIEW_REQUIRED / NOT_IMPLEMENTED`
+状态：`REVISION_3 / DESIGN_REVIEW_REQUIRED / NOT_IMPLEMENTED`
 
 ## 1. 用户确认规则与本批范围
 
@@ -66,7 +66,7 @@
 - 初始单价：`1.00`
 - 无阶梯价；照片纸只允许 `SIMPLEX`
 
-新增 `print_photo_price_binding`：主键 `(tenant_id,store_id)`，包含 `active_profile_id`、正整数 `revision`、`quote_enabled`、`updated_by`、`updated_at_ms`，并以复合外键绑定同 tenant/store 的不可变 profile。`quote_enabled` 初始为 0，是数据库报价门禁；只有正式开放步骤才置 1。报价和后台改价统一锁顺序：先当前 scope/binding，再 active profile；禁止反向锁定。
+新增 `print_photo_price_binding`：主键 `(tenant_id,store_id)`，包含 `active_profile_id`、正整数 `revision`、`quote_enabled`、`updated_by`、`updated_at_ms`，并以复合外键绑定同 tenant/store 的不可变 profile。`quote_enabled` 初始为 0，是数据库报价门禁；只有正式开放步骤才置 1。凡同时涉及文件和价格的事务统一使用 `file→binding→profile` 锁顺序；后台改价/关闸只锁 scope/binding 后插入 profile 或切指针，绝不反向申请文件锁。
 
 小程序创建照片报价时只提交严格字段：
 
@@ -118,13 +118,17 @@
 - 照片组合还必须要求 binding.quote_enabled=1；关闭时即使应用被绕过，直接 SQL 也必须拒价；
 - 任一不存在、主体错配、未知 kind/variant、错误档案或多行均固定 SQLSTATE 失败。
 
+触发器不能使用普通一致性读。它按固定顺序分别对目标文件、同 scope binding 和 active profile 执行当前锁定读（`SELECT ... FOR UPDATE`），锁保持到报价 INSERT 所在事务结束；应用的新报价事务也按 `file→binding→profile` 顺序持锁后插入。直接 SQL 事务即使先建立旧快照，触发器执行锁定读时也必须看见最近已提交的 `quote_enabled` 与 active_profile_id。若报价先取得 binding 锁，改价或关闸等待其提交；若改价或关闸先提交，后续报价不能使用旧开关或旧 profile。既有幂等报价重放不插入新行，继续返回冻结快照，不受当前门禁切换影响。
+
 来源 CHECK 明确列出 `source_kind IS NOT NULL`，DOCUMENT 必须 variant IS NULL，ID_PHOTO/PHOTO 必须 variant IS NOT NULL 且位于各自有限集合，不能让 SQL UNKNOWN 通过。迁移采用有限、可读回、不可猜测的 DDL/DML：先确认表、列、约束、触发器、菜单 ID、角色和目标系列不存在；做验证备份；停 Nginx/后端并排空写入；先新增 binding、初始不可变价格版本与权限；再以单个 ALTER 原子替换来源 CHECK；最后替换报价触发器。MySQL DDL 每个隐式提交点都立即读回。旧触发器删除后若新触发器创建或读回失败，保持 Nginx/后端和全部报价写入口停止，不允许在保护缺失状态恢复服务；不执行破坏性逆迁移。
 
 功能受 `PRINT_MINIAPP_DEMO_PHOTO_ENABLED=false` 与 `PRINT_MINIAPP_DEMO_PHOTO_QUOTE_ENABLED=false` 两个应用开关控制，数据库 binding.quote_enabled 是独立第三门禁。迁移后先以应用双关闭、数据库门禁 0 启动兼容 JAR，验证历史 v1、普通报价和旧订单；然后只开启文件生成，保持应用照片报价关闭且数据库门禁 0，验证应用与直接 SQL 双重拒价；最终开放步骤先验证兼容构建和触发器，再在受控窗口把数据库门禁置 1，随后开启应用报价和精确 Nginx 路由。回退先关 Nginx和应用报价，再把数据库门禁置 0并读回。
 
 兼容构建必须在任何新来源行或第一条 schema v2 报价落库前完成构建、哈希保全和读取验证；它必须认识 PHOTO、能读取 v1/v2 快照，并能继续查询、支付、取消/模拟退款、后台处理和恢复既有任务。最迟从第一条新来源或 v2 数据落库开始，禁止回滚到旧 verifier/JAR，即使系统只有 ID_PHOTO v2 而没有 PHOTO 行。回退必须先关闭照片路由、应用双开关和数据库门禁，再使用已保全兼容构建；保留新 CHECK、触发器、binding、档案、权限和数据，不做破坏性逆迁移。
 
-功能关闭后，已有 v2 订单仍可只读查询，并按原规则完成取消/模拟退款；已创建任务继续使用冻结快照和唯一 jobId。支付创建、任务创建以及 CLAIM/ACCEPT/START 前必须重新读取订单 item、文件来源/variant/hash 和 v2 快照并一致校验；文件过期后只校验不可变身份与来源，不重新计价。已领取、执行中或 RESULT_UNKNOWN 不自动重发、不自动退款、不生成第二任务。
+功能关闭后，已有 v2 订单仍可只读查询，并按原规则完成取消/模拟退款；已创建任务继续使用冻结快照和唯一 jobId。新建模拟支付、新建打印任务以及 CLAIM/ACCEPT/START 等推进执行动作前，必须重新读取订单 item、文件来源/variant/hash 和 v2 快照并一致校验，同时要求文件仍为 `READY`、未过期且对应对象可用；不得因已有订单或金额快照而放宽文件准入。
+
+只有历史查询、取消/模拟退款，以及已有回执或 RESULT_UNKNOWN 的证据恢复可以在文件过期后只核验不可变身份、来源和冻结快照，不要求重新取得打印对象，也不重新计价。已接受、执行中或 RESULT_UNKNOWN 的既有任务继续遵循原状态机，不因文件过期自动重发、自动退款或生成第二任务。
 
 ## 7. 小程序流程
 
@@ -144,11 +148,11 @@
 4. 非法价格、错误纸张/颜色/side、错误档案、未知 kind/variant、跨主体/跨门店和快照篡改全部失败关闭。
 5. 历史 schema v1 文档报价/订单仍可读取和处理；v1 不能承载照片；只有 ID_PHOTO v2、没有 PHOTO 行时也能在兼容构建中回退运行。
 6. `tenant_admin` 可读写，`print_reader` 只读；无权限 PUT 为 403，不能仅依靠前端隐藏。
-7. 触发器直接 SQL 负例覆盖报价关闭、半迁移、正式开放与回退四态，以及文档配照片档案、照片配文档档案、主体错配和未知来源；任何保护缺失时服务不得恢复。
+7. 触发器直接 SQL 负例覆盖报价关闭、半迁移、正式开放与回退四态，以及文档配照片档案、照片配文档档案、主体错配和未知来源；并发覆盖事务 A 建立旧快照、事务 B 改价或关闸提交、A 再插入，以及报价先锁定时改价/关闸正确等待。任何保护缺失时服务不得恢复。
 8. 分阶段上传覆盖并发 complete、提交成功后响应丢失、文件落库后进程退出、同键换规格/顺序/图片、跨主体及 TTL 到期，始终最多一个 final_file_id。
 9. 来源专用页数覆盖照片 20/21/30/31 页、文档 21 页、伪造两页拼版和两页证件照；输出超 2MiB 整体拒绝。
 10. 报价幂等覆盖响应丢失→管理员改价→原键返回原金额，新键使用新版本；v2 金额恰好两位小数。
-11. 已付款、已领取、RESULT_UNKNOWN、已取消退款的 v2 订单在功能关闭和兼容回退后保持原证据及防重复约束。
+11. 文件在付款前、任务创建前、CLAIM 前、ACCEPT 前或 START 前过期/对象缺失时拒绝新副作用；已执行、RESULT_UNKNOWN、已取消退款的 v2 订单在功能关闭和兼容回退后仍能恢复原证据且不生成第二任务。
 12. 小程序完成“照片/证件照→报价→订单→模拟支付→后台唯一任务→模拟回执→结果恢复”浏览器闭环；原系统不访问。
 13. 标准构建窗口停后端、MySQL、Redis、Nginx，构建/迁移结束自动恢复并等待健康；磁盘至少保留 10GiB，清理本批 scratch。
 
