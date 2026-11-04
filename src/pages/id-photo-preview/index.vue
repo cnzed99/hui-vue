@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { onLoad } from '@dcloudio/uni-app'
-import { ensureDemoSession } from '@/api/demoSession'
+import { onLoad, onShow, onHide, onUnload } from '@dcloudio/uni-app'
+import { ensureDemoSession, getActiveDemoSession } from '@/api/demoSession'
 import { waitForDemoFile } from '@/api/demoFiles'
 import type { DemoFileMetadata } from '@/api/demoFiles'
 import { uploadIdPhotoFile } from '@/api/demoIdPhotoFiles'
 import type { IdPhotoSpecification } from '@/api/demoIdPhotoFiles'
+import { createPhotoDraft, saveDraft } from '@/domain/printDraft'
+import type { DemoSession } from '@/api/demoSession'
 import { resolveSize } from '@/domain/idPhotoSizes'
 
 const PREVIEW_SELECTION_KEY = 'miniapp-id-photo-preview-selection-v1'
@@ -28,6 +30,12 @@ const ready = ref(false)
 const submitting = ref(false)
 const generatedFile = ref<DemoFileMetadata | null>(null)
 const idempotencyKey = `miniapp-id-photo-file-v1-${Date.now()}-${Math.random().toString(36).slice(2, 14)}`
+let owner: DemoSession | null = null
+let shown = false
+let generation = 0
+onShow(() => { shown = true })
+onHide(() => { shown = false; generation++; submitting.value = false })
+onUnload(() => { shown = false; generation++ })
 const layout = computed(() => layouts[layoutId.value])
 const cells = computed(() => Array.from({ length: layout.value.repeat }, (_, index) => index))
 const physicalSize = computed(() => resolveSize(layoutId.value))
@@ -85,29 +93,36 @@ function specification(): IdPhotoSpecification {
   return ({ one: 'ONE_INCH', two: 'TWO_INCH', three: 'THREE_INCH' } as const)[layoutId.value]
 }
 async function generateFile() {
-  if (submitting.value || generatedFile.value) return
+  if (submitting.value || !shown) return
+  const request = ++generation
   submitting.value = true
+  const current = () => shown && request === generation && !!owner
+    && owner.sessionId === getActiveDemoSession()?.sessionId && owner.principalId === getActiveDemoSession()?.principalId
   try {
     const session = await ensureDemoSession()
-    if (!session) {
-      uni.showToast({ title: '无法建立演示会话', icon: 'none' })
-      return
+    if (!shown || request !== generation) return
+    if (!session || (owner && (owner.sessionId !== session.sessionId || owner.principalId !== session.principalId))) {
+      uni.showToast({ title: '演示会话不可用或已变化，请重新选择照片', icon: 'none' }); return
     }
-    const reply = await uploadIdPhotoFile(session, photo.value, specification(), idempotencyKey)
-    if (reply.kind === 'rejected') {
-      uni.showToast({ title: '图片或请求不符合限制', icon: 'none' })
-      return
+    owner = session
+    let file = generatedFile.value
+    if (!file) {
+      const reply = await uploadIdPhotoFile(session, photo.value, specification(), idempotencyKey)
+      if (!current()) return
+      if (reply.kind !== 'ok') {
+        uni.showToast({ title: reply.kind === 'rejected' ? '图片或请求不符合限制' : '结果未知，请保留当前页恢复原请求', icon: 'none' }); return
+      }
+      file = reply.data
+      generatedFile.value = file
     }
-    if (reply.kind === 'unknown') {
-      uni.showToast({ title: '结果未知，请保留当前页后重试', icon: 'none' })
-      return
-    }
-    const finalFile = await waitForDemoFile(session, reply.data) || reply.data
-    generatedFile.value = finalFile
-    uni.showToast({ title: finalFile.status === 'READY' ? '打印文件已生成' : '文件已提交', icon: 'success' })
-  } finally {
-    submitting.value = false
-  }
+    const finalFile = await waitForDemoFile(session, file, current)
+    if (!current()) return
+    if (finalFile) generatedFile.value = finalFile
+    const draft = finalFile && createPhotoDraft(finalFile, session, copies.value)
+    if (!draft) { uni.showToast({ title: '文件未就绪或已失效，请重试查询', icon: 'none' }); return }
+    saveDraft(draft)
+    uni.navigateTo({ url: '/pages/order-confirm/index' })
+  } finally { if (shown && request === generation) submitting.value = false }
 }
 </script>
 
@@ -128,14 +143,14 @@ async function generateFile() {
       <view class="row"><text class="label">打印尺寸</text><text>{{ layout.label }}</text></view>
       <view class="row"><text class="label">打印份数</text><view class="stepper"><button @click="changeCopies(-1)">-</button><text>{{ copies }}</text><button @click="changeCopies(1)">+</button></view></view>
       <view class="tip">温馨提示：打印机将按以上排版效果打印，默认打印1份即可</view>
-      <view class="boundary">当前可生成服务端六寸相纸 PDF；价格、订单、支付和真实打印仍未开放。</view>
+      <view class="boundary">六寸相纸按张计费，份数计入总张数；下一步显示服务端报价。支付和打印仅为模拟。</view>
       <view v-if="generatedFile" class="file-result">
         <text>文件：{{ generatedFile.displayName }}</text>
         <text>状态：{{ generatedFile.status === 'READY' ? '已就绪' : '已提交' }}</text>
       </view>
     </view>
-    <view class="footer"><button :disabled="submitting || !!generatedFile" @click="generateFile">
-      {{ generatedFile ? '打印文件已生成' : (submitting ? '生成中…' : '生成打印文件') }}
+    <view class="footer"><button :disabled="submitting" @click="generateFile">
+      {{ submitting ? '处理中…' : generatedFile ? '继续确认打印' : '生成并确认打印' }}
     </button></view>
   </view>
 </template>

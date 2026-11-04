@@ -16,6 +16,7 @@ import type { PrintDraft } from '@/domain/printDraft'
 import DemoCancellationPanel from '@/components/DemoCancellationPanel.vue'
 
 const draft = ref<PrintDraft | null>(null)
+const isPhoto = computed(() => draft.value?.paper === 'PHOTO_6IN')
 const sideText = computed(() => draft.value?.side === 'DUPLEX' ? '双面' : '单面')
 const colorText = computed(() => draft.value?.color === 'COLOR' ? '彩色' : '黑白')
 const uploaded = computed(() => draft.value?.source === 'SERVER_UPLOAD')
@@ -108,6 +109,11 @@ function invalidateArchive() {
   if (pageShown && !unloaded) uni.redirectTo({ url: '/pages/archive-print/index' })
 }
 
+function validPrintOptions(value: PrintDraft) {
+  return (value.paper === 'A4' && value.color === 'BLACK_WHITE')
+    || (value.paper === 'PHOTO_6IN' && value.color === 'COLOR' && value.side === 'SIMPLEX' && !!value.archiveOwner)
+}
+
 function archiveCurrent(expected = draft.value, session = getActiveDemoSession()) {
   if (!expected?.archiveOwner) return true
   if (unloaded || draft.value !== expected) return false
@@ -125,8 +131,8 @@ onLoad(async () => {
     uni.redirectTo({ url: '/pages/document-upload/index' })
     return
   }
-  if (draft.value.paper !== 'A4' || draft.value.color !== 'BLACK_WHITE') {
-    uni.showToast({ title: '当前仅支持 A4 黑白报价，请重新确认设置', icon: 'none' })
+  if (!validPrintOptions(draft.value)) {
+    uni.showToast({ title: '打印参数不匹配，请重新选择文件', icon: 'none' })
     setTimeout(() => uni.redirectTo({ url: '/pages/document-settings/index' }), 350)
     return
   }
@@ -311,7 +317,7 @@ function scheduleExpiry(expiresAtMs: number) {
 async function requestQuote() {
   const current = draft.value
   if (!current?.fileId || !archiveCurrent(current) || quoteState.value === 'loading') return
-  if (current.paper !== 'A4' || current.color !== 'BLACK_WHITE') {
+  if (!validPrintOptions(current)) {
     quoteState.value = 'failed'
     return
   }
@@ -460,7 +466,7 @@ async function payOrder() {
     <view class="header"><view class="status-space" /><view class="title-row"><text class="back" @click="goBack">‹</text><text>确认订单</text><text class="spacer" /></view></view>
     <view v-if="draft && visible" class="body">
       <view class="card file-card"><view class="file-icon">PDF</view><view class="file-copy"><text>{{ draft.fileName }}</text><text>{{ draft.pages }} 页 · {{ colorText }} · {{ sideText }} · {{ draft.copies }} 份</text></view></view>
-      <view class="card rows"><view><text>纸张规格</text><text>A4 · 黑白</text></view><view><text>计价范围</text><text>本文件单独计算</text></view><view><text>份数</text><text>{{ draft.copies }}</text></view><view><text>金额</text><text class="pending">{{ quoteState === 'loading' ? '服务端计算中…' : amountText }}</text></view></view>
+      <view class="card rows"><view><text>纸张规格</text><text>{{ isPhoto ? '六寸相纸 · 彩色 · 单面' : 'A4 · 黑白' }}</text></view><view><text>计价范围</text><text>本文件单独计算</text></view><view><text>份数</text><text>{{ draft.copies }}</text></view><view v-if="isPhoto"><text>相纸张数</text><text>{{ quote ? quote.snapshot.totalSheets : `${draft.pages} 张/份 × ${draft.copies} 份（待服务端确认）` }}</text></view><view v-if="isPhoto && quote"><text>每张价格</text><text>¥{{ quote.snapshot.pricePerSheet }}</text></view><view><text>金额</text><text class="pending">{{ quoteState === 'loading' ? '服务端计算中…' : amountText }}</text></view></view>
       <view class="notice"><text>当前进度</text><text>{{ progressText }}</text></view>
       <view v-if="order" class="card result-card"><text>{{ order.orderState === 'CANCELLED' ? '模拟订单已取消' : '模拟订单' }}</text><text>{{ order.orderNo }}</text><text>金额 ¥{{ order.totalAmount }} · {{ order.refundState === 'SUCCEEDED' ? '已全额模拟退款' : payment ? '模拟支付成功' : order.paymentState === 'SUCCEEDED' ? '已模拟支付，收据待恢复' : '未支付' }}</text><text>打印状态：{{ order.orderState === 'CANCELLED' ? '订单已取消，不再处理' : printStatusText }}</text><text v-if="printTask">Job {{ printTask.jobId }}</text></view>
       <view v-if="payment" class="receipt"><text>SIMULATED</text><text>模拟支付成功，不涉及真实资金</text><text>收据 {{ payment.id }}</text></view>

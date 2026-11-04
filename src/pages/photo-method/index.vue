@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { choosePhotoSpecification } from '@/domain/photoSelection'
+import type { PhotoSpecification } from '@/domain/photoSelection'
 const methods = [
   { id: 'photo-6', label: '6寸照片打印', description: '在6寸纸上打印6寸照片', icon: '6', tone: 'blue' },
   { id: 'photo-5', label: '5寸照片打印', description: '在6寸纸上打印5寸照片', icon: '5', tone: 'peach' },
@@ -8,19 +10,19 @@ const methods = [
 ]
 
 function goBack() { if (getCurrentPages().length > 1) { uni.navigateBack(); return } uni.reLaunch({ url: '/pages/home/index' }) }
-function openMethod(id: string, label: string) {
-  if (id === 'photo-3') {
-    uni.navigateTo({ url: '/pages/photo-upload/index' })
-    return
-  }
-  uni.showToast({ title: `${label}待继续观察`, icon: 'none' })
+function openMethod(id: string, _label: string) {
+  const specification = ({ 'photo-3': 'PHOTO_3IN', 'photo-4': 'PHOTO_4IN', 'photo-5': 'PHOTO_5IN',
+    'photo-6': 'PHOTO_6IN', 'photo-collage': 'PHOTO_6IN_COLLAGE' } as Record<string, PhotoSpecification>)[id]
+  if (!specification) return
+  choosePhotoSpecification(specification)
+  uni.navigateTo({ url: '/pages/photo-upload/index' })
 }
 </script>
 
 <template>
   <view class="page"><view class="header"><view class="status-space" /><view class="title-row"><text class="back" @click="goBack">‹</text><text>照片冲印</text><text class="spacer" /></view></view>
     <view class="list"><view v-for="item in methods" :key="item.id" class="card" @click="openMethod(item.id, item.label)"><view class="icon" :class="`tone-${item.tone}`">{{ item.icon }}</view><view class="copy"><text class="name">{{ item.label }}</text><text class="description">{{ item.description }}</text></view><text class="arrow">›</text></view></view>
-    <view class="note">仅“3寸照片上传”空态已继续观察；其它规格暂不推测后续参数。</view>
+    <view class="note">照片等比完整显示，不裁切，可留白。使用六寸相纸，费用以服务端报价为准。</view>
   </view>
 </template>
 

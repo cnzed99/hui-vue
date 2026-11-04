@@ -13,7 +13,7 @@ export interface PrintDraft {
   pages: number | null
   fileId: string | null
   archiveOwner?: Pick<DemoSession, 'sessionId' | 'principalId'>
-  paper: 'A4'
+  paper: 'A4' | 'PHOTO_6IN'
   color: PrintColor
   side: PrintSide
   copies: number
@@ -57,10 +57,19 @@ export function loadDraft(): PrintDraft | null {
     || !Number.isSafeInteger(value.sizeBytes) || Number(value.sizeBytes) <= 0
     || (value.pages !== null && (!Number.isSafeInteger(value.pages) || Number(value.pages) <= 0))
     || (value.fileId !== null && (typeof value.fileId !== 'string' || !/^[0-9a-f-]{36}$/.test(value.fileId)))
-    || value.paper !== 'A4' || !['BLACK_WHITE', 'COLOR'].includes(value.color || '')
+    || !['A4', 'PHOTO_6IN'].includes(value.paper || '') || !['BLACK_WHITE', 'COLOR'].includes(value.color || '')
+    || (value.paper === 'PHOTO_6IN' && (value.color !== 'COLOR' || value.side !== 'SIMPLEX' || !value.archiveOwner || value.source !== 'SERVER_UPLOAD'))
     || !['SIMPLEX', 'DUPLEX'].includes(value.side || '')
     || !Number.isSafeInteger(value.copies) || Number(value.copies) < 1 || Number(value.copies) > 99
     || !['LOCAL_SELECTION', 'FIXTURE', 'SERVER_UPLOAD'].includes(value.source || '')
     || (value.source === 'SERVER_UPLOAD' && (!value.fileId || value.pages === null))) return null
   return value as PrintDraft
+}
+
+export function createPhotoDraft(file: { id: string; displayName: string; sizeBytes: number; pageCount: number | null; status: string }, session: DemoSession, copies: number): PrintDraft | null {
+  if (file.status !== 'READY' || !Number.isSafeInteger(file.pageCount) || Number(file.pageCount) < 1 || Number(file.pageCount) > 30
+    || !Number.isSafeInteger(copies) || copies < 1 || copies > 99 || !archiveDraftMatchesSession({ source: 'SERVER_UPLOAD', archiveOwner: session }, getActiveDemoSession())) return null
+  return { ...createDraft('SERVER_UPLOAD', file.displayName, file.sizeBytes, file.pageCount, file.id),
+    paper: 'PHOTO_6IN', color: 'COLOR', side: 'SIMPLEX', copies,
+    archiveOwner: { sessionId: session.sessionId, principalId: session.principalId } }
 }

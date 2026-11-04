@@ -15,7 +15,8 @@
     "check:collage-staged": "node scripts/check-collage-staged.cjs",
     "check:wechat-readiness": "node scripts/check-wechat-readiness.cjs",
     "check:wechat-readiness:test": "node scripts/check-wechat-readiness.test.cjs",
-    "build:mp-weixin:integration": "node scripts/build-wechat-integration.cjs"
+    "build:mp-weixin:integration": "node scripts/build-wechat-integration.cjs",
+    "check:photo-6in": "node scripts/check-photo-6in.cjs"
   },
   "dependencies": {
     "@dcloudio/uni-app": "3.0.0-5030420261029002",

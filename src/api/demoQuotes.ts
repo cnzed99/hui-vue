@@ -2,14 +2,17 @@ import type { DemoSession } from '@/api/demoSession'
 import type { PrintColor, PrintSide } from '@/domain/printDraft'
 
 export interface DemoQuoteSnapshot {
-  schemaVersion: 1
+  schemaVersion: 1 | 2
   mode: 'DEMO'
   currency: 'CNY'
   aggregationPolicy: 'PER_FILE_ALL_COPIES'
   fileId: string
   fileSha256: string
-  paper: 'A4'
-  color: 'BLACK_WHITE'
+  paper: 'A4' | 'PHOTO_6IN'
+  color: PrintColor
+  sourceKind?: 'PHOTO' | 'ID_PHOTO'
+  sourceVariant?: string
+  pricingMode?: 'PHOTO_SHEET'
   priceProfileId: string
   priceProfileKey: string
   priceProfileVersion: string
@@ -56,9 +59,15 @@ function parseEnvelope(value: unknown): DemoQuote | null {
   const decimal = /^(0|[1-9][0-9]*)(\.[0-9]+)?$/
   if (envelope?.code !== 0 || !quote || typeof quote.id !== 'string'
     || !['VALID', 'EXPIRED'].includes(quote.status || '') || !snapshot
-    || snapshot.schemaVersion !== 1 || snapshot.mode !== 'DEMO' || snapshot.currency !== 'CNY'
-    || snapshot.aggregationPolicy !== 'PER_FILE_ALL_COPIES' || snapshot.paper !== 'A4'
-    || snapshot.color !== 'BLACK_WHITE' || !['SIMPLEX', 'DUPLEX'].includes(snapshot.side || '')
+    || ![1, 2].includes(snapshot.schemaVersion || 0) || snapshot.mode !== 'DEMO' || snapshot.currency !== 'CNY'
+    || snapshot.aggregationPolicy !== 'PER_FILE_ALL_COPIES'
+    || !((snapshot.schemaVersion === 1 && snapshot.paper === 'A4' && snapshot.color === 'BLACK_WHITE')
+      || (snapshot.schemaVersion === 2 && snapshot.paper === 'PHOTO_6IN' && snapshot.color === 'COLOR'
+        && snapshot.side === 'SIMPLEX' && snapshot.pricingMode === 'PHOTO_SHEET'
+        && ((snapshot.sourceKind === 'PHOTO' && ['PHOTO_3IN', 'PHOTO_4IN', 'PHOTO_5IN', 'PHOTO_6IN', 'PHOTO_6IN_COLLAGE'].includes(snapshot.sourceVariant || ''))
+          || (snapshot.sourceKind === 'ID_PHOTO' && ['ONE_INCH', 'TWO_INCH', 'THREE_INCH'].includes(snapshot.sourceVariant || '')))
+        && /^(0|[1-9][0-9]*)\.[0-9]{2}$/.test(snapshot.pricePerSheet || '')
+        && /^(0|[1-9][0-9]*)\.[0-9]{2}$/.test(snapshot.totalAmount || ''))) || !['SIMPLEX', 'DUPLEX'].includes(snapshot.side || '')
     || !Number.isSafeInteger(snapshot.pagesPerCopy) || Number(snapshot.pagesPerCopy) < 1
     || typeof snapshot.totalSheets !== 'string' || !/^[1-9][0-9]*$/.test(snapshot.totalSheets)
     || typeof snapshot.pricePerSheet !== 'string' || !decimal.test(snapshot.pricePerSheet)
@@ -67,10 +76,10 @@ function parseEnvelope(value: unknown): DemoQuote | null {
   return quote as DemoQuote
 }
 
-export function createDemoQuote(session: DemoSession, fileId: string, paper: 'A4', color: PrintColor,
+export function createDemoQuote(session: DemoSession, fileId: string, paper: 'A4' | 'PHOTO_6IN', color: PrintColor,
   copies: number, side: PrintSide, round: number): Promise<DemoQuoteCreateResult> {
   const url = apiUrl('quotes')
-  if (!url || !fileId || paper !== 'A4' || color !== 'BLACK_WHITE'
+  if (!url || !fileId || !((paper === 'A4' && color === 'BLACK_WHITE') || (paper === 'PHOTO_6IN' && color === 'COLOR' && side === 'SIMPLEX'))
     || !Number.isSafeInteger(copies) || copies < 1 || copies > 99
     || !Number.isSafeInteger(round) || round < 1 || round > 9999) return Promise.resolve({ kind: 'failed' })
   const idempotencyKey = `miniapp-quote-v1-${fileId}-${paper}-${color}-${copies}-${side}-${round}`
@@ -83,7 +92,8 @@ export function createDemoQuote(session: DemoSession, fileId: string, paper: 'A4
       data: { fileId, paper, color, copies, side },
       success: response => {
         const quote = response.statusCode === 200 ? parseEnvelope(response.data) : null
-        if (quote) return resolve({ kind: 'ok', quote })
+        if (quote && quote.snapshot.fileId === fileId && quote.snapshot.paper === paper
+          && quote.snapshot.color === color && quote.snapshot.copies === String(copies) && quote.snapshot.side === side) return resolve({ kind: 'ok', quote })
         const error = response.data as { code?: number } | null
         return resolve(response.statusCode === 410 && error?.code === 1_928_009
           ? { kind: 'expired' }
